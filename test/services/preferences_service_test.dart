@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/services/preferences_service.dart';
@@ -12,35 +10,6 @@ void main() {
   });
 
   group('PreferencesService', () {
-    group('notificationTime', () {
-      test('should return default notification time when not set', () async {
-        // Arrange
-        final service = await PreferencesService.init();
-
-        // Act
-        final time = service.notificationTime;
-
-        // Assert
-        expect(time.hour, PreferencesService.defaultHour);
-        expect(time.minute, PreferencesService.defaultMinute);
-      });
-
-      test('should return saved notification time', () async {
-        // Arrange
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setInt('notification_hour', 14);
-        await prefs.setInt('notification_minute', 30);
-        final service = await PreferencesService.init();
-
-        // Act
-        final time = service.notificationTime;
-
-        // Assert
-        expect(time.hour, 14);
-        expect(time.minute, 30);
-      });
-    });
-
     group('notificationsEnabled', () {
       test('should return default notifications enabled state when not set',
           () async {
@@ -65,21 +34,6 @@ void main() {
 
         // Assert
         expect(enabled, isFalse);
-      });
-    });
-
-    group('setNotificationTime', () {
-      test('should set both hour and minute', () async {
-        // Arrange
-        final service = await PreferencesService.init();
-        const time = TimeOfDay(hour: 10, minute: 20);
-
-        // Act
-        await service.setNotificationTime(time);
-
-        // Assert
-        expect(service.notificationTime.hour, 10);
-        expect(service.notificationTime.minute, 20);
       });
     });
 

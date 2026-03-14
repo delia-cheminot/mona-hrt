@@ -49,6 +49,7 @@ void main() {
         startDate: today,
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
+        notificationTimes: List.empty(),
       );
       when(mockIntakeProvider.getLastIntakeDateForSchedule(1))
           .thenReturn(today.subtract(const Duration(days: 2)));
@@ -61,6 +62,7 @@ void main() {
         startDate: today,
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
+        notificationTimes: List.empty(),
       );
       when(mockIntakeProvider.getLastIntakeDateForSchedule(5))
           .thenReturn(normalizedToday());
@@ -73,6 +75,7 @@ void main() {
         startDate: today.subtract(const Duration(days: 4)),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
+        notificationTimes: List.empty(),
       );
       when(mockIntakeProvider.getLastIntakeDateForSchedule(4))
           .thenReturn(today.subtract(const Duration(days: 3)));
@@ -85,6 +88,7 @@ void main() {
         startDate: today.subtract(const Duration(days: 9)),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
+        notificationTimes: List.empty(),
       );
       when(mockIntakeProvider.getLastIntakeDateForSchedule(2))
           .thenReturn(today.subtract(const Duration(days: 4)));
@@ -97,6 +101,7 @@ void main() {
         startDate: today.add(const Duration(days: 10)),
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
+        notificationTimes: List.empty(),
       );
       when(mockIntakeProvider.getLastIntakeDateForSchedule(3)).thenReturn(null);
 
@@ -120,6 +125,7 @@ void main() {
         startDate: today,
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
+        notificationTimes: List.empty(),
       );
 
       when(mockIntakeProvider.getLastIntakeDateForSchedule(1))

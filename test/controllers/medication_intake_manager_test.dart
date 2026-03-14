@@ -51,6 +51,7 @@ void main() {
           intervalDays: 1,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         late MedicationIntake addedIntake;
@@ -102,6 +103,7 @@ void main() {
           intervalDays: 1,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         late SupplyItem updatedSupplyItem;

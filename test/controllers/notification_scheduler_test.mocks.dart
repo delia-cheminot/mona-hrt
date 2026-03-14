@@ -3,10 +3,10 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i6;
-import 'dart:ui' as _i7;
+import 'dart:async' as _i5;
+import 'dart:ui' as _i6;
 
-import 'package:flutter/material.dart' as _i3;
+import 'package:flutter/material.dart' as _i9;
 import 'package:flutter_local_notifications/src/flutter_local_notifications_plugin.dart'
     as _i10;
 import 'package:flutter_local_notifications/src/initialization_settings.dart'
@@ -19,10 +19,10 @@ import 'package:flutter_local_notifications/src/types.dart' as _i16;
 import 'package:flutter_local_notifications_platform_interface/flutter_local_notifications_platform_interface.dart'
     as _i12;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mona/data/model/medication_schedule.dart' as _i5;
-import 'package:mona/data/model/molecule.dart' as _i9;
-import 'package:mona/data/providers/medication_schedule_provider.dart' as _i4;
-import 'package:mona/services/preferences_service.dart' as _i8;
+import 'package:mona/data/model/medication_schedule.dart' as _i4;
+import 'package:mona/data/model/molecule.dart' as _i8;
+import 'package:mona/data/providers/medication_schedule_provider.dart' as _i3;
+import 'package:mona/services/preferences_service.dart' as _i7;
 import 'package:mona/services/repository.dart' as _i2;
 import 'package:timezone/timezone.dart' as _i14;
 
@@ -51,40 +51,30 @@ class _FakeRepository_0<T> extends _i1.SmartFake implements _i2.Repository<T> {
         );
 }
 
-class _FakeTimeOfDay_1 extends _i1.SmartFake implements _i3.TimeOfDay {
-  _FakeTimeOfDay_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
 /// A class which mocks [MedicationScheduleProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockMedicationScheduleProvider extends _i1.Mock
-    implements _i4.MedicationScheduleProvider {
+    implements _i3.MedicationScheduleProvider {
   @override
-  _i2.Repository<_i5.MedicationSchedule> get repository => (super.noSuchMethod(
+  _i2.Repository<_i4.MedicationSchedule> get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
-        returnValue: _FakeRepository_0<_i5.MedicationSchedule>(
+        returnValue: _FakeRepository_0<_i4.MedicationSchedule>(
           this,
           Invocation.getter(#repository),
         ),
-        returnValueForMissingStub: _FakeRepository_0<_i5.MedicationSchedule>(
+        returnValueForMissingStub: _FakeRepository_0<_i4.MedicationSchedule>(
           this,
           Invocation.getter(#repository),
         ),
-      ) as _i2.Repository<_i5.MedicationSchedule>);
+      ) as _i2.Repository<_i4.MedicationSchedule>);
 
   @override
-  List<_i5.MedicationSchedule> get schedules => (super.noSuchMethod(
+  List<_i4.MedicationSchedule> get schedules => (super.noSuchMethod(
         Invocation.getter(#schedules),
-        returnValue: <_i5.MedicationSchedule>[],
-        returnValueForMissingStub: <_i5.MedicationSchedule>[],
-      ) as List<_i5.MedicationSchedule>);
+        returnValue: <_i4.MedicationSchedule>[],
+        returnValueForMissingStub: <_i4.MedicationSchedule>[],
+      ) as List<_i4.MedicationSchedule>);
 
   @override
   bool get isLoading => (super.noSuchMethod(
@@ -101,68 +91,68 @@ class MockMedicationScheduleProvider extends _i1.Mock
       ) as bool);
 
   @override
-  _i5.MedicationSchedule? getScheduleById(int? id) => (super.noSuchMethod(
+  _i4.MedicationSchedule? getScheduleById(int? id) => (super.noSuchMethod(
         Invocation.method(
           #getScheduleById,
           [id],
         ),
         returnValueForMissingStub: null,
-      ) as _i5.MedicationSchedule?);
+      ) as _i4.MedicationSchedule?);
 
   @override
-  _i6.Future<void> fetchSchedules() => (super.noSuchMethod(
+  _i5.Future<void> fetchSchedules() => (super.noSuchMethod(
         Invocation.method(
           #fetchSchedules,
           [],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 
   @override
-  _i6.Future<void> deleteScheduleFromId(int? id) => (super.noSuchMethod(
+  _i5.Future<void> deleteScheduleFromId(int? id) => (super.noSuchMethod(
         Invocation.method(
           #deleteScheduleFromId,
           [id],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 
   @override
-  _i6.Future<void> deleteSchedule(_i5.MedicationSchedule? schedule) =>
+  _i5.Future<void> deleteSchedule(_i4.MedicationSchedule? schedule) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteSchedule,
           [schedule],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 
   @override
-  _i6.Future<void> add(_i5.MedicationSchedule? schedule) => (super.noSuchMethod(
+  _i5.Future<void> add(_i4.MedicationSchedule? schedule) => (super.noSuchMethod(
         Invocation.method(
           #add,
           [schedule],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 
   @override
-  _i6.Future<void> updateSchedule(_i5.MedicationSchedule? schedule) =>
+  _i5.Future<void> updateSchedule(_i4.MedicationSchedule? schedule) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateSchedule,
           [schedule],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 
   @override
-  void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -171,7 +161,7 @@ class MockMedicationScheduleProvider extends _i1.Mock
       );
 
   @override
-  void removeListener(_i7.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i6.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -202,20 +192,7 @@ class MockMedicationScheduleProvider extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockPreferencesService extends _i1.Mock
-    implements _i8.PreferencesService {
-  @override
-  _i3.TimeOfDay get notificationTime => (super.noSuchMethod(
-        Invocation.getter(#notificationTime),
-        returnValue: _FakeTimeOfDay_1(
-          this,
-          Invocation.getter(#notificationTime),
-        ),
-        returnValueForMissingStub: _FakeTimeOfDay_1(
-          this,
-          Invocation.getter(#notificationTime),
-        ),
-      ) as _i3.TimeOfDay);
-
+    implements _i7.PreferencesService {
   @override
   bool get notificationsEnabled => (super.noSuchMethod(
         Invocation.getter(#notificationsEnabled),
@@ -224,26 +201,26 @@ class MockPreferencesService extends _i1.Mock
       ) as bool);
 
   @override
-  List<_i9.Molecule> get customMolecules => (super.noSuchMethod(
+  List<_i8.Molecule> get customMolecules => (super.noSuchMethod(
         Invocation.getter(#customMolecules),
-        returnValue: <_i9.Molecule>[],
-        returnValueForMissingStub: <_i9.Molecule>[],
-      ) as List<_i9.Molecule>);
+        returnValue: <_i8.Molecule>[],
+        returnValueForMissingStub: <_i8.Molecule>[],
+      ) as List<_i8.Molecule>);
 
   @override
-  List<_i9.Molecule> get allMolecules => (super.noSuchMethod(
+  List<_i8.Molecule> get allMolecules => (super.noSuchMethod(
         Invocation.getter(#allMolecules),
-        returnValue: <_i9.Molecule>[],
-        returnValueForMissingStub: <_i9.Molecule>[],
-      ) as List<_i9.Molecule>);
+        returnValue: <_i8.Molecule>[],
+        returnValueForMissingStub: <_i8.Molecule>[],
+      ) as List<_i8.Molecule>);
 
   @override
-  List<_i3.DropdownMenuItem<_i9.Molecule>> get moleculeDropdownItems =>
+  List<_i9.DropdownMenuItem<_i8.Molecule>> get moleculeDropdownItems =>
       (super.noSuchMethod(
         Invocation.getter(#moleculeDropdownItems),
-        returnValue: <_i3.DropdownMenuItem<_i9.Molecule>>[],
-        returnValueForMissingStub: <_i3.DropdownMenuItem<_i9.Molecule>>[],
-      ) as List<_i3.DropdownMenuItem<_i9.Molecule>>);
+        returnValue: <_i9.DropdownMenuItem<_i8.Molecule>>[],
+        returnValueForMissingStub: <_i9.DropdownMenuItem<_i8.Molecule>>[],
+      ) as List<_i9.DropdownMenuItem<_i8.Molecule>>);
 
   @override
   bool get hasListeners => (super.noSuchMethod(
@@ -253,50 +230,39 @@ class MockPreferencesService extends _i1.Mock
       ) as bool);
 
   @override
-  _i6.Future<void> setNotificationTime(_i3.TimeOfDay? time) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #setNotificationTime,
-          [time],
-        ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
-
-  @override
-  _i6.Future<void> setNotificationsEnabled(bool? isEnabled) =>
+  _i5.Future<void> setNotificationsEnabled(bool? isEnabled) =>
       (super.noSuchMethod(
         Invocation.method(
           #setNotificationsEnabled,
           [isEnabled],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 
   @override
-  _i6.Future<void> addCustomMolecule(_i9.Molecule? molecule) =>
+  _i5.Future<void> addCustomMolecule(_i8.Molecule? molecule) =>
       (super.noSuchMethod(
         Invocation.method(
           #addCustomMolecule,
           [molecule],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 
   @override
-  _i6.Future<void> removeCustomMolecule(String? name) => (super.noSuchMethod(
+  _i5.Future<void> removeCustomMolecule(String? name) => (super.noSuchMethod(
         Invocation.method(
           #removeCustomMolecule,
           [name],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 
   @override
-  void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -305,7 +271,7 @@ class MockPreferencesService extends _i1.Mock
       );
 
   @override
-  void removeListener(_i7.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i6.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -338,7 +304,7 @@ class MockPreferencesService extends _i1.Mock
 class MockFlutterLocalNotificationsPlugin extends _i1.Mock
     implements _i10.FlutterLocalNotificationsPlugin {
   @override
-  _i6.Future<bool?> initialize({
+  _i5.Future<bool?> initialize({
     required _i11.InitializationSettings? settings,
     _i12.DidReceiveNotificationResponseCallback?
         onDidReceiveNotificationResponse,
@@ -356,24 +322,24 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
                 onDidReceiveBackgroundNotificationResponse,
           },
         ),
-        returnValue: _i6.Future<bool?>.value(),
-        returnValueForMissingStub: _i6.Future<bool?>.value(),
-      ) as _i6.Future<bool?>);
+        returnValue: _i5.Future<bool?>.value(),
+        returnValueForMissingStub: _i5.Future<bool?>.value(),
+      ) as _i5.Future<bool?>);
 
   @override
-  _i6.Future<_i12.NotificationAppLaunchDetails?>
+  _i5.Future<_i12.NotificationAppLaunchDetails?>
       getNotificationAppLaunchDetails() => (super.noSuchMethod(
             Invocation.method(
               #getNotificationAppLaunchDetails,
               [],
             ),
-            returnValue: _i6.Future<_i12.NotificationAppLaunchDetails?>.value(),
+            returnValue: _i5.Future<_i12.NotificationAppLaunchDetails?>.value(),
             returnValueForMissingStub:
-                _i6.Future<_i12.NotificationAppLaunchDetails?>.value(),
-          ) as _i6.Future<_i12.NotificationAppLaunchDetails?>);
+                _i5.Future<_i12.NotificationAppLaunchDetails?>.value(),
+          ) as _i5.Future<_i12.NotificationAppLaunchDetails?>);
 
   @override
-  _i6.Future<void> show({
+  _i5.Future<void> show({
     required int? id,
     String? title,
     String? body,
@@ -392,12 +358,12 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
             #payload: payload,
           },
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 
   @override
-  _i6.Future<void> cancel({
+  _i5.Future<void> cancel({
     required int? id,
     String? tag,
   }) =>
@@ -410,32 +376,32 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
             #tag: tag,
           },
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 
   @override
-  _i6.Future<void> cancelAll() => (super.noSuchMethod(
+  _i5.Future<void> cancelAll() => (super.noSuchMethod(
         Invocation.method(
           #cancelAll,
           [],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 
   @override
-  _i6.Future<void> cancelAllPendingNotifications() => (super.noSuchMethod(
+  _i5.Future<void> cancelAllPendingNotifications() => (super.noSuchMethod(
         Invocation.method(
           #cancelAllPendingNotifications,
           [],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 
   @override
-  _i6.Future<void> zonedSchedule({
+  _i5.Future<void> zonedSchedule({
     required int? id,
     required _i14.TZDateTime? scheduledDate,
     required _i13.NotificationDetails? notificationDetails,
@@ -460,12 +426,12 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
             #matchDateTimeComponents: matchDateTimeComponents,
           },
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 
   @override
-  _i6.Future<void> periodicallyShow({
+  _i5.Future<void> periodicallyShow({
     required int? id,
     required _i12.RepeatInterval? repeatInterval,
     required _i13.NotificationDetails? notificationDetails,
@@ -488,12 +454,12 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
             #payload: payload,
           },
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 
   @override
-  _i6.Future<void> periodicallyShowWithDuration({
+  _i5.Future<void> periodicallyShowWithDuration({
     required int? id,
     required Duration? repeatDurationInterval,
     required _i13.NotificationDetails? notificationDetails,
@@ -517,36 +483,36 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
             #payload: payload,
           },
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 
   @override
-  _i6.Future<List<_i12.PendingNotificationRequest>>
+  _i5.Future<List<_i12.PendingNotificationRequest>>
       pendingNotificationRequests() => (super.noSuchMethod(
             Invocation.method(
               #pendingNotificationRequests,
               [],
             ),
             returnValue:
-                _i6.Future<List<_i12.PendingNotificationRequest>>.value(
+                _i5.Future<List<_i12.PendingNotificationRequest>>.value(
                     <_i12.PendingNotificationRequest>[]),
             returnValueForMissingStub:
-                _i6.Future<List<_i12.PendingNotificationRequest>>.value(
+                _i5.Future<List<_i12.PendingNotificationRequest>>.value(
                     <_i12.PendingNotificationRequest>[]),
-          ) as _i6.Future<List<_i12.PendingNotificationRequest>>);
+          ) as _i5.Future<List<_i12.PendingNotificationRequest>>);
 
   @override
-  _i6.Future<List<_i12.ActiveNotification>> getActiveNotifications() =>
+  _i5.Future<List<_i12.ActiveNotification>> getActiveNotifications() =>
       (super.noSuchMethod(
         Invocation.method(
           #getActiveNotifications,
           [],
         ),
-        returnValue: _i6.Future<List<_i12.ActiveNotification>>.value(
+        returnValue: _i5.Future<List<_i12.ActiveNotification>>.value(
             <_i12.ActiveNotification>[]),
         returnValueForMissingStub:
-            _i6.Future<List<_i12.ActiveNotification>>.value(
+            _i5.Future<List<_i12.ActiveNotification>>.value(
                 <_i12.ActiveNotification>[]),
-      ) as _i6.Future<List<_i12.ActiveNotification>>);
+      ) as _i5.Future<List<_i12.ActiveNotification>>);
 }

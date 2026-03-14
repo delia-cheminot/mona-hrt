@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
-import 'package:mona/ui/views/home/profile/edit_schedule_page.dart';
+import 'package:mona/ui/views/home/settings/schedules/edit_schedule/edit_schedule_page.dart';
 import 'package:provider/provider.dart';
 import 'new_schedule_page.dart';
 
@@ -9,6 +9,8 @@ class SchedulesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final medicationScheduleProvider =
         context.watch<MedicationScheduleProvider>();
+
+    final theme = Theme.of(context);
 
     if (medicationScheduleProvider.isLoading) {
       return Scaffold(
@@ -37,10 +39,17 @@ class SchedulesPage extends StatelessWidget {
                   return ListTile(
                     title: Text(schedule.name),
                     subtitle: Text("$schedule"),
+                    leading: CircleAvatar(
+                      backgroundColor: theme.colorScheme.onPrimaryContainer,
+                      child: Icon(
+                        schedule.administrationRoute.icon,
+                        color: theme.colorScheme.primaryContainer,
+                      ),
+                    ),
+                    trailing: Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute<void>(
-                          fullscreenDialog: true,
                           builder: (context) =>
                               EditSchedulePage(schedule: schedule),
                         ),

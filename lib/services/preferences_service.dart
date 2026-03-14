@@ -4,32 +4,17 @@ import 'package:mona/data/model/molecule.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferencesService extends ChangeNotifier {
-  static const _notificationHourKey = 'notification_hour';
-  static const _notificationMinuteKey = 'notification_minute';
   static const _notificationsEnabledKey = 'notifications_enabled';
   static const _customMoleculesKey = 'custom_molecules';
 
-  static const int defaultHour = 18;
-  static const int defaultMinute = 0;
   static const bool defaultNotificationsEnabled = false;
 
   late final SharedPreferences _prefs;
 
   PreferencesService._(this._prefs);
 
-  TimeOfDay get notificationTime => TimeOfDay(
-        hour: _prefs.getInt(_notificationHourKey) ?? defaultHour,
-        minute: _prefs.getInt(_notificationMinuteKey) ?? defaultMinute,
-      );
-
   bool get notificationsEnabled =>
       _prefs.getBool(_notificationsEnabledKey) ?? defaultNotificationsEnabled;
-
-  Future<void> setNotificationTime(TimeOfDay time) async {
-    await _prefs.setInt(_notificationHourKey, time.hour);
-    await _prefs.setInt(_notificationMinuteKey, time.minute);
-    notifyListeners();
-  }
 
   Future<void> setNotificationsEnabled(bool isEnabled) async {
     await _prefs.setBool(_notificationsEnabledKey, isEnabled);

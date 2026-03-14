@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -16,6 +17,7 @@ class MedicationSchedule {
   final Molecule molecule;
   final AdministrationRoute administrationRoute;
   final Ester? ester;
+  List<TimeOfDay> notificationTimes;
 
   MedicationSchedule({
     int? id,
@@ -26,6 +28,7 @@ class MedicationSchedule {
     required this.molecule,
     required this.administrationRoute,
     this.ester,
+    required this.notificationTimes,
   })  : id = id ?? DateTime.now().millisecondsSinceEpoch,
         startDate = normalizeDate(startDate ?? DateTime.now());
 
@@ -40,6 +43,7 @@ class MedicationSchedule {
       administrationRoute: AdministrationRoute.fromName(
           map['administrationRouteName'] as String),
       ester: Ester.fromName(map['esterName'] as String?),
+      notificationTimes: _decodeTimes(map['notificationTimes'] as String),
     );
   }
 
@@ -143,6 +147,7 @@ class MedicationSchedule {
       'moleculeJson': jsonEncode(molecule.toJson()),
       'administrationRouteName': administrationRoute.name,
       'esterName': ester?.name,
+      'notificationTimes': _encodeTimes(notificationTimes),
     };
   }
 
@@ -156,6 +161,7 @@ class MedicationSchedule {
     AdministrationRoute? administrationRoute,
     Ester? ester,
     bool clearEster = false,
+    List<TimeOfDay>? notificationTimes,
   }) {
     return MedicationSchedule(
       id: id ?? this.id,
@@ -166,6 +172,7 @@ class MedicationSchedule {
       molecule: molecule ?? this.molecule,
       administrationRoute: administrationRoute ?? this.administrationRoute,
       ester: clearEster ? null : (ester ?? this.ester),
+      notificationTimes: notificationTimes ?? this.notificationTimes,
     );
   }
 
@@ -193,6 +200,24 @@ class MedicationSchedule {
           ? 'Required field'
           : null;
     };
+  }
+
+  static String _encodeTimes(List<TimeOfDay> times) {
+    return jsonEncode(
+      times.map((t) => "${t.hour}:${t.minute}").toList(),
+    );
+  }
+
+  static List<TimeOfDay> _decodeTimes(String json) {
+    final List list = jsonDecode(json);
+
+    return list.map((e) {
+      final parts = e.split(":");
+      return TimeOfDay(
+        hour: int.parse(parts[0]),
+        minute: int.parse(parts[1]),
+      );
+    }).toList();
   }
 
   @override

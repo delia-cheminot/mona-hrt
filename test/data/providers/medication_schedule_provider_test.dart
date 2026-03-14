@@ -19,7 +19,8 @@ void main() {
         intervalDays: i.intervalDays,
         molecule: i.molecule,
         administrationRoute: i.administrationRoute,
-        ester: i.ester
+        ester: i.ester,
+        notificationTimes: i.notificationTimes,
       ),
     );
     provider = MedicationScheduleProvider(repository: repo);
@@ -31,6 +32,7 @@ void main() {
       intervalDays: 1,
       molecule: KnownMolecules.estradiol,
       administrationRoute: AdministrationRoute.oral,
+      notificationTimes: List.empty(),
     ));
     repo.insert(MedicationSchedule(
       id: 2,
@@ -39,6 +41,7 @@ void main() {
       intervalDays: 1,
       molecule: KnownMolecules.estradiol,
       administrationRoute: AdministrationRoute.oral,
+      notificationTimes: List.empty(),
     ));
   });
 
@@ -51,11 +54,13 @@ void main() {
     test('add inserts a new schedule', () async {
       // Arrange
       final schedule = MedicationSchedule(
-          name: 'Progesterone',
-          dose: Decimal.parse('200.0'),
-          intervalDays: 1,
-          molecule: KnownMolecules.progesterone,
-          administrationRoute: AdministrationRoute.suppository);
+        name: 'Progesterone',
+        dose: Decimal.parse('200.0'),
+        intervalDays: 1,
+        molecule: KnownMolecules.progesterone,
+        administrationRoute: AdministrationRoute.suppository,
+        notificationTimes: List.empty(),
+      );
 
       // Act
       await provider.add(schedule);
@@ -74,6 +79,7 @@ void main() {
         intervalDays: scheduleToUpdate.intervalDays,
         molecule: KnownMolecules.estradiol,
         administrationRoute: AdministrationRoute.oral,
+        notificationTimes: List.empty(),
       );
 
       // Act

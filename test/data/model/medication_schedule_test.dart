@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/ester.dart';
@@ -11,14 +12,19 @@ void main() {
     group('MedicationSchedule model', () {
       test('toMap and fromMap should preserve values', () {
         final schedule = MedicationSchedule(
-            id: 1,
-            name: 'Test Med',
-            dose: Decimal.parse('10.5'),
-            intervalDays: 7,
-            startDate: DateTime.now(),
-            molecule: KnownMolecules.estradiol,
-            administrationRoute: AdministrationRoute.injection,
-            ester: Ester.cypionate);
+          id: 1,
+          name: 'Test Med',
+          dose: Decimal.parse('10.5'),
+          intervalDays: 7,
+          startDate: DateTime.now(),
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.injection,
+          ester: Ester.cypionate,
+          notificationTimes: List.from([
+            TimeOfDay(hour: 12, minute: 30),
+            TimeOfDay(hour: 18, minute: 30)
+          ]),
+        );
 
         final map = schedule.toMap();
         final fromMap = MedicationSchedule.fromMap(map);
@@ -35,7 +41,9 @@ void main() {
               .having((s) => s.molecule, 'molecule', schedule.molecule)
               .having((s) => s.administrationRoute, 'administrationRoute',
                   schedule.administrationRoute)
-              .having((s) => s.ester, 'ester', schedule.ester),
+              .having((s) => s.ester, 'ester', schedule.ester)
+              .having((s) => s.notificationTimes, 'notificationTimes',
+                  schedule.notificationTimes),
         );
       });
 
@@ -213,6 +221,7 @@ void main() {
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         expect(s.getNextDate(referenceDate: today), start);
@@ -227,6 +236,7 @@ void main() {
           startDate: today,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         expect(s.getNextDate(referenceDate: today), today);
@@ -244,6 +254,7 @@ void main() {
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         final expectedNext = d(2025, 1, 8);
@@ -260,6 +271,7 @@ void main() {
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         final expectedNext = d(2025, 1, 8);
@@ -276,6 +288,7 @@ void main() {
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         final expectedNext = d(2025, 1, 10);
@@ -294,6 +307,7 @@ void main() {
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         expect(s.getLastDate(referenceDate: today), isNull);
@@ -308,6 +322,7 @@ void main() {
           startDate: today,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         expect(s.getLastDate(referenceDate: today), isNull);
@@ -325,6 +340,7 @@ void main() {
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         final expectedLast = d(2025, 1, 1);
@@ -343,6 +359,7 @@ void main() {
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         expect(s.getLastDate(referenceDate: today), d(2025, 1, 1));
@@ -360,6 +377,7 @@ void main() {
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         expect(s.getLastDate(referenceDate: today), d(2025, 1, 9));
@@ -379,6 +397,7 @@ void main() {
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         final last = s.getLastDate(referenceDate: today);
@@ -399,6 +418,7 @@ void main() {
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         final last = s.getLastDate(referenceDate: today);
@@ -420,6 +440,7 @@ void main() {
           startDate: d(2025, 1, 1),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         final dates = s.getNextDates(count: 3, referenceDate: today);
@@ -438,6 +459,7 @@ void main() {
           startDate: d(2025, 1, 1),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         final dates = s.getNextDates(count: 2, referenceDate: today);
@@ -454,6 +476,7 @@ void main() {
           startDate: today,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         final dates = s.getNextDates(count: 2, referenceDate: today);
@@ -472,6 +495,7 @@ void main() {
           startDate: start,
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         final dates = s.getNextDates(count: 2, referenceDate: today);
@@ -488,6 +512,7 @@ void main() {
           startDate: d(2025, 1, 1),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         final dates = s.getNextDates(count: 1, referenceDate: today);
@@ -504,6 +529,7 @@ void main() {
           startDate: d(2025, 1, 1),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         final dates = s.getNextDates(count: 4, referenceDate: today);
@@ -520,6 +546,7 @@ void main() {
           startDate: d(2025, 1, 1),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         final dates = s.getNextDates(count: 3, referenceDate: today);
@@ -536,6 +563,7 @@ void main() {
           startDate: d(2025, 1, 1),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         final dates = s.getNextDates(count: 0, referenceDate: today);
@@ -552,6 +580,7 @@ void main() {
           startDate: d(2025, 1, 1),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         expect(
@@ -570,6 +599,7 @@ void main() {
           startDate: normalizedToday(),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         expect(s.isScheduledForToday(), isTrue);
@@ -583,6 +613,7 @@ void main() {
           startDate: normalizedToday().add(Duration(days: 3)),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         expect(s.isScheduledForToday(), isFalse);
@@ -596,6 +627,7 @@ void main() {
           startDate: normalizedToday().subtract(Duration(days: 3)),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         expect(s.isScheduledForToday(), isFalse);
@@ -611,6 +643,7 @@ void main() {
           startDate: normalizedToday().subtract(Duration(days: 14)),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         final lastTaken = s.getLastDate()!.subtract(Duration(days: 1));
@@ -626,6 +659,7 @@ void main() {
           startDate: normalizedToday().subtract(Duration(days: 14)),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         final lastTaken = s.getLastDate()!;
@@ -641,6 +675,7 @@ void main() {
           startDate: normalizedToday().subtract(Duration(days: 14)),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         final lastTaken = s.getLastDate()!.add(Duration(days: 1));
@@ -656,6 +691,7 @@ void main() {
           startDate: normalizedToday().subtract(Duration(days: 14)),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         expect(s.isLate(null), isTrue);
@@ -671,6 +707,7 @@ void main() {
           startDate: normalizedToday(),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         expect(s.isLate(null), isFalse);
@@ -686,6 +723,7 @@ void main() {
           startDate: normalizedToday().add(Duration(days: 3)),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         expect(s.isLate(null), isFalse);
@@ -701,6 +739,7 @@ void main() {
           startDate: normalizedToday().add(Duration(days: 3)),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         expect(s.isTakenTodayOrLater(null), false);
@@ -714,6 +753,7 @@ void main() {
           startDate: normalizedToday().add(Duration(days: 3)),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         final lastTakenDate = DateTime.now().subtract(const Duration(days: 1));
@@ -729,6 +769,7 @@ void main() {
           startDate: normalizedToday().add(Duration(days: 3)),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         final lastTakenDate = DateTime.now().add(const Duration(days: 1));
@@ -744,6 +785,7 @@ void main() {
           startDate: normalizedToday().add(Duration(days: 3)),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
+          notificationTimes: List.empty(),
         );
 
         final lastTakenDate = DateTime.now();

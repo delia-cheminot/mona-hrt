@@ -1,8 +1,8 @@
 import 'package:intl/intl.dart';
+import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
-import 'package:mona/util/date_helpers.dart';
 
 class NotificationScheduler {
   final MedicationScheduleProvider medicationScheduleProvider;
@@ -11,21 +11,31 @@ class NotificationScheduler {
   NotificationScheduler(
       this.medicationScheduleProvider, this.preferencesService);
 
-  bool _shouldSkipNotificationForToday(DateTime date) {
-    if (!normalizeDate(date).isAtSameMomentAs(normalizedToday())) {
-      return false;
+  Map<DateTime, MedicationSchedule> _getNotificationTimes() {
+    final Map<DateTime, MedicationSchedule> notificationsToSchedule = {};
+    final now = DateTime.now();
+
+    for (final schedule in medicationScheduleProvider.schedules) {
+      final nextDates = schedule.getNextDates(count: 5);
+
+      for (final date in nextDates) {
+        for (final time in schedule.notificationTimes) {
+          final dateTime = DateTime(
+            date.year,
+            date.month,
+            date.day,
+            time.hour,
+            time.minute,
+          );
+
+          if (now.isAfter(dateTime)) continue;
+
+          notificationsToSchedule[dateTime] = schedule;
+        }
+      }
     }
 
-    final now = DateTime.now();
-    final scheduledNotificationTime = DateTime(
-      date.year,
-      date.month,
-      date.day,
-      preferencesService.notificationTime.hour,
-      preferencesService.notificationTime.minute,
-    );
-
-    return now.isAfter(scheduledNotificationTime);
+    return notificationsToSchedule;
   }
 
   Future<void> regenerateAll() async {
@@ -36,20 +46,26 @@ class NotificationScheduler {
       return;
     }
 
-    for (final schedule in medicationScheduleProvider.schedules) {
-      await Future.wait(schedule
-          .getNextDates(count: 5)
-          .where((date) => !_shouldSkipNotificationForToday(date))
-          .map((date) => NotificationService().scheduleNotification(
-                title: 'Time to take ${schedule.name}',
-                body:
-                    'Next intake scheduled for ${DateFormat.MMMMd().format(date)}',
-                year: date.year,
-                month: date.month,
-                day: date.day,
-                hour: preferencesService.notificationTime.hour,
-                minute: preferencesService.notificationTime.minute,
-              )));
-    }
+    final notificationTimes = _getNotificationTimes();
+
+    await Future.wait(
+      notificationTimes.entries.map(
+        (entry) {
+          final dateTime = entry.key;
+          final schedule = entry.value;
+
+          return NotificationService().scheduleNotification(
+            title: 'Time to take ${schedule.name}',
+            body:
+                'Next intake scheduled for ${DateFormat.MMMMd().format(dateTime)}',
+            year: dateTime.year,
+            month: dateTime.month,
+            day: dateTime.day,
+            hour: dateTime.hour,
+            minute: dateTime.minute,
+          );
+        },
+      ),
+    );
   }
 }

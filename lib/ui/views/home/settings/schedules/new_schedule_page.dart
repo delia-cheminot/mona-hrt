@@ -3,9 +3,8 @@ import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
-import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/services/preferences_service.dart';
-import 'package:mona/ui/widgets/dialogs.dart';
+import 'package:mona/ui/views/home/settings/schedules/edit_schedule/edit_schedule_notifications_page.dart';
 import 'package:mona/ui/widgets/forms/form_date_field.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
@@ -14,25 +13,20 @@ import 'package:mona/ui/widgets/forms/model_form.dart';
 import 'package:mona/util/decimal_helpers.dart';
 import 'package:provider/provider.dart';
 
-class EditSchedulePage extends StatefulWidget {
-  final MedicationSchedule schedule;
-
-  EditSchedulePage({required this.schedule});
-
+class NewSchedulePage extends StatefulWidget {
   @override
-  State<EditSchedulePage> createState() => _EditSchedulePageState();
+  State<NewSchedulePage> createState() => _NewSchedulePageState();
 }
 
-class _EditSchedulePageState extends State<EditSchedulePage> {
+class _NewSchedulePageState extends State<NewSchedulePage> {
   late TextEditingController _nameController;
   late TextEditingController _doseController;
   late TextEditingController _intervalDaysController;
   late DateTime _startDate;
-  late Molecule _molecule;
-  late AdministrationRoute _administrationRoute;
-  late Ester? _ester;
+  Molecule? _molecule;
+  AdministrationRoute? _administrationRoute;
+  Ester? _ester;
   late PreferencesService _preferencesService;
-  late MedicationScheduleProvider _medicationScheduleProvider;
 
   String? get _nameError =>
       MedicationSchedule.validateName(_nameController.text);
@@ -96,52 +90,48 @@ class _EditSchedulePageState extends State<EditSchedulePage> {
     }
   }
 
-  void _refresh() => setState(() {});
-
-  void _saveSchedule() {
-    if (!_isFormValid) return;
-    if (!mounted) return;
-
-    final updatedSchedule = widget.schedule.copyWith(
-      name: _nameController.text,
-      dose: parseDecimal(_doseController.text),
-      intervalDays: int.parse(_intervalDaysController.text),
-      startDate: _startDate,
-      molecule: _molecule,
-      administrationRoute: _administrationRoute,
-      ester: _ester,
-      clearEster: !_useEsterField,
-    );
-    _medicationScheduleProvider.updateSchedule(updatedSchedule);
-
-    Navigator.pop(context, updatedSchedule);
+  void _refresh() {
+    setState(() {});
   }
 
-  Future<void> _confirmDelete() async {
-    final confirmed = await Dialogs.confirmDelete(context);
+  void _addSchedule() {
+    final name = _nameController.text;
+    final dose = parseDecimal(_doseController.text);
+    final intervalDays = int.parse(_intervalDaysController.text);
 
-    if (confirmed == true && mounted) {
-      _medicationScheduleProvider.deleteSchedule(widget.schedule);
-      Navigator.pop(context);
-    }
+    final schedule = MedicationSchedule(
+      name: name,
+      dose: dose,
+      intervalDays: intervalDays,
+      startDate: _startDate,
+      molecule: _molecule!,
+      administrationRoute: _administrationRoute!,
+      ester: _ester,
+      notificationTimes: List.empty(),
+    );
+
+    if (!mounted) return;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditScheduleNotificationsPage(
+          schedule: schedule,
+          isNewSchedule: true,
+        ),
+      ),
+    );
   }
 
   @override
   void initState() {
     super.initState();
-    _medicationScheduleProvider =
-        Provider.of<MedicationScheduleProvider>(context, listen: false);
     _preferencesService =
         Provider.of<PreferencesService>(context, listen: false);
-    _nameController = TextEditingController(text: widget.schedule.name);
-    _doseController =
-        TextEditingController(text: widget.schedule.dose.toString());
-    _intervalDaysController =
-        TextEditingController(text: widget.schedule.intervalDays.toString());
-    _startDate = widget.schedule.startDate;
-    _molecule = widget.schedule.molecule;
-    _administrationRoute = widget.schedule.administrationRoute;
-    _ester = widget.schedule.ester;
+    _nameController = TextEditingController();
+    _doseController = TextEditingController();
+    _intervalDaysController = TextEditingController();
+    _startDate = DateTime.now();
   }
 
   @override
@@ -155,18 +145,16 @@ class _EditSchedulePageState extends State<EditSchedulePage> {
   @override
   Widget build(BuildContext context) {
     return ModelForm(
-      title: 'Edit schedule',
-      submitButtonLabel: 'Save',
+      title: 'New schedule',
+      submitButtonLabel: 'Next',
       isFormValid: _isFormValid,
-      saveChanges: _saveSchedule,
-      onDelete: _confirmDelete,
-      fields: [
+      saveChanges: _addSchedule,
+      fields: <Widget>[
         FormTextField(
           controller: _nameController,
           label: 'Name',
           onChanged: _refresh,
           inputType: TextInputType.text,
-          errorText: _nameError,
         ),
         FormSpacer(),
         FormDropdownField<Molecule>(
@@ -192,11 +180,10 @@ class _EditSchedulePageState extends State<EditSchedulePage> {
         FormTextField(
           controller: _doseController,
           label: 'Amount',
+          suffixText: _molecule?.unit,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          suffixText: _molecule.unit,
-          errorText: _doseError,
-          regexFormatter: r'[0-9.,]',
+          regexFormatter: '[0-9.,]',
         ),
         FormTextField(
           controller: _intervalDaysController,
@@ -204,8 +191,7 @@ class _EditSchedulePageState extends State<EditSchedulePage> {
           suffixText: 'days',
           onChanged: _refresh,
           inputType: TextInputType.number,
-          errorText: _intervalDaysError,
-          regexFormatter: r'[0-9]',
+          regexFormatter: '[0-9]',
         ),
         FormDateField(
           date: _startDate,
