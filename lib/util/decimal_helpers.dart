@@ -5,3 +5,8 @@ Decimal parseDecimal(String text) {
   return Decimal.parse(sanitizedText);
 }
 
+Decimal? parseOptionalDecimal(String decimalString) {
+  final decimal = decimalString.trim();
+  if (decimal.isEmpty) return null;
+  return parseDecimal(decimal);
+}

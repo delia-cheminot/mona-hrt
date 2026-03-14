@@ -1,5 +1,6 @@
 // main_tabs.dart
 import 'package:flutter/material.dart';
+import 'package:mona/ui/views/chart/blood_test_page.dart';
 import 'chart/chart_page.dart';
 import 'home/home_page.dart';
 import 'home/profile/profile_page.dart';
@@ -36,6 +37,16 @@ final List<MainTabConfig> mainTabs = [
     page: ChartPage(),
     icon: Icons.trending_up_outlined,
     selectedIcon: Icons.trending_up_rounded,
+    buildActions: (context) => [
+      IconButton(
+        icon: const Icon(Icons.bloodtype_outlined),
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => BloodTestPage()),
+          );
+        },
+      ),
+    ],
   ),
   MainTabConfig(
     title: 'Supplies',

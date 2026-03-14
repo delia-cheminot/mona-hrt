@@ -14,7 +14,7 @@ class ProfilePage extends StatelessWidget {
 
     if (medicationScheduleProvider.isLoading) {
       return Scaffold(
-        appBar: AppBar(title: Text('Profile')),
+        appBar: AppBar(title: Text('Settings')),
         body: Center(child: CircularProgressIndicator()),
       );
     }

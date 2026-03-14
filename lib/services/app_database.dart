@@ -45,7 +45,7 @@ class AppDatabase {
 
     return await openDatabase(
       path,
-      version: 2,
+      version: 3,
       onCreate: _createDB,
       onUpgrade: _upgradeDB,
     );
@@ -90,6 +90,15 @@ class AppDatabase {
       moleculeJson TEXT NOT NULL,
       administrationRouteName TEXT NOT NULL,
       esterName TEXT
+    )
+    ''');
+
+    await db.execute('''
+    CREATE TABLE blood_tests(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      date TEXT NOT NULL,
+      estradiolLevels TEXT,
+      testosteroneLevels TEXT
     )
     ''');
   }
@@ -191,6 +200,17 @@ class AppDatabase {
       await db.execute('DROP TABLE medication_intakes');
       await db.execute(
           'ALTER TABLE medication_intakes_new RENAME TO medication_intakes');
+    }
+
+    if (oldVersion < 3) {
+      await db.execute('''
+      CREATE TABLE blood_tests(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        date TEXT NOT NULL,
+        estradiolLevels TEXT,
+        testosteroneLevels TEXT
+      )
+      ''');
     }
   }
 

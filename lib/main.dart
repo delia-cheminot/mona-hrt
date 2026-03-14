@@ -11,6 +11,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
@@ -22,7 +23,7 @@ import 'app.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await NotificationService().initialize();
+  NotificationService().initialize();
   final preferencesService = await PreferencesService.init();
 
   SystemChrome.setSystemUIOverlayStyle(
@@ -35,6 +36,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => SupplyItemProvider()),
         ChangeNotifierProvider(create: (_) => MedicationIntakeProvider()),
         ChangeNotifierProvider(create: (_) => MedicationScheduleProvider()),
+        ChangeNotifierProvider(create: (_) => BloodTestProvider()),
         ChangeNotifierProvider.value(value: preferencesService),
       ],
       child: const MonaApp(),
