@@ -13,9 +13,20 @@ class PreferencesService extends ChangeNotifier {
   static const int defaultMinute = 0;
   static const bool defaultNotificationsEnabled = false;
 
+  static const _autoCheckUpdatesKey = 'auto_check_updates';
+  static const bool defaultAutoCheckUpdates = false;
+
   late final SharedPreferences _prefs;
 
   PreferencesService._(this._prefs);
+
+  bool get autoCheckUpdatesEnabled =>
+      _prefs.getBool(_autoCheckUpdatesKey) ?? defaultAutoCheckUpdates;
+
+  Future<void> setAutoCheckUpdatesEnabled(bool isEnabled) async {
+    await _prefs.setBool(_autoCheckUpdatesKey, isEnabled);
+    notifyListeners();
+  }
 
   TimeOfDay get notificationTime => TimeOfDay(
         hour: _prefs.getInt(_notificationHourKey) ?? defaultHour,
