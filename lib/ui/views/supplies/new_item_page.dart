@@ -129,15 +129,16 @@ class _NewItemPageState extends State<NewItemPage> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.watch<PreferencesService>().strings;
     return ModelForm(
-      title: 'New item',
-      submitButtonLabel: 'Add',
+      title: strings.newItem,
+      submitButtonLabel: strings.add,
       isFormValid: _isFormValid,
       saveChanges: _addItem,
       fields: [
         FormTextField(
           controller: _nameController,
-          label: 'Name',
+          label: strings.name,
           onChanged: _refresh,
           inputType: TextInputType.text,
         ),
@@ -146,25 +147,25 @@ class _NewItemPageState extends State<NewItemPage> {
           value: _molecule,
           items: _preferencesService.moleculeDropdownItems,
           onChanged: _onMoleculeChanged,
-          label: 'Molecule',
+          label: strings.molecule,
         ),
         FormDropdownField<AdministrationRoute>(
           value: _administrationRoute,
           items: AdministrationRoute.menuItems,
           onChanged: _onAdministrationRouteChanged,
-          label: 'Administration route',
+          label: strings.administrationRoute,
         ),
         if (_useEsterField)
           FormDropdownField<Ester>(
             value: _ester,
             items: Ester.menuItems,
             onChanged: _onEsterChanged,
-            label: 'Ester',
+            label: strings.ester,
           ),
         FormSpacer(),
         FormTextField(
           controller: _totalAmountController,
-          label: 'Total amount',
+          label: strings.totalAmount,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           suffixText: _administrationRoute?.unit,
@@ -172,7 +173,7 @@ class _NewItemPageState extends State<NewItemPage> {
         ),
         FormTextField(
           controller: _concentrationController,
-          label: 'Concentration',
+          label: strings.concentration,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           suffixText: '${_molecule?.unit}/${_administrationRoute?.unit}',

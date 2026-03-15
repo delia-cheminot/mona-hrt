@@ -1,5 +1,6 @@
 import 'package:dynamic_system_colors/dynamic_system_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mona/controllers/notification_scheduler.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/services/preferences_service.dart';
@@ -75,6 +76,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    final preferencesService = context.watch<PreferencesService>();
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         final lightColorScheme = _getLightColorScheme(lightDynamic);
@@ -82,6 +84,17 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
 
         return MaterialApp(
           title: 'Mona',
+          locale: Locale(preferencesService.languageCode),
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en'),
+            Locale('hi'),
+            Locale('ml'),
+          ],
           theme: ThemeData(
             useMaterial3: true,
             colorScheme: lightColorScheme,

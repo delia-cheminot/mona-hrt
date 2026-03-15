@@ -64,27 +64,28 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.watch<PreferencesService>().strings;
     return Scaffold(
-      appBar: AppBar(title: const Text('Notifications')),
+      appBar: AppBar(title: Text(strings.notifications)),
       body: ListView(
         children: [
           if (_notificationsEnabled && !_permissionGranted)
             ListTile(
               leading: const Icon(Icons.info_outline),
-              title: const Text('Notifications are disabled'),
-              subtitle: Text("Click to open settings"),
+              title: Text(strings.notificationsAreDisabled),
+              subtitle: Text(strings.clickToOpenSettings),
               trailing: Icon(Icons.chevron_right),
               onTap: () async {
                 await openAppSettings();
               },
             ),
           SwitchListTile(
-            title: const Text('Enable notifications'),
+            title: Text(strings.enableNotifications),
             value: _notificationsEnabled,
             onChanged: _toggleNotifications,
           ),
           ListTile(
-            title: const Text('Notification time'),
+            title: Text(strings.notificationTime),
             subtitle: Text(_notificationTime.format(context)),
             trailing: const Icon(Icons.access_time),
             onTap: _pickTime,

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/supply_item.dart';
+import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/views/supplies/edit_item_page.dart';
+import 'package:provider/provider.dart';
 
 class SupplyItemCard extends StatelessWidget {
   final SupplyItem item;
@@ -11,6 +13,7 @@ class SupplyItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.watch<PreferencesService>().strings;
     return Card.filled(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -63,7 +66,7 @@ class SupplyItemCard extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   Text(
-                    '${(item.getAmount(item.remainingDose))} ${(item.administrationRoute.unit)} remaining',
+                    '${(item.getAmount(item.remainingDose))} ${(item.administrationRoute.unit)} ${strings.remaining}',
                     style: Theme.of(context).textTheme.bodyMedium,
                   )
                 ],

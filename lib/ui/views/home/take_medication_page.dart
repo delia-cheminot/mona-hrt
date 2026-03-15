@@ -7,6 +7,7 @@ import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
+import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/widgets/forms/form_date_field.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
@@ -106,6 +107,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.watch<PreferencesService>().strings;
     return Consumer2<MedicationIntakeProvider, SupplyItemProvider>(
       builder: (context, medicationIntakeProvider, supplyItemProvider, child) {
         final bool isLoading =
@@ -134,9 +136,9 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
           widget.schedule.ester,
         );
         final supplyItemDropdownItems = [
-          const DropdownMenuItem<SupplyItem?>(
+          DropdownMenuItem<SupplyItem?>(
             value: null,
-            child: Text('None'),
+            child: Text(strings.none),
           ),
           ...supplyItemOptions.map(
             (item) => DropdownMenuItem<SupplyItem?>(
@@ -145,10 +147,16 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
             ),
           ),
         ];
+        final injectionSideItems = InjectionSide.values
+            .map((side) => DropdownMenuItem<InjectionSide>(
+                  value: side,
+                  child: Text(strings.injectionSideName(side.name)),
+                ))
+            .toList();
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Take intake'),
+            title: Text(strings.takeIntake),
           ),
           body: SafeArea(
             child: SingleChildScrollView(
@@ -159,12 +167,12 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
                   children: [
                     FormDateField(
                       date: _takenDate,
-                      label: 'Date',
+                      label: strings.date,
                       onChanged: _onTakenDateChanged,
                     ),
                     FormTextField(
                       controller: _takenDoseController,
-                      label: 'Amount',
+                      label: strings.amount,
                       onChanged: _onTakenDoseChanged,
                       inputType: TextInputType.number,
                       suffixText: widget.schedule.molecule.unit,
@@ -195,14 +203,14 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
                       value: _selectedSupplyItem,
                       items: supplyItemDropdownItems,
                       onChanged: _onSupplyItemChanged,
-                      label: 'Supply item',
+                      label: strings.supplyItem,
                     ),
                     if (_isInjection)
                       FormDropdownField<InjectionSide>(
                         value: _selectedSide,
-                        items: InjectionSideDropdown.menuItems,
+                        items: injectionSideItems,
                         onChanged: _onInjectionSideChanged,
-                        label: 'Injection side',
+                        label: strings.injectionSideLabel,
                       ),
                     const SizedBox(height: 16),
                     Container(
@@ -213,8 +221,8 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
                           onPressed: (!isLoading && _isFormValid)
                               ? () => _takeIntake(
                                   medicationIntakeProvider, supplyItemProvider)
-                              : null, // null = bouton grisé
-                          child: const Text('Take intake'),
+                              : null,
+                          child: Text(strings.takeIntake),
                         ),
                       ),
                     ),

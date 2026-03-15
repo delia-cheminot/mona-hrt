@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
+import 'package:provider/provider.dart';
 
 class ModelForm extends StatelessWidget {
   final String title;
@@ -56,7 +58,12 @@ class ModelForm extends StatelessWidget {
                       width: double.infinity,
                       child: OutlinedButton(
                         onPressed: onDelete,
-                        child: Text('Delete'),
+                        child: Text(
+                          context
+                              .read<PreferencesService>()
+                              .strings
+                              .delete,
+                        ),
                       ),
                     ),
                   ],

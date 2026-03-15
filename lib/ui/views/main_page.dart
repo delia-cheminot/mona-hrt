@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mona/ui/views/main_tab_config.dart';
+import 'package:mona/services/preferences_service.dart';
+import 'package:provider/provider.dart';
 import 'main_tabs.dart';
 
 class MainPage extends StatefulWidget {
@@ -10,14 +11,16 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
-  MainTabConfig get currentTab => mainTabs[_selectedIndex];
-
   void _selectIndex(int index) {
     setState(() => _selectedIndex = index);
   }
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.watch<PreferencesService>().strings;
+    final tabs = buildMainTabs(strings);
+    final currentTab = tabs[_selectedIndex];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(currentTab.title),
@@ -27,9 +30,9 @@ class _MainPageState extends State<MainPage> {
       body: SafeArea(
         child: currentTab.page,
       ),
-      //     |----------------------------------------------------|
+      //     |----------------------------------------------------|      
       //     |  TODO implement indexed stack + correct scroll bug |
-      //     |----------------------------------------------------|
+      //     |----------------------------------------------------|      
       //        ||
       // (\__/) ||
       // (•ㅅ•) ||
@@ -38,7 +41,7 @@ class _MainPageState extends State<MainPage> {
         selectedIndex: _selectedIndex,
         onDestinationSelected: _selectIndex,
         destinations: [
-          for (final tab in mainTabs)
+          for (final tab in tabs)
             NavigationDestination(
               label: tab.title,
               icon: Icon(tab.icon),

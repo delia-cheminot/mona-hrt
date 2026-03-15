@@ -154,16 +154,17 @@ class _EditSchedulePageState extends State<EditSchedulePage> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.watch<PreferencesService>().strings;
     return ModelForm(
-      title: 'Edit schedule',
-      submitButtonLabel: 'Save',
+      title: strings.editSchedule,
+      submitButtonLabel: strings.save,
       isFormValid: _isFormValid,
       saveChanges: _saveSchedule,
       onDelete: _confirmDelete,
       fields: [
         FormTextField(
           controller: _nameController,
-          label: 'Name',
+          label: strings.name,
           onChanged: _refresh,
           inputType: TextInputType.text,
           errorText: _nameError,
@@ -173,25 +174,25 @@ class _EditSchedulePageState extends State<EditSchedulePage> {
           value: _molecule,
           items: _preferencesService.moleculeDropdownItems,
           onChanged: _onMoleculeChanged,
-          label: 'Molecule',
+          label: strings.molecule,
         ),
         FormDropdownField<AdministrationRoute>(
           value: _administrationRoute,
           items: AdministrationRoute.menuItems,
           onChanged: _onAdministrationRouteChanged,
-          label: 'Administration route',
+          label: strings.administrationRoute,
         ),
         if (_useEsterField)
           FormDropdownField<Ester>(
             value: _ester,
             items: Ester.menuItems,
             onChanged: _onEsterChanged,
-            label: 'Ester',
+            label: strings.ester,
           ),
         FormSpacer(),
         FormTextField(
           controller: _doseController,
-          label: 'Amount',
+          label: strings.amount,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           suffixText: _molecule.unit,
@@ -200,8 +201,8 @@ class _EditSchedulePageState extends State<EditSchedulePage> {
         ),
         FormTextField(
           controller: _intervalDaysController,
-          label: 'Every',
-          suffixText: 'days',
+          label: strings.every,
+          suffixText: strings.days,
           onChanged: _refresh,
           inputType: TextInputType.number,
           errorText: _intervalDaysError,
@@ -209,7 +210,7 @@ class _EditSchedulePageState extends State<EditSchedulePage> {
         ),
         FormDateField(
           date: _startDate,
-          label: 'Start date',
+          label: strings.startDate,
           errorText: _startDateError,
           onChanged: (date) => setState(() {
             _startDate = date;

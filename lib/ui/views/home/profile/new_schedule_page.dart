@@ -136,15 +136,16 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.watch<PreferencesService>().strings;
     return ModelForm(
-      title: 'New schedule',
-      submitButtonLabel: 'Add',
+      title: strings.newSchedule,
+      submitButtonLabel: strings.add,
       isFormValid: _isFormValid,
       saveChanges: _addSchedule,
       fields: <Widget>[
         FormTextField(
           controller: _nameController,
-          label: 'Name',
+          label: strings.name,
           onChanged: _refresh,
           inputType: TextInputType.text,
         ),
@@ -153,25 +154,25 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
           value: _molecule,
           items: _preferencesService.moleculeDropdownItems,
           onChanged: _onMoleculeChanged,
-          label: 'Molecule',
+          label: strings.molecule,
         ),
         FormDropdownField<AdministrationRoute>(
           value: _administrationRoute,
           items: AdministrationRoute.menuItems,
           onChanged: _onAdministrationRouteChanged,
-          label: 'Administration route',
+          label: strings.administrationRoute,
         ),
         if (_useEsterField)
           FormDropdownField<Ester>(
             value: _ester,
             items: Ester.menuItems,
             onChanged: _onEsterChanged,
-            label: 'Ester',
+            label: strings.ester,
           ),
         FormSpacer(),
         FormTextField(
           controller: _doseController,
-          label: 'Amount',
+          label: strings.amount,
           suffixText: _molecule?.unit,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
@@ -179,15 +180,15 @@ class _NewSchedulePageState extends State<NewSchedulePage> {
         ),
         FormTextField(
           controller: _intervalDaysController,
-          label: 'Every',
-          suffixText: 'days',
+          label: strings.every,
+          suffixText: strings.days,
           onChanged: _refresh,
           inputType: TextInputType.number,
           regexFormatter: '[0-9]',
         ),
         FormDateField(
           date: _startDate,
-          label: 'Start date',
+          label: strings.startDate,
           errorText: _startDateError,
           onChanged: (date) => setState(() {
             _startDate = date;

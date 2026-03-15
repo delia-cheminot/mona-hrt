@@ -168,16 +168,17 @@ class _EditItemPageState extends State<EditItemPage> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.watch<PreferencesService>().strings;
     return ModelForm(
-      title: 'Edit item',
-      submitButtonLabel: 'Save',
+      title: strings.editItem,
+      submitButtonLabel: strings.save,
       isFormValid: _isFormValid,
       saveChanges: _saveChanges,
       onDelete: _confirmDelete,
       fields: [
         FormTextField(
           controller: _nameController,
-          label: 'Name',
+          label: strings.name,
           onChanged: _refresh,
           inputType: TextInputType.text,
           errorText: _nameError,
@@ -187,25 +188,25 @@ class _EditItemPageState extends State<EditItemPage> {
           value: _molecule,
           items: _preferencesService.moleculeDropdownItems,
           onChanged: _onMoleculeChanged,
-          label: 'Molecule',
+          label: strings.molecule,
         ),
         FormDropdownField<AdministrationRoute>(
           value: _administrationRoute,
           items: AdministrationRoute.menuItems,
           onChanged: _onAdministrationRouteChanged,
-          label: 'Administration route',
+          label: strings.administrationRoute,
         ),
         if (_useEsterField)
           FormDropdownField<Ester>(
             value: _ester,
             items: Ester.menuItems,
             onChanged: _onEsterChanged,
-            label: 'Ester',
+            label: strings.ester,
           ),
         FormSpacer(),
         FormTextField(
           controller: _totalAmountController,
-          label: 'Total amount',
+          label: strings.totalAmount,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           suffixText: _administrationRoute.unit,
@@ -214,7 +215,7 @@ class _EditItemPageState extends State<EditItemPage> {
         ),
         FormTextField(
           controller: _usedAmountController,
-          label: 'Used amount',
+          label: strings.usedAmount,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           suffixText: _administrationRoute.unit,
@@ -223,7 +224,7 @@ class _EditItemPageState extends State<EditItemPage> {
         ),
         FormTextField(
           controller: _concentrationController,
-          label: 'Concentration',
+          label: strings.concentration,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           suffixText: '${_molecule.unit}/${_administrationRoute.unit}',

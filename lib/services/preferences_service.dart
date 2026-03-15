@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/molecule.dart';
+import 'package:mona/l10n/app_strings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferencesService extends ChangeNotifier {
@@ -8,6 +9,7 @@ class PreferencesService extends ChangeNotifier {
   static const _notificationMinuteKey = 'notification_minute';
   static const _notificationsEnabledKey = 'notifications_enabled';
   static const _customMoleculesKey = 'custom_molecules';
+  static const _localeKey = 'app_locale';
 
   static const int defaultHour = 18;
   static const int defaultMinute = 0;
@@ -35,6 +37,15 @@ class PreferencesService extends ChangeNotifier {
     await _prefs.setBool(_notificationsEnabledKey, isEnabled);
     notifyListeners();
   }
+
+  String get languageCode => _prefs.getString(_localeKey) ?? 'en';
+
+  Future<void> setLanguageCode(String code) async {
+    await _prefs.setString(_localeKey, code);
+    notifyListeners();
+  }
+
+  AppStrings get strings => AppStrings(languageCode);
 
   List<Molecule> get customMolecules {
     final jsonString = _prefs.getString(_customMoleculesKey);

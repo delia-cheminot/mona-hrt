@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
+import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/views/home/profile/edit_schedule_page.dart';
 import 'package:provider/provider.dart';
 import 'new_schedule_page.dart';
@@ -9,11 +10,12 @@ class SchedulesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final medicationScheduleProvider =
         context.watch<MedicationScheduleProvider>();
+    final strings = context.watch<PreferencesService>().strings;
 
     if (medicationScheduleProvider.isLoading) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Schedules'),
+          title: Text(strings.schedules),
         ),
         body: Center(
           child: CircularProgressIndicator(),
@@ -23,12 +25,12 @@ class SchedulesPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Schedules'),
+        title: Text(strings.schedules),
       ),
       body: SafeArea(
         child: medicationScheduleProvider.schedules.isEmpty
             ? Center(
-                child: Text('Add a schedule to get started.'),
+                child: Text(strings.addScheduleToGetStarted),
               )
             : ListView.builder(
                 itemCount: medicationScheduleProvider.schedules.length,
@@ -57,7 +59,7 @@ class SchedulesPage extends StatelessWidget {
             builder: (context) => NewSchedulePage(),
           ));
         },
-        tooltip: 'Add a schedule',
+        tooltip: strings.addASchedule,
         child: Icon(Icons.add),
       ),
     );

@@ -4,6 +4,8 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/controllers/schedule_manager.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
+import 'package:mona/l10n/app_strings.dart';
+import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/home/intake_tile.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
@@ -15,20 +17,21 @@ class HomePage extends StatelessWidget {
     final medicationScheduleProvider =
         context.watch<MedicationScheduleProvider>();
     final medicationIntakeProvider = context.watch<MedicationIntakeProvider>();
+    final strings = context.watch<PreferencesService>().strings;
 
     return MainPageWrapper(
       isLoading: (medicationScheduleProvider.isLoading ||
           medicationIntakeProvider.isLoading),
       isEmpty: medicationScheduleProvider.schedules.isEmpty,
-      emptyMessage: 'Start by adding a schedule in Settings',
+      emptyMessage: strings.startByAddingSchedule,
       child: SingleChildScrollView(
         child: Padding(
           padding: pagePadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ..._buildTodaySection(context),
-              ..._buildUpcomingSection(context),
+              ..._buildTodaySection(context, strings),
+              ..._buildUpcomingSection(context, strings),
             ],
           ),
         ),
@@ -40,6 +43,7 @@ class HomePage extends StatelessWidget {
     BuildContext context, {
     required String title,
     required List<ScheduleStatus> statuses,
+    required AppStrings strings,
     bool showAllDoneMessage = false,
   }) {
     final theme = Theme.of(context);
@@ -72,8 +76,8 @@ class HomePage extends StatelessWidget {
                 color: theme.colorScheme.onTertiary,
               ),
             ),
-            title: Text("All done !", style: theme.textTheme.titleMedium),
-            subtitle: Text("No intakes due today"),
+            title: Text(strings.allDone, style: theme.textTheme.titleMedium),
+            subtitle: Text(strings.noIntakesToday),
           ),
         ),
       );
@@ -84,28 +88,30 @@ class HomePage extends StatelessWidget {
       final status = statuses.firstWhere(
         (s) => scheduleManager.getSchedulesByStatus(s).contains(schedule),
       );
-      return IntakeTile(schedule: schedule, status: status);
+      return IntakeTile(schedule: schedule, status: status, strings: strings);
     }));
 
     return widgets;
   }
 
-  List<Widget> _buildTodaySection(BuildContext context) =>
+  List<Widget> _buildTodaySection(BuildContext context, AppStrings strings) =>
       _buildScheduleSection(
         context,
-        title: "Today - ${DateFormat.MMMMd().format(DateTime.now())}",
+        title: "${strings.today} - ${DateFormat.MMMMd().format(DateTime.now())}",
         statuses: [
           ScheduleStatus.overdue,
           ScheduleStatus.todayOverdue,
           ScheduleStatus.today
         ],
+        strings: strings,
         showAllDoneMessage: true,
       );
 
-  List<Widget> _buildUpcomingSection(BuildContext context) =>
+  List<Widget> _buildUpcomingSection(BuildContext context, AppStrings strings) =>
       _buildScheduleSection(
         context,
-        title: "Upcoming",
+        title: strings.upcoming,
         statuses: [ScheduleStatus.upcoming],
+        strings: strings,
       );
 }
