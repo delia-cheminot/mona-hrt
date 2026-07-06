@@ -31,7 +31,7 @@ const String createMedicationIntakesTable = '''
       notes TEXT,
       FOREIGN KEY (supplyItemId) REFERENCES supply_items(id) ON DELETE SET NULL
     )
-    '''; // TODO use foreign key for scheduleId
+    ''';
 
 const String createMedicationSchedulesTable = '''
     CREATE TABLE medication_schedules(

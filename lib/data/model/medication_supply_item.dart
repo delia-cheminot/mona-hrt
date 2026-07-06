@@ -5,7 +5,7 @@ import 'package:mona/data/model/custom_mappers.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/supply_item.dart';
-import 'package:mona/l10n/app_localizations.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:mona/util/validators.dart';
 
@@ -76,42 +76,39 @@ class MedicationSupplyItem extends SupplyItem
 
   Decimal getDose(Decimal amount) => amount * concentration;
 
-  static String? Function(String?) usedAmountValidator(
-      AppLocalizations l10n, String totalAmount) {
+  static String? Function(String?) usedAmountValidator(String totalAmount) {
     return (String? value) {
-      return requiredPositiveDecimal(l10n, value) ??
-          (validateTotalAmount(l10n, totalAmount) != null
-              ? l10n.invalidTotalAmount
+      return requiredPositiveDecimal(value) ??
+          (validateTotalAmount(totalAmount) != null
+              ? t.invalidTotalAmount
               : null) ??
           (value.toDecimalOrZero > totalAmount.toDecimal
-              ? l10n.cannotExceedTotalCapacity
+              ? t.cannotExceedTotalCapacity
               : null);
     };
   }
 
-  static String? Function(Ester?) esterValidator(AppLocalizations l10n,
+  static String? Function(Ester?) esterValidator(
       Molecule? molecule, AdministrationRoute? administrationRoute) {
     return (Ester? value) {
       return (molecule == KnownMolecules.estradiol &&
               administrationRoute == AdministrationRoute.injection &&
               value == null)
-          ? l10n.requiredField
+          ? t.requiredField
           : null;
     };
   }
 
   // coverage:ignore-start
-  static String? validateTotalAmount(AppLocalizations l10n, String? value) =>
-      requiredStrictlyPositiveDecimal(l10n, value);
+  static String? validateTotalAmount(String? value) =>
+      requiredStrictlyPositiveDecimal(value);
 
-  static String? validateConcentration(AppLocalizations l10n, String? value) =>
-      requiredStrictlyPositiveDecimal(l10n, value);
+  static String? validateConcentration(String? value) =>
+      requiredStrictlyPositiveDecimal(value);
 
-  static String? validateMolecule(AppLocalizations l10n, Molecule? value) =>
-      requiredMolecule(l10n, value);
+  static String? validateMolecule(Molecule? value) => requiredMolecule(value);
 
-  static String? validateAdministrationRoute(
-          AppLocalizations l10n, AdministrationRoute? value) =>
-      requiredAdministrationRoute(l10n, value);
+  static String? validateAdministrationRoute(AdministrationRoute? value) =>
+      requiredAdministrationRoute(value);
   // coverage:ignore-end
 }

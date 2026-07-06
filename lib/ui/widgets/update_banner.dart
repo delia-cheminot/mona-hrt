@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/home/settings/settings_page.dart';
 
@@ -13,7 +13,6 @@ class UpdateBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return Material(
       color: Theme.of(context).colorScheme.secondaryContainer,
       elevation: 4,
@@ -29,7 +28,7 @@ class UpdateBanner extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                l10n.newUpdateAvailable,
+                t.newUpdateAvailable,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onSecondaryContainer,
                   fontWeight: FontWeight.w500,
@@ -42,7 +41,7 @@ class UpdateBanner extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const SettingsPage()),
                 );
               },
-              child: Text(l10n.goToSettings),
+              child: Text(t.goToSettings),
             ),
             IconButton(
               icon: const Icon(Icons.close),

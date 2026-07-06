@@ -9,9 +9,9 @@ import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
-import 'package:mona/l10n/helpers/molecule_l10n.dart';
-import 'package:mona/l10n/helpers/supply_item_l10n.dart';
+import 'package:mona/i18n/helpers/molecule_l10n.dart';
+import 'package:mona/i18n/helpers/supply_item_l10n.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/widgets/dropdowns/injection_side_dropdown.dart';
 import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
@@ -50,13 +50,13 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
   bool _isTaken = false;
 
   String? get _takenDoseError =>
-      MedicationIntake.validateDose(context.l10n, _takenDoseController.text);
+      MedicationIntake.validateDose(_takenDoseController.text);
 
-  String? get _wastedAmountError => MedicationIntake.validateWastedAmount(
-      context.l10n, _wastedAmountController.text);
+  String? get _wastedAmountError =>
+      MedicationIntake.validateWastedAmount(_wastedAmountController.text);
 
-  String? get _deadSpaceError => MedicationIntake.validateDeadSpace(
-      context.l10n, _deadSpaceController.text);
+  String? get _deadSpaceError =>
+      MedicationIntake.validateDeadSpace(_deadSpaceController.text);
 
   bool get _isFormValid => _takenDoseError == null && _deadSpaceError == null;
 
@@ -178,7 +178,6 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
       builder: (context, medicationIntakeProvider, supplyItemProvider, child) {
         final bool isLoading =
             medicationIntakeProvider.isLoading || supplyItemProvider.isLoading;
-        final localizations = context.l10n;
 
         if (!isLoading && !_hasInitializedSide && isInjection) {
           _selectedSide = MedicationIntakeManager(
@@ -213,7 +212,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
         final supplyItemDropdownItems = [
           DropdownMenuItem<SupplyItem?>(
             value: null,
-            child: Text(localizations.none),
+            child: Text(t.none),
           ),
           ...supplyItemOptions.map(
             (item) => DropdownMenuItem<SupplyItem?>(
@@ -224,11 +223,9 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
         ];
 
         return ModelForm(
-          title: localizations.takeMedication(widget.schedule.name),
+          title: t.takeMedication(scheduleName: widget.schedule.name),
           avatar: widget.schedule.administrationRoute.icon,
-          submitButtonLabel: _isTaken
-              ? localizations.intakeRecorded
-              : localizations.takeIntake,
+          submitButtonLabel: _isTaken ? t.intakeRecorded : t.takeIntake,
           submitButtonIcon: _isTaken ? Icons.check_circle : null,
           submitButtonKey: const ValueKey('takeIntakeSubmit'),
           isFormValid: _isFormValid,
@@ -237,24 +234,22 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
               : () {},
           fields: [
             FormDateTimeField(
-              label: localizations.date,
+              label: t.date,
               datetime: _takenDate,
               onChanged: _onTakenDateChanged,
             ),
             FormSpacer(),
             FormTextField(
                 controller: _takenDoseController,
-                label: localizations.takenAmount,
+                label: t.takenAmount,
                 onChanged: _onTakenDoseChanged,
                 inputType: TextInputType.numberWithOptions(decimal: true),
-                suffixText:
-                    widget.schedule.molecule.localizedUnit(localizations),
+                suffixText: widget.schedule.molecule.localizedUnit,
                 errorText: _takenDoseError,
                 regexFormatter: RegexPatterns.floatNumber),
             if (_selectedSupplyItem case final MedicationSupplyItem supplyItem)
               FormInfoText(
                 infoText: supplyItem.localizedSupplyAmount(
-                  localizations,
                   _takenDose,
                   widget.schedule.molecule,
                 ),
@@ -264,36 +259,36 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
               value: _selectedSupplyItem,
               items: supplyItemDropdownItems,
               onChanged: _onSupplyItemChanged,
-              label: localizations.supplyItem,
+              label: t.supplyItem,
             ),
             if (isInjection) ...[
               FormDropdownField<InjectionSide>(
                 value: _selectedSide,
-                items: injectionSideDropdownMenuItems(localizations),
+                items: injectionSideDropdownMenuItems(),
                 onChanged: _onInjectionSideChanged,
-                label: localizations.injectionSide,
+                label: t.injectionSide,
               ),
               FormTextField(
                   controller: _wastedAmountController,
-                  label: localizations.wastedAmount,
+                  label: t.wastedAmount,
                   onChanged: _onWastedAmountChanged,
                   inputType: TextInputType.numberWithOptions(decimal: true),
-                  suffixText: localizations.milliliters,
+                  suffixText: t.milliliters,
                   errorText: _wastedAmountError,
                   regexFormatter: RegexPatterns.floatNumber),
               FormTextField(
                   controller: _deadSpaceController,
-                  label: localizations.needleDeadSpace,
+                  label: t.needleDeadSpace,
                   onChanged: _onDeadSpaceChanged,
                   inputType: TextInputType.numberWithOptions(decimal: true),
-                  suffixText: localizations.microliters,
+                  suffixText: t.microliters,
                   errorText: _deadSpaceError,
                   regexFormatter: RegexPatterns.floatNumber),
             ],
             FormSpacer(),
             FormTextField(
               controller: _notesController,
-              label: localizations.notes,
+              label: t.notes,
               onChanged: _refresh,
               inputType: TextInputType.multiline,
               multiline: true,

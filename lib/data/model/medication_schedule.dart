@@ -7,15 +7,12 @@ import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/mapping_hooks.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
-import 'package:mona/l10n/app_localizations.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/util/validators.dart';
 
 part 'medication_schedule.mapper.dart';
 
 @MappableClass(
-  // TODO: migrate Molecule (and the daily notification list) to use
-  // JsonStringHook (see mapping_hooks.dart) and delete MoleculeJsonMapper /
-  // NotificationTimesMapper.
   includeCustomMappers: [
     MoleculeJsonMapper(),
     AdministrationRouteNameMapper(),
@@ -51,32 +48,28 @@ class MedicationSchedule with MedicationScheduleMappable {
   })  : id = id ?? DateTime.now().millisecondsSinceEpoch,
         startDate = startDate ?? Date.today();
 
-  static String? Function(Ester?) esterValidator(AppLocalizations l10n,
+  static String? Function(Ester?) esterValidator(
       Molecule? molecule, AdministrationRoute? administrationRoute) {
     return (Ester? value) {
       return (molecule == KnownMolecules.estradiol &&
               administrationRoute == AdministrationRoute.injection &&
               value == null)
-          ? l10n.requiredField
+          ? t.requiredField
           : null;
     };
   }
 
   // coverage:ignore-start
-  static String? validateName(AppLocalizations l10n, String? value) =>
-      requiredString(l10n, value);
+  static String? validateName(String? value) => requiredString(value);
 
-  static String? validateDose(AppLocalizations l10n, String? value) =>
-      requiredStrictlyPositiveDecimal(l10n, value);
+  static String? validateDose(String? value) =>
+      requiredStrictlyPositiveDecimal(value);
 
-  static String? validateStartDate(AppLocalizations l10n, Date? value) =>
-      requiredDate(l10n, value);
+  static String? validateStartDate(Date? value) => requiredDate(value);
 
-  static String? validateMolecule(AppLocalizations l10n, Molecule? value) =>
-      requiredMolecule(l10n, value);
+  static String? validateMolecule(Molecule? value) => requiredMolecule(value);
 
-  static String? validateAdministrationRoute(
-          AppLocalizations l10n, AdministrationRoute? value) =>
-      requiredAdministrationRoute(l10n, value);
+  static String? validateAdministrationRoute(AdministrationRoute? value) =>
+      requiredAdministrationRoute(value);
   // coverage:ignore-end
 }

@@ -8,9 +8,9 @@ import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
-import 'package:mona/l10n/helpers/molecule_l10n.dart';
-import 'package:mona/l10n/helpers/supply_item_l10n.dart';
+import 'package:mona/i18n/helpers/molecule_l10n.dart';
+import 'package:mona/i18n/helpers/supply_item_l10n.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
 import 'package:mona/ui/widgets/dropdowns/injection_side_dropdown.dart';
 import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
@@ -46,10 +46,10 @@ class _EditIntakePageState extends State<EditIntakePage> {
   late TextEditingController _notesController;
 
   String? get _takenDoseError =>
-      MedicationIntake.validateDose(context.l10n, _takenDoseController.text);
+      MedicationIntake.validateDose(_takenDoseController.text);
 
-  String? get _wastedAmountError => MedicationIntake.validateWastedAmount(
-      context.l10n, _wastedAmountController.text);
+  String? get _wastedAmountError =>
+      MedicationIntake.validateWastedAmount(_wastedAmountController.text);
 
   bool get _isFormValid => _takenDoseError == null;
 
@@ -148,8 +148,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
   void _refresh() => setState(() {});
 
   Future<bool?> confirmDeleteIntake(BuildContext context) {
-    return Dialogs.confirmDeleteDialog(
-        context: context, title: context.l10n.deleteIntake);
+    return Dialogs.confirmDeleteDialog(context: context, title: t.deleteIntake);
   }
 
   @override
@@ -174,8 +173,6 @@ class _EditIntakePageState extends State<EditIntakePage> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = context.l10n;
-
     return Consumer2<MedicationIntakeProvider, SupplyItemProvider>(
       builder: (context, medicationIntakeProvider, supplyItemProvider, child) {
         final bool isLoading =
@@ -201,7 +198,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
         final supplyItemDropdownItems = [
           DropdownMenuItem<MedicationSupplyItem?>(
             value: null,
-            child: Text(localizations.none),
+            child: Text(t.none),
           ),
           ...supplyItemOptions.map(
             (item) => DropdownMenuItem<MedicationSupplyItem?>(
@@ -212,9 +209,9 @@ class _EditIntakePageState extends State<EditIntakePage> {
         ];
 
         return ModelForm(
-          title: localizations.editIntake,
+          title: t.editIntake,
           avatar: widget.intake.administrationRoute.icon,
-          submitButtonLabel: localizations.save,
+          submitButtonLabel: t.save,
           submitButtonKey: const ValueKey('editIntakeSave'),
           deleteButtonKey: const ValueKey('editIntakeDelete'),
           isFormValid: _isFormValid,
@@ -230,24 +227,23 @@ class _EditIntakePageState extends State<EditIntakePage> {
           },
           fields: [
             FormDateTimeField(
-              label: localizations.date,
+              label: t.date,
               datetime: _takenDate,
               onChanged: _onTakenDateChanged,
             ),
             FormSpacer(),
             FormTextField(
               controller: _takenDoseController,
-              label: localizations.takenAmount,
+              label: t.takenAmount,
               onChanged: _onTakenDoseChanged,
               inputType: TextInputType.numberWithOptions(decimal: true),
-              suffixText: widget.intake.molecule.localizedUnit(localizations),
+              suffixText: widget.intake.molecule.localizedUnit,
               errorText: _takenDoseError,
               regexFormatter: RegexPatterns.floatNumber,
             ),
             if (_selectedSupplyItem case final MedicationSupplyItem supplyItem)
               FormInfoText(
                 infoText: supplyItem.localizedSupplyAmount(
-                  localizations,
                   _takenDose,
                   widget.intake.molecule,
                 ),
@@ -257,21 +253,21 @@ class _EditIntakePageState extends State<EditIntakePage> {
               value: _selectedSupplyItem,
               items: supplyItemDropdownItems,
               onChanged: _onSupplyItemChanged,
-              label: localizations.supplyItem,
+              label: t.supplyItem,
             ),
             if (_isInjection) ...[
               FormDropdownField<InjectionSide>(
                 value: _selectedSide,
-                items: injectionSideDropdownMenuItems(localizations),
+                items: injectionSideDropdownMenuItems(),
                 onChanged: _onInjectionSideChanged,
-                label: localizations.injectionSide,
+                label: t.injectionSide,
               ),
               FormTextField(
                 controller: _wastedAmountController,
-                label: localizations.wastedAmount,
+                label: t.wastedAmount,
                 onChanged: _onWastedAmountChanged,
                 inputType: TextInputType.numberWithOptions(decimal: true),
-                suffixText: localizations.milliliters,
+                suffixText: t.milliliters,
                 errorText: _wastedAmountError,
                 regexFormatter: RegexPatterns.floatNumber,
               ),
@@ -279,7 +275,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
             FormSpacer(),
             FormTextField(
               controller: _notesController,
-              label: localizations.notes,
+              label: t.notes,
               fieldKey: const ValueKey('editIntakeNotes'),
               onChanged: _refresh,
               inputType: TextInputType.multiline,

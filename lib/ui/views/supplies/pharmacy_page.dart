@@ -3,8 +3,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:m3e_core/m3e_core.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
-import 'package:mona/l10n/app_localizations.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/supplies/supply_item_card.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
@@ -36,7 +35,7 @@ class _PharmacyPageState extends State<PharmacyPage> {
         return MainPageWrapper(
           isLoading: supplyItemProvider.isLoading,
           isEmpty: supplyItemProvider.items.isEmpty,
-          emptyMessage: context.l10n.empty_supplies,
+          emptyMessage: t.empty_supplies,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -77,7 +76,6 @@ class _PharmacyPageState extends State<PharmacyPage> {
   }
 
   Widget _filterToggle(_Filter effectiveFilter, BuildContext context) {
-    final l10n = context.l10n;
     final theme = Theme.of(context);
 
     return M3EToggleButtonGroup(
@@ -96,7 +94,7 @@ class _PharmacyPageState extends State<PharmacyPage> {
       actions: [
         for (final filter in _Filter.values)
           M3EToggleButtonGroupAction(
-            label: Text(filter.label(l10n)),
+            label: Text(filter.label),
             decoration: filter.decoration(theme),
           ),
       ],
@@ -107,10 +105,10 @@ class _PharmacyPageState extends State<PharmacyPage> {
 enum _Filter { all, medication, generic }
 
 extension _FilterX on _Filter {
-  String label(AppLocalizations l) => switch (this) {
-        _Filter.all => l.allItemsFilter,
-        _Filter.medication => l.medicationItemsFilter,
-        _Filter.generic => l.genericItemsFilter,
+  String get label => switch (this) {
+        _Filter.all => t.allItemsFilter,
+        _Filter.medication => t.medicationItemsFilter,
+        _Filter.generic => t.genericItemsFilter,
       };
 
   List<SupplyItem> items(SupplyItemProvider p) => switch (this) {
@@ -119,10 +117,10 @@ extension _FilterX on _Filter {
         _Filter.generic => p.genericItemsOrderedByName,
       };
 
-  M3EToggleButtonDecoration? decoration(ThemeData t) => switch (this) {
+  M3EToggleButtonDecoration? decoration(ThemeData theme) => switch (this) {
         _Filter.generic => M3EToggleButtonDecoration.styleFrom(
-            checkedBackgroundColor: t.colorScheme.secondary,
-            checkedForegroundColor: t.colorScheme.onSecondary,
+            checkedBackgroundColor: theme.colorScheme.secondary,
+            checkedForegroundColor: theme.colorScheme.onSecondary,
           ),
         _ => null,
       };

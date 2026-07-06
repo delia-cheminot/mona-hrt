@@ -4,7 +4,6 @@ import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
-import 'package:mona/l10n/app_localizations_en.dart';
 
 MedicationSupplyItem makeMed({
   int id = 1,
@@ -29,8 +28,6 @@ MedicationSupplyItem makeMed({
 }
 
 void main() {
-  final l10n = AppLocalizationsEn();
-
   group('MedicationSupplyItem', () {
     group('toMap / fromMap', () {
       test('round-trips all fields', () {
@@ -377,7 +374,7 @@ void main() {
           () {
         // Arrange
         const total = '100';
-        final validator = MedicationSupplyItem.usedAmountValidator(l10n, total);
+        final validator = MedicationSupplyItem.usedAmountValidator(total);
         final cases = [
           {'value': null, 'expected': isNotNull},
           {'value': '', 'expected': isNotNull},
@@ -433,7 +430,6 @@ void main() {
         // Act
         final results = cases.map((c) {
           final validator = MedicationSupplyItem.esterValidator(
-            l10n,
             c['molecule'] as Molecule?,
             c['route'] as AdministrationRoute?,
           );

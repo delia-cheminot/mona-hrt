@@ -2,55 +2,50 @@ import 'package:decimal/decimal.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/molecule.dart';
-import 'package:mona/l10n/app_localizations.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/util/string_parsing.dart';
 
-String? strictlyPositiveDecimal(AppLocalizations l10n, String? value) {
+String? strictlyPositiveDecimal(String? value) {
   if (value.isEmpty) return null;
 
-  return value.toDecimalOrZero <= Decimal.zero
-      ? l10n.mustBePositiveNumber
-      : null;
+  return value.toDecimalOrZero <= Decimal.zero ? t.mustBePositiveNumber : null;
 }
 
-String? positiveDecimal(AppLocalizations l10n, String? value) {
+String? positiveDecimal(String? value) {
   if (value.isEmpty) return null;
 
   return (!value.isDecimal || value.toDecimalOrZero < Decimal.zero)
-      ? l10n.mustBePositiveNumber
+      ? t.mustBePositiveNumber
       : null;
 }
 
-String? positiveInt(AppLocalizations l10n, String? value) {
+String? positiveInt(String? value) {
   if (value.isEmpty) return null;
 
-  return value.toIntOrZero <= 0 ? l10n.mustBePositiveNumber : null;
+  return value.toIntOrZero <= 0 ? t.mustBePositiveNumber : null;
 }
 
-String? requiredString(AppLocalizations l10n, String? value) =>
-    value.isEmpty ? l10n.requiredField : null;
+String? requiredString(String? value) => value.isEmpty ? t.requiredField : null;
 
-String? requiredDateTime(AppLocalizations l10n, DateTime? value) =>
-    value == null ? l10n.requiredField : null;
+String? requiredDateTime(DateTime? value) =>
+    value == null ? t.requiredField : null;
 
-String? requiredDate(AppLocalizations l10n, Date? value) =>
-    value == null ? l10n.requiredField : null;
+String? requiredDate(Date? value) => value == null ? t.requiredField : null;
 
-String? requiredStrictlyPositiveDecimal(AppLocalizations l10n, String? value) =>
-    requiredString(l10n, value) ?? strictlyPositiveDecimal(l10n, value);
+String? requiredStrictlyPositiveDecimal(String? value) =>
+    requiredString(value) ?? strictlyPositiveDecimal(value);
 
-String? requiredPositiveDecimal(AppLocalizations l10n, String? value) =>
-    requiredString(l10n, value) ?? positiveDecimal(l10n, value);
+String? requiredPositiveDecimal(String? value) =>
+    requiredString(value) ?? positiveDecimal(value);
 
-String? requiredPositiveInt(AppLocalizations l10n, String? value) =>
-    requiredString(l10n, value) ?? positiveInt(l10n, value);
+String? requiredPositiveInt(String? value) =>
+    requiredString(value) ?? positiveInt(value);
 
-String? requiredMolecule(AppLocalizations l10n, Molecule? value) =>
-    value == null ? l10n.requiredField : null;
+String? requiredMolecule(Molecule? value) =>
+    value == null ? t.requiredField : null;
 
-String? requiredAdministrationRoute(
-        AppLocalizations l10n, AdministrationRoute? value) =>
-    value == null ? l10n.requiredField : null;
+String? requiredAdministrationRoute(AdministrationRoute? value) =>
+    value == null ? t.requiredField : null;
 
-String? requiredList<T>(AppLocalizations l10n, List<T> value) =>
-    value.isEmpty ? l10n.requiredField : null;
+String? requiredList<T>(List<T> value) =>
+    value.isEmpty ? t.requiredField : null;

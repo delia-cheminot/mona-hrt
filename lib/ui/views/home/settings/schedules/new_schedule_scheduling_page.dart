@@ -8,7 +8,7 @@ import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/widgets/forms/form_date_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
@@ -51,14 +51,14 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   final List<int> _weeklyDays = [];
   late Date _startDate;
 
-  String? get _intervalDaysError => IntervalDaysSchedule.validateIntervalDays(
-      context.l10n, _intervalDaysController.text);
+  String? get _intervalDaysError =>
+      IntervalDaysSchedule.validateIntervalDays(_intervalDaysController.text);
   String? get _startDateError =>
-      MedicationSchedule.validateStartDate(context.l10n, _startDate);
-  String? get _dailyIntakeTimesError => DailySchedule.validateIntakeTimes(
-      context.l10n, _intakeOrNotificationTimes);
+      MedicationSchedule.validateStartDate(_startDate);
+  String? get _dailyIntakeTimesError =>
+      DailySchedule.validateIntakeTimes(_intakeOrNotificationTimes);
   String? get _weeklyDaysError =>
-      WeeklySchedule.validateDaysOfWeek(context.l10n, _weeklyDays);
+      WeeklySchedule.validateDaysOfWeek(_weeklyDays);
 
   bool get _isFormValid {
     if (_startDateError != null) return false;
@@ -171,11 +171,9 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-
     return ModelForm(
       title: widget.name,
-      submitButtonLabel: l10n.save,
+      submitButtonLabel: t.save,
       submitButtonKey: const ValueKey('newScheduleSave'),
       isFormValid: _isFormValid,
       saveChanges: _save,
@@ -191,7 +189,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
         FormSpacer(),
         FormDateField(
           date: _startDate,
-          label: l10n.startDate,
+          label: t.startDate,
           errorText: _startDateError,
           onChanged: (date) => setState(() {
             _startDate = date;
@@ -202,7 +200,6 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   }
 
   Widget _typeToggle() {
-    final l10n = context.l10n;
     return M3EToggleButtonGroup(
       type: M3EButtonGroupType.standard,
       size: M3EButtonSize.md,
@@ -214,26 +211,25 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
         });
       },
       actions: [
-        M3EToggleButtonGroupAction(label: Text(l10n.scheduleFrequencyDaily)),
+        M3EToggleButtonGroupAction(label: Text(t.scheduleFrequencyDaily)),
         M3EToggleButtonGroupAction(
           label: Text(
-            l10n.scheduleFrequencyInterval,
+            t.scheduleFrequencyInterval,
             key: const ValueKey('scheduleTypeInterval'),
           ),
         ),
-        M3EToggleButtonGroupAction(label: Text(l10n.scheduleFrequencyWeekly)),
+        M3EToggleButtonGroupAction(label: Text(t.scheduleFrequencyWeekly)),
       ],
     );
   }
 
   List<Widget> _intervalDaysSpecifics() {
-    final l10n = context.l10n;
     return [
       FormTextField(
         controller: _intervalDaysController,
-        label: l10n.every,
+        label: t.every,
         fieldKey: const ValueKey('newScheduleEvery'),
-        suffixText: l10n.days,
+        suffixText: t.days,
         onChanged: _refresh,
         inputType: TextInputType.number,
         regexFormatter: RegexPatterns.intNumber,
@@ -242,7 +238,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       TimeListCard(
         times: _intakeOrNotificationTimes,
         rowIcon: Icons.alarm,
-        addLabel: l10n.addNotification,
+        addLabel: t.addNotification,
         onAdd: _addTime,
         onEdit: _editTime,
         onDelete: _deleteTime,
@@ -251,20 +247,19 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   }
 
   List<Widget> _dailySpecifics() {
-    final l10n = context.l10n;
     return [
       TimeListCard(
         times: _intakeOrNotificationTimes,
         rowIcon: widget.administrationRoute.icon,
-        addLabel: l10n.addIntakeTime,
+        addLabel: t.addIntakeTime,
         addTileKey: const ValueKey('addNotificationTile'),
         onAdd: _addTime,
         onEdit: _editTime,
         onDelete: _deleteTime,
         trailingChildren: [
           SwitchListTile(
-            title: Text(l10n.enableNotifications),
-            subtitle: Text(l10n.enableNotificationsDescription),
+            title: Text(t.enableNotifications),
+            subtitle: Text(t.enableNotificationsDescription),
             value: _dailyNotify,
             onChanged: (value) => setState(() => _dailyNotify = value),
           ),
@@ -274,7 +269,6 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   }
 
   List<Widget> _weeklySpecifics() {
-    final l10n = context.l10n;
     return [
       WeekdayPicker(
         selectedDays: _weeklyDays,
@@ -284,7 +278,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       TimeListCard(
         times: _intakeOrNotificationTimes,
         rowIcon: widget.administrationRoute.icon,
-        addLabel: l10n.addNotification,
+        addLabel: t.addNotification,
         onAdd: _addTime,
         onEdit: _editTime,
         onDelete: _deleteTime,

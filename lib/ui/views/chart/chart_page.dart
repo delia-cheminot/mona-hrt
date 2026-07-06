@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/views/chart/chart_graph.dart';
 import 'package:mona/ui/views/chart/chart_slider.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
@@ -21,7 +21,7 @@ class _ChartPageState extends State<ChartPage> {
       return MainPageWrapper(
         isLoading: medicationIntakeProvider.isLoading,
         isEmpty: medicationIntakeProvider.graphIntakes.isEmpty,
-        emptyMessage: context.l10n.empty_levels,
+        emptyMessage: t.empty_levels,
         child: Column(
           children: [
             ChartSlider(
