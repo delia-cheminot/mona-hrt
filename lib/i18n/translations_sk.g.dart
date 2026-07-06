@@ -3,7 +3,6 @@
 ///
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
-// dart format off
 
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -79,20 +78,7 @@ class TranslationsSk extends Translations
   @override
   String get taken => 'Vzaté';
   @override
-  String daysAgoCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-        count,
-        other: 'Pred ${count} dňami',
-      );
-  @override
   String get yesterday => 'včera';
-  @override
-  String inDaysCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-        count,
-        few: 'o ${count} dni',
-        other: 'o ${count} dní',
-      );
   @override
   String get tomorrow => 'zajtra';
   @override
@@ -101,13 +87,6 @@ class TranslationsSk extends Translations
   String get neverTakenYet => 'Nevzatá nikdy';
   @override
   String get scheduleFrequencyDaily => 'Každý deň';
-  @override
-  String scheduleFrequencyEveryNDays({required num days}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-        days,
-        few: 'Každé ${days} dni',
-        other: 'Každých ${days} dní',
-      );
   @override
   String get scheduleFrequencyInterval => 'Interval';
   @override
@@ -128,14 +107,6 @@ class TranslationsSk extends Translations
   String get schedules => 'Plány';
   @override
   String get noSchedules => 'Žiadne plány';
-  @override
-  String schedulesCreated({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-        count,
-        one: 'Vytvorený ${count} plán',
-        few: 'Vytvorené ${count} plány',
-        other: 'Vytvorených ${count} plánov',
-      );
   @override
   String get language => 'Jazyk';
   @override
@@ -262,14 +233,6 @@ class TranslationsSk extends Translations
   @override
   String get noNotifications => 'Žiadne notifikácie';
   @override
-  String notificationsCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-        count,
-        one: '${count} notifikácia',
-        few: '${count} notifikácie',
-        other: '${count} notifikácií',
-      );
-  @override
   String get editSchedule => 'Upraviť plán';
   @override
   String deleteSchedule({required Object name}) => 'Vymazať ${name}?';
@@ -372,13 +335,6 @@ class TranslationsSk extends Translations
   @override
   String deleteItem({required Object name}) => 'Vymazať ${name}?';
   @override
-  String remaining({required num amount, required Object unit}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-        amount,
-        few: 'Zostávajú ${amount} ${unit}',
-        other: 'Zostáva ${amount} ${unit}',
-      );
-  @override
   String get supplyType => 'Typ';
   @override
   String get syringe => 'Striekačky';
@@ -390,46 +346,6 @@ class TranslationsSk extends Translations
   String get gloves => 'Rukavice';
   @override
   String get bandage => 'Náplasti';
-  @override
-  String syringeRemaining({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-        count,
-        one: 'Zostáva 1 striekačka',
-        few: 'Zostávajú ${count} striekačky',
-        other: 'Zostáva ${count} striekačiek',
-      );
-  @override
-  String wipeRemaining({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-        count,
-        one: 'Zostáva 1 utierka',
-        few: 'Zostávajú ${count} utierky',
-        other: 'Zostáva ${count} utierok',
-      );
-  @override
-  String needleRemaining({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-        count,
-        one: 'Zostáva 1 ihla',
-        few: 'Zostávajú ${count} ihly',
-        other: 'Zostáva ${count} ihiel',
-      );
-  @override
-  String glovesRemaining({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-        count,
-        one: 'Zostáva 1 rukavica',
-        few: 'Zostávajú ${count} rukavice',
-        other: 'Zostáva ${count} rukavíc',
-      );
-  @override
-  String bandageRemaining({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-        count,
-        one: 'Zostáva 1 náplasť',
-        few: 'Zostávajú ${count} náplaste',
-        other: 'Zostáva ${count} náplastí',
-      );
   @override
   String get add => 'Pridať';
   @override
@@ -549,6 +465,105 @@ class TranslationsSk extends Translations
   @override
   String get unitNmolPerL => 'nmol/L';
   @override
+  String get injectionSideLeft => 'Vľavo';
+  @override
+  String get injectionSideRight => 'Vpravo';
+  @override
+  String get intakeSummaryInjectionSideLeft => 'Ľavá strana';
+  @override
+  String get intakeSummaryInjectionSideRight => 'Pravá strana';
+  @override
+  String get requiredField => 'Požadované políčko';
+  @override
+  String get mustBePositiveNumber => 'Musí byť kladné číslo';
+  @override
+  String get invalidTotalAmount => 'Nesprávne celkové množstvo';
+  @override
+  String get cannotExceedTotalCapacity => 'Nemôže presahovať celkové množstvo';
+  @override
+  String daysAgoCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+        count,
+        other: 'Pred ${count} dňami',
+      );
+  @override
+  String inDaysCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+        count,
+        few: 'o ${count} dni',
+        other: 'o ${count} dní',
+      );
+  @override
+  String scheduleFrequencyEveryNDays({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+        count,
+        few: 'Každé ${count} dni',
+        other: 'Každých ${count} dní',
+      );
+  @override
+  String schedulesCreated({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+        count,
+        one: 'Vytvorený ${count} plán',
+        few: 'Vytvorené ${count} plány',
+        other: 'Vytvorených ${count} plánov',
+      );
+  @override
+  String notificationsCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+        count,
+        one: '${count} notifikácia',
+        few: '${count} notifikácie',
+        other: '${count} notifikácií',
+      );
+  @override
+  String remaining({required num count, required Object unit}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+        count,
+        few: 'Zostávajú ${count} ${unit}',
+        other: 'Zostáva ${count} ${unit}',
+      );
+  @override
+  String syringeRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+        count,
+        one: 'Zostáva 1 striekačka',
+        few: 'Zostávajú ${count} striekačky',
+        other: 'Zostáva ${count} striekačiek',
+      );
+  @override
+  String wipeRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+        count,
+        one: 'Zostáva 1 utierka',
+        few: 'Zostávajú ${count} utierky',
+        other: 'Zostáva ${count} utierok',
+      );
+  @override
+  String needleRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+        count,
+        one: 'Zostáva 1 ihla',
+        few: 'Zostávajú ${count} ihly',
+        other: 'Zostáva ${count} ihiel',
+      );
+  @override
+  String glovesRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+        count,
+        one: 'Zostáva 1 rukavica',
+        few: 'Zostávajú ${count} rukavice',
+        other: 'Zostáva ${count} rukavíc',
+      );
+  @override
+  String bandageRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+        count,
+        one: 'Zostáva 1 náplasť',
+        few: 'Zostávajú ${count} náplaste',
+        other: 'Zostáva ${count} náplastí',
+      );
+  @override
   String administrationRouteUnitMl({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
         count,
@@ -603,22 +618,6 @@ class TranslationsSk extends Translations
         few: 'spreje',
         other: 'sprejov',
       );
-  @override
-  String get injectionSideLeft => 'Vľavo';
-  @override
-  String get injectionSideRight => 'Vpravo';
-  @override
-  String get intakeSummaryInjectionSideLeft => 'Ľavá strana';
-  @override
-  String get intakeSummaryInjectionSideRight => 'Pravá strana';
-  @override
-  String get requiredField => 'Požadované políčko';
-  @override
-  String get mustBePositiveNumber => 'Musí byť kladné číslo';
-  @override
-  String get invalidTotalAmount => 'Nesprávne celkové množstvo';
-  @override
-  String get cannotExceedTotalCapacity => 'Nemôže presahovať celkové množstvo';
 }
 
 /// The flat map containing all translations for locale <sk>.
@@ -641,28 +640,11 @@ extension on TranslationsSk {
       'noIntakesDue' => 'Dnes nie sú naplánované žiadne dávky',
       'upcoming' => 'Nadchádzajúce',
       'taken' => 'Vzaté',
-      'daysAgoCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-            count,
-            other: 'Pred ${count} dňami',
-          ),
       'yesterday' => 'včera',
-      'inDaysCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-            count,
-            few: 'o ${count} dni',
-            other: 'o ${count} dní',
-          ),
       'tomorrow' => 'zajtra',
       'lastTaken' => 'Vzatá naposledy',
       'neverTakenYet' => 'Nevzatá nikdy',
       'scheduleFrequencyDaily' => 'Každý deň',
-      'scheduleFrequencyEveryNDays' => ({required num days}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-            days,
-            few: 'Každé ${days} dni',
-            other: 'Každých ${days} dní',
-          ),
       'scheduleFrequencyInterval' => 'Interval',
       'scheduleFrequencyWeekly' => 'Týždenne',
       'newUpdateAvailable' => 'Je k dispozícii nová aktualizácia!',
@@ -673,13 +655,6 @@ extension on TranslationsSk {
       'general' => 'Všeobecné',
       'schedules' => 'Plány',
       'noSchedules' => 'Žiadne plány',
-      'schedulesCreated' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-            count,
-            one: 'Vytvorený ${count} plán',
-            few: 'Vytvorené ${count} plány',
-            other: 'Vytvorených ${count} plánov',
-          ),
       'language' => 'Jazyk',
       'languageFollowDevice' => 'Jazyk podľa zariadenia',
       'selectLanguage' => 'Vyber jazyk',
@@ -752,13 +727,6 @@ extension on TranslationsSk {
       'editScheduleInfo' => 'Upraviť detaily plánu',
       'scheduling' => 'Plánovanie',
       'noNotifications' => 'Žiadne notifikácie',
-      'notificationsCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-            count,
-            one: '${count} notifikácia',
-            few: '${count} notifikácie',
-            other: '${count} notifikácií',
-          ),
       'editSchedule' => 'Upraviť plán',
       'deleteSchedule' => ({required Object name}) => 'Vymazať ${name}?',
       'scheduleNotifications' => 'Notifikácie plánu',
@@ -812,53 +780,12 @@ extension on TranslationsSk {
       'editItem' => 'Uprav vybavenie',
       'usedAmount' => 'Použité množstvo',
       'deleteItem' => ({required Object name}) => 'Vymazať ${name}?',
-      'remaining' => ({required num amount, required Object unit}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-            amount,
-            few: 'Zostávajú ${amount} ${unit}',
-            other: 'Zostáva ${amount} ${unit}',
-          ),
       'supplyType' => 'Typ',
       'syringe' => 'Striekačky',
       'wipe' => 'Utierky',
       'needle' => 'Ihly',
       'gloves' => 'Rukavice',
       'bandage' => 'Náplasti',
-      'syringeRemaining' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-            count,
-            one: 'Zostáva 1 striekačka',
-            few: 'Zostávajú ${count} striekačky',
-            other: 'Zostáva ${count} striekačiek',
-          ),
-      'wipeRemaining' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-            count,
-            one: 'Zostáva 1 utierka',
-            few: 'Zostávajú ${count} utierky',
-            other: 'Zostáva ${count} utierok',
-          ),
-      'needleRemaining' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-            count,
-            one: 'Zostáva 1 ihla',
-            few: 'Zostávajú ${count} ihly',
-            other: 'Zostáva ${count} ihiel',
-          ),
-      'glovesRemaining' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-            count,
-            one: 'Zostáva 1 rukavica',
-            few: 'Zostávajú ${count} rukavice',
-            other: 'Zostáva ${count} rukavíc',
-          ),
-      'bandageRemaining' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-            count,
-            one: 'Zostáva 1 náplasť',
-            few: 'Zostávajú ${count} náplaste',
-            other: 'Zostáva ${count} náplastí',
-          ),
       'add' => 'Pridať',
       'save' => 'Uložiť',
       'cancel' => 'Zrušiť',
@@ -919,6 +846,86 @@ extension on TranslationsSk {
       'unitPmolPerL' => 'pmol/L',
       'unitNgPerDl' => 'ng/dL',
       'unitNmolPerL' => 'nmol/L',
+      'injectionSideLeft' => 'Vľavo',
+      'injectionSideRight' => 'Vpravo',
+      'intakeSummaryInjectionSideLeft' => 'Ľavá strana',
+      'intakeSummaryInjectionSideRight' => 'Pravá strana',
+      'requiredField' => 'Požadované políčko',
+      'mustBePositiveNumber' => 'Musí byť kladné číslo',
+      'invalidTotalAmount' => 'Nesprávne celkové množstvo',
+      'cannotExceedTotalCapacity' => 'Nemôže presahovať celkové množstvo',
+      'daysAgoCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+            count,
+            other: 'Pred ${count} dňami',
+          ),
+      'inDaysCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+            count,
+            few: 'o ${count} dni',
+            other: 'o ${count} dní',
+          ),
+      'scheduleFrequencyEveryNDays' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+            count,
+            few: 'Každé ${count} dni',
+            other: 'Každých ${count} dní',
+          ),
+      'schedulesCreated' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+            count,
+            one: 'Vytvorený ${count} plán',
+            few: 'Vytvorené ${count} plány',
+            other: 'Vytvorených ${count} plánov',
+          ),
+      'notificationsCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+            count,
+            one: '${count} notifikácia',
+            few: '${count} notifikácie',
+            other: '${count} notifikácií',
+          ),
+      'remaining' => ({required num count, required Object unit}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+            count,
+            few: 'Zostávajú ${count} ${unit}',
+            other: 'Zostáva ${count} ${unit}',
+          ),
+      'syringeRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+            count,
+            one: 'Zostáva 1 striekačka',
+            few: 'Zostávajú ${count} striekačky',
+            other: 'Zostáva ${count} striekačiek',
+          ),
+      'wipeRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+            count,
+            one: 'Zostáva 1 utierka',
+            few: 'Zostávajú ${count} utierky',
+            other: 'Zostáva ${count} utierok',
+          ),
+      'needleRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+            count,
+            one: 'Zostáva 1 ihla',
+            few: 'Zostávajú ${count} ihly',
+            other: 'Zostáva ${count} ihiel',
+          ),
+      'glovesRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+            count,
+            one: 'Zostáva 1 rukavica',
+            few: 'Zostávajú ${count} rukavice',
+            other: 'Zostáva ${count} rukavíc',
+          ),
+      'bandageRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+            count,
+            one: 'Zostáva 1 náplasť',
+            few: 'Zostávajú ${count} náplaste',
+            other: 'Zostáva ${count} náplastí',
+          ),
       'administrationRouteUnitMl' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
             count,
@@ -967,14 +974,6 @@ extension on TranslationsSk {
             few: 'spreje',
             other: 'sprejov',
           ),
-      'injectionSideLeft' => 'Vľavo',
-      'injectionSideRight' => 'Vpravo',
-      'intakeSummaryInjectionSideLeft' => 'Ľavá strana',
-      'intakeSummaryInjectionSideRight' => 'Pravá strana',
-      'requiredField' => 'Požadované políčko',
-      'mustBePositiveNumber' => 'Musí byť kladné číslo',
-      'invalidTotalAmount' => 'Nesprávne celkové množstvo',
-      'cannotExceedTotalCapacity' => 'Nemôže presahovať celkové množstvo',
       _ => null,
     };
   }

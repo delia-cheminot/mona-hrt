@@ -3,7 +3,6 @@
 ///
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
-// dart format off
 
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -79,19 +78,7 @@ class TranslationsEs extends Translations
   @override
   String get taken => 'Tomado';
   @override
-  String daysAgoCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-        count,
-        other: 'hace ${count} días',
-      );
-  @override
   String get yesterday => 'ayer';
-  @override
-  String inDaysCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-        count,
-        other: 'en ${count} días',
-      );
   @override
   String get tomorrow => 'mañana';
   @override
@@ -100,12 +87,6 @@ class TranslationsEs extends Translations
   String get neverTakenYet => 'Aún no tomado';
   @override
   String get scheduleFrequencyDaily => 'Cada día';
-  @override
-  String scheduleFrequencyEveryNDays({required num days}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-        days,
-        other: 'Cada ${days} días',
-      );
   @override
   String get scheduleFrequencyInterval => 'Intervalo';
   @override
@@ -126,13 +107,6 @@ class TranslationsEs extends Translations
   String get schedules => 'Horarios';
   @override
   String get noSchedules => 'Sin horarios';
-  @override
-  String schedulesCreated({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-        count,
-        one: '${count} creado',
-        other: '${count} creados',
-      );
   @override
   String get language => 'Idioma';
   @override
@@ -260,12 +234,6 @@ class TranslationsEs extends Translations
   @override
   String get noNotifications => 'Sin notificaciones';
   @override
-  String notificationsCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-        count,
-        other: '${count} notificaciones',
-      );
-  @override
   String get editSchedule => 'Editar horario';
   @override
   String deleteSchedule({required Object name}) => '¿Eliminar ${name}?';
@@ -371,12 +339,6 @@ class TranslationsEs extends Translations
   @override
   String deleteItem({required Object name}) => '¿Eliminar ${name}?';
   @override
-  String remaining({required num amount, required Object unit}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-        amount,
-        other: '${amount} ${unit} restantes',
-      );
-  @override
   String get supplyType => 'Tipo';
   @override
   String get syringe => 'Jeringas';
@@ -388,41 +350,6 @@ class TranslationsEs extends Translations
   String get gloves => 'Guantes';
   @override
   String get bandage => 'Tiritas';
-  @override
-  String syringeRemaining({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-        count,
-        one: '1 jeringa restante',
-        other: '${count} jeringas restantes',
-      );
-  @override
-  String wipeRemaining({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-        count,
-        one: '1 toallita restante',
-        other: '${count} toallitas restantes',
-      );
-  @override
-  String needleRemaining({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-        count,
-        one: '1 aguja restante',
-        other: '${count} agujas restantes',
-      );
-  @override
-  String glovesRemaining({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-        count,
-        one: '1 guante restante',
-        other: '${count} guantes restantes',
-      );
-  @override
-  String bandageRemaining({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-        count,
-        one: '1 tirita restante',
-        other: '${count} tiritas restantes',
-      );
   @override
   String get add => 'Añadir';
   @override
@@ -542,6 +469,94 @@ class TranslationsEs extends Translations
   @override
   String get unitNmolPerL => 'nmol/L';
   @override
+  String get injectionSideLeft => 'Izquierda';
+  @override
+  String get injectionSideRight => 'Derecha';
+  @override
+  String get intakeSummaryInjectionSideLeft => 'Lado izquierdo';
+  @override
+  String get intakeSummaryInjectionSideRight => 'Lado derecho';
+  @override
+  String get requiredField => 'Campo obligatorio';
+  @override
+  String get mustBePositiveNumber => 'Debe ser un número positivo';
+  @override
+  String get invalidTotalAmount => 'Cantidad total no válida';
+  @override
+  String get cannotExceedTotalCapacity => 'No puede superar la capacidad total';
+  @override
+  String daysAgoCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+        count,
+        other: 'hace ${count} días',
+      );
+  @override
+  String inDaysCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+        count,
+        other: 'en ${count} días',
+      );
+  @override
+  String scheduleFrequencyEveryNDays({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+        count,
+        other: 'Cada ${count} días',
+      );
+  @override
+  String schedulesCreated({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+        count,
+        one: '${count} creado',
+        other: '${count} creados',
+      );
+  @override
+  String notificationsCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+        count,
+        other: '${count} notificaciones',
+      );
+  @override
+  String remaining({required num count, required Object unit}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+        count,
+        other: '${count} ${unit} restantes',
+      );
+  @override
+  String syringeRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+        count,
+        one: '1 jeringa restante',
+        other: '${count} jeringas restantes',
+      );
+  @override
+  String wipeRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+        count,
+        one: '1 toallita restante',
+        other: '${count} toallitas restantes',
+      );
+  @override
+  String needleRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+        count,
+        one: '1 aguja restante',
+        other: '${count} agujas restantes',
+      );
+  @override
+  String glovesRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+        count,
+        one: '1 guante restante',
+        other: '${count} guantes restantes',
+      );
+  @override
+  String bandageRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+        count,
+        one: '1 tirita restante',
+        other: '${count} tiritas restantes',
+      );
+  @override
   String administrationRouteUnitMl({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
         count,
@@ -590,22 +605,6 @@ class TranslationsEs extends Translations
         one: 'pulverización',
         other: 'pulverizaciones',
       );
-  @override
-  String get injectionSideLeft => 'Izquierda';
-  @override
-  String get injectionSideRight => 'Derecha';
-  @override
-  String get intakeSummaryInjectionSideLeft => 'Lado izquierdo';
-  @override
-  String get intakeSummaryInjectionSideRight => 'Lado derecho';
-  @override
-  String get requiredField => 'Campo obligatorio';
-  @override
-  String get mustBePositiveNumber => 'Debe ser un número positivo';
-  @override
-  String get invalidTotalAmount => 'Cantidad total no válida';
-  @override
-  String get cannotExceedTotalCapacity => 'No puede superar la capacidad total';
 }
 
 /// The flat map containing all translations for locale <es>.
@@ -628,26 +627,11 @@ extension on TranslationsEs {
       'noIntakesDue' => 'No hay tomas pendientes hoy',
       'upcoming' => 'Próximamente',
       'taken' => 'Tomado',
-      'daysAgoCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-            count,
-            other: 'hace ${count} días',
-          ),
       'yesterday' => 'ayer',
-      'inDaysCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-            count,
-            other: 'en ${count} días',
-          ),
       'tomorrow' => 'mañana',
       'lastTaken' => 'Última toma',
       'neverTakenYet' => 'Aún no tomado',
       'scheduleFrequencyDaily' => 'Cada día',
-      'scheduleFrequencyEveryNDays' => ({required num days}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-            days,
-            other: 'Cada ${days} días',
-          ),
       'scheduleFrequencyInterval' => 'Intervalo',
       'scheduleFrequencyWeekly' => 'Semanal',
       'newUpdateAvailable' => '¡Hay una nueva actualización disponible!',
@@ -658,12 +642,6 @@ extension on TranslationsEs {
       'general' => 'General',
       'schedules' => 'Horarios',
       'noSchedules' => 'Sin horarios',
-      'schedulesCreated' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-            count,
-            one: '${count} creado',
-            other: '${count} creados',
-          ),
       'language' => 'Idioma',
       'languageFollowDevice' => 'Seguir el idioma del dispositivo',
       'selectLanguage' => 'Seleccionar idioma',
@@ -738,11 +716,6 @@ extension on TranslationsEs {
       'editScheduleInfo' => 'Editar información del horario',
       'scheduling' => 'Programación',
       'noNotifications' => 'Sin notificaciones',
-      'notificationsCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-            count,
-            other: '${count} notificaciones',
-          ),
       'editSchedule' => 'Editar horario',
       'deleteSchedule' => ({required Object name}) => '¿Eliminar ${name}?',
       'scheduleNotifications' => 'Notificaciones del horario',
@@ -797,47 +770,12 @@ extension on TranslationsEs {
       'editItem' => 'Editar elemento',
       'usedAmount' => 'Cantidad usada',
       'deleteItem' => ({required Object name}) => '¿Eliminar ${name}?',
-      'remaining' => ({required num amount, required Object unit}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-            amount,
-            other: '${amount} ${unit} restantes',
-          ),
       'supplyType' => 'Tipo',
       'syringe' => 'Jeringas',
       'wipe' => 'Toallitas',
       'needle' => 'Agujas',
       'gloves' => 'Guantes',
       'bandage' => 'Tiritas',
-      'syringeRemaining' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-            count,
-            one: '1 jeringa restante',
-            other: '${count} jeringas restantes',
-          ),
-      'wipeRemaining' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-            count,
-            one: '1 toallita restante',
-            other: '${count} toallitas restantes',
-          ),
-      'needleRemaining' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-            count,
-            one: '1 aguja restante',
-            other: '${count} agujas restantes',
-          ),
-      'glovesRemaining' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-            count,
-            one: '1 guante restante',
-            other: '${count} guantes restantes',
-          ),
-      'bandageRemaining' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-            count,
-            one: '1 tirita restante',
-            other: '${count} tiritas restantes',
-          ),
       'add' => 'Añadir',
       'save' => 'Guardar',
       'cancel' => 'Cancelar',
@@ -898,6 +836,75 @@ extension on TranslationsEs {
       'unitPmolPerL' => 'pmol/L',
       'unitNgPerDl' => 'ng/dL',
       'unitNmolPerL' => 'nmol/L',
+      'injectionSideLeft' => 'Izquierda',
+      'injectionSideRight' => 'Derecha',
+      'intakeSummaryInjectionSideLeft' => 'Lado izquierdo',
+      'intakeSummaryInjectionSideRight' => 'Lado derecho',
+      'requiredField' => 'Campo obligatorio',
+      'mustBePositiveNumber' => 'Debe ser un número positivo',
+      'invalidTotalAmount' => 'Cantidad total no válida',
+      'cannotExceedTotalCapacity' => 'No puede superar la capacidad total',
+      'daysAgoCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+            count,
+            other: 'hace ${count} días',
+          ),
+      'inDaysCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+            count,
+            other: 'en ${count} días',
+          ),
+      'scheduleFrequencyEveryNDays' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+            count,
+            other: 'Cada ${count} días',
+          ),
+      'schedulesCreated' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+            count,
+            one: '${count} creado',
+            other: '${count} creados',
+          ),
+      'notificationsCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+            count,
+            other: '${count} notificaciones',
+          ),
+      'remaining' => ({required num count, required Object unit}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+            count,
+            other: '${count} ${unit} restantes',
+          ),
+      'syringeRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+            count,
+            one: '1 jeringa restante',
+            other: '${count} jeringas restantes',
+          ),
+      'wipeRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+            count,
+            one: '1 toallita restante',
+            other: '${count} toallitas restantes',
+          ),
+      'needleRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+            count,
+            one: '1 aguja restante',
+            other: '${count} agujas restantes',
+          ),
+      'glovesRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+            count,
+            one: '1 guante restante',
+            other: '${count} guantes restantes',
+          ),
+      'bandageRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
+            count,
+            one: '1 tirita restante',
+            other: '${count} tiritas restantes',
+          ),
       'administrationRouteUnitMl' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
             count,
@@ -940,14 +947,6 @@ extension on TranslationsEs {
             one: 'pulverización',
             other: 'pulverizaciones',
           ),
-      'injectionSideLeft' => 'Izquierda',
-      'injectionSideRight' => 'Derecha',
-      'intakeSummaryInjectionSideLeft' => 'Lado izquierdo',
-      'intakeSummaryInjectionSideRight' => 'Lado derecho',
-      'requiredField' => 'Campo obligatorio',
-      'mustBePositiveNumber' => 'Debe ser un número positivo',
-      'invalidTotalAmount' => 'Cantidad total no válida',
-      'cannotExceedTotalCapacity' => 'No puede superar la capacidad total',
       _ => null,
     };
   }

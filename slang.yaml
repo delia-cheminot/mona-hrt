@@ -1,14 +1,15 @@
 base_locale: en
 fallback_strategy: base_locale
 
-input_directory: lib/i18n
-input_file_pattern: .i18n.yaml
+input_directory: lib/i18n/generated
+input_file_pattern: .i18n.json
 output_directory: lib/i18n
 output_file_name: translations.g.dart
 
 flutter_integration: true
 locale_handling: true
 lazy: false
+timestamp: false
 
 translate_var: t
 enum_name: AppLocale
@@ -16,6 +17,9 @@ class_name: Translations
 translation_class_visibility: private
 
 string_interpolation: braces
+
+format:
+  enabled: true
 
 pluralization:
   auto: cardinal

@@ -15,7 +15,7 @@ extension MedicationScheduleL10n on MedicationSchedule {
     return switch (scheduling) {
       IntervalDaysSchedule(intervalDays: 1) => t.scheduleFrequencyDaily,
       IntervalDaysSchedule(intervalDays: final n) =>
-        t.scheduleFrequencyEveryNDays(days: n),
+        t.scheduleFrequencyEveryNDays(count: n),
       DailySchedule _ => t.scheduleFrequencyDaily,
       WeeklySchedule s => () {
           if (s.daysOfWeek.length == 7) {

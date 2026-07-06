@@ -3,7 +3,6 @@
 ///
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
-// dart format off
 
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -79,23 +78,7 @@ class TranslationsRu extends Translations
   @override
   String get taken => 'Принято';
   @override
-  String daysAgoCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-        count,
-        one: '${count} день назад',
-        few: '${count} дня назад',
-        other: '${count} дней назад',
-      );
-  @override
   String get yesterday => 'вчера';
-  @override
-  String inDaysCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-        count,
-        one: 'через ${count} день',
-        few: 'через ${count} дня',
-        other: 'через ${count} дней',
-      );
   @override
   String get tomorrow => 'завтра';
   @override
@@ -104,12 +87,6 @@ class TranslationsRu extends Translations
   String get neverTakenYet => 'Ещё не принято';
   @override
   String get scheduleFrequencyDaily => 'Ежедневно';
-  @override
-  String scheduleFrequencyEveryNDays({required num days}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-        days,
-        other: 'Каждые ${days} дней',
-      );
   @override
   String get scheduleFrequencyInterval => 'Интервально';
   @override
@@ -130,12 +107,6 @@ class TranslationsRu extends Translations
   String get schedules => 'Расписания';
   @override
   String get noSchedules => 'Нет расписаний';
-  @override
-  String schedulesCreated({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-        count,
-        other: '${count} создано',
-      );
   @override
   String get language => 'Язык';
   @override
@@ -261,14 +232,6 @@ class TranslationsRu extends Translations
   @override
   String get noNotifications => 'Нет уведомлений';
   @override
-  String notificationsCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-        count,
-        one: '${count} уведомление',
-        few: '${count} уведомления',
-        other: '${count} уведомлений',
-      );
-  @override
   String get editSchedule => 'Изменение расписания';
   @override
   String deleteSchedule({required Object name}) => 'Удалить ${name}?';
@@ -373,12 +336,6 @@ class TranslationsRu extends Translations
   @override
   String deleteItem({required Object name}) => 'Удалить ${name}?';
   @override
-  String remaining({required num amount, required Object unit}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-        amount,
-        other: '${amount} ${unit} осталось',
-      );
-  @override
   String get supplyType => 'Тип';
   @override
   String get syringe => 'Шприцы';
@@ -390,46 +347,6 @@ class TranslationsRu extends Translations
   String get gloves => 'Перчатки';
   @override
   String get bandage => 'Пластыри';
-  @override
-  String syringeRemaining({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-        count,
-        one: '1 шприц осталось',
-        few: '${count} шприца осталось',
-        other: '${count} шприцев осталось',
-      );
-  @override
-  String wipeRemaining({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-        count,
-        one: '1 салфетка осталось',
-        few: '${count} салфетки осталось',
-        other: '${count} салфеток осталось',
-      );
-  @override
-  String needleRemaining({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-        count,
-        one: '1 игла осталось',
-        few: '${count} иглы осталось',
-        other: '${count} игл осталось',
-      );
-  @override
-  String glovesRemaining({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-        count,
-        one: '1 перчатка осталось',
-        few: '${count} перчатки осталось',
-        other: '${count} перчаток осталось',
-      );
-  @override
-  String bandageRemaining({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-        count,
-        one: '1 пластырь осталось',
-        few: '${count} пластыря осталось',
-        other: '${count} пластырей осталось',
-      );
   @override
   String get add => 'Добавить';
   @override
@@ -549,6 +466,104 @@ class TranslationsRu extends Translations
   @override
   String get unitNmolPerL => 'нмоль/л';
   @override
+  String get injectionSideLeft => 'Левая';
+  @override
+  String get injectionSideRight => 'Правая';
+  @override
+  String get intakeSummaryInjectionSideLeft => 'Левая сторона';
+  @override
+  String get intakeSummaryInjectionSideRight => 'Правая сторона';
+  @override
+  String get requiredField => 'Обязательное поле';
+  @override
+  String get mustBePositiveNumber => 'Число должно быть положительным';
+  @override
+  String get invalidTotalAmount => 'Неверное общее количество';
+  @override
+  String get cannotExceedTotalCapacity => 'Не может превышать общее количество';
+  @override
+  String daysAgoCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+        count,
+        one: '${count} день назад',
+        few: '${count} дня назад',
+        other: '${count} дней назад',
+      );
+  @override
+  String inDaysCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+        count,
+        one: 'через ${count} день',
+        few: 'через ${count} дня',
+        other: 'через ${count} дней',
+      );
+  @override
+  String scheduleFrequencyEveryNDays({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+        count,
+        other: 'Каждые ${count} дней',
+      );
+  @override
+  String schedulesCreated({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+        count,
+        other: '${count} создано',
+      );
+  @override
+  String notificationsCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+        count,
+        one: '${count} уведомление',
+        few: '${count} уведомления',
+        other: '${count} уведомлений',
+      );
+  @override
+  String remaining({required num count, required Object unit}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+        count,
+        other: '${count} ${unit} осталось',
+      );
+  @override
+  String syringeRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+        count,
+        one: '1 шприц осталось',
+        few: '${count} шприца осталось',
+        other: '${count} шприцев осталось',
+      );
+  @override
+  String wipeRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+        count,
+        one: '1 салфетка осталось',
+        few: '${count} салфетки осталось',
+        other: '${count} салфеток осталось',
+      );
+  @override
+  String needleRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+        count,
+        one: '1 игла осталось',
+        few: '${count} иглы осталось',
+        other: '${count} игл осталось',
+      );
+  @override
+  String glovesRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+        count,
+        one: '1 перчатка осталось',
+        few: '${count} перчатки осталось',
+        other: '${count} перчаток осталось',
+      );
+  @override
+  String bandageRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+        count,
+        one: '1 пластырь осталось',
+        few: '${count} пластыря осталось',
+        other: '${count} пластырей осталось',
+      );
+  @override
   String administrationRouteUnitMl({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
         count,
@@ -602,22 +617,6 @@ class TranslationsRu extends Translations
         few: 'брызг',
         other: 'брызгов',
       );
-  @override
-  String get injectionSideLeft => 'Левая';
-  @override
-  String get injectionSideRight => 'Правая';
-  @override
-  String get intakeSummaryInjectionSideLeft => 'Левая сторона';
-  @override
-  String get intakeSummaryInjectionSideRight => 'Правая сторона';
-  @override
-  String get requiredField => 'Обязательное поле';
-  @override
-  String get mustBePositiveNumber => 'Число должно быть положительным';
-  @override
-  String get invalidTotalAmount => 'Неверное общее количество';
-  @override
-  String get cannotExceedTotalCapacity => 'Не может превышать общее количество';
 }
 
 /// The flat map containing all translations for locale <ru>.
@@ -640,30 +639,11 @@ extension on TranslationsRu {
       'noIntakesDue' => 'На сегодня нет приёмов',
       'upcoming' => 'Ближайшие',
       'taken' => 'Принято',
-      'daysAgoCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-            count,
-            one: '${count} день назад',
-            few: '${count} дня назад',
-            other: '${count} дней назад',
-          ),
       'yesterday' => 'вчера',
-      'inDaysCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-            count,
-            one: 'через ${count} день',
-            few: 'через ${count} дня',
-            other: 'через ${count} дней',
-          ),
       'tomorrow' => 'завтра',
       'lastTaken' => 'Последний приём',
       'neverTakenYet' => 'Ещё не принято',
       'scheduleFrequencyDaily' => 'Ежедневно',
-      'scheduleFrequencyEveryNDays' => ({required num days}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-            days,
-            other: 'Каждые ${days} дней',
-          ),
       'scheduleFrequencyInterval' => 'Интервально',
       'scheduleFrequencyWeekly' => 'Еженедельно',
       'newUpdateAvailable' => 'Доступно новое обновление!',
@@ -674,11 +654,6 @@ extension on TranslationsRu {
       'general' => 'Общее',
       'schedules' => 'Расписания',
       'noSchedules' => 'Нет расписаний',
-      'schedulesCreated' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-            count,
-            other: '${count} создано',
-          ),
       'language' => 'Язык',
       'languageFollowDevice' => 'Язык устройства',
       'selectLanguage' => 'Выбрать язык',
@@ -750,13 +725,6 @@ extension on TranslationsRu {
       'editScheduleInfo' => 'Изменить информацию расписания',
       'scheduling' => 'Расписание',
       'noNotifications' => 'Нет уведомлений',
-      'notificationsCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-            count,
-            one: '${count} уведомление',
-            few: '${count} уведомления',
-            other: '${count} уведомлений',
-          ),
       'editSchedule' => 'Изменение расписания',
       'deleteSchedule' => ({required Object name}) => 'Удалить ${name}?',
       'scheduleNotifications' => 'Уведомления расписания',
@@ -811,52 +779,12 @@ extension on TranslationsRu {
       'editItem' => 'Изменение препарата',
       'usedAmount' => 'Использовано',
       'deleteItem' => ({required Object name}) => 'Удалить ${name}?',
-      'remaining' => ({required num amount, required Object unit}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-            amount,
-            other: '${amount} ${unit} осталось',
-          ),
       'supplyType' => 'Тип',
       'syringe' => 'Шприцы',
       'wipe' => 'Салфетки',
       'needle' => 'Иглы',
       'gloves' => 'Перчатки',
       'bandage' => 'Пластыри',
-      'syringeRemaining' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-            count,
-            one: '1 шприц осталось',
-            few: '${count} шприца осталось',
-            other: '${count} шприцев осталось',
-          ),
-      'wipeRemaining' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-            count,
-            one: '1 салфетка осталось',
-            few: '${count} салфетки осталось',
-            other: '${count} салфеток осталось',
-          ),
-      'needleRemaining' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-            count,
-            one: '1 игла осталось',
-            few: '${count} иглы осталось',
-            other: '${count} игл осталось',
-          ),
-      'glovesRemaining' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-            count,
-            one: '1 перчатка осталось',
-            few: '${count} перчатки осталось',
-            other: '${count} перчаток осталось',
-          ),
-      'bandageRemaining' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-            count,
-            one: '1 пластырь осталось',
-            few: '${count} пластыря осталось',
-            other: '${count} пластырей осталось',
-          ),
       'add' => 'Добавить',
       'save' => 'Сохранить',
       'cancel' => 'Отменить',
@@ -917,6 +845,85 @@ extension on TranslationsRu {
       'unitPmolPerL' => 'пмоль/л',
       'unitNgPerDl' => 'нг/дл',
       'unitNmolPerL' => 'нмоль/л',
+      'injectionSideLeft' => 'Левая',
+      'injectionSideRight' => 'Правая',
+      'intakeSummaryInjectionSideLeft' => 'Левая сторона',
+      'intakeSummaryInjectionSideRight' => 'Правая сторона',
+      'requiredField' => 'Обязательное поле',
+      'mustBePositiveNumber' => 'Число должно быть положительным',
+      'invalidTotalAmount' => 'Неверное общее количество',
+      'cannotExceedTotalCapacity' => 'Не может превышать общее количество',
+      'daysAgoCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+            count,
+            one: '${count} день назад',
+            few: '${count} дня назад',
+            other: '${count} дней назад',
+          ),
+      'inDaysCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+            count,
+            one: 'через ${count} день',
+            few: 'через ${count} дня',
+            other: 'через ${count} дней',
+          ),
+      'scheduleFrequencyEveryNDays' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+            count,
+            other: 'Каждые ${count} дней',
+          ),
+      'schedulesCreated' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+            count,
+            other: '${count} создано',
+          ),
+      'notificationsCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+            count,
+            one: '${count} уведомление',
+            few: '${count} уведомления',
+            other: '${count} уведомлений',
+          ),
+      'remaining' => ({required num count, required Object unit}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+            count,
+            other: '${count} ${unit} осталось',
+          ),
+      'syringeRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+            count,
+            one: '1 шприц осталось',
+            few: '${count} шприца осталось',
+            other: '${count} шприцев осталось',
+          ),
+      'wipeRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+            count,
+            one: '1 салфетка осталось',
+            few: '${count} салфетки осталось',
+            other: '${count} салфеток осталось',
+          ),
+      'needleRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+            count,
+            one: '1 игла осталось',
+            few: '${count} иглы осталось',
+            other: '${count} игл осталось',
+          ),
+      'glovesRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+            count,
+            one: '1 перчатка осталось',
+            few: '${count} перчатки осталось',
+            other: '${count} перчаток осталось',
+          ),
+      'bandageRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+            count,
+            one: '1 пластырь осталось',
+            few: '${count} пластыря осталось',
+            other: '${count} пластырей осталось',
+          ),
       'administrationRouteUnitMl' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
             count,
@@ -964,14 +971,6 @@ extension on TranslationsRu {
             few: 'брызг',
             other: 'брызгов',
           ),
-      'injectionSideLeft' => 'Левая',
-      'injectionSideRight' => 'Правая',
-      'intakeSummaryInjectionSideLeft' => 'Левая сторона',
-      'intakeSummaryInjectionSideRight' => 'Правая сторона',
-      'requiredField' => 'Обязательное поле',
-      'mustBePositiveNumber' => 'Число должно быть положительным',
-      'invalidTotalAmount' => 'Неверное общее количество',
-      'cannotExceedTotalCapacity' => 'Не может превышать общее количество',
       _ => null,
     };
   }

@@ -3,7 +3,6 @@
 ///
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
-// dart format off
 
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -79,19 +78,7 @@ class TranslationsTh extends Translations
   @override
   String get taken => 'ทานแล้ว';
   @override
-  String daysAgoCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-        count,
-        other: '${count} วันที่แล้ว',
-      );
-  @override
   String get yesterday => 'เมื่อวาน';
-  @override
-  String inDaysCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-        count,
-        other: 'ใน ${count} วัน',
-      );
   @override
   String get tomorrow => 'พรุ่งนี้';
   @override
@@ -100,12 +87,6 @@ class TranslationsTh extends Translations
   String get neverTakenYet => 'ยังไม่เคยทาน';
   @override
   String get scheduleFrequencyDaily => 'ทุกวัน';
-  @override
-  String scheduleFrequencyEveryNDays({required num days}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-        days,
-        other: '${days} วันครั้ง',
-      );
   @override
   String get scheduleFrequencyInterval => 'เป็นระยะ';
   @override
@@ -126,12 +107,6 @@ class TranslationsTh extends Translations
   String get schedules => 'ตารางเวลา';
   @override
   String get noSchedules => 'ไม่มีตารางเวลา';
-  @override
-  String schedulesCreated({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-        count,
-        other: 'สร้างแล้ว ${count}',
-      );
   @override
   String get language => 'ภาษา';
   @override
@@ -253,12 +228,6 @@ class TranslationsTh extends Translations
   @override
   String get noNotifications => 'ไม่มีการแจ้งเตือน';
   @override
-  String notificationsCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-        count,
-        other: '${count} การแจ้งเตือน',
-      );
-  @override
   String get editSchedule => 'แก้ไขตารางเวลา';
   @override
   String deleteSchedule({required Object name}) => 'ลบ ${name}?';
@@ -361,12 +330,6 @@ class TranslationsTh extends Translations
   @override
   String deleteItem({required Object name}) => 'ลบ ${name}?';
   @override
-  String remaining({required num amount, required Object unit}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-        amount,
-        other: 'เหลือ ${amount} ${unit}',
-      );
-  @override
   String get allItemsFilter => 'ทั้งหมด';
   @override
   String get medicationItemsFilter => 'ยา';
@@ -388,36 +351,6 @@ class TranslationsTh extends Translations
   String get gloves => 'ถุงมือ';
   @override
   String get bandage => 'พลาสเตอร์';
-  @override
-  String syringeRemaining({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-        count,
-        other: '${count} กระบอก',
-      );
-  @override
-  String wipeRemaining({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-        count,
-        other: '${count} ผืน',
-      );
-  @override
-  String needleRemaining({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-        count,
-        other: '${count} เข็ม',
-      );
-  @override
-  String glovesRemaining({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-        count,
-        other: '${count} ถุง',
-      );
-  @override
-  String bandageRemaining({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-        count,
-        other: '${count} ชิ้น',
-      );
   @override
   String get add => 'เพื่ม';
   @override
@@ -537,6 +470,88 @@ class TranslationsTh extends Translations
   @override
   String get unitNmolPerL => 'นาโนโมล/ลิตร';
   @override
+  String get injectionSideLeft => 'ซ้าย';
+  @override
+  String get injectionSideRight => 'ขวา';
+  @override
+  String get intakeSummaryInjectionSideLeft => 'ด้านซ้าย';
+  @override
+  String get intakeSummaryInjectionSideRight => 'ด้านขวา';
+  @override
+  String get requiredField => 'ต้องใส่';
+  @override
+  String get mustBePositiveNumber => 'ต้องเป็นตัวเลขมากกว่า 0';
+  @override
+  String get invalidTotalAmount => 'จำนวนรวมผิดรูปแบบ';
+  @override
+  String get cannotExceedTotalCapacity => 'จำนวนเกินรวมไม่ได้';
+  @override
+  String daysAgoCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+        count,
+        other: '${count} วันที่แล้ว',
+      );
+  @override
+  String inDaysCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+        count,
+        other: 'ใน ${count} วัน',
+      );
+  @override
+  String scheduleFrequencyEveryNDays({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+        count,
+        other: '${count} วันครั้ง',
+      );
+  @override
+  String schedulesCreated({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+        count,
+        other: 'สร้างแล้ว ${count}',
+      );
+  @override
+  String notificationsCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+        count,
+        other: '${count} การแจ้งเตือน',
+      );
+  @override
+  String remaining({required num count, required Object unit}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+        count,
+        other: 'เหลือ ${count} ${unit}',
+      );
+  @override
+  String syringeRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+        count,
+        other: '${count} กระบอก',
+      );
+  @override
+  String wipeRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+        count,
+        other: '${count} ผืน',
+      );
+  @override
+  String needleRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+        count,
+        other: '${count} เข็ม',
+      );
+  @override
+  String glovesRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+        count,
+        other: '${count} ถุง',
+      );
+  @override
+  String bandageRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+        count,
+        other: '${count} ชิ้น',
+      );
+  @override
   String administrationRouteUnitMl({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
         count,
@@ -585,22 +600,6 @@ class TranslationsTh extends Translations
         one: 'สเปรย์',
         other: 'สเปรย์',
       );
-  @override
-  String get injectionSideLeft => 'ซ้าย';
-  @override
-  String get injectionSideRight => 'ขวา';
-  @override
-  String get intakeSummaryInjectionSideLeft => 'ด้านซ้าย';
-  @override
-  String get intakeSummaryInjectionSideRight => 'ด้านขวา';
-  @override
-  String get requiredField => 'ต้องใส่';
-  @override
-  String get mustBePositiveNumber => 'ต้องเป็นตัวเลขมากกว่า 0';
-  @override
-  String get invalidTotalAmount => 'จำนวนรวมผิดรูปแบบ';
-  @override
-  String get cannotExceedTotalCapacity => 'จำนวนเกินรวมไม่ได้';
 }
 
 /// The flat map containing all translations for locale <th>.
@@ -623,26 +622,11 @@ extension on TranslationsTh {
       'noIntakesDue' => 'ไม่มียาที่ต้องทานวันนี้',
       'upcoming' => 'เร็วๆนี้',
       'taken' => 'ทานแล้ว',
-      'daysAgoCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-            count,
-            other: '${count} วันที่แล้ว',
-          ),
       'yesterday' => 'เมื่อวาน',
-      'inDaysCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-            count,
-            other: 'ใน ${count} วัน',
-          ),
       'tomorrow' => 'พรุ่งนี้',
       'lastTaken' => 'ทานไป',
       'neverTakenYet' => 'ยังไม่เคยทาน',
       'scheduleFrequencyDaily' => 'ทุกวัน',
-      'scheduleFrequencyEveryNDays' => ({required num days}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-            days,
-            other: '${days} วันครั้ง',
-          ),
       'scheduleFrequencyInterval' => 'เป็นระยะ',
       'scheduleFrequencyWeekly' => 'ทุกสัปดาห์',
       'newUpdateAvailable' => 'มีอัพเดตใหม่!',
@@ -653,11 +637,6 @@ extension on TranslationsTh {
       'general' => 'ทั่วไป',
       'schedules' => 'ตารางเวลา',
       'noSchedules' => 'ไม่มีตารางเวลา',
-      'schedulesCreated' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-            count,
-            other: 'สร้างแล้ว ${count}',
-          ),
       'language' => 'ภาษา',
       'languageFollowDevice' => 'ตามภาษาระบบ',
       'selectLanguage' => 'เลือกภาษา',
@@ -724,11 +703,6 @@ extension on TranslationsTh {
       'editScheduleInfo' => 'แก้ไขข้อมูลตารางเวลา',
       'scheduling' => 'การจัดเวลา',
       'noNotifications' => 'ไม่มีการแจ้งเตือน',
-      'notificationsCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-            count,
-            other: '${count} การแจ้งเตือน',
-          ),
       'editSchedule' => 'แก้ไขตารางเวลา',
       'deleteSchedule' => ({required Object name}) => 'ลบ ${name}?',
       'scheduleNotifications' => 'การแจ้งเตือนตารางเวลา',
@@ -783,11 +757,6 @@ extension on TranslationsTh {
       'editItem' => 'แก้ไขสต็อก',
       'usedAmount' => 'ปริมาณที่ใช้ไป',
       'deleteItem' => ({required Object name}) => 'ลบ ${name}?',
-      'remaining' => ({required num amount, required Object unit}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-            amount,
-            other: 'เหลือ ${amount} ${unit}',
-          ),
       'allItemsFilter' => 'ทั้งหมด',
       'medicationItemsFilter' => 'ยา',
       'genericItemsFilter' => 'ของใช้',
@@ -799,31 +768,6 @@ extension on TranslationsTh {
       'needle' => 'เข็มฉีดยา',
       'gloves' => 'ถุงมือ',
       'bandage' => 'พลาสเตอร์',
-      'syringeRemaining' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-            count,
-            other: '${count} กระบอก',
-          ),
-      'wipeRemaining' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-            count,
-            other: '${count} ผืน',
-          ),
-      'needleRemaining' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-            count,
-            other: '${count} เข็ม',
-          ),
-      'glovesRemaining' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-            count,
-            other: '${count} ถุง',
-          ),
-      'bandageRemaining' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-            count,
-            other: '${count} ชิ้น',
-          ),
       'add' => 'เพื่ม',
       'save' => 'บันทึก',
       'cancel' => 'ยกเลิก',
@@ -884,6 +828,69 @@ extension on TranslationsTh {
       'unitPmolPerL' => 'พิโกโมล/มิลลิลิตร',
       'unitNgPerDl' => 'นาโนกรัม/เดซิลิตร',
       'unitNmolPerL' => 'นาโนโมล/ลิตร',
+      'injectionSideLeft' => 'ซ้าย',
+      'injectionSideRight' => 'ขวา',
+      'intakeSummaryInjectionSideLeft' => 'ด้านซ้าย',
+      'intakeSummaryInjectionSideRight' => 'ด้านขวา',
+      'requiredField' => 'ต้องใส่',
+      'mustBePositiveNumber' => 'ต้องเป็นตัวเลขมากกว่า 0',
+      'invalidTotalAmount' => 'จำนวนรวมผิดรูปแบบ',
+      'cannotExceedTotalCapacity' => 'จำนวนเกินรวมไม่ได้',
+      'daysAgoCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+            count,
+            other: '${count} วันที่แล้ว',
+          ),
+      'inDaysCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+            count,
+            other: 'ใน ${count} วัน',
+          ),
+      'scheduleFrequencyEveryNDays' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+            count,
+            other: '${count} วันครั้ง',
+          ),
+      'schedulesCreated' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+            count,
+            other: 'สร้างแล้ว ${count}',
+          ),
+      'notificationsCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+            count,
+            other: '${count} การแจ้งเตือน',
+          ),
+      'remaining' => ({required num count, required Object unit}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+            count,
+            other: 'เหลือ ${count} ${unit}',
+          ),
+      'syringeRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+            count,
+            other: '${count} กระบอก',
+          ),
+      'wipeRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+            count,
+            other: '${count} ผืน',
+          ),
+      'needleRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+            count,
+            other: '${count} เข็ม',
+          ),
+      'glovesRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+            count,
+            other: '${count} ถุง',
+          ),
+      'bandageRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+            count,
+            other: '${count} ชิ้น',
+          ),
       'administrationRouteUnitMl' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
             count,
@@ -926,14 +933,6 @@ extension on TranslationsTh {
             one: 'สเปรย์',
             other: 'สเปรย์',
           ),
-      'injectionSideLeft' => 'ซ้าย',
-      'injectionSideRight' => 'ขวา',
-      'intakeSummaryInjectionSideLeft' => 'ด้านซ้าย',
-      'intakeSummaryInjectionSideRight' => 'ด้านขวา',
-      'requiredField' => 'ต้องใส่',
-      'mustBePositiveNumber' => 'ต้องเป็นตัวเลขมากกว่า 0',
-      'invalidTotalAmount' => 'จำนวนรวมผิดรูปแบบ',
-      'cannotExceedTotalCapacity' => 'จำนวนเกินรวมไม่ได้',
       _ => null,
     };
   }

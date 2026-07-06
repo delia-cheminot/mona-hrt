@@ -1,16 +1,13 @@
 /// Generated file. Do not edit.
 ///
-/// Source: lib/i18n
+/// Source: lib/i18n/generated
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 13
 /// Strings: 2455 (188 per locale)
-///
-/// Built on 2026-07-06 at 15:19 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
-// dart format off
 
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
