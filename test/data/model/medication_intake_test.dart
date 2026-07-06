@@ -157,7 +157,7 @@ void main() {
           administrationRoute: AdministrationRoute.oral,
         );
 
-        expect(intake.takenLocalDate, Date(DateTime.utc(2024, 6, 15)));
+        expect(intake.takenLocalDate, Date(year: 2024, month: 6, day: 15));
       });
 
       test(
@@ -210,7 +210,7 @@ void main() {
         final result = intake.takenLocalDate;
 
         // Assert
-        expect(result, Date(DateTime.utc(2024, 6, 15)));
+        expect(result, Date(year: 2024, month: 6, day: 15));
       });
 
       test(
@@ -229,7 +229,7 @@ void main() {
         final result = intake.takenLocalDate;
 
         // Assert
-        expect(result, Date(DateTime.utc(2024, 6, 14)));
+        expect(result, Date(year: 2024, month: 6, day: 14));
       });
 
       test(
@@ -248,7 +248,7 @@ void main() {
         final result = intake.takenLocalDate;
 
         // Assert
-        expect(result, Date(DateTime.utc(2024, 6, 14)));
+        expect(result, Date(year: 2024, month: 6, day: 14));
       });
     });
   });
