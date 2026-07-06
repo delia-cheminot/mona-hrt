@@ -38,7 +38,7 @@ extension MedicationSupplyItemL10n on MedicationSupplyItem {
 
     return '${molecule.localizedNameWithEster(ester)} • '
         '$concentration $moleculeUnitLabel/$routeConcentrationUnit\n'
-        '${t.remaining(amount: amountRemainingFormatted, unit: routeUnitRemaining)}';
+        '${t.remaining(count: amountRemainingFormatted, unit: routeUnitRemaining)}';
   }
 }
 
