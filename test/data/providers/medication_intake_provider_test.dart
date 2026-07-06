@@ -335,7 +335,7 @@ void main() {
           administrationRoute: AdministrationRoute.gel,
         ));
         await provider.fetchIntakes();
-        final targetDate = Date(DateTime.utc(2025, 9, 13));
+        final targetDate = Date(year: 2025, month: 9, day: 13);
 
         // Act
         final result = provider.getTakenIntakesForScheduleOn(42, targetDate);
@@ -356,7 +356,7 @@ void main() {
           administrationRoute: AdministrationRoute.gel,
         ));
         await provider.fetchIntakes();
-        final otherDate = Date(DateTime.utc(2025, 9, 14));
+        final otherDate = Date(year: 2025, month: 9, day: 14);
 
         // Act
         final result = provider.getTakenIntakesForScheduleOn(42, otherDate);
@@ -377,7 +377,7 @@ void main() {
           administrationRoute: AdministrationRoute.gel,
         ));
         await provider.fetchIntakes();
-        final targetDate = Date(DateTime.utc(2025, 9, 13));
+        final targetDate = Date(year: 2025, month: 9, day: 13);
 
         // Act
         final result = provider.getTakenIntakesForScheduleOn(999, targetDate);

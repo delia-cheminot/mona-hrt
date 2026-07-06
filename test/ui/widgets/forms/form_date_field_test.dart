@@ -14,7 +14,7 @@ void main() {
   testWidgets('picking a day returns that exact day (no off-by-one)',
       (WidgetTester tester) async {
     // Arrange
-    final initial = Date(DateTime.utc(2026, 6, 15));
+    final initial = Date(year: 2026, month: 6, day: 15);
     Date? result;
 
     await tester.pumpWidget(
@@ -49,6 +49,6 @@ void main() {
 
     // Assert
     expect(result, isNotNull);
-    expect(result, Date(DateTime.utc(2026, 6, 20)));
+    expect(result, Date(year: 2026, month: 6, day: 20));
   });
 }
