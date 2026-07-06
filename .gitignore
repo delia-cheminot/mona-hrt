@@ -53,3 +53,7 @@ coverage/
 .direnv/
 # Patrol E2E: generated test bundle (regenerated on every `patrol test`/`build`)
 integration_test/test_bundle.dart
+
+# Intermediate slang input, produced from lib/i18n/*.i18next.json by
+# `dart run tool/i18next_to_slang.dart`. See scripts/i18n.sh.
+lib/i18n/generated/
