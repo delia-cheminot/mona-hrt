@@ -50,7 +50,7 @@ class FormDateField extends StatelessWidget {
     );
 
     if (picked != null) {
-      onChanged(DateTime.utc(picked.year, picked.month, picked.day).toDate);
+      onChanged(Date(DateTime.utc(picked.year, picked.month, picked.day)));
     }
   }
 }
