@@ -9,6 +9,7 @@ output_file_name: translations.g.dart
 flutter_integration: true
 locale_handling: true
 lazy: false
+timestamp: false
 
 translate_var: t
 enum_name: AppLocale
@@ -16,6 +17,9 @@ class_name: Translations
 translation_class_visibility: private
 
 string_interpolation: braces
+
+format:
+  enabled: true
 
 pluralization:
   auto: cardinal
