@@ -3,7 +3,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:mona/data/model/date.dart';
-import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/ui/widgets/forms/form_date_field.dart';
 
 void main() {
@@ -21,7 +20,6 @@ void main() {
       MaterialApp(
         locale: const Locale('en'),
         localizationsDelegates: const [
-          AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
