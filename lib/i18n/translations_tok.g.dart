@@ -75,6 +75,10 @@ class TranslationsTok extends Translations
   @override
   String get upcoming => 'kama';
   @override
+  String get yesterday => 'tenpo suno pini';
+  @override
+  String get tomorrow => 'tenpo suno kama';
+  @override
   String get goToSettings => 'o tawa poki nasin';
   @override
   String get settingsTitle => 'poki nasin';
@@ -152,6 +156,8 @@ class TranslationsTok extends Translations
   @override
   String get empty_supplies => 'jo li lon ala. o pana e ijo sin la o open.';
   @override
+  String get allItemsFilter => 'ale';
+  @override
   String get newItem => 'ijo sin';
   @override
   String get adminRoute => 'pana nasin';
@@ -174,6 +180,16 @@ class TranslationsTok extends Translations
   @override
   String get name => 'nimi';
   @override
+  String get unitMilligram => 'mg';
+  @override
+  String get unitPgPerMl => 'pg/mL';
+  @override
+  String get unitPmolPerL => 'pmol/L';
+  @override
+  String get unitNgPerDl => 'ng/dL';
+  @override
+  String get unitNmolPerL => 'nmol/L';
+  @override
   String get requiredField => 'poki ni li wile e nimi';
 }
 
@@ -195,6 +211,8 @@ extension on TranslationsTok {
       'allDone' => 'ale li pini!',
       'noIntakesDue' => 'tenpo ni la open li wile ala',
       'upcoming' => 'kama',
+      'yesterday' => 'tenpo suno pini',
+      'tomorrow' => 'tenpo suno kama',
       'goToSettings' => 'o tawa poki nasin',
       'settingsTitle' => 'poki nasin',
       'notifications' => 'pana toki',
@@ -234,6 +252,7 @@ extension on TranslationsTok {
       'chartBloodTestLevelTooltip' =>
         ({required Object date, required Object level}) => '${date}: ${level}',
       'empty_supplies' => 'jo li lon ala. o pana e ijo sin la o open.',
+      'allItemsFilter' => 'ale',
       'newItem' => 'ijo sin',
       'adminRoute' => 'pana nasin',
       'concentration' => 'wawa',
@@ -245,6 +264,11 @@ extension on TranslationsTok {
       'deleteElement' => 'o weka ala weka e ijo ni?',
       'irreversibleAction' => 'sina ken ala ante e ni.',
       'name' => 'nimi',
+      'unitMilligram' => 'mg',
+      'unitPgPerMl' => 'pg/mL',
+      'unitPmolPerL' => 'pmol/L',
+      'unitNgPerDl' => 'ng/dL',
+      'unitNmolPerL' => 'nmol/L',
       'requiredField' => 'poki ni li wile e nimi',
       _ => null,
     };
