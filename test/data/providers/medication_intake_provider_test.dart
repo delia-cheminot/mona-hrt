@@ -618,6 +618,49 @@ void main() {
         expect(provider.getFirstGraphIntakeInstant(), isNull);
       });
 
+      test('getGraphStartInstant is at midnight in the local timezone',
+          () async {
+        repo.insert(anInjection(
+            id: 10, takenDateTime: DateTime.utc(2025, 6, 1, 8, 30)));
+        await provider.fetchIntakes();
+
+        final start = provider.getGraphLocalStart()!;
+
+        expect([start.hour, start.minute, start.second, start.millisecond],
+            everyElement(0));
+      });
+
+      test('getGraphStartInstant lands on the first intake local day',
+          () async {
+        repo.insert(anInjection(
+            id: 10, takenDateTime: DateTime.utc(2025, 6, 2, 20, 0)));
+        repo.insert(anInjection(
+            id: 11, takenDateTime: DateTime.utc(2025, 6, 1, 8, 30)));
+        await provider.fetchIntakes();
+
+        final start = provider.getGraphLocalStart()!;
+        final firstLocal = provider.getFirstGraphIntakeInstant()!.toLocal();
+
+        expect([start.year, start.month, start.day],
+            [firstLocal.year, firstLocal.month, firstLocal.day]);
+      });
+
+      test('getGraphStartInstant never sits after the first intake', () async {
+        repo.insert(anInjection(
+            id: 10, takenDateTime: DateTime.utc(2025, 6, 1, 8, 30)));
+        await provider.fetchIntakes();
+
+        final start = provider.getGraphLocalStart()!;
+
+        expect(start.isAfter(provider.getFirstGraphIntakeInstant()!), isFalse);
+      });
+
+      test('getGraphStartInstant is null when no plottable intakes', () async {
+        await provider.fetchIntakes();
+
+        expect(provider.getGraphLocalStart(), isNull);
+      });
+
       test('excludes non-injection intakes from the graph', () async {
         repo.insert(
             anInjection(id: 10, takenDateTime: DateTime.utc(2025, 6, 1, 8, 0)));

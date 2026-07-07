@@ -98,6 +98,14 @@ class MedicationIntakeProvider extends ChangeNotifier {
         .takenDateTime;
   }
 
+  DateTime? getGraphLocalStart() {
+    final firstInstant = getFirstGraphIntakeInstant();
+    if (firstInstant == null) return null;
+
+    final local = firstInstant.toLocal();
+    return DateTime(local.year, local.month, local.day);
+  }
+
   double? getGraphSpan(DateTime tMin) {
     if (plottableIntakes.isEmpty) return null;
 

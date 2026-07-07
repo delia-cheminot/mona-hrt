@@ -44,8 +44,7 @@ class MainGraph extends StatelessWidget {
       return SizedBox.shrink();
     }
 
-    final DateTime tMin =
-        medicationIntakeProvider.getFirstGraphIntakeInstant()!;
+    final DateTime tMin = medicationIntakeProvider.getGraphLocalStart()!;
     final double tNow = timeDifferenceInDays(clock.now(), tMin);
     final double graphSpan = medicationIntakeProvider.getGraphSpan(tMin)!;
 
