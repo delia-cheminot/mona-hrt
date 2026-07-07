@@ -17,6 +17,16 @@ class GraphIntake {
   });
 }
 
+class GraphBloodTest {
+  final double level;
+  final double offset;
+
+  const GraphBloodTest({
+    required this.level,
+    required this.offset,
+  });
+}
+
 class GraphCalculator {
   static const double tMaxOffset = 40.0;
   static const double _inactiveWindow = 100.0;
@@ -105,7 +115,8 @@ class GraphCalculator {
         .toDouble();
   }
 
-  List<FlSpot> generateFlSpots(List<GraphIntake> intakes, EstradiolUnit unit,
+  List<FlSpot> generateLevelsSpots(
+      List<GraphIntake> intakes, EstradiolUnit unit,
       {double tMin = 0, int numPoints = 1000}) {
     if (intakes.isEmpty) return <FlSpot>[];
 
@@ -120,5 +131,13 @@ class GraphCalculator {
     }
 
     return points.map((p) => FlSpot(p.x.toDouble(), p.y.toDouble())).toList();
+  }
+
+  List<FlSpot> generateBloodSpots(List<GraphBloodTest> bloodTests) {
+    if (bloodTests.isEmpty) return <FlSpot>[];
+
+    return bloodTests
+        .map((bloodTest) => FlSpot(bloodTest.offset, bloodTest.level))
+        .toList();
   }
 }

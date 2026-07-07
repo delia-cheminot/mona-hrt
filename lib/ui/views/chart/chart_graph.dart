@@ -40,21 +40,24 @@ class MainGraph extends StatelessWidget {
     final theme = Theme.of(context);
     final unit = preferencesProvider.units.estradiol;
 
-    List<GraphIntake> intakes = medicationIntakeProvider.getIntakesForGraph();
-
-    if (intakes.isEmpty) return SizedBox.shrink();
+    if (medicationIntakeProvider.plottableIntakes.isEmpty) {
+      return SizedBox.shrink();
+    }
 
     final DateTime tMin =
         medicationIntakeProvider.getFirstGraphIntakeInstant()!;
     final double tNow = timeDifferenceInDays(clock.now(), tMin);
-    final double graphSpan = medicationIntakeProvider.getGraphSpan()!;
+    final double graphSpan = medicationIntakeProvider.getGraphSpan(tMin)!;
 
-    List<({double offset, double level})> bloodTests =
-        bloodTestProvider.getGraphBloodTests(tMin, unit);
+    List<GraphIntake> intakes =
+        medicationIntakeProvider.getIntakesForGraph(tMin);
+    List<GraphBloodTest> bloodTests =
+        bloodTestProvider.getBloodTestsForGraph(tMin, unit);
 
-    final List<FlSpot> spots = GraphCalculator().generateFlSpots(intakes, unit);
+    final List<FlSpot> spots =
+        GraphCalculator().generateLevelsSpots(intakes, unit);
     final List<FlSpot> bloodSpots =
-        bloodTests.map((test) => FlSpot(test.offset, test.level)).toList();
+        GraphCalculator().generateBloodSpots(bloodTests);
     FlSpot? todaySpot;
 
     if (tNow <= graphSpan + GraphCalculator.tMaxOffset) {

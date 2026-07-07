@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/blood_test.dart';
+import 'package:mona/data/model/graph_calculator.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/services/repository.dart';
 import 'package:mona/util/time_difference.dart';
@@ -38,14 +39,14 @@ class BloodTestProvider extends ChangeNotifier {
     await _fetchBloodTests();
   }
 
-  List<({double offset, double level})> getGraphBloodTests(
+  List<GraphBloodTest> getBloodTestsForGraph(
       DateTime tMin, EstradiolUnit unit) {
     if (bloodtestsSortedDesc.isEmpty) return [];
 
     return bloodtestsSortedDesc
         .where((bloodtest) => bloodtest.estradiolLevels != null)
         .where((bloodtest) => !bloodtest.dateTime.isBefore(tMin))
-        .map((bloodtest) => (
+        .map((bloodtest) => GraphBloodTest(
               offset: timeDifferenceInDays(bloodtest.dateTime, tMin),
               level: bloodtest.estradiolLevels!.inUnit(unit).toDouble(),
             ))

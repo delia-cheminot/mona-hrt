@@ -78,10 +78,8 @@ class MedicationIntakeProvider extends ChangeNotifier {
     await fetchIntakes();
   }
 
-  List<GraphIntake> getIntakesForGraph() {
+  List<GraphIntake> getIntakesForGraph(DateTime tMin) {
     if (plottableIntakes.isEmpty) return [];
-
-    final tMin = getFirstGraphIntakeInstant()!;
 
     return plottableIntakes
         .map((intake) => GraphIntake(
@@ -92,14 +90,6 @@ class MedicationIntakeProvider extends ChangeNotifier {
         .toList();
   }
 
-  Date? getFirstGraphIntakeLocalDate() {
-    if (plottableIntakes.isEmpty) return null;
-
-    return plottableIntakes
-        .reduce((a, b) => a.takenDateTime!.isBefore(b.takenDateTime!) ? a : b)
-        .takenLocalDate;
-  } // TODO remove
-
   DateTime? getFirstGraphIntakeInstant() {
     if (plottableIntakes.isEmpty) return null;
 
@@ -108,14 +98,14 @@ class MedicationIntakeProvider extends ChangeNotifier {
         .takenDateTime;
   }
 
-  double? getGraphSpan() {
+  double? getGraphSpan(DateTime tMin) {
     if (plottableIntakes.isEmpty) return null;
 
     final lastInstant = plottableIntakes
         .reduce((a, b) => a.takenDateTime!.isAfter(b.takenDateTime!) ? a : b)
         .takenDateTime!;
 
-    return timeDifferenceInDays(lastInstant, getFirstGraphIntakeInstant()!);
+    return timeDifferenceInDays(lastInstant, tMin);
   }
 
   Date? getLastIntakeLocalDateFromList(List<MedicationIntake> intakes) {
