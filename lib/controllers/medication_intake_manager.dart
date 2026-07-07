@@ -10,6 +10,8 @@ import 'package:mona/data/providers/supply_item_provider.dart';
 import '../data/model/medication_intake.dart';
 import '../data/providers/medication_intake_provider.dart';
 
+final Decimal microlitersToMilliliters = Decimal.parse('0.001');
+
 class MedicationIntakeManager {
   final MedicationIntakeProvider _medicationIntakeProvider;
   final SupplyItemProvider _supplyItemProvider;
@@ -61,7 +63,6 @@ class MedicationIntakeManager {
         return;
       case MedicationSupplyItem _:
         if (deadSpace != null && deadSpace > Decimal.zero) {
-          final microlitersToMilliliters = Decimal.parse('0.001');
           takenDose +=
               (supplyItem).getDose(deadSpace * microlitersToMilliliters);
         }
@@ -86,7 +87,6 @@ class MedicationIntakeManager {
         await itemManager.putBack(item);
         return;
       case MedicationSupplyItem _:
-        final microlitersToMilliliters = Decimal.parse('0.001');
         final wastedDose = item.getDose(intake.wastedAmount ?? Decimal.zero);
         final deadSpaceDose = item.getDose(
             (intake.deadSpace ?? Decimal.zero) * microlitersToMilliliters);
@@ -123,7 +123,6 @@ class MedicationIntakeManager {
       }
     }
 
-    final microlitersToMilliliters = Decimal.parse('0.001');
     final previousMedication =
         previousItem is MedicationSupplyItem ? previousItem : null;
     final newMedication =
