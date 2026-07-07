@@ -39,6 +39,8 @@ class _EditIntakePageState extends State<EditIntakePage> {
   late Decimal _takenDose;
   late Decimal _wastedAmount; // in mL
   late TextEditingController _wastedAmountController;
+  late Decimal _deadSpace; // in μL
+  late TextEditingController _deadSpaceController;
   InjectionSide? _selectedSide;
   bool _hasInitializedSide = false;
   SupplyItem? _selectedSupplyItem;
@@ -51,7 +53,10 @@ class _EditIntakePageState extends State<EditIntakePage> {
   String? get _wastedAmountError =>
       MedicationIntake.validateWastedAmount(_wastedAmountController.text);
 
-  bool get _isFormValid => _takenDoseError == null;
+  String? get _deadSpaceError =>
+      MedicationIntake.validateDeadSpace(_deadSpaceController.text);
+
+  bool get _isFormValid => _takenDoseError == null && _deadSpaceError == null;
 
   bool get _isInjection =>
       widget.intake.administrationRoute == AdministrationRoute.injection;
@@ -78,6 +83,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
       intake,
       takenDose: _takenDose,
       wastedAmount: _wastedAmount,
+      deadSpace: _deadSpace,
       takenDateTime: _takenDate.toUtc(),
       takenTimeZone: timezoneIdentifier,
       side: _selectedSide,
@@ -139,6 +145,18 @@ class _EditIntakePageState extends State<EditIntakePage> {
     }
   }
 
+  void _onDeadSpaceChanged() {
+    final deadSpace = _deadSpaceController.text.toDecimalOrNull;
+
+    if (deadSpace != null) {
+      setState(() {
+        _deadSpace = deadSpace;
+      });
+    } else {
+      setState(() {});
+    }
+  }
+
   void _onSupplyItemChanged(SupplyItem? item) {
     setState(() {
       _selectedSupplyItem = item;
@@ -157,9 +175,11 @@ class _EditIntakePageState extends State<EditIntakePage> {
     _takenDate = widget.intake.takenDateTime?.toLocal() ?? DateTime.now();
     _takenDose = widget.intake.takenDose;
     _wastedAmount = widget.intake.wastedAmount ?? Decimal.zero;
+    _deadSpace = widget.intake.deadSpace ?? Decimal.zero;
     _takenDoseController = TextEditingController(text: _takenDose.toString());
     _wastedAmountController =
         TextEditingController(text: _wastedAmount.toString());
+    _deadSpaceController = TextEditingController(text: _deadSpace.toString());
     _notesController = TextEditingController(text: widget.intake.notes ?? '');
   }
 
@@ -167,6 +187,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
   void dispose() {
     _takenDoseController.dispose();
     _wastedAmountController.dispose();
+    _deadSpaceController.dispose();
     _notesController.dispose();
     super.dispose();
   }
@@ -269,6 +290,15 @@ class _EditIntakePageState extends State<EditIntakePage> {
                 inputType: TextInputType.numberWithOptions(decimal: true),
                 suffixText: t.milliliters,
                 errorText: _wastedAmountError,
+                regexFormatter: RegexPatterns.floatNumber,
+              ),
+              FormTextField(
+                controller: _deadSpaceController,
+                label: t.needleDeadSpace,
+                onChanged: _onDeadSpaceChanged,
+                inputType: TextInputType.numberWithOptions(decimal: true),
+                suffixText: t.microliters,
+                errorText: _deadSpaceError,
                 regexFormatter: RegexPatterns.floatNumber,
               ),
             ],
