@@ -29,7 +29,7 @@ class MedicationIntakeProvider extends ChangeNotifier {
   List<MedicationIntake> get notTakenIntakes =>
       _intakes.where((intake) => !intake.isTaken).toList();
 
-  List<MedicationIntake> get graphIntakes => takenIntakes
+  List<MedicationIntake> get plottableIntakes => takenIntakes
       .where((intake) =>
           intake.molecule == KnownMolecules.estradiol &&
           intake.administrationRoute == AdministrationRoute.injection &&
@@ -78,25 +78,34 @@ class MedicationIntakeProvider extends ChangeNotifier {
   }
 
   List<GraphIntake> getIntakesForGraph() {
-    if (graphIntakes.isEmpty) return [];
+    if (plottableIntakes.isEmpty) return [];
 
-    final startDate = getFirstGraphIntakeLocalDate()!;
-    return graphIntakes
+    final tMin = getFirstGraphIntakeInstant()!;
+
+    return plottableIntakes
         .map((intake) => GraphIntake(
               dose: intake.takenDose.toDouble(),
               ester: intake.ester!,
-              time:
-                  intake.takenLocalDate!.differenceInDays(startDate).toDouble(),
+              time: intake.takenDateTime!.difference(tMin).inMicroseconds /
+                  Duration.microsecondsPerDay,
             ))
         .toList();
   }
 
   Date? getFirstGraphIntakeLocalDate() {
-    if (graphIntakes.isEmpty) return null;
+    if (plottableIntakes.isEmpty) return null;
 
-    return graphIntakes
+    return plottableIntakes
         .reduce((a, b) => a.takenDateTime!.isBefore(b.takenDateTime!) ? a : b)
         .takenLocalDate;
+  } // TODO remove
+
+  DateTime? getFirstGraphIntakeInstant() {
+    if (plottableIntakes.isEmpty) return null;
+
+    return plottableIntakes
+        .reduce((a, b) => a.takenDateTime!.isBefore(b.takenDateTime!) ? a : b)
+        .takenDateTime;
   }
 
   Date? getLastIntakeLocalDateFromList(List<MedicationIntake> intakes) {
@@ -108,7 +117,7 @@ class MedicationIntakeProvider extends ChangeNotifier {
   }
 
   Date? getLastGraphIntakeDate() {
-    return getLastIntakeLocalDateFromList(graphIntakes);
+    return getLastIntakeLocalDateFromList(plottableIntakes);
   }
 
   Date? getLastIntakeLocalDateForSchedule(int scheduleId) {
