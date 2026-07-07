@@ -39,8 +39,8 @@ class MainGraph extends StatelessWidget {
     final theme = Theme.of(context);
     final unit = preferencesProvider.units.estradiol;
 
-    Map<int, GraphIntake> daysAndIntakes =
-        medicationIntakeProvider.getDaysAndIntakes();
+    List<GraphIntake> daysAndIntakes =
+        medicationIntakeProvider.getIntakesForGraph();
 
     if (daysAndIntakes.isEmpty) return SizedBox.shrink();
 

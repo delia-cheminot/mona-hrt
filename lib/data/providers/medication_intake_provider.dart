@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
-import 'package:mona/data/model/ester.dart';
+import 'package:mona/data/model/graph_calculator.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/services/repository.dart';
-
-class GraphIntake {
-  final double dose;
-  final Ester ester;
-
-  GraphIntake(this.dose, this.ester);
-}
 
 class MedicationIntakeProvider extends ChangeNotifier {
   List<MedicationIntake> _intakes = [];
@@ -84,18 +77,18 @@ class MedicationIntakeProvider extends ChangeNotifier {
     await fetchIntakes();
   }
 
-  Map<int, GraphIntake> getDaysAndIntakes() {
-    if (graphIntakes.isEmpty) return {};
+  List<GraphIntake> getIntakesForGraph() {
+    if (graphIntakes.isEmpty) return [];
 
     final startDate = getFirstGraphIntakeLocalDate()!;
-    return Map.fromEntries(
-      graphIntakes.map(
-        (intake) => MapEntry(
-          intake.takenLocalDate!.differenceInDays(startDate),
-          GraphIntake(intake.takenDose.toDouble(), intake.ester!),
-        ),
-      ),
-    );
+    return graphIntakes
+        .map((intake) => GraphIntake(
+              dose: intake.takenDose.toDouble(),
+              ester: intake.ester!,
+              time:
+                  intake.takenLocalDate!.differenceInDays(startDate).toDouble(),
+            ))
+        .toList();
   }
 
   Date? getFirstGraphIntakeLocalDate() {
