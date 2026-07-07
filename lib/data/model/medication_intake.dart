@@ -33,17 +33,13 @@ class MedicationIntake with MedicationIntakeMappable {
   final TimeOfDay? scheduledTime;
   final DateTime? takenDateTime;
   final String? takenTimeZone;
-  @MappableField(key: 'dose')
   final Decimal takenDose;
   final Decimal? wastedAmount; // mL
   final int? scheduleId;
   final InjectionSide? side;
   bool get isTaken => takenDateTime != null;
-  @MappableField(key: 'moleculeJson')
   final Molecule molecule;
-  @MappableField(key: 'administrationRouteName')
   final AdministrationRoute administrationRoute;
-  @MappableField(key: 'esterName')
   final Ester? ester;
   final int? supplyItemId;
   final String? notes;

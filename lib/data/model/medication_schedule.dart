@@ -27,13 +27,10 @@ class MedicationSchedule with MedicationScheduleMappable {
   final String name;
   final Decimal dose;
   final Date startDate;
-  @MappableField(key: 'moleculeJson')
   final Molecule molecule;
-  @MappableField(key: 'administrationRouteName')
   final AdministrationRoute administrationRoute;
-  @MappableField(key: 'esterName')
   final Ester? ester;
-  @MappableField(key: 'schedulingStrategy', hook: JsonStringHook())
+  @MappableField(hook: JsonStringHook())
   final SchedulingStrategy scheduling;
 
   MedicationSchedule({
