@@ -214,6 +214,7 @@ void main() {
       'triggerPastPendingNotifications does not re-show recurring notifications',
       () async {
     await withFixedClockAsync(() async {
+      // Arrange
       final payload = jsonEncode({
         'scheduledTime':
             clock.now().subtract(Duration(days: 1)).toIso8601String(),
@@ -227,8 +228,10 @@ void main() {
         'payload': payload,
       });
 
+      // Act
       await service.triggerPastPendingNotifications();
 
+      // Assert
       expect(fakePlugin.shown, isEmpty);
     });
   });

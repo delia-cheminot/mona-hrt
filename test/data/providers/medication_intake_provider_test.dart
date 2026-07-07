@@ -600,120 +600,158 @@ void main() {
     group('graph intake pipeline', () {
       test('getFirstGraphIntakeInstant returns the earliest UTC instant',
           () async {
+        // Arrange
         repo.insert(anInjection(
             id: 10, takenDateTime: DateTime.utc(2025, 6, 2, 20, 0)));
         repo.insert(anInjection(
             id: 11, takenDateTime: DateTime.utc(2025, 6, 1, 8, 30)));
         await provider.fetchIntakes();
 
-        expect(provider.getFirstGraphIntakeInstant(),
-            DateTime.utc(2025, 6, 1, 8, 30));
+        // Act
+        final first = provider.getFirstGraphIntakeInstant();
+
+        // Assert
+        expect(first, DateTime.utc(2025, 6, 1, 8, 30));
       });
 
       test('getFirstGraphIntakeInstant is null when no plottable intakes',
           () async {
-        // setUp only inserts gel intakes, which are not plottable.
+        // Arrange: setUp only inserts gel intakes, which are not plottable.
         await provider.fetchIntakes();
 
-        expect(provider.getFirstGraphIntakeInstant(), isNull);
+        // Act
+        final first = provider.getFirstGraphIntakeInstant();
+
+        // Assert
+        expect(first, isNull);
       });
 
-      test('getGraphStartInstant is at midnight in the local timezone',
-          () async {
+      test('getGraphLocalStart is at midnight in the local timezone', () async {
+        // Arrange
         repo.insert(anInjection(
             id: 10, takenDateTime: DateTime.utc(2025, 6, 1, 8, 30)));
         await provider.fetchIntakes();
 
+        // Act
         final start = provider.getGraphLocalStart()!;
 
+        // Assert
         expect([start.hour, start.minute, start.second, start.millisecond],
             everyElement(0));
       });
 
-      test('getGraphStartInstant lands on the first intake local day',
-          () async {
+      test('getGraphLocalStart lands on the first intake local day', () async {
+        // Arrange
         repo.insert(anInjection(
             id: 10, takenDateTime: DateTime.utc(2025, 6, 2, 20, 0)));
         repo.insert(anInjection(
             id: 11, takenDateTime: DateTime.utc(2025, 6, 1, 8, 30)));
         await provider.fetchIntakes();
 
+        // Act
         final start = provider.getGraphLocalStart()!;
         final firstLocal = provider.getFirstGraphIntakeInstant()!.toLocal();
 
+        // Assert
         expect([start.year, start.month, start.day],
             [firstLocal.year, firstLocal.month, firstLocal.day]);
       });
 
-      test('getGraphStartInstant never sits after the first intake', () async {
+      test('getGraphLocalStart never sits after the first intake', () async {
+        // Arrange
         repo.insert(anInjection(
             id: 10, takenDateTime: DateTime.utc(2025, 6, 1, 8, 30)));
         await provider.fetchIntakes();
 
+        // Act
         final start = provider.getGraphLocalStart()!;
 
+        // Assert
         expect(start.isAfter(provider.getFirstGraphIntakeInstant()!), isFalse);
       });
 
-      test('getGraphStartInstant is null when no plottable intakes', () async {
+      test('getGraphLocalStart is null when no plottable intakes', () async {
+        // Arrange
         await provider.fetchIntakes();
 
-        expect(provider.getGraphLocalStart(), isNull);
+        // Act
+        final start = provider.getGraphLocalStart();
+
+        // Assert
+        expect(start, isNull);
       });
 
       test('excludes non-injection intakes from the graph', () async {
+        // Arrange: setUp already added gel intakes
         repo.insert(
             anInjection(id: 10, takenDateTime: DateTime.utc(2025, 6, 1, 8, 0)));
-        await provider.fetchIntakes(); // setUp already added gel intakes
-
+        await provider.fetchIntakes();
         final baseline = provider.getFirstGraphIntakeInstant()!;
 
-        expect(provider.getIntakesForGraph(baseline).length, 1);
+        // Act
+        final intakes = provider.getIntakesForGraph(baseline);
+
+        // Assert
+        expect(intakes.length, 1);
       });
 
       test('the baseline injection has offset zero', () async {
+        // Arrange
         repo.insert(anInjection(
             id: 10, takenDateTime: DateTime.utc(2025, 6, 1, 23, 39)));
         await provider.fetchIntakes();
-
         final baseline = provider.getFirstGraphIntakeInstant()!;
 
-        expect(provider.getIntakesForGraph(baseline).single.time,
-            closeTo(0.0, 1e-9));
+        // Act
+        final intakes = provider.getIntakesForGraph(baseline);
+
+        // Assert
+        expect(intakes.single.time, closeTo(0.0, 1e-9));
       });
 
       test('a later injection gets its exact fractional offset', () async {
-        // 12h after the baseline -> 0.5 days, not a snapped whole number.
+        // Arrange: 12h after the baseline -> 0.5 days, not a snapped whole
+        // number.
         repo.insert(anInjection(
             id: 10, takenDateTime: DateTime.utc(2025, 6, 1, 23, 39)));
         repo.insert(anInjection(
             id: 11, takenDateTime: DateTime.utc(2025, 6, 2, 11, 39)));
         await provider.fetchIntakes();
-
         final baseline = provider.getFirstGraphIntakeInstant()!;
 
-        expect(
-            provider.getIntakesForGraph(baseline)[1].time, closeTo(0.5, 1e-9));
+        // Act
+        final intakes = provider.getIntakesForGraph(baseline);
+
+        // Assert
+        expect(intakes[1].time, closeTo(0.5, 1e-9));
       });
 
       test('getGraphSpan is the offset of the last intake from the baseline',
           () async {
+        // Arrange
         repo.insert(
             anInjection(id: 10, takenDateTime: DateTime.utc(2025, 6, 1, 6, 0)));
         repo.insert(anInjection(
             id: 11, takenDateTime: DateTime.utc(2025, 6, 3, 18, 0)));
         await provider.fetchIntakes();
-
         final baseline = provider.getFirstGraphIntakeInstant()!;
 
-        // 2 days 12h -> 2.5 days.
-        expect(provider.getGraphSpan(baseline), closeTo(2.5, 1e-9));
+        // Act
+        final span = provider.getGraphSpan(baseline);
+
+        // Assert: 2 days 12h -> 2.5 days.
+        expect(span, closeTo(2.5, 1e-9));
       });
 
       test('getGraphSpan is null when no plottable intakes', () async {
+        // Arrange
         await provider.fetchIntakes();
 
-        expect(provider.getGraphSpan(DateTime.utc(2025, 6, 1)), isNull);
+        // Act
+        final span = provider.getGraphSpan(DateTime.utc(2025, 6, 1));
+
+        // Assert
+        expect(span, isNull);
       });
     });
   });
