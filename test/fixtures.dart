@@ -83,6 +83,7 @@ MedicationIntake aMedicationIntake({
   Decimal? dose,
   int? supplyItemId,
   Decimal? wastedAmount,
+  Decimal? deadSpace,
   AdministrationRoute administrationRoute = AdministrationRoute.oral,
 }) =>
     MedicationIntake(
@@ -98,6 +99,7 @@ MedicationIntake aMedicationIntake({
       scheduledTime: time,
       supplyItemId: supplyItemId,
       wastedAmount: wastedAmount,
+      deadSpace: deadSpace,
     );
 
 MedicationSupplyItem aMedicationSupplyItem({
