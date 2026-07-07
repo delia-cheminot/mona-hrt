@@ -5,6 +5,7 @@ import 'package:mona/data/model/graph_calculator.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/services/repository.dart';
+import 'package:mona/util/time_difference.dart';
 
 class MedicationIntakeProvider extends ChangeNotifier {
   List<MedicationIntake> _intakes = [];
@@ -86,8 +87,7 @@ class MedicationIntakeProvider extends ChangeNotifier {
         .map((intake) => GraphIntake(
               dose: intake.takenDose.toDouble(),
               ester: intake.ester!,
-              time: intake.takenDateTime!.difference(tMin).inMicroseconds /
-                  Duration.microsecondsPerDay,
+              time: timeDifferenceInDays(intake.takenDateTime!, tMin),
             ))
         .toList();
   }
@@ -108,16 +108,22 @@ class MedicationIntakeProvider extends ChangeNotifier {
         .takenDateTime;
   }
 
+  double? getGraphSpan() {
+    if (plottableIntakes.isEmpty) return null;
+
+    final lastInstant = plottableIntakes
+        .reduce((a, b) => a.takenDateTime!.isAfter(b.takenDateTime!) ? a : b)
+        .takenDateTime!;
+
+    return timeDifferenceInDays(lastInstant, getFirstGraphIntakeInstant()!);
+  }
+
   Date? getLastIntakeLocalDateFromList(List<MedicationIntake> intakes) {
     if (intakes.isEmpty) return null;
 
     return intakes
         .reduce((a, b) => a.takenDateTime!.isAfter(b.takenDateTime!) ? a : b)
         .takenLocalDate;
-  }
-
-  Date? getLastGraphIntakeDate() {
-    return getLastIntakeLocalDateFromList(plottableIntakes);
   }
 
   Date? getLastIntakeLocalDateForSchedule(int scheduleId) {
