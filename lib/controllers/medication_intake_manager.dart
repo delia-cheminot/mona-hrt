@@ -48,6 +48,7 @@ class MedicationIntakeManager {
       supplyItemId: supplyItem?.id,
       notes: notes,
       wastedAmount: wastedAmount,
+      deadSpace: deadSpace,
     ));
 
     final itemManager = SupplyItemManager(_supplyItemProvider);
@@ -85,8 +86,12 @@ class MedicationIntakeManager {
         await itemManager.putBack(item);
         return;
       case MedicationSupplyItem _:
+        final microlitersToMilliliters = Decimal.parse('0.001');
         final wastedDose = item.getDose(intake.wastedAmount ?? Decimal.zero);
-        await itemManager.useDose(item, -(intake.takenDose + wastedDose));
+        final deadSpaceDose = item.getDose(
+            (intake.deadSpace ?? Decimal.zero) * microlitersToMilliliters);
+        await itemManager.useDose(
+            item, -(intake.takenDose + wastedDose + deadSpaceDose));
     }
   }
 
@@ -94,6 +99,7 @@ class MedicationIntakeManager {
     MedicationIntake intake, {
     required Decimal takenDose,
     Decimal? wastedAmount,
+    Decimal? deadSpace,
     required DateTime takenDateTime,
     required String takenTimeZone,
     InjectionSide? side,
@@ -117,6 +123,7 @@ class MedicationIntakeManager {
       }
     }
 
+    final microlitersToMilliliters = Decimal.parse('0.001');
     final previousMedication =
         previousItem is MedicationSupplyItem ? previousItem : null;
     final newMedication =
@@ -125,10 +132,15 @@ class MedicationIntakeManager {
     final previousUsedDose = previousMedication == null
         ? Decimal.zero
         : intake.takenDose +
-            previousMedication.getDose(intake.wastedAmount ?? Decimal.zero);
+            previousMedication.getDose(intake.wastedAmount ?? Decimal.zero) +
+            previousMedication.getDose(
+                (intake.deadSpace ?? Decimal.zero) * microlitersToMilliliters);
     final newUsedDose = newMedication == null
         ? Decimal.zero
-        : takenDose + newMedication.getDose(wastedAmount ?? Decimal.zero);
+        : takenDose +
+            newMedication.getDose(wastedAmount ?? Decimal.zero) +
+            newMedication.getDose(
+                (deadSpace ?? Decimal.zero) * microlitersToMilliliters);
 
     await itemManager.switchDoses(
       previousMedication,
@@ -142,6 +154,7 @@ class MedicationIntakeManager {
       takenTimeZone: takenTimeZone,
       takenDose: takenDose,
       wastedAmount: wastedAmount,
+      deadSpace: deadSpace,
       side: side,
       supplyItemId: supplyItem?.id,
       notes: notes,
