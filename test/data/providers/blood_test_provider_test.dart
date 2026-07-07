@@ -199,7 +199,7 @@ void main() {
         provider = BloodTestProvider(repository: repo);
 
         // Act
-        final result = provider.getGraphBloodTests(
+        final result = provider.getBloodTestsForGraph(
             DateTime(2025, 5, 4), EstradiolUnit.pg_mL);
 
         // Assert
@@ -228,7 +228,7 @@ void main() {
         ));
 
         // Act
-        final result = provider.getGraphBloodTests(
+        final result = provider.getBloodTestsForGraph(
             DateTime(2025, 5, 4), EstradiolUnit.pg_mL);
 
         // Assert
@@ -248,7 +248,7 @@ void main() {
         ));
 
         // Act
-        final result = provider.getGraphBloodTests(
+        final result = provider.getBloodTestsForGraph(
             DateTime(2025, 5, 4, 21, 0), EstradiolUnit.pg_mL);
 
         // Assert

@@ -99,8 +99,8 @@ class MockMedicationIntakeProvider extends _i1.Mock
       ) as List<_i4.MedicationIntake>);
 
   @override
-  List<_i4.MedicationIntake> get graphIntakes => (super.noSuchMethod(
-        Invocation.getter(#graphIntakes),
+  List<_i4.MedicationIntake> get plottableIntakes => (super.noSuchMethod(
+        Invocation.getter(#plottableIntakes),
         returnValue: <_i4.MedicationIntake>[],
         returnValueForMissingStub: <_i4.MedicationIntake>[],
       ) as List<_i4.MedicationIntake>);
@@ -176,14 +176,24 @@ class MockMedicationIntakeProvider extends _i1.Mock
       ) as _i5.Future<void>);
 
   @override
-  List<_i6.GraphIntake> getIntakesForGraph() => (super.noSuchMethod(
+  List<_i6.GraphIntake> getIntakesForGraph(DateTime? tMin) =>
+      (super.noSuchMethod(
         Invocation.method(
           #getIntakesForGraph,
-          [],
+          [tMin],
         ),
         returnValue: <_i6.GraphIntake>[],
         returnValueForMissingStub: <_i6.GraphIntake>[],
       ) as List<_i6.GraphIntake>);
+
+  @override
+  double? getGraphSpan(DateTime? tMin) => (super.noSuchMethod(
+        Invocation.method(
+          #getGraphSpan,
+          [tMin],
+        ),
+        returnValueForMissingStub: null,
+      ) as double?);
 
   @override
   _i7.Date? getLastIntakeLocalDateFromList(
