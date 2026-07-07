@@ -22,6 +22,7 @@ const String createMedicationIntakesTable = '''
       takenTimeZone TEXT,
       dose TEXT NOT NULL,
       wastedAmount TEXT,
+      deadSpace TEXT,
       scheduleId INTEGER,
       side TEXT,
       moleculeJson TEXT NOT NULL,
