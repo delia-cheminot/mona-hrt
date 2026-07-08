@@ -352,6 +352,11 @@ void main() {
             // Assert
             expect(addedIntake.takenDose, dose);
           });
+
+          test('persists deadSpace in μL on the intake', () {
+            // Assert
+            expect(addedIntake.deadSpace, deadSpace);
+          });
         });
 
         group('with deadSpace == 0', () {
@@ -629,6 +634,89 @@ void main() {
                 supplyItem.usedDose - expectedRollback);
           });
         });
+
+        group('when intake has a deadSpace', () {
+          late MedicationSupplyItem updatedSupplyItem;
+          final supplyItem = aMedicationSupplyItem(
+            totalDose: Decimal.parse('100'),
+            usedDose: Decimal.parse('20'),
+            concentration: Decimal.parse('10'),
+          );
+          final dose = Decimal.parse('2');
+          // 100 μL x 0.001 mL/μL x concentration 10 = 1 dose unit to put back on top of dose.
+          final deadSpace = Decimal.parse('100');
+          final expectedRollback = Decimal.parse('3'); // 2 + 1
+          final intake = aMedicationIntake(
+            supplyItemId: supplyItem.id,
+            dose: dose,
+            deadSpace: deadSpace,
+          );
+
+          setUp(() async {
+            // Arrange
+            when(mockSupplyItemProvider.getItemById(supplyItem.id))
+                .thenReturn(supplyItem);
+            when(mockSupplyItemProvider.updateItem(any))
+                .thenAnswer((inv) async {
+              updatedSupplyItem =
+                  inv.positionalArguments.first as MedicationSupplyItem;
+            });
+
+            // Act
+            await manager.deleteIntake(intake);
+          });
+
+          test(
+              'decreases usedDose by takenDose + (concentration x deadSpace x 0.001)',
+              () {
+            // Assert
+            expect(updatedSupplyItem.usedDose,
+                supplyItem.usedDose - expectedRollback);
+          });
+        });
+
+        group('when intake has both wastedAmount and deadSpace', () {
+          late MedicationSupplyItem updatedSupplyItem;
+          final supplyItem = aMedicationSupplyItem(
+            totalDose: Decimal.parse('100'),
+            usedDose: Decimal.parse('30'),
+            concentration: Decimal.parse('10'),
+          );
+          final dose = Decimal.parse('2');
+          // 0.5 mL x concentration 10 = 5 dose units.
+          final wastedAmount = Decimal.parse('0.5');
+          // 100 μL x 0.001 mL/μL x concentration 10 = 1 dose unit.
+          final deadSpace = Decimal.parse('100');
+          final expectedRollback = Decimal.parse('8'); // 2 + 5 + 1
+          final intake = aMedicationIntake(
+            supplyItemId: supplyItem.id,
+            dose: dose,
+            wastedAmount: wastedAmount,
+            deadSpace: deadSpace,
+          );
+
+          setUp(() async {
+            // Arrange
+            when(mockSupplyItemProvider.getItemById(supplyItem.id))
+                .thenReturn(supplyItem);
+            when(mockSupplyItemProvider.updateItem(any))
+                .thenAnswer((inv) async {
+              updatedSupplyItem =
+                  inv.positionalArguments.first as MedicationSupplyItem;
+            });
+
+            // Act
+            await manager.deleteIntake(intake);
+          });
+
+          test(
+              'decreases usedDose by takenDose + (concentration x wastedAmount) + (concentration x deadSpace x 0.001)',
+              () {
+            // Assert
+            expect(updatedSupplyItem.usedDose,
+                supplyItem.usedDose - expectedRollback);
+          });
+        });
       });
     });
 
@@ -642,9 +730,11 @@ void main() {
           dose: Decimal.parse('2'),
           supplyItemId: null,
           wastedAmount: null,
+          deadSpace: null,
         );
         final newDose = Decimal.parse('3');
         final newWasted = Decimal.parse('0.2');
+        final newDeadSpace = Decimal.parse('50');
         final newTimezone = 'Europe/Paris';
         final newNotes = 'edited';
 
@@ -658,6 +748,7 @@ void main() {
           intake,
           takenDose: newDose,
           wastedAmount: newWasted,
+          deadSpace: newDeadSpace,
           takenDateTime: takenDate,
           takenTimeZone: newTimezone,
           side: InjectionSide.left,
@@ -672,6 +763,7 @@ void main() {
               .having((i) => i.id, 'id', intake.id)
               .having((i) => i.takenDose, 'takenDose', newDose)
               .having((i) => i.wastedAmount, 'wastedAmount', newWasted)
+              .having((i) => i.deadSpace, 'deadSpace', newDeadSpace)
               .having((i) => i.takenDateTime, 'takenDateTime', takenDate)
               .having((i) => i.takenTimeZone, 'takenTimeZone', newTimezone)
               .having((i) => i.side, 'side', InjectionSide.left)
@@ -686,13 +778,16 @@ void main() {
           SupplyItem? next,
           Decimal? previousDose,
           Decimal? previousWasted,
+          Decimal? previousDeadSpace,
           Decimal? newDose,
           Decimal? newWasted,
+          Decimal? newDeadSpace,
         }) async {
           final intake = aMedicationIntake(
             supplyItemId: previous?.id,
             dose: previousDose ?? Decimal.zero,
             wastedAmount: previousWasted,
+            deadSpace: previousDeadSpace,
           );
           if (previous != null) {
             when(mockSupplyItemProvider.getItemById(previous.id))
@@ -707,6 +802,7 @@ void main() {
             intake,
             takenDose: newDose ?? Decimal.zero,
             wastedAmount: newWasted,
+            deadSpace: newDeadSpace,
             takenDateTime: takenDate,
             takenTimeZone: 'Etc/UTC',
             supplyItem: next,
@@ -772,6 +868,29 @@ void main() {
         });
 
         test(
+            'null -> MedicationSupplyItem with deadSpace: increases usedDose by'
+            ' takenDose + (concentration x wastedAmount) + (concentration x deadSpace x 0.001)',
+            () async {
+          // Arrange
+          final next = aMedicationSupplyItem(
+            usedDose: Decimal.parse('1'),
+            concentration: Decimal.parse('10'),
+          );
+
+          // Act
+          // 1 + 2 + 0.5 x 10 + 100 x 0.001 x 10 = 9.
+          final updates = await capture(
+            next: next,
+            newDose: Decimal.parse('2'),
+            newWasted: Decimal.parse('0.5'),
+            newDeadSpace: Decimal.parse('100'),
+          );
+
+          // Assert
+          expect(updates, [_medication(id: next.id, usedDose: '9')]);
+        });
+
+        test(
             'MedicationSupplyItem -> null: rolls back usedDose by the previous'
             ' used dose', () async {
           final previous = aMedicationSupplyItem(
@@ -787,6 +906,28 @@ void main() {
             ),
             [_medication(id: previous.id, usedDose: '3')],
           );
+        });
+
+        test(
+            'MedicationSupplyItem with deadSpace -> null: rolls back usedDose by'
+            ' the previous used dose including deadSpace', () async {
+          // Arrange
+          final previous = aMedicationSupplyItem(
+            usedDose: Decimal.parse('10'),
+            concentration: Decimal.parse('10'),
+          );
+
+          // Act
+          // 10 - (2 + 0.5 x 10 + 100 x 0.001 x 10) = 2.
+          final updates = await capture(
+            previous: previous,
+            previousDose: Decimal.parse('2'),
+            previousWasted: Decimal.parse('0.5'),
+            previousDeadSpace: Decimal.parse('100'),
+          );
+
+          // Assert
+          expect(updates, [_medication(id: previous.id, usedDose: '2')]);
         });
 
         test(
@@ -808,6 +949,35 @@ void main() {
             ),
             [_medication(id: item.id, usedDose: '8')],
           );
+        });
+
+        test(
+            'same MedicationSupplyItem with changed deadSpace: adjusts usedDose'
+            ' by the delta including deadSpace', () async {
+          // Arrange
+          final item = aMedicationSupplyItem(
+            totalDose: Decimal.parse('100'),
+            usedDose: Decimal.parse('20'),
+            concentration: Decimal.parse('10'),
+          );
+
+          // Act
+          // old: 2 + 0.5 x 10 + 100 x 0.001 x 10 = 8
+          // new: 3 + 0.2 x 10 + 50 x 0.001 x 10 = 5.5
+          // 20 + (5.5 - 8) = 17.5
+          final updates = await capture(
+            previous: item,
+            next: item,
+            previousDose: Decimal.parse('2'),
+            previousWasted: Decimal.parse('0.5'),
+            previousDeadSpace: Decimal.parse('100'),
+            newDose: Decimal.parse('3'),
+            newWasted: Decimal.parse('0.2'),
+            newDeadSpace: Decimal.parse('50'),
+          );
+
+          // Assert
+          expect(updates, [_medication(id: item.id, usedDose: '17.5')]);
         });
 
         test(

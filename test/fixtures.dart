@@ -85,6 +85,7 @@ MedicationIntake aMedicationIntake({
   Decimal? dose,
   int? supplyItemId,
   Decimal? wastedAmount,
+  Decimal? deadSpace,
   AdministrationRoute administrationRoute = AdministrationRoute.oral,
 }) =>
     MedicationIntake(
@@ -100,6 +101,7 @@ MedicationIntake aMedicationIntake({
       scheduledTime: time,
       supplyItemId: supplyItemId,
       wastedAmount: wastedAmount,
+      deadSpace: deadSpace,
     );
 
 /// An estradiol injection intake (the only kind plotted on the graph),
