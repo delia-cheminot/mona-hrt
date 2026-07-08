@@ -35,6 +35,7 @@ class MedicationIntake with MedicationIntakeMappable {
   final String? takenTimeZone;
   final Decimal takenDose;
   final Decimal? wastedAmount; // mL
+  final Decimal? deadSpace; // μL
   final int? scheduleId;
   final InjectionSide? side;
   bool get isTaken => takenDateTime != null;
@@ -49,6 +50,7 @@ class MedicationIntake with MedicationIntakeMappable {
     this.scheduledTime,
     required this.takenDose,
     this.wastedAmount,
+    this.deadSpace,
     this.takenDateTime,
     this.takenTimeZone,
     this.scheduleId,

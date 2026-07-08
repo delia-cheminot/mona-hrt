@@ -99,6 +99,12 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     _$wastedAmount,
     opt: true,
   );
+  static Decimal? _$deadSpace(MedicationIntake v) => v.deadSpace;
+  static const Field<MedicationIntake, Decimal> _f$deadSpace = Field(
+    'deadSpace',
+    _$deadSpace,
+    opt: true,
+  );
   static DateTime? _$takenDateTime(MedicationIntake v) => v.takenDateTime;
   static const Field<MedicationIntake, DateTime> _f$takenDateTime = Field(
     'takenDateTime',
@@ -158,6 +164,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     #scheduledTime: _f$scheduledTime,
     #takenDose: _f$takenDose,
     #wastedAmount: _f$wastedAmount,
+    #deadSpace: _f$deadSpace,
     #takenDateTime: _f$takenDateTime,
     #takenTimeZone: _f$takenTimeZone,
     #scheduleId: _f$scheduleId,
@@ -175,6 +182,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
       scheduledTime: data.dec(_f$scheduledTime),
       takenDose: data.dec(_f$takenDose),
       wastedAmount: data.dec(_f$wastedAmount),
+      deadSpace: data.dec(_f$deadSpace),
       takenDateTime: data.dec(_f$takenDateTime),
       takenTimeZone: data.dec(_f$takenTimeZone),
       scheduleId: data.dec(_f$scheduleId),
@@ -254,6 +262,7 @@ abstract class MedicationIntakeCopyWith<$R, $In extends MedicationIntake, $Out>
     TimeOfDay? scheduledTime,
     Decimal? takenDose,
     Decimal? wastedAmount,
+    Decimal? deadSpace,
     DateTime? takenDateTime,
     String? takenTimeZone,
     int? scheduleId,
@@ -283,6 +292,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
     Object? scheduledTime = $none,
     Decimal? takenDose,
     Object? wastedAmount = $none,
+    Object? deadSpace = $none,
     Object? takenDateTime = $none,
     Object? takenTimeZone = $none,
     Object? scheduleId = $none,
@@ -299,6 +309,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
           if (scheduledTime != $none) #scheduledTime: scheduledTime,
           if (takenDose != null) #takenDose: takenDose,
           if (wastedAmount != $none) #wastedAmount: wastedAmount,
+          if (deadSpace != $none) #deadSpace: deadSpace,
           if (takenDateTime != $none) #takenDateTime: takenDateTime,
           if (takenTimeZone != $none) #takenTimeZone: takenTimeZone,
           if (scheduleId != $none) #scheduleId: scheduleId,
@@ -317,6 +328,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
         scheduledTime: data.get(#scheduledTime, or: $value.scheduledTime),
         takenDose: data.get(#takenDose, or: $value.takenDose),
         wastedAmount: data.get(#wastedAmount, or: $value.wastedAmount),
+        deadSpace: data.get(#deadSpace, or: $value.deadSpace),
         takenDateTime: data.get(#takenDateTime, or: $value.takenDateTime),
         takenTimeZone: data.get(#takenTimeZone, or: $value.takenTimeZone),
         scheduleId: data.get(#scheduleId, or: $value.scheduleId),

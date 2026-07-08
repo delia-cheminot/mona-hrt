@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/blood_test.dart';
-import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/graph_calculator.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/services/repository.dart';
+import 'package:mona/util/time_difference.dart';
 
 class BloodTestProvider extends ChangeNotifier {
   List<BloodTest> _bloodtestsSortedDesc = [];
@@ -38,20 +39,18 @@ class BloodTestProvider extends ChangeNotifier {
     await _fetchBloodTests();
   }
 
-  Map<int, double> getDaysAndBloodTests(Date startDate, EstradiolUnit unit) {
-    if (bloodtestsSortedDesc.isEmpty) return {};
+  List<GraphBloodTest> getBloodTestsForGraph(
+      DateTime tMin, EstradiolUnit unit) {
+    if (bloodtestsSortedDesc.isEmpty) return [];
 
-    return Map.fromEntries(
-      bloodtestsSortedDesc
-          .where((bloodtest) => bloodtest.estradiolLevels != null)
-          .where((bloodtest) => !bloodtest.localDate.isBefore(startDate))
-          .map(
-            (bloodtest) => MapEntry(
-              bloodtest.localDate.differenceInDays(startDate),
-              bloodtest.estradiolLevels!.inUnit(unit).toDouble(),
-            ),
-          ),
-    );
+    return bloodtestsSortedDesc
+        .where((bloodtest) => bloodtest.estradiolLevels != null)
+        .where((bloodtest) => !bloodtest.dateTime.isBefore(tMin))
+        .map((bloodtest) => GraphBloodTest(
+              offset: timeDifferenceInDays(bloodtest.dateTime, tMin),
+              level: bloodtest.estradiolLevels!.inUnit(unit).toDouble(),
+            ))
+        .toList();
   }
 
   static final _bloodTestRepository = Repository<BloodTest>(

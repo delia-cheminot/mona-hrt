@@ -1,10 +1,10 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/blood_test.dart';
-import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
+import '../../fixtures.dart';
 import 'generic_repository_mock.dart';
 
 void main() {
@@ -194,67 +194,70 @@ void main() {
       );
     });
 
-    group('getDaysAndBloodTests', () {
-      test('returns empty map when no bloodtests', () {
+    group('getBloodTestsForGraph', () {
+      test('returns empty list when no bloodtests', () {
         // Arrange
         provider = BloodTestProvider(repository: repo);
 
         // Act
-        final result = provider.getDaysAndBloodTests(
-            Date.fromDateTime(DateTime(2025, 5, 4)), EstradiolUnit.pg_mL);
+        final result = provider.getBloodTestsForGraph(
+            DateTime.utc(2025, 5, 4), EstradiolUnit.pg_mL);
 
         // Assert
-        expect(result, {});
+        expect(result, isEmpty);
       });
 
-      test('includes only bloodtests with estradiolLevels', () async {
+      test('excludes bloodtests without estradiolLevels', () async {
         // Arrange
         provider = BloodTestProvider(repository: repo);
-        await provider.add(BloodTest(
-          id: 666,
-          dateTime: DateTime.utc(2025, 5, 4, 3, 0),
-          timeZone: 'Etc/UTC',
-          estradiolLevels:
-              UnitValue(Decimal.parse('234.5'), EstradiolUnit.pg_mL),
-          testosteroneLevels:
-              UnitValue(Decimal.parse('2.34'), TestosteroneUnit.ng_dL),
-        ));
-        await provider.add(BloodTest(
-          id: 667,
-          dateTime: DateTime.utc(2025, 5, 5),
-          timeZone: 'Etc/UTC',
-          estradiolLevels: null,
-          testosteroneLevels:
-              UnitValue(Decimal.parse('5.0'), TestosteroneUnit.ng_dL),
-        ));
+        await provider.add(aBloodTest(
+            dateTime: DateTime.utc(2025, 5, 4, 3, 0),
+            estradiolLevel: Decimal.parse('234.5')));
+        await provider
+            .add(aBloodTest(dateTime: DateTime.utc(2025, 5, 5))); // no level
 
         // Act
-        final result = provider.getDaysAndBloodTests(
-            Date.fromDateTime(DateTime(2025, 5, 4)), EstradiolUnit.pg_mL);
+        final result = provider.getBloodTestsForGraph(
+            DateTime.utc(2025, 5, 4), EstradiolUnit.pg_mL);
 
         // Assert
-        expect(result, {0: 234.5});
+        expect(result.map((t) => t.level), [234.5]);
       });
 
-      test('calculates correct days difference', () async {
+      test('excludes bloodtests strictly before the baseline instant',
+          () async {
         // Arrange
         provider = BloodTestProvider(repository: repo);
-        await provider.add(BloodTest(
-          id: 668,
-          dateTime: DateTime.utc(2025, 5, 6, 23, 59),
-          timeZone: 'Etc/UTC',
-          estradiolLevels:
-              UnitValue(Decimal.parse('12.3'), EstradiolUnit.pg_mL),
-          testosteroneLevels: null,
-        ));
+        await provider.add(aBloodTest(
+            dateTime: DateTime.utc(2025, 5, 3, 12, 0),
+            estradiolLevel: Decimal.parse('100.0')));
+        await provider.add(aBloodTest(
+            dateTime: DateTime.utc(2025, 5, 5, 12, 0),
+            estradiolLevel: Decimal.parse('200.0')));
 
         // Act
-        final result = provider.getDaysAndBloodTests(
-            Date.fromDateTime(DateTime(2025, 5, 4, 21, 0)),
-            EstradiolUnit.pg_mL);
+        final result = provider.getBloodTestsForGraph(
+            DateTime.utc(2025, 5, 4), EstradiolUnit.pg_mL);
 
         // Assert
-        expect(result, {2: 12.3});
+        expect(result.map((t) => t.level), [200.0]);
+      });
+
+      test('computes a fractional-day offset from the exact baseline instant',
+          () async {
+        // Arrange: 2 days, 2 hours, 59 minutes after the baseline ->
+        // ~2.1243 days.
+        provider = BloodTestProvider(repository: repo);
+        await provider.add(aBloodTest(
+            dateTime: DateTime.utc(2025, 5, 6, 23, 59),
+            estradiolLevel: Decimal.parse('12.3')));
+
+        // Act
+        final result = provider.getBloodTestsForGraph(
+            DateTime.utc(2025, 5, 4, 21, 0), EstradiolUnit.pg_mL);
+
+        // Assert
+        expect(result.single.offset, closeTo(2.1243, 1e-4));
       });
     });
   });

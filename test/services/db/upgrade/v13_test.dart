@@ -1,18 +1,18 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/services/db/historical_schemas.dart';
-import 'package:mona/services/db/upgrade/v12.dart';
+import 'package:mona/services/db/upgrade/v13.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
 
-  group('DbUpgradeV12', () {
+  group('DbUpgradeV13', () {
     late Database db;
 
     setUp(() async {
-      db = await openDatabase(inMemoryDatabasePath, version: 11);
-      for (final stmt in historicalSchemaFor(11)) {
+      db = await openDatabase(inMemoryDatabasePath, version: 12);
+      for (final stmt in historicalSchemaFor(12)) {
         await db.execute(stmt);
       }
     });
@@ -38,7 +38,7 @@ void main() {
         'esterName': 'valerate',
       });
 
-      await DbUpgradeV12().upgrade(db, 11, 12);
+      await DbUpgradeV13().upgrade(db, 12, 13);
 
       final names = await columnNames('supply_items');
       expect(names, containsAll({'molecule', 'administrationRoute', 'ester'}));
@@ -66,6 +66,7 @@ void main() {
         'takenTimeZone': 'Etc/UTC',
         'dose': '2.5',
         'wastedAmount': '0.1',
+        'deadSpace': '0.05',
         'scheduleId': 1,
         'side': 'left',
         'moleculeJson': '{"name":"estradiol","unit":"mg"}',
@@ -74,12 +75,13 @@ void main() {
         'notes': 'a note',
       });
 
-      await DbUpgradeV12().upgrade(db, 11, 12);
+      await DbUpgradeV13().upgrade(db, 12, 13);
 
       final names = await columnNames('medication_intakes');
       expect(
         names,
-        containsAll({'takenDose', 'molecule', 'administrationRoute', 'ester'}),
+        containsAll(
+            {'takenDose', 'deadSpace', 'molecule', 'administrationRoute', 'ester'}),
       );
       expect(
         names,
@@ -96,6 +98,7 @@ void main() {
           .single;
       expect(row['takenDose'], '2.5');
       expect(row['wastedAmount'], '0.1');
+      expect(row['deadSpace'], '0.05');
       expect(row['molecule'], '{"name":"estradiol","unit":"mg"}');
       expect(row['administrationRoute'], 'injection');
       expect(row['ester'], 'valerate');
@@ -115,7 +118,7 @@ void main() {
             '{"type":"intervalDays","intervalDays":1,"notificationTime":null}',
       });
 
-      await DbUpgradeV12().upgrade(db, 11, 12);
+      await DbUpgradeV13().upgrade(db, 12, 13);
 
       final names = await columnNames('medication_schedules');
       expect(
