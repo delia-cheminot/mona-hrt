@@ -92,7 +92,6 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
   static const Field<MedicationIntake, Decimal> _f$takenDose = Field(
     'takenDose',
     _$takenDose,
-    key: r'dose',
   );
   static Decimal? _$wastedAmount(MedicationIntake v) => v.wastedAmount;
   static const Field<MedicationIntake, Decimal> _f$wastedAmount = Field(
@@ -134,21 +133,16 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
   static const Field<MedicationIntake, Molecule> _f$molecule = Field(
     'molecule',
     _$molecule,
-    key: r'moleculeJson',
   );
   static AdministrationRoute _$administrationRoute(MedicationIntake v) =>
       v.administrationRoute;
   static const Field<MedicationIntake, AdministrationRoute>
-      _f$administrationRoute = Field(
-    'administrationRoute',
-    _$administrationRoute,
-    key: r'administrationRouteName',
-  );
+      _f$administrationRoute =
+      Field('administrationRoute', _$administrationRoute);
   static Ester? _$ester(MedicationIntake v) => v.ester;
   static const Field<MedicationIntake, Ester> _f$ester = Field(
     'ester',
     _$ester,
-    key: r'esterName',
     opt: true,
   );
   static int? _$supplyItemId(MedicationIntake v) => v.supplyItemId;

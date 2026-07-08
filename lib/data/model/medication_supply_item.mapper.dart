@@ -62,21 +62,16 @@ class MedicationSupplyItemMapper
   static const Field<MedicationSupplyItem, Molecule> _f$molecule = Field(
     'molecule',
     _$molecule,
-    key: r'moleculeJson',
   );
   static AdministrationRoute _$administrationRoute(MedicationSupplyItem v) =>
       v.administrationRoute;
   static const Field<MedicationSupplyItem, AdministrationRoute>
-      _f$administrationRoute = Field(
-    'administrationRoute',
-    _$administrationRoute,
-    key: r'administrationRouteName',
-  );
+      _f$administrationRoute =
+      Field('administrationRoute', _$administrationRoute);
   static Ester? _$ester(MedicationSupplyItem v) => v.ester;
   static const Field<MedicationSupplyItem, Ester> _f$ester = Field(
     'ester',
     _$ester,
-    key: r'esterName',
     opt: true,
   );
 
