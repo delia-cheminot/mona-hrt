@@ -1,0 +1,9 @@
+New:
+
+- New languages: Estonian, Polish, Toki Pona.
+- Graph now shows injections at the exact time they were taken.
+- You can now see and edit needle dead space for previous intakes.
+
+Fix:
+
+- The date picker now always selects the correct date when creating a schedule.
