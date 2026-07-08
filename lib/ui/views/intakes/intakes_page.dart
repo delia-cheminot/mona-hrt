@@ -3,8 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
-import 'package:mona/l10n/helpers/medication_intake_l10n.dart';
+import 'package:mona/i18n/build_context_extensions.dart';
+import 'package:mona/i18n/helpers/medication_intake_l10n.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/views/intakes/edit_intake_page.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +18,7 @@ class IntakesPage extends StatelessWidget {
         return MainPageWrapper(
           isLoading: medicationIntakeProvider.isLoading,
           isEmpty: medicationIntakeProvider.takenIntakes.isEmpty,
-          emptyMessage: context.l10n.empty_intakes,
+          emptyMessage: t.empty_intakes,
           child: ListView.builder(
             itemCount: medicationIntakeProvider.takenIntakes.length,
             itemBuilder: (context, index) {
@@ -34,13 +35,13 @@ class IntakesPage extends StatelessWidget {
 
   Widget _buildIntakeTile(BuildContext context, MedicationIntake intake,
       MedicationIntakeProvider medicationIntakeProvider) {
-    final locale = context.languageTag;
+    final locale = context.intlLanguageTag;
     final dateText =
         DateFormat.yMMMd(locale).format(intake.takenLocalDateTime!);
 
     return ListTile(
       title: Text(dateText),
-      subtitle: Text(intake.localizedSummary(context.l10n)),
+      subtitle: Text(intake.localizedSummary),
       leading: CircleAvatar(
         child: Icon(
           intake.administrationRoute.icon,

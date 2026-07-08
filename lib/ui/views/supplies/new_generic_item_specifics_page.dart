@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/extensions/generic_supply_type_icon.dart';
 import 'package:mona/ui/widgets/dropdowns/generic_type_dropdown.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
@@ -28,9 +28,9 @@ class _NewGenericItemSpecificsPageState
   GenericSupplyType? _genericSupplyType;
 
   String? get _amountError =>
-      GenericSupply.validateAmount(context.l10n, _amountController.text);
+      GenericSupply.validateAmount(_amountController.text);
   String? get _genericSupplyTypeError =>
-      _genericSupplyType == null ? context.l10n.requiredField : null;
+      _genericSupplyType == null ? t.requiredField : null;
 
   bool get _isFormValid =>
       _amountError == null && _genericSupplyTypeError == null;
@@ -70,12 +70,10 @@ class _NewGenericItemSpecificsPageState
 
   @override
   Widget build(BuildContext context) {
-    final localizations = context.l10n;
-
     return ModelForm(
       title: widget.name,
       avatar: _genericSupplyType?.icon ?? Symbols.medication,
-      submitButtonLabel: localizations.add,
+      submitButtonLabel: t.add,
       submitButtonKey: const ValueKey('newGenericItemAdd'),
       isFormValid: _isFormValid,
       saveChanges: _addItem,
@@ -83,13 +81,13 @@ class _NewGenericItemSpecificsPageState
       fields: [
         FormDropdownField<GenericSupplyType>(
           value: _genericSupplyType,
-          items: genericItemTypeDropdownMenuItems(localizations),
+          items: genericItemTypeDropdownMenuItems(),
           onChanged: (value) => setState(() => _genericSupplyType = value),
-          label: localizations.supplyType,
+          label: t.supplyType,
         ),
         FormTextField(
           controller: _amountController,
-          label: localizations.amount,
+          label: t.amount,
           fieldKey: const ValueKey('newGenericItemAmount'),
           onChanged: _refresh,
           inputType: TextInputType.number,

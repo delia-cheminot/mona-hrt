@@ -6,9 +6,9 @@ const String createSupplyItemsTable = '''
       totalDose TEXT,
       usedDose TEXT,
       concentration TEXT,
-      moleculeJson TEXT,
-      administrationRouteName TEXT,
-      esterName TEXT,
+      molecule TEXT,
+      administrationRoute TEXT,
+      ester TEXT,
       amount INTEGER,
       genericSupplyType TEXT
     )
@@ -20,18 +20,19 @@ const String createMedicationIntakesTable = '''
       scheduledTime TEXT,
       takenDateTime TEXT,
       takenTimeZone TEXT,
-      dose TEXT NOT NULL,
+      takenDose TEXT NOT NULL,
       wastedAmount TEXT,
+      deadSpace TEXT,
       scheduleId INTEGER,
       side TEXT,
-      moleculeJson TEXT NOT NULL,
-      administrationRouteName TEXT NOT NULL,
-      esterName TEXT,
+      molecule TEXT NOT NULL,
+      administrationRoute TEXT NOT NULL,
+      ester TEXT,
       supplyItemId INTEGER,
       notes TEXT,
       FOREIGN KEY (supplyItemId) REFERENCES supply_items(id) ON DELETE SET NULL
     )
-    '''; // TODO use foreign key for scheduleId
+    ''';
 
 const String createMedicationSchedulesTable = '''
     CREATE TABLE medication_schedules(
@@ -39,10 +40,10 @@ const String createMedicationSchedulesTable = '''
       name TEXT NOT NULL,
       dose TEXT NOT NULL,
       startDate TEXT NOT NULL,
-      moleculeJson TEXT NOT NULL,
-      administrationRouteName TEXT NOT NULL,
-      esterName TEXT,
-      schedulingStrategy TEXT NOT NULL
+      molecule TEXT NOT NULL,
+      administrationRoute TEXT NOT NULL,
+      ester TEXT,
+      scheduling TEXT NOT NULL
     )
     ''';
 

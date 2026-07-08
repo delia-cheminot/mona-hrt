@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/data/model/planned_notification.dart';
-import 'package:mona/l10n/app_localizations.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 
@@ -17,7 +17,7 @@ class NotificationScheduler {
 
   NotificationScheduler(this.planner, this.preferencesService);
 
-  Future<void> regenerateAll(AppLocalizations l10n, String localeName) async {
+  Future<void> regenerateAll(String localeName) async {
     await NotificationService().triggerPastPendingNotifications();
     await NotificationService().cancelPendingNotifications();
 
@@ -29,37 +29,35 @@ class NotificationScheduler {
     final plans = [...planner.planNotifications(daysAhead: daysAhead)]
       ..sort((a, b) => a.firstFire.compareTo(b.firstFire));
 
-    await Future.wait(plans
-        .take(_maxScheduled)
-        .map((plan) => _schedule(plan, l10n, localeName)));
+    await Future.wait(
+        plans.take(_maxScheduled).map((plan) => _schedule(plan, localeName)));
   }
 
-  Future<void> _schedule(
-      PlannedNotification plan, AppLocalizations l10n, String localeName) {
+  Future<void> _schedule(PlannedNotification plan, String localeName) {
     switch (plan) {
       case PlannedOccurrence():
-        return _scheduleOccurrence(plan, l10n, localeName);
+        return _scheduleOccurrence(plan, localeName);
       case PlannedRepeating():
         switch (plan.periodicity) {
           case Periodicity.daily:
-            return _scheduleDaily(plan, l10n, localeName);
+            return _scheduleDaily(plan, localeName);
           case Periodicity.weekly:
-            return _scheduleWeekly(plan, l10n, localeName);
+            return _scheduleWeekly(plan, localeName);
         }
     }
   }
 
   Future<void> _scheduleOccurrence(
     PlannedOccurrence plan,
-    AppLocalizations l10n,
     String localeName,
   ) {
     final dateFormat = DateFormat.MMMMd(localeName);
     return NotificationService().scheduleNotification(
       id: _notificationIdFor(plan.schedule.id, plan.dateTime),
-      title: l10n.notificationMedicationReminderTitle(plan.schedule.name),
-      body: l10n.notificationMedicationReminderBodyDate(
-        dateFormat.format(plan.dateTime),
+      title: t.notificationMedicationReminderTitle(
+          scheduleName: plan.schedule.name),
+      body: t.notificationMedicationReminderBodyDate(
+        date: dateFormat.format(plan.dateTime),
       ),
       scheduledTime: plan.dateTime,
     );
@@ -67,15 +65,15 @@ class NotificationScheduler {
 
   Future<void> _scheduleDaily(
     PlannedRepeating plan,
-    AppLocalizations l10n,
     String localeName,
   ) {
     final timeFormat = DateFormat.Hm(localeName);
     return NotificationService().scheduleDailyNotification(
       id: _notificationIdFor(plan.schedule.id, plan.firstFire),
-      title: l10n.notificationMedicationReminderTitle(plan.schedule.name),
-      body: l10n.notificationMedicationReminderBodyTime(
-        timeFormat.format(plan.firstFire),
+      title: t.notificationMedicationReminderTitle(
+          scheduleName: plan.schedule.name),
+      body: t.notificationMedicationReminderBodyTime(
+        time: timeFormat.format(plan.firstFire),
       ),
       firstOccurrence: plan.firstFire,
     );
@@ -83,15 +81,15 @@ class NotificationScheduler {
 
   Future<void> _scheduleWeekly(
     PlannedRepeating plan,
-    AppLocalizations l10n,
     String localeName,
   ) {
     final weekdayFormat = DateFormat.EEEE(localeName);
     return NotificationService().scheduleWeeklyNotification(
       id: _notificationIdFor(plan.schedule.id, plan.firstFire),
-      title: l10n.notificationMedicationReminderTitle(plan.schedule.name),
-      body: l10n.notificationMedicationReminderBodyWeekday(
-        weekdayFormat.format(plan.firstFire),
+      title: t.notificationMedicationReminderTitle(
+          scheduleName: plan.schedule.name),
+      body: t.notificationMedicationReminderBodyWeekday(
+        weekday: weekdayFormat.format(plan.firstFire),
       ),
       firstOccurrence: plan.firstFire,
     );

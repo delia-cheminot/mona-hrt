@@ -1,4 +1,4 @@
-lib/l10n/app_localizations*.dart linguist-generated
+lib/i18n/translations*.g.dart linguist-generated
 **/*.mocks.dart linguist-generated
 **/generated_plugins.cmake linguist-generated
 pubspec.lock linguist-generated

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/widgets/forms/dismiss_keyboard_single_child_scroll_view.dart';
 
@@ -87,7 +87,7 @@ class ModelForm extends StatelessWidget {
                     key: deleteButtonKey,
                     onPressed: onDelete,
                     icon: const Icon(Icons.delete),
-                    label: Text(context.l10n.delete),
+                    label: Text(t.delete),
                     style: M3EButtonStyle.outlined,
                     size: M3EButtonSize.md,
                     decoration: M3EButtonDecoration(

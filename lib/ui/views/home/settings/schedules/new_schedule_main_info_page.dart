@@ -5,8 +5,8 @@ import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
-import 'package:mona/l10n/helpers/molecule_l10n.dart';
+import 'package:mona/i18n/helpers/molecule_l10n.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/views/home/settings/schedules/new_schedule_scheduling_page.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
@@ -37,17 +37,15 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
   late PreferencesService _preferencesService;
 
   String? get _nameError =>
-      MedicationSchedule.validateName(context.l10n, _nameController.text);
+      MedicationSchedule.validateName(_nameController.text);
   String? get _doseError =>
-      MedicationSchedule.validateDose(context.l10n, _doseController.text);
-  String? get _moleculeError =>
-      MedicationSchedule.validateMolecule(context.l10n, _molecule);
+      MedicationSchedule.validateDose(_doseController.text);
+  String? get _moleculeError => MedicationSchedule.validateMolecule(_molecule);
   String? get _administrationRouteError =>
-      MedicationSchedule.validateAdministrationRoute(
-          context.l10n, _administrationRoute);
+      MedicationSchedule.validateAdministrationRoute(_administrationRoute);
   String? get _esterError {
-    final validator = MedicationSchedule.esterValidator(
-        context.l10n, _molecule, _administrationRoute);
+    final validator =
+        MedicationSchedule.esterValidator(_molecule, _administrationRoute);
     return validator(_ester);
   }
 
@@ -131,11 +129,9 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = context.l10n;
-
     return ModelForm(
-      title: localizations.newSchedule,
-      submitButtonLabel: localizations.next,
+      title: t.newSchedule,
+      submitButtonLabel: t.next,
       submitButtonKey: const ValueKey('newScheduleNext'),
       isFormValid: _isFormValid,
       saveChanges: _next,
@@ -143,7 +139,7 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
       fields: <Widget>[
         FormTextField(
           controller: _nameController,
-          label: localizations.name,
+          label: t.name,
           fieldKey: const ValueKey('newScheduleName'),
           onChanged: _refresh,
           inputType: TextInputType.text,
@@ -151,32 +147,29 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
         FormSpacer(),
         FormDropdownField<Molecule>(
           value: _molecule,
-          items: moleculeDropdownMenuItems(
-            _preferencesService.allMolecules,
-            localizations,
-          ),
+          items: moleculeDropdownMenuItems(_preferencesService.allMolecules),
           onChanged: _onMoleculeChanged,
-          label: localizations.molecule,
+          label: t.molecule,
         ),
         FormDropdownField<AdministrationRoute>(
           value: _administrationRoute,
-          items: administrationRouteDropdownMenuItems(localizations),
+          items: administrationRouteDropdownMenuItems(),
           onChanged: _onAdministrationRouteChanged,
-          label: localizations.adminRoute,
+          label: t.adminRoute,
         ),
         if (_useEsterField)
           FormDropdownField<Ester>(
             value: _ester,
-            items: esterDropdownMenuItems(localizations),
+            items: esterDropdownMenuItems(),
             onChanged: _onEsterChanged,
-            label: localizations.ester,
+            label: t.ester,
           ),
         FormSpacer(),
         FormTextField(
           controller: _doseController,
-          label: localizations.amount,
+          label: t.amount,
           fieldKey: const ValueKey('newScheduleAmount'),
-          suffixText: _molecule?.localizedUnit(context.l10n),
+          suffixText: _molecule?.localizedUnit,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           regexFormatter: RegexPatterns.floatNumber,

@@ -3,7 +3,7 @@ import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/extensions/generic_supply_type_icon.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
 import 'package:mona/ui/widgets/dropdowns/generic_type_dropdown.dart';
@@ -30,11 +30,10 @@ class _EditItemPageState extends State<EditItemPage> {
   late GenericSupplyType _genericSupplyType;
   late SupplyItemProvider _supplyItemProvider;
 
-  String? get _nameError =>
-      SupplyItem.validateName(context.l10n, _nameController.text);
+  String? get _nameError => SupplyItem.validateName(_nameController.text);
 
-  String? get _amountError => MedicationSupplyItem.validateTotalAmount(
-      context.l10n, _amountController.text);
+  String? get _amountError =>
+      MedicationSupplyItem.validateTotalAmount(_amountController.text);
 
   bool get _isFormValid => _nameError == null && _amountError == null;
 
@@ -55,10 +54,9 @@ class _EditItemPageState extends State<EditItemPage> {
   }
 
   Future<void> _confirmDelete() async {
-    final localizations = context.l10n;
     final confirmed = await Dialogs.confirmDeleteDialog(
       context: context,
-      title: localizations.deleteItem(widget.item.name),
+      title: t.deleteItem(name: widget.item.name),
     );
 
     if (confirmed == true) {
@@ -88,12 +86,10 @@ class _EditItemPageState extends State<EditItemPage> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = context.l10n;
-
     return ModelForm(
-      title: localizations.editItem,
+      title: t.editItem,
       avatar: _genericSupplyType.icon,
-      submitButtonLabel: localizations.save,
+      submitButtonLabel: t.save,
       submitButtonKey: const ValueKey('editGenericItemSave'),
       deleteButtonKey: const ValueKey('editGenericItemDelete'),
       isFormValid: _isFormValid,
@@ -102,7 +98,7 @@ class _EditItemPageState extends State<EditItemPage> {
       fields: [
         FormTextField(
           controller: _nameController,
-          label: localizations.name,
+          label: t.name,
           fieldKey: const ValueKey('editGenericItemName'),
           onChanged: _refresh,
           inputType: TextInputType.text,
@@ -111,16 +107,16 @@ class _EditItemPageState extends State<EditItemPage> {
         FormSpacer(),
         FormDropdownField<GenericSupplyType>(
           value: _genericSupplyType,
-          items: genericItemTypeDropdownMenuItems(localizations),
+          items: genericItemTypeDropdownMenuItems(),
           onChanged: (value) {
             if (value == null) return;
             setState(() => _genericSupplyType = value);
           },
-          label: localizations.supplyType,
+          label: t.supplyType,
         ),
         FormTextField(
             controller: _amountController,
-            label: localizations.amount,
+            label: t.amount,
             onChanged: _refresh,
             inputType: TextInputType.numberWithOptions(decimal: true),
             errorText: _amountError,

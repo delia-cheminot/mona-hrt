@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mona/distribution.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
@@ -45,7 +45,6 @@ class UpdateService {
 
   Future<void> checkForUpdates(BuildContext context) async {
     if (isStoreDistribution || !Platform.isAndroid) return;
-    final l10n = context.l10n;
 
     try {
       final packageInfo = await PackageInfo.fromPlatform();
@@ -70,12 +69,12 @@ class UpdateService {
             _showUpdateDialog(context, currentVersion, latestVersion, asset);
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(l10n.updateNoCompatibleApk)),
+              SnackBar(content: Text(t.updateNoCompatibleApk)),
             );
           }
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.updateAppUpToDate)),
+            SnackBar(content: Text(t.updateAppUpToDate)),
           );
         }
       } else {
@@ -84,7 +83,7 @@ class UpdateService {
     } catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.updateCheckNetworkError)),
+          SnackBar(content: Text(t.updateCheckNetworkError)),
         );
       }
     }
@@ -106,16 +105,15 @@ class UpdateService {
 
   void _showUpdateDialog(BuildContext context, String current, String latest,
       Map<String, dynamic> asset) {
-    final l10n = context.l10n;
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text(l10n.updateDialogTitle),
-        content: Text(l10n.updateDialogBody(current, latest)),
+        title: Text(t.updateDialogTitle),
+        content: Text(t.updateDialogBody(current: current, latest: latest)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
-            child: Text(l10n.cancel),
+            child: Text(t.cancel),
           ),
           FilledButton(
             onPressed: () {
@@ -123,7 +121,7 @@ class UpdateService {
               _downloadAndInstall(
                   context, asset['browser_download_url'], asset['name']);
             },
-            child: Text(l10n.updateDownloadAndInstall),
+            child: Text(t.updateDownloadAndInstall),
           ),
         ],
       ),
@@ -132,11 +130,10 @@ class UpdateService {
 
   Future<void> _downloadAndInstall(
       BuildContext context, String url, String fileName) async {
-    final l10n = context.l10n;
     if (!await Permission.requestInstallPackages.request().isGranted) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.updateInstallPermissionRequired)),
+          SnackBar(content: Text(t.updateInstallPermissionRequired)),
         );
       }
       return;
@@ -159,7 +156,7 @@ class UpdateService {
         barrierDismissible: false,
         builder: (dialogContext) {
           return AlertDialog(
-            title: Text(l10n.updateDownloadingTitle),
+            title: Text(t.updateDownloadingTitle),
             content: ValueListenableBuilder<double>(
               valueListenable: progressNotifier,
               builder: (ctx, progress, child) {
@@ -188,7 +185,7 @@ class UpdateService {
                     Navigator.of(dialogContext, rootNavigator: true).pop();
                   }
                 },
-                child: Text(l10n.cancel),
+                child: Text(t.cancel),
               ),
             ],
           );
@@ -229,7 +226,8 @@ class UpdateService {
         if (result.type != ResultType.done && context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-                content: Text(l10n.updateFailedOpenInstaller(result.message))),
+                content:
+                    Text(t.updateFailedOpenInstaller(message: result.message))),
           );
         }
       }
@@ -237,7 +235,7 @@ class UpdateService {
       if (!isCancelled && context.mounted) {
         Navigator.of(context, rootNavigator: true).pop();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.updateDownloadFailed)),
+          SnackBar(content: Text(t.updateDownloadFailed)),
         );
       }
     } finally {

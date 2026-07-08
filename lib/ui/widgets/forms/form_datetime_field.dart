@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 
 class FormDateTimeField extends StatelessWidget {
@@ -20,7 +20,7 @@ class FormDateTimeField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String locale = context.languageTag;
+    final String locale = context.intlLanguageTag;
     final DateFormat timeFormat = MediaQuery.of(context).alwaysUse24HourFormat
         ? DateFormat.Hm(locale)
         : DateFormat.jm(locale);

@@ -5,7 +5,8 @@ import 'package:mona/controllers/slots_builder.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/build_context_extensions.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/home/intake_tile.dart';
 import 'package:mona/ui/views/home/split_by_day.dart';
@@ -19,7 +20,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheduleProvider = context.watch<MedicationScheduleProvider>();
     final intakeProvider = context.watch<MedicationIntakeProvider>();
-    final localizations = context.l10n;
 
     final occurrences = splitByDay(
       SlotsBuilder(intakeProvider, scheduleProvider).intakeSlots(),
@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
     return MainPageWrapper(
       isLoading: (scheduleProvider.isLoading || intakeProvider.isLoading),
       isEmpty: scheduleProvider.schedules.isEmpty,
-      emptyMessage: localizations.empty_home,
+      emptyMessage: t.empty_home,
       child: SingleChildScrollView(
         child: Padding(
           padding: pagePadding,
@@ -41,7 +41,7 @@ class HomePage extends StatelessWidget {
               else
                 ...occurrences.today.map(IntakeTile.new),
               if (occurrences.upcoming.isNotEmpty) ...[
-                _SectionTitle(localizations.upcoming),
+                _SectionTitle(t.upcoming),
                 ...occurrences.upcoming.map(IntakeTile.new),
               ],
               const SizedBox(height: borderPadding),
@@ -54,7 +54,7 @@ class HomePage extends StatelessWidget {
 
   String _todayTitle(BuildContext context) {
     final formatted =
-        Date.today().format(DateFormat.MMMMEEEEd(context.languageTag));
+        Date.today().format(DateFormat.MMMMEEEEd(context.intlLanguageTag));
     return formatted.replaceRange(
         0, 1, formatted.substring(0, 1).toUpperCase());
   }
@@ -78,7 +78,6 @@ class _NoIntakesDueCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final localizations = context.l10n;
 
     return Card.filled(
       margin: const EdgeInsets.symmetric(vertical: 4),
@@ -87,8 +86,8 @@ class _NoIntakesDueCard extends StatelessWidget {
           backgroundColor: theme.colorScheme.tertiary,
           child: Icon(Symbols.check, color: theme.colorScheme.onTertiary),
         ),
-        title: Text(localizations.allDone, style: theme.textTheme.titleMedium),
-        subtitle: Text(localizations.noIntakesDue),
+        title: Text(t.allDone, style: theme.textTheme.titleMedium),
+        subtitle: Text(t.noIntakesDue),
       ),
     );
   }

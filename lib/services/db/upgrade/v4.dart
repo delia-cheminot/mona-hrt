@@ -23,7 +23,7 @@ class DbUpgradeV4 implements DbUpgrade {
       final raw = row['startDate'] as String;
 
       final local = DateTime.parse(raw);
-      final date = Date(DateTime.utc(local.year, local.month, local.day));
+      final date = Date(year: local.year, month: local.month, day: local.day);
 
       await db.update(
         'medication_schedules',

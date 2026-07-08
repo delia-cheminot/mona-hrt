@@ -42,8 +42,8 @@ void main() {
         'totalDose': '100',
         'usedDose': '0',
         'concentration': '10',
-        'moleculeJson': '{"name":"estradiol","unit":"mg"}',
-        'administrationRouteName': 'oral',
+        'molecule': '{"name":"estradiol","unit":"mg"}',
+        'administrationRoute': 'oral',
       });
 
       final item = await db.query(
@@ -96,16 +96,16 @@ void main() {
         'totalDose': '100',
         'usedDose': '10',
         'concentration': '200',
-        'moleculeJson': '{"name":"progesterone","unit":"mg"}',
-        'administrationRouteName': 'oral',
+        'molecule': '{"name":"progesterone","unit":"mg"}',
+        'administrationRoute': 'oral',
       });
 
       final id = await db.insert('medication_intakes', {
         'takenDateTime': null,
-        'dose': '2.5',
+        'takenDose': '2.5',
         'side': null,
-        'moleculeJson': '{"name":"estradiol","unit":"mg"}',
-        'administrationRouteName': 'oral',
+        'molecule': '{"name":"estradiol","unit":"mg"}',
+        'administrationRoute': 'oral',
         'supplyItemId': supplyItemId,
       });
 
@@ -121,7 +121,7 @@ void main() {
         intake,
         allOf(
           containsPair('id', id),
-          containsPair('dose', '2.5'),
+          containsPair('takenDose', '2.5'),
           containsPair('takenDateTime', null),
           containsPair('side', null),
           containsPair('supplyItemId', supplyItemId),
@@ -137,10 +137,10 @@ void main() {
       expect(
           () async => await db.insert('medication_intakes', {
                 'takenDateTime': null,
-                'dose': '2.5',
+                'takenDose': '2.5',
                 'side': null,
-                'moleculeJson': '{"name":"estradiol","unit":"mg"}',
-                'administrationRouteName': 'oral',
+                'molecule': '{"name":"estradiol","unit":"mg"}',
+                'administrationRoute': 'oral',
                 'supplyItemId': supplyItemId,
               }),
           throwsA(
@@ -159,16 +159,16 @@ void main() {
         'totalDose': '100',
         'usedDose': '10',
         'concentration': '200',
-        'moleculeJson': '{"name":"progesterone","unit":"mg"}',
-        'administrationRouteName': 'oral',
+        'molecule': '{"name":"progesterone","unit":"mg"}',
+        'administrationRoute': 'oral',
       });
 
       final intakeId = await db.insert('medication_intakes', {
         'takenDateTime': null,
-        'dose': '2.5',
+        'takenDose': '2.5',
         'side': null,
-        'moleculeJson': '{"name":"estradiol","unit":"mg"}',
-        'administrationRouteName': 'oral',
+        'molecule': '{"name":"estradiol","unit":"mg"}',
+        'administrationRoute': 'oral',
         'supplyItemId': supplyItemId,
       });
 
@@ -190,9 +190,9 @@ void main() {
         'name': 'Morning Med',
         'dose': '5',
         'startDate': DateTime(2025, 9, 13).toIso8601String(),
-        'moleculeJson': '{"name":"estradiol","unit":"mg"}',
-        'administrationRouteName': 'oral',
-        'schedulingStrategy':
+        'molecule': '{"name":"estradiol","unit":"mg"}',
+        'administrationRoute': 'oral',
+        'scheduling':
             '{"type":"intervalDays","intervalDays":1,"notificationTimes":["8:30"]}',
       });
 
@@ -205,7 +205,7 @@ void main() {
       expect(
         [
           schedule.first['name'],
-          schedule.first['schedulingStrategy'],
+          schedule.first['scheduling'],
         ],
         [
           'Morning Med',

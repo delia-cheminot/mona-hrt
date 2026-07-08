@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
-import 'package:mona/l10n/helpers/administration_route_l10n.dart';
-import 'package:mona/l10n/helpers/molecule_l10n.dart';
+import 'package:mona/i18n/helpers/administration_route_l10n.dart';
+import 'package:mona/i18n/helpers/molecule_l10n.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/home/take_medication_page.dart';
 import 'package:provider/provider.dart';
@@ -11,18 +11,17 @@ import 'package:provider/provider.dart';
 class ChooseSchedulePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final localizations = context.l10n;
     final MedicationScheduleProvider medicationScheduleProvider =
         context.read<MedicationScheduleProvider>();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(localizations.chooseSchedule),
+        title: Text(t.chooseSchedule),
       ),
       body: SafeArea(
         child: medicationScheduleProvider.schedules.isEmpty
             ? Center(
-                child: Text(localizations.addSchedulesFirst),
+                child: Text(t.addSchedulesFirst),
               )
             : ListView.builder(
                 padding: pagePadding,
@@ -46,10 +45,10 @@ class ChooseScheduleTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final localizations = context.l10n;
-    String subtitle =
-        "${schedule.dose} ${schedule.molecule.localizedUnit(localizations)} • ${schedule.molecule.localizedNameWithEster(schedule.ester, localizations)} • "
-        "${schedule.administrationRoute.localizedName(localizations)}";
+    final String subtitle =
+        "${schedule.dose} ${schedule.molecule.localizedUnit} • "
+        "${schedule.molecule.localizedNameWithEster(schedule.ester)} • "
+        "${schedule.administrationRoute.localizedName}";
 
     return Card.filled(
       clipBehavior: Clip.antiAlias,

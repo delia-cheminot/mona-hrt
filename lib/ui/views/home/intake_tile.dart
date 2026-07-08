@@ -7,9 +7,9 @@ import 'package:mona/data/model/scheduled_occurrence.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
-import 'package:mona/l10n/app_localizations.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
-import 'package:mona/l10n/helpers/molecule_l10n.dart';
+import 'package:mona/i18n/build_context_extensions.dart';
+import 'package:mona/i18n/helpers/molecule_l10n.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/views/home/take_medication_page.dart';
 import 'package:mona/ui/views/intakes/edit_intake_page.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +27,6 @@ class IntakeTile extends StatelessWidget {
     final theme = Theme.of(context);
     final medicationIntakeProvider = context.watch<MedicationIntakeProvider>();
     final supplyItemProvider = context.watch<SupplyItemProvider>();
-    final localizations = context.l10n;
     final now = DateTime.now();
 
     final viewModel = IntakeTileViewModel(
@@ -37,8 +36,7 @@ class IntakeTile extends StatelessWidget {
       intakeProvider: medicationIntakeProvider,
       supplyProvider: supplyItemProvider,
       now: now,
-      localizations: localizations,
-      languageTag: context.languageTag,
+      languageTag: context.intlLanguageTag,
       context: context,
     );
 
@@ -124,7 +122,6 @@ class IntakeTileViewModel {
       required this.intakeProvider,
       required this.supplyProvider,
       required this.now,
-      required this.localizations,
       required this.languageTag,
       required this.context});
 
@@ -134,7 +131,6 @@ class IntakeTileViewModel {
   final MedicationIntakeProvider intakeProvider;
   final SupplyItemProvider supplyProvider;
   final DateTime now;
-  final AppLocalizations localizations;
   final String languageTag;
   final BuildContext context;
 
@@ -156,17 +152,18 @@ class IntakeTileViewModel {
 
   String get intakeInfo {
     if (status == ScheduleStatus.taken) {
-      return localizations.taken;
+      return t.taken;
     }
 
-    return "${schedule.dose} ${schedule.molecule.localizedUnit(localizations)} • ${schedule.molecule.localizedNameWithEster(schedule.ester, localizations)}";
+    return "${schedule.dose} ${schedule.molecule.localizedUnit} • "
+        "${schedule.molecule.localizedNameWithEster(schedule.ester)}";
   }
 
   String _inDays(int count) =>
-      count == 1 ? localizations.tomorrow : localizations.inDaysCount(count);
+      count == 1 ? t.tomorrow : t.inDaysCount(count: count);
 
   String _daysAgo(int count) =>
-      count == 1 ? localizations.yesterday : localizations.daysAgoCount(count);
+      count == 1 ? t.yesterday : t.daysAgoCount(count: count);
 
   String? get scheduledText {
     if (status == ScheduleStatus.upcoming) {
@@ -205,11 +202,11 @@ class IntakeTileViewModel {
       case ScheduleStatus.todayEarly:
       case ScheduleStatus.todayOverdue:
         if (lastTaken == null) {
-          return localizations.neverTakenYet;
+          return t.neverTakenYet;
         }
 
         final formatted = lastTaken!.format(DateFormat.MMMd(languageTag));
-        return "${localizations.lastTaken} ${_daysAgo(daysSinceLastTaken!)} ($formatted)";
+        return "${t.lastTaken} ${_daysAgo(daysSinceLastTaken!)} ($formatted)";
     }
   }
 

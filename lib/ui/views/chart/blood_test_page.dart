@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
-import 'package:mona/l10n/helpers/units_l10n.dart';
+import 'package:mona/i18n/build_context_extensions.dart';
+import 'package:mona/i18n/helpers/units_l10n.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/views/chart/edit_blood_test_page.dart';
 import 'package:mona/ui/views/chart/new_blood_test_page.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
@@ -14,18 +15,17 @@ class BloodTestPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloodTestProvider = context.watch<BloodTestProvider>();
-    final l10n = context.l10n;
 
     List<BloodTest> bloodtests = bloodTestProvider.bloodtestsSortedDesc;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.bloodTestsTitle)),
+      appBar: AppBar(title: Text(t.bloodTestsTitle)),
       body: Consumer<BloodTestProvider>(
           builder: (context, bloodTestProvider, child) {
         return MainPageWrapper(
             isLoading: bloodTestProvider.isLoading,
             isEmpty: bloodtests.isEmpty,
-            emptyMessage: l10n.empty_blood_tests,
+            emptyMessage: t.empty_blood_tests,
             child: ListView.builder(
               itemCount: bloodtests.length,
               itemBuilder: (context, index) {
@@ -41,7 +41,7 @@ class BloodTestPage extends StatelessWidget {
             builder: (context) => NewBloodTestPage(),
           ));
         },
-        tooltip: l10n.addBloodTest,
+        tooltip: t.addBloodTest,
         child: Icon(Icons.add),
       ),
     );
@@ -49,17 +49,16 @@ class BloodTestPage extends StatelessWidget {
 
   Widget _buildBloodTestTile(BuildContext context, BloodTest bloodtest,
       BloodTestProvider bloodTestProvider) {
-    final l10n = context.l10n;
-    final dateText =
-        DateFormat.yMMMd(context.languageTag).format(bloodtest.localDateTime);
+    final dateText = DateFormat.yMMMd(context.intlLanguageTag)
+        .format(bloodtest.localDateTime);
     return ListTile(
       title: Text(dateText),
       subtitle: Text(
         [
           if (bloodtest.estradiolLevels case final e?)
-            '${l10n.estradiol} : ${e.value} ${e.unit.localizedName(l10n)}',
-          if (bloodtest.testosteroneLevels case final t?)
-            '${l10n.testosterone} : ${t.value} ${t.unit.localizedName(l10n)}',
+            '${t.estradiol} : ${e.value} ${e.unit.localizedName}',
+          if (bloodtest.testosteroneLevels case final l?)
+            '${t.testosterone} : ${l.value} ${l.unit.localizedName}',
         ].join('\n'),
       ),
       onTap: () {
@@ -72,7 +71,7 @@ class BloodTestPage extends StatelessWidget {
         icon: const Icon(Icons.delete_outline),
         onPressed: () async {
           final confirmed = await Dialogs.confirmDeleteDialog(
-              context: context, title: l10n.deleteBloodTest);
+              context: context, title: t.deleteBloodTest);
           if (confirmed == true) {
             bloodTestProvider.deleteBloodTest(bloodtest);
           }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
-import 'package:mona/l10n/helpers/medication_schedule_l10n.dart';
+import 'package:mona/i18n/helpers/medication_schedule_l10n.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/views/home/settings/schedules/edit_schedule/edit_schedule_page.dart';
 import 'package:provider/provider.dart';
+
 import 'new_schedule_main_info_page.dart';
 
 class SchedulesPage extends StatelessWidget {
@@ -11,12 +12,11 @@ class SchedulesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final medicationScheduleProvider =
         context.watch<MedicationScheduleProvider>();
-    final localizations = context.l10n;
 
     if (medicationScheduleProvider.isLoading) {
       return Scaffold(
         appBar: AppBar(
-          title: Text(localizations.schedules),
+          title: Text(t.schedules),
         ),
         body: Center(
           child: CircularProgressIndicator(),
@@ -26,12 +26,12 @@ class SchedulesPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(localizations.schedules),
+        title: Text(t.schedules),
       ),
       body: SafeArea(
         child: medicationScheduleProvider.schedules.isEmpty
             ? Center(
-                child: Text(localizations.addScheduleToGetStarted),
+                child: Text(t.addScheduleToGetStarted),
               )
             : ListView.builder(
                 itemCount: medicationScheduleProvider.schedules.length,
@@ -39,9 +39,7 @@ class SchedulesPage extends StatelessWidget {
                   final schedule = medicationScheduleProvider.schedules[index];
                   return ListTile(
                     title: Text(schedule.name),
-                    subtitle: Text(
-                      schedule.localizedSummaryWithFrequency(localizations),
-                    ),
+                    subtitle: Text(schedule.localizedSummaryWithFrequency),
                     leading: CircleAvatar(
                       child: Icon(
                         schedule.administrationRoute.icon,
@@ -67,7 +65,7 @@ class SchedulesPage extends StatelessWidget {
             builder: (context) => const NewScheduleMainInfoPage(),
           ));
         },
-        tooltip: localizations.addSchedule,
+        tooltip: t.addSchedule,
         child: Icon(Icons.add),
       ),
     );

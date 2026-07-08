@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:mona/data/model/supply_item.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/views/supplies/new_generic_item_specifics_page.dart';
 import 'package:mona/ui/views/supplies/new_medication_item_specifics_page.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
@@ -20,8 +20,7 @@ class _NewItemPageState extends State<NewItemPage> {
   late TextEditingController _nameController;
   _ItemType _type = _ItemType.medication;
 
-  String? get _nameError =>
-      SupplyItem.validateName(context.l10n, _nameController.text);
+  String? get _nameError => SupplyItem.validateName(_nameController.text);
 
   bool get _isFormValid => _nameError == null;
 
@@ -55,19 +54,17 @@ class _NewItemPageState extends State<NewItemPage> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = context.l10n;
-
     return ModelForm(
-      title: localizations.newItem,
+      title: t.newItem,
       avatar: Symbols.medication,
-      submitButtonLabel: localizations.next,
+      submitButtonLabel: t.next,
       submitButtonKey: const ValueKey('newItemNext'),
       isFormValid: _isFormValid,
       saveChanges: _next,
       fields: [
         FormTextField(
           controller: _nameController,
-          label: localizations.name,
+          label: t.name,
           fieldKey: const ValueKey('newItemName'),
           onChanged: _refresh,
           inputType: TextInputType.text,
@@ -79,7 +76,6 @@ class _NewItemPageState extends State<NewItemPage> {
   }
 
   Widget _typeToggle(BuildContext context) {
-    final localizations = context.l10n;
     return Align(
       alignment: Alignment.center,
       child: M3EToggleButtonGroup(
@@ -97,10 +93,10 @@ class _NewItemPageState extends State<NewItemPage> {
         },
         actions: [
           M3EToggleButtonGroupAction(
-              label: Text(localizations.medicationItemType,
+              label: Text(t.medicationItemType,
                   key: const ValueKey('newItemTypeMedication'))),
           M3EToggleButtonGroupAction(
-              label: Text(localizations.genericItemType,
+              label: Text(t.genericItemType,
                   key: const ValueKey('newItemTypeGeneric'))),
         ],
       ),

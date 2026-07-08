@@ -1,6 +1,6 @@
 // main_tabs.dart
 import 'package:flutter/material.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/views/chart/blood_test_page.dart';
 import 'chart/chart_page.dart';
 import 'home/home_page.dart';
@@ -12,11 +12,9 @@ import 'supplies/new_item_page.dart';
 import 'supplies/pharmacy_page.dart';
 
 List<MainTabConfig> getMainTabs(BuildContext context) {
-  final localizations = context.l10n;
-
   return [
     MainTabConfig(
-      title: localizations.nav_home,
+      title: t.nav_home,
       page: const HomePage(),
       icon: Icons.home_outlined,
       selectedIcon: Icons.home,
@@ -32,13 +30,13 @@ List<MainTabConfig> getMainTabs(BuildContext context) {
       ],
     ),
     MainTabConfig(
-      title: localizations.nav_intakes,
+      title: t.nav_intakes,
       page: IntakesPage(),
       icon: Icons.event_outlined,
       selectedIcon: Icons.event_rounded,
       navKey: const ValueKey('navTabIntakes'),
       buildFab: (context) => FloatingActionButton(
-        tooltip: context.l10n.takeAnIntake,
+        tooltip: t.takeAnIntake,
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute<void>(
@@ -50,7 +48,7 @@ List<MainTabConfig> getMainTabs(BuildContext context) {
       ),
     ),
     MainTabConfig(
-      title: localizations.nav_levels,
+      title: t.nav_levels,
       page: ChartPage(),
       icon: Icons.trending_up_outlined,
       selectedIcon: Icons.trending_up_rounded,
@@ -66,13 +64,13 @@ List<MainTabConfig> getMainTabs(BuildContext context) {
       ],
     ),
     MainTabConfig(
-      title: localizations.nav_supplies,
+      title: t.nav_supplies,
       page: const PharmacyPage(),
       icon: Icons.medication_outlined,
       selectedIcon: Icons.medication,
       navKey: const ValueKey('navTabSupplies'),
       buildFab: (context) => FloatingActionButton(
-        tooltip: context.l10n.addAnItem,
+        tooltip: t.addAnItem,
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute<void>(

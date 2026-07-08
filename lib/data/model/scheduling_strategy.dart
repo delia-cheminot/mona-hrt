@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:mona/data/model/custom_mappers.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_intake.dart';
-import 'package:mona/l10n/app_localizations.dart';
 import 'package:mona/util/validators.dart';
 
 part 'scheduling_strategy.mapper.dart';
@@ -155,8 +154,8 @@ class IntervalDaysSchedule extends SchedulingStrategy
     return ScheduleStatus.upcoming;
   }
 
-  static String? validateIntervalDays(AppLocalizations l10n, String? value) =>
-      requiredPositiveInt(l10n, value);
+  static String? validateIntervalDays(String? value) =>
+      requiredPositiveInt(value);
 }
 
 @MappableClass(
@@ -199,9 +198,8 @@ class DailySchedule extends SchedulingStrategy with DailyScheduleMappable {
   @override
   bool get isNotifiable => notify && intakeTimes.isNotEmpty;
 
-  static String? validateIntakeTimes(
-          AppLocalizations l10n, List<TimeOfDay> value) =>
-      requiredList(l10n, value);
+  static String? validateIntakeTimes(List<TimeOfDay> value) =>
+      requiredList(value);
 }
 
 @MappableClass(
@@ -309,6 +307,5 @@ class WeeklySchedule extends SchedulingStrategy with WeeklyScheduleMappable {
     return ScheduleStatus.upcoming;
   }
 
-  static String? validateDaysOfWeek(AppLocalizations l10n, List<int> value) =>
-      requiredList(l10n, value);
+  static String? validateDaysOfWeek(List<int> value) => requiredList(value);
 }

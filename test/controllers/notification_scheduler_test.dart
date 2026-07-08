@@ -7,7 +7,6 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/controllers/notification_scheduler.dart';
-import 'package:mona/l10n/app_localizations_en.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -24,8 +23,6 @@ import '../util/test_clock.dart';
 import 'notification_scheduler_test.mocks.dart';
 
 void main() {
-  final l10n = AppLocalizationsEn();
-
   late MockNotificationPlanner planner;
   late MockPreferencesService preferences;
   late MockFlutterLocalNotificationsPlugin plugin;
@@ -110,7 +107,7 @@ void main() {
         )).thenAnswer((_) async {});
         final sut = NotificationScheduler(planner, preferences);
 
-        await sut.regenerateAll(l10n, 'en');
+        await sut.regenerateAll('en');
 
         verify(plugin.show(
           id: anyNamed('id'),
@@ -135,7 +132,7 @@ void main() {
         when(plugin.cancel(id: anyNamed('id'))).thenAnswer((_) async {});
         final sut = NotificationScheduler(planner, preferences);
 
-        await sut.regenerateAll(l10n, l10n.localeName);
+        await sut.regenerateAll('en');
 
         verify(plugin.cancel(id: anyNamed('id'))).called(1);
       });
@@ -147,7 +144,7 @@ void main() {
       when(preferences.notificationsEnabled).thenReturn(false);
       final sut = NotificationScheduler(planner, preferences);
 
-      await sut.regenerateAll(l10n, l10n.localeName);
+      await sut.regenerateAll('en');
 
       verifyNever(planner.daysAhead(maxScheduled: anyNamed('maxScheduled')));
       verifyNever(planner.planNotifications(daysAhead: anyNamed('daysAhead')));
@@ -182,7 +179,7 @@ void main() {
       final sut = NotificationScheduler(planner, preferences);
 
       // Act
-      await sut.regenerateAll(l10n, l10n.localeName);
+      await sut.regenerateAll('en');
 
       // Assert
       verifyScheduled().called(3);
@@ -195,7 +192,7 @@ void main() {
       final sut = NotificationScheduler(planner, preferences);
 
       // Act
-      await sut.regenerateAll(l10n, l10n.localeName);
+      await sut.regenerateAll('en');
 
       // Assert
       verifyScheduled(
@@ -210,7 +207,7 @@ void main() {
       final sut = NotificationScheduler(planner, preferences);
 
       // Act
-      await sut.regenerateAll(l10n, l10n.localeName);
+      await sut.regenerateAll('en');
 
       // Assert
       verifyScheduled(
@@ -225,7 +222,7 @@ void main() {
       final sut = NotificationScheduler(planner, preferences);
 
       // Act
-      await sut.regenerateAll(l10n, l10n.localeName);
+      await sut.regenerateAll('en');
 
       // Assert
       verifyScheduled(
@@ -243,7 +240,7 @@ void main() {
       final sut = NotificationScheduler(planner, preferences);
 
       // Act
-      await sut.regenerateAll(l10n, l10n.localeName);
+      await sut.regenerateAll('en');
 
       // Assert
       verifyScheduled().called(60);
@@ -261,7 +258,7 @@ void main() {
       final sut = NotificationScheduler(planner, preferences);
 
       // Act
-      await sut.regenerateAll(l10n, l10n.localeName);
+      await sut.regenerateAll('en');
 
       // Assert
       final scheduledDates = verify(plugin.zonedSchedule(
@@ -307,7 +304,7 @@ void main() {
       final sut = NotificationScheduler(planner, preferences);
 
       // Act
-      await sut.regenerateAll(l10n, l10n.localeName);
+      await sut.regenerateAll('en');
 
       // Assert
       final ids = capturedScheduledIds();

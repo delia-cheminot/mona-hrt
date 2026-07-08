@@ -70,6 +70,8 @@ dependencies:
   share_plus: ^10.0.0
   dart_mappable: ^4.8.0
   m3e_core: ^0.1.0
+  slang: ^4.16.0
+  slang_flutter: ^4.16.0
 
 dev_dependencies:
   flutter_test:
@@ -83,6 +85,7 @@ dev_dependencies:
   dart_mappable_builder: ^4.8.0
   flutter_lints: ^6.0.0
   mockito: ^5.4.4
+  slang_build_runner: ^4.16.0
 
 # Patrol E2E configuration. See integration_test/README.md for how to run.
 # package_name MUST match the package the test build actually installs. Debug
@@ -118,7 +121,6 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-  generate: true
 
   assets:
     - assets/

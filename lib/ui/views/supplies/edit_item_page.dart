@@ -5,9 +5,9 @@ import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
-import 'package:mona/l10n/helpers/administration_route_l10n.dart';
-import 'package:mona/l10n/helpers/molecule_l10n.dart';
+import 'package:mona/i18n/helpers/administration_route_l10n.dart';
+import 'package:mona/i18n/helpers/molecule_l10n.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
@@ -41,29 +41,27 @@ class _EditItemPageState extends State<EditItemPage> {
   late PreferencesService _preferencesService;
   late SupplyItemProvider _supplyItemProvider;
 
-  String? get _nameError =>
-      SupplyItem.validateName(context.l10n, _nameController.text);
+  String? get _nameError => SupplyItem.validateName(_nameController.text);
 
-  String? get _totalAmountError => MedicationSupplyItem.validateTotalAmount(
-      context.l10n, _totalAmountController.text);
+  String? get _totalAmountError =>
+      MedicationSupplyItem.validateTotalAmount(_totalAmountController.text);
 
   String? get _usedAmountError {
-    final validator = MedicationSupplyItem.usedAmountValidator(
-        context.l10n, _totalAmountController.text);
+    final validator =
+        MedicationSupplyItem.usedAmountValidator(_totalAmountController.text);
     return validator(_usedAmountController.text);
   }
 
-  String? get _concentrationError => MedicationSupplyItem.validateConcentration(
-      context.l10n, _concentrationController.text);
+  String? get _concentrationError =>
+      MedicationSupplyItem.validateConcentration(_concentrationController.text);
 
   String? get _moleculeError =>
-      MedicationSupplyItem.validateMolecule(context.l10n, _molecule);
+      MedicationSupplyItem.validateMolecule(_molecule);
   String? get _administrationRouteError =>
-      MedicationSupplyItem.validateAdministrationRoute(
-          context.l10n, _administrationRoute);
+      MedicationSupplyItem.validateAdministrationRoute(_administrationRoute);
   String? get _esterError {
-    final validator = MedicationSupplyItem.esterValidator(
-        context.l10n, _molecule, _administrationRoute);
+    final validator =
+        MedicationSupplyItem.esterValidator(_molecule, _administrationRoute);
     return validator(_ester);
   }
 
@@ -138,10 +136,9 @@ class _EditItemPageState extends State<EditItemPage> {
   }
 
   Future<void> _confirmDelete() async {
-    final localizations = context.l10n;
     final confirmed = await Dialogs.confirmDeleteDialog(
       context: context,
-      title: localizations.deleteItem(widget.item.name),
+      title: t.deleteItem(name: widget.item.name),
     );
 
     if (confirmed == true) {
@@ -183,12 +180,10 @@ class _EditItemPageState extends State<EditItemPage> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = context.l10n;
-
     return ModelForm(
-      title: localizations.editItem,
+      title: t.editItem,
       avatar: _administrationRoute.icon,
-      submitButtonLabel: localizations.save,
+      submitButtonLabel: t.save,
       submitButtonKey: const ValueKey('editItemSave'),
       deleteButtonKey: const ValueKey('editItemDelete'),
       isFormValid: _isFormValid,
@@ -197,7 +192,7 @@ class _EditItemPageState extends State<EditItemPage> {
       fields: [
         FormTextField(
           controller: _nameController,
-          label: localizations.name,
+          label: t.name,
           fieldKey: const ValueKey('editItemName'),
           onChanged: _refresh,
           inputType: TextInputType.text,
@@ -206,50 +201,47 @@ class _EditItemPageState extends State<EditItemPage> {
         FormSpacer(),
         FormDropdownField<Molecule>(
           value: _molecule,
-          items: moleculeDropdownMenuItems(
-            _preferencesService.allMolecules,
-            localizations,
-          ),
+          items: moleculeDropdownMenuItems(_preferencesService.allMolecules),
           onChanged: _onMoleculeChanged,
-          label: localizations.molecule,
+          label: t.molecule,
         ),
         FormDropdownField<AdministrationRoute>(
           value: _administrationRoute,
-          items: administrationRouteDropdownMenuItems(localizations),
+          items: administrationRouteDropdownMenuItems(),
           onChanged: _onAdministrationRouteChanged,
-          label: localizations.adminRoute,
+          label: t.adminRoute,
         ),
         if (_useEsterField)
           FormDropdownField<Ester>(
             value: _ester,
-            items: esterDropdownMenuItems(localizations),
+            items: esterDropdownMenuItems(),
             onChanged: _onEsterChanged,
-            label: localizations.ester,
+            label: t.ester,
           ),
         FormSpacer(),
         FormTextField(
             controller: _totalAmountController,
-            label: localizations.totalAmount,
+            label: t.totalAmount,
             onChanged: _refresh,
             inputType: TextInputType.numberWithOptions(decimal: true),
-            suffixText: _administrationRoute.localizedUnit(localizations, 1),
+            suffixText: _administrationRoute.localizedUnit(1),
             errorText: _totalAmountError,
             regexFormatter: RegexPatterns.floatNumber),
         FormTextField(
             controller: _usedAmountController,
-            label: localizations.usedAmount,
+            label: t.usedAmount,
             onChanged: _refresh,
             inputType: TextInputType.numberWithOptions(decimal: true),
-            suffixText: _administrationRoute.localizedUnit(localizations, 1),
+            suffixText: _administrationRoute.localizedUnit(1),
             errorText: _usedAmountError,
             regexFormatter: RegexPatterns.floatNumber),
         FormTextField(
           controller: _concentrationController,
-          label: localizations.concentration,
+          label: t.concentration,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           suffixText:
-              '${_molecule.localizedUnit(localizations)}/${_administrationRoute.localizedUnit(localizations, 1)}',
+              '${_molecule.localizedUnit}/${_administrationRoute.localizedUnit(1)}',
           errorText: _concentrationError,
           regexFormatter: RegexPatterns.floatNumber,
         ),

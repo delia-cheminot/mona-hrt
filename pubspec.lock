@@ -997,6 +997,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.0"
+  serial_csv:
+    dependency: transitive
+    description:
+      name: serial_csv
+      sha256: "2d62bb70cb3ce7251383fc86ea9aae1298ab1e57af6ef4e93b6a9751c5c268dd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.2"
   share_plus:
     dependency: "direct main"
     description:
@@ -1090,6 +1098,30 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  slang:
+    dependency: "direct main"
+    description:
+      name: slang
+      sha256: fe12e1eeb1fae0dd8e4e453ef6bb39dabb1fa2460a33ebfcdd3f84c8748d28b6
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.16.0"
+  slang_build_runner:
+    dependency: "direct dev"
+    description:
+      name: slang_build_runner
+      sha256: c148e493b8edc528feebb71814c95219ac5d5cc060230bac220100f469cfeb48
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.16.0"
+  slang_flutter:
+    dependency: "direct main"
+    description:
+      name: slang_flutter
+      sha256: ee9dbb86bc58994eb0a5cd5f17de484daa70e7224c62cc69b8620065b213dc73
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.16.0"
   source_gen:
     dependency: transitive
     description:

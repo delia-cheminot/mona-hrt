@@ -1,25 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:intl/locale.dart' as intl;
-import 'package:mona/l10n/build_context_extensions.dart';
-import 'package:mona/l10n/locale_provider.dart';
+import 'package:mona/i18n/locale_provider.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:provider/provider.dart';
+
+typedef LanguageNames = ({String english, String native});
 
 class LanguagePage extends StatelessWidget {
   const LanguagePage({super.key});
 
-  static final languages = [
-    ('en', 'English', 'English'),
-    ('fr', 'French', 'Français'),
-    ('es', 'Spanish', 'Español'),
-    ('de', 'German', 'Deutsch'),
-    ('pt', 'Portuguese', 'Português'),
-    ('pt-BR', 'Brazilian Portuguese', 'Português do Brasil'),
-    ('sk', 'Slovak', 'Slovenský'),
-    ('uk', 'Ukrainian', 'Українська'),
-    ('ru', 'Russian', 'Русский'),
-    ('th', 'Thai', 'ภาษาไทย')
-  ];
+  static const Map<String, LanguageNames> languageNames = {
+    'en': (english: 'English', native: 'English'),
+    'fr': (english: 'French', native: 'Français'),
+    'es': (english: 'Spanish', native: 'Español'),
+    'de': (english: 'German', native: 'Deutsch'),
+    'pt': (english: 'Portuguese', native: 'Português'),
+    'pt-BR': (english: 'Brazilian Portuguese', native: 'Português do Brasil'),
+    'sk': (english: 'Slovak', native: 'Slovenský'),
+    'uk': (english: 'Ukrainian', native: 'Українська'),
+    'ru': (english: 'Russian', native: 'Русский'),
+    'th': (english: 'Thai', native: 'ภาษาไทย'),
+    'et': (english: 'Estonian', native: 'Eesti'),
+    'pl': (english: 'Polish', native: 'Polski'),
+    'tok': (english: 'Toki Pona', native: 'toki pona'),
+  };
+
+  static String? nativeNameOf(String tag) => languageNames[tag]?.native;
 
   @override
   Widget build(BuildContext context) {
@@ -44,25 +51,32 @@ class LanguagePage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.language)),
+      appBar: AppBar(title: Text(t.language)),
       body: RadioGroup<String?>(
         groupValue: savedTag,
         onChanged: onLanguageChanged,
         child: ListView(
           children: [
             RadioListTile<String?>(
-              title: Text(context.l10n.languageFollowDevice),
+              title: Text(t.languageFollowDevice),
               value: null,
             ),
-            for (final (code, englishName, nativeName) in languages)
-              RadioListTile<String?>(
-                title: Text(nativeName),
-                subtitle: code != 'en' ? Text(englishName) : null,
-                value: code,
-              ),
+            for (final locale in AppLocale.values) _buildTile(locale),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildTile(AppLocale locale) {
+    final tag = locale.languageTag;
+    final names = languageNames[tag];
+    return RadioListTile<String?>(
+      title: Text(names?.native ?? tag),
+      subtitle: (names != null && locale != AppLocale.en)
+          ? Text(names.english)
+          : null,
+      value: tag,
     );
   }
 }

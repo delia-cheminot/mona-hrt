@@ -15,7 +15,10 @@ int logicalDayStartHour = 4;
 class Date {
   final DateTime value;
 
-  Date(this.value) {
+  Date({required int year, int month = 1, int day = 1})
+      : value = DateTime.utc(year, month, day);
+
+  Date.fromUtc(this.value) {
     if (!_isUtcMidnight(value)) {
       throw ArgumentError('Value must be UTC midnight');
     }
@@ -54,10 +57,10 @@ class Date {
 
   bool isAfter(Date other) => value.isAfter(other.value);
 
-  Date add(Duration duration) => Date(value.add(duration));
+  Date add(Duration duration) => Date.fromUtc(value.add(duration));
 
   Date subtract(Duration duration) {
-    return Date(value.subtract(duration));
+    return Date.fromUtc(value.subtract(duration));
   }
 
   DateTime toUtcDateTime() => value;

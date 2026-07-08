@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mona/data/model/date.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/build_context_extensions.dart';
 
 class FormDateField extends StatelessWidget {
   final Date date;
@@ -25,7 +25,7 @@ class FormDateField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextField(
         controller: TextEditingController(
-            text: date.format(DateFormat.yMMMd(context.languageTag))),
+            text: date.format(DateFormat.yMMMd(context.intlLanguageTag))),
         keyboardType: TextInputType.datetime,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
@@ -50,7 +50,7 @@ class FormDateField extends StatelessWidget {
     );
 
     if (picked != null) {
-      onChanged(DateTime.utc(picked.year, picked.month, picked.day).toDate);
+      onChanged(Date(year: picked.year, month: picked.month, day: picked.day));
     }
   }
 }

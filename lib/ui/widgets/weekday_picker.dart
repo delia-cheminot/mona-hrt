@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mona/i18n/build_context_extensions.dart';
 
 typedef WeekdayToggleCallback = void Function(int day, bool selected);
 
@@ -20,8 +21,7 @@ class WeekdayPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final localeName = Localizations.localeOf(context).languageCode;
-    final weekdayFormat = DateFormat.E(localeName);
+    final weekdayFormat = DateFormat.E(context.intlLanguageTag);
 
     return Center(
       child: Column(

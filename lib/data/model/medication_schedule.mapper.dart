@@ -48,12 +48,7 @@ class MedicationScheduleMapper extends ClassMapperBase<MedicationSchedule> {
   );
   static SchedulingStrategy _$scheduling(MedicationSchedule v) => v.scheduling;
   static const Field<MedicationSchedule, SchedulingStrategy> _f$scheduling =
-      Field(
-    'scheduling',
-    _$scheduling,
-    key: r'schedulingStrategy',
-    hook: JsonStringHook(),
-  );
+      Field('scheduling', _$scheduling, hook: JsonStringHook());
   static Date _$startDate(MedicationSchedule v) => v.startDate;
   static const Field<MedicationSchedule, Date> _f$startDate = Field(
     'startDate',
@@ -64,21 +59,16 @@ class MedicationScheduleMapper extends ClassMapperBase<MedicationSchedule> {
   static const Field<MedicationSchedule, Molecule> _f$molecule = Field(
     'molecule',
     _$molecule,
-    key: r'moleculeJson',
   );
   static AdministrationRoute _$administrationRoute(MedicationSchedule v) =>
       v.administrationRoute;
   static const Field<MedicationSchedule, AdministrationRoute>
-      _f$administrationRoute = Field(
-    'administrationRoute',
-    _$administrationRoute,
-    key: r'administrationRouteName',
-  );
+      _f$administrationRoute =
+      Field('administrationRoute', _$administrationRoute);
   static Ester? _$ester(MedicationSchedule v) => v.ester;
   static const Field<MedicationSchedule, Ester> _f$ester = Field(
     'ester',
     _$ester,
-    key: r'esterName',
     opt: true,
   );
 
