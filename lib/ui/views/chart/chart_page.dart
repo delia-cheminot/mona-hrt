@@ -20,7 +20,7 @@ class _ChartPageState extends State<ChartPage> {
         builder: (context, medicationIntakeProvider, child) {
       return MainPageWrapper(
         isLoading: medicationIntakeProvider.isLoading,
-        isEmpty: medicationIntakeProvider.graphIntakes.isEmpty,
+        isEmpty: medicationIntakeProvider.plottableIntakes.isEmpty,
         emptyMessage: t.empty_levels,
         child: Column(
           children: [
