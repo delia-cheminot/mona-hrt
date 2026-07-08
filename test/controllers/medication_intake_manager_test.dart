@@ -871,20 +871,23 @@ void main() {
             'null -> MedicationSupplyItem with deadSpace: increases usedDose by'
             ' takenDose + (concentration x wastedAmount) + (concentration x deadSpace x 0.001)',
             () async {
+          // Arrange
           final next = aMedicationSupplyItem(
             usedDose: Decimal.parse('1'),
             concentration: Decimal.parse('10'),
           );
+
+          // Act
           // 1 + 2 + 0.5 x 10 + 100 x 0.001 x 10 = 9.
-          expect(
-            await capture(
-              next: next,
-              newDose: Decimal.parse('2'),
-              newWasted: Decimal.parse('0.5'),
-              newDeadSpace: Decimal.parse('100'),
-            ),
-            [_medication(id: next.id, usedDose: '9')],
+          final updates = await capture(
+            next: next,
+            newDose: Decimal.parse('2'),
+            newWasted: Decimal.parse('0.5'),
+            newDeadSpace: Decimal.parse('100'),
           );
+
+          // Assert
+          expect(updates, [_medication(id: next.id, usedDose: '9')]);
         });
 
         test(
@@ -908,20 +911,23 @@ void main() {
         test(
             'MedicationSupplyItem with deadSpace -> null: rolls back usedDose by'
             ' the previous used dose including deadSpace', () async {
+          // Arrange
           final previous = aMedicationSupplyItem(
             usedDose: Decimal.parse('10'),
             concentration: Decimal.parse('10'),
           );
+
+          // Act
           // 10 - (2 + 0.5 x 10 + 100 x 0.001 x 10) = 2.
-          expect(
-            await capture(
-              previous: previous,
-              previousDose: Decimal.parse('2'),
-              previousWasted: Decimal.parse('0.5'),
-              previousDeadSpace: Decimal.parse('100'),
-            ),
-            [_medication(id: previous.id, usedDose: '2')],
+          final updates = await capture(
+            previous: previous,
+            previousDose: Decimal.parse('2'),
+            previousWasted: Decimal.parse('0.5'),
+            previousDeadSpace: Decimal.parse('100'),
           );
+
+          // Assert
+          expect(updates, [_medication(id: previous.id, usedDose: '2')]);
         });
 
         test(
@@ -948,27 +954,30 @@ void main() {
         test(
             'same MedicationSupplyItem with changed deadSpace: adjusts usedDose'
             ' by the delta including deadSpace', () async {
+          // Arrange
           final item = aMedicationSupplyItem(
             totalDose: Decimal.parse('100'),
             usedDose: Decimal.parse('20'),
             concentration: Decimal.parse('10'),
           );
+
+          // Act
           // old: 2 + 0.5 x 10 + 100 x 0.001 x 10 = 8
           // new: 3 + 0.2 x 10 + 50 x 0.001 x 10 = 5.5
           // 20 + (5.5 - 8) = 17.5
-          expect(
-            await capture(
-              previous: item,
-              next: item,
-              previousDose: Decimal.parse('2'),
-              previousWasted: Decimal.parse('0.5'),
-              previousDeadSpace: Decimal.parse('100'),
-              newDose: Decimal.parse('3'),
-              newWasted: Decimal.parse('0.2'),
-              newDeadSpace: Decimal.parse('50'),
-            ),
-            [_medication(id: item.id, usedDose: '17.5')],
+          final updates = await capture(
+            previous: item,
+            next: item,
+            previousDose: Decimal.parse('2'),
+            previousWasted: Decimal.parse('0.5'),
+            previousDeadSpace: Decimal.parse('100'),
+            newDose: Decimal.parse('3'),
+            newWasted: Decimal.parse('0.2'),
+            newDeadSpace: Decimal.parse('50'),
           );
+
+          // Assert
+          expect(updates, [_medication(id: item.id, usedDose: '17.5')]);
         });
 
         test(
