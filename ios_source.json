@@ -31,12 +31,21 @@
         "https://i.imgur.com/vuSqW2l.png",
         "https://i.imgur.com/5cjzlB0.png"
       ],
-      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.12.1/mona-1.12.1.ipa",
-      "size": 12095714,
-      "version": "1.12.1",
-      "versionDate": "2026-06-28T00:00:00Z",
-      "versionDescription": "New:\n\n- Display a message when an intake is recorded\n\nFix:\n\n- Fixes a bug causing notifications to duplicate",
+      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.13.0/mona-1.13.0.ipa",
+      "size": 12165769,
+      "version": "1.13.0",
+      "versionDate": "2026-07-08T00:00:00Z",
+      "versionDescription": "New:\n\n- New languages: Estonian, Polish, Toki Pona.\n- Graph now shows injections at the exact time they were taken.\n- You can now see and edit needle dead space for previous intakes.\n\nFix:\n\n- The date picker now always selects the correct date when creating a schedule.",
       "versions": [
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.13.0/mona-1.13.0.ipa",
+          "size": 12165769,
+          "version": "1.13.0",
+          "buildVersion": "13",
+          "date": "2026-07-08T00:00:00Z",
+          "localizedDescription": "New:\n\n- New languages: Estonian, Polish, Toki Pona.\n- Graph now shows injections at the exact time they were taken.\n- You can now see and edit needle dead space for previous intakes.\n\nFix:\n\n- The date picker now always selects the correct date when creating a schedule.",
+          "minOSVersion": "13.0"
+        },
         {
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.12.1/mona-1.12.1.ipa",
           "size": 12095714,
