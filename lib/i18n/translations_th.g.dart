@@ -474,9 +474,9 @@ class TranslationsTh extends Translations
   @override
   String get injectionSideRight => 'ขวา';
   @override
-  String get intakeSummaryInjectionSideLeft => 'ด้านซ้าย';
+  String get placementLeft => 'ด้านซ้าย';
   @override
-  String get intakeSummaryInjectionSideRight => 'ด้านขวา';
+  String get placementRight => 'ด้านขวา';
   @override
   String get requiredField => 'ต้องใส่';
   @override
@@ -830,8 +830,8 @@ extension on TranslationsTh {
       'unitNmolPerL' => 'นาโนโมล/ลิตร',
       'injectionSideLeft' => 'ซ้าย',
       'injectionSideRight' => 'ขวา',
-      'intakeSummaryInjectionSideLeft' => 'ด้านซ้าย',
-      'intakeSummaryInjectionSideRight' => 'ด้านขวา',
+      'placementLeft' => 'ด้านซ้าย',
+      'placementRight' => 'ด้านขวา',
       'requiredField' => 'ต้องใส่',
       'mustBePositiveNumber' => 'ต้องเป็นตัวเลขมากกว่า 0',
       'invalidTotalAmount' => 'จำนวนรวมผิดรูปแบบ',

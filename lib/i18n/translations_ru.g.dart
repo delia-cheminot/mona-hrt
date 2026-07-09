@@ -470,9 +470,9 @@ class TranslationsRu extends Translations
   @override
   String get injectionSideRight => 'Правая';
   @override
-  String get intakeSummaryInjectionSideLeft => 'Левая сторона';
+  String get placementLeft => 'Левая сторона';
   @override
-  String get intakeSummaryInjectionSideRight => 'Правая сторона';
+  String get placementRight => 'Правая сторона';
   @override
   String get requiredField => 'Обязательное поле';
   @override
@@ -847,8 +847,8 @@ extension on TranslationsRu {
       'unitNmolPerL' => 'нмоль/л',
       'injectionSideLeft' => 'Левая',
       'injectionSideRight' => 'Правая',
-      'intakeSummaryInjectionSideLeft' => 'Левая сторона',
-      'intakeSummaryInjectionSideRight' => 'Правая сторона',
+      'placementLeft' => 'Левая сторона',
+      'placementRight' => 'Правая сторона',
       'requiredField' => 'Обязательное поле',
       'mustBePositiveNumber' => 'Число должно быть положительным',
       'invalidTotalAmount' => 'Неверное общее количество',

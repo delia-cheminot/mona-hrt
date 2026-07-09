@@ -469,9 +469,9 @@ class TranslationsPt extends Translations
   @override
   String get injectionSideRight => 'Direita';
   @override
-  String get intakeSummaryInjectionSideLeft => 'Lado esquerdo';
+  String get placementLeft => 'Lado esquerdo';
   @override
-  String get intakeSummaryInjectionSideRight => 'Lado direito';
+  String get placementRight => 'Lado direito';
   @override
   String get requiredField => 'Campo obrigatório';
   @override
@@ -833,8 +833,8 @@ extension on TranslationsPt {
       'unitNmolPerL' => 'nmol/L',
       'injectionSideLeft' => 'Esquerda',
       'injectionSideRight' => 'Direita',
-      'intakeSummaryInjectionSideLeft' => 'Lado esquerdo',
-      'intakeSummaryInjectionSideRight' => 'Lado direito',
+      'placementLeft' => 'Lado esquerdo',
+      'placementRight' => 'Lado direito',
       'requiredField' => 'Campo obrigatório',
       'mustBePositiveNumber' => 'Deve ser um número positivo',
       'invalidTotalAmount' => 'Quantidade total inválida',

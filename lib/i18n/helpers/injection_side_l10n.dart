@@ -11,7 +11,7 @@ abstract final class _InjectionSideDisplayNames {
   static final Map<String, String Function()> _labelsByName = {
     InjectionSide.left.name: () => t.injectionSideLeft,
     InjectionSide.right.name: () => t.injectionSideRight,
-  };
+  }; // TODO remove and only use placementLeft/placementRight
 
   static String resolve(InjectionSide side) {
     final labelBuilder = _labelsByName[side.name];
@@ -25,8 +25,8 @@ abstract final class _InjectionSideDisplayNames {
 
 abstract final class _InjectionSideSummary {
   static final Map<String, String Function()> _labelsByName = {
-    InjectionSide.left.name: () => t.intakeSummaryInjectionSideLeft,
-    InjectionSide.right.name: () => t.intakeSummaryInjectionSideRight,
+    InjectionSide.left.name: () => t.placementLeft,
+    InjectionSide.right.name: () => t.placementRight,
   };
 
   static String resolve(InjectionSide side) {

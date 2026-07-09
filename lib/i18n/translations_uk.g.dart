@@ -467,9 +467,9 @@ class TranslationsUk extends Translations
   @override
   String get injectionSideRight => 'Права';
   @override
-  String get intakeSummaryInjectionSideLeft => 'Ліва сторона';
+  String get placementLeft => 'Ліва сторона';
   @override
-  String get intakeSummaryInjectionSideRight => 'Права сторона';
+  String get placementRight => 'Права сторона';
   @override
   String get requiredField => 'Обов\'язкове поле';
   @override
@@ -845,8 +845,8 @@ extension on TranslationsUk {
       'unitNmolPerL' => 'нмоль/л',
       'injectionSideLeft' => 'Ліва',
       'injectionSideRight' => 'Права',
-      'intakeSummaryInjectionSideLeft' => 'Ліва сторона',
-      'intakeSummaryInjectionSideRight' => 'Права сторона',
+      'placementLeft' => 'Ліва сторона',
+      'placementRight' => 'Права сторона',
       'requiredField' => 'Обов\'язкове поле',
       'mustBePositiveNumber' => 'Має бути додатнім числом',
       'invalidTotalAmount' => 'Невірна сумарна кількість',

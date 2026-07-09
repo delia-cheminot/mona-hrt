@@ -487,9 +487,9 @@ class TranslationsFr extends Translations
   @override
   String get injectionSideRight => 'Droite';
   @override
-  String get intakeSummaryInjectionSideLeft => 'Côté gauche';
+  String get placementLeft => 'Côté gauche';
   @override
-  String get intakeSummaryInjectionSideRight => 'Côté droit';
+  String get placementRight => 'Côté droit';
   @override
   String get requiredField => 'Champ obligatoire';
   @override
@@ -862,8 +862,8 @@ extension on TranslationsFr {
       'unitNmolPerL' => 'nmol/L',
       'injectionSideLeft' => 'Gauche',
       'injectionSideRight' => 'Droite',
-      'intakeSummaryInjectionSideLeft' => 'Côté gauche',
-      'intakeSummaryInjectionSideRight' => 'Côté droit',
+      'placementLeft' => 'Côté gauche',
+      'placementRight' => 'Côté droit',
       'requiredField' => 'Champ obligatoire',
       'mustBePositiveNumber' => 'Doit être un nombre positif',
       'invalidTotalAmount' => 'Montant total invalide',

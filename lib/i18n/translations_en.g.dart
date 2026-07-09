@@ -675,10 +675,34 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   String get injectionSideRight => 'Right';
 
   /// en: 'Left side'
-  String get intakeSummaryInjectionSideLeft => 'Left side';
+  String get placementLeft => 'Left side';
 
   /// en: 'Right side'
-  String get intakeSummaryInjectionSideRight => 'Right side';
+  String get placementRight => 'Right side';
+
+  /// en: 'Left thigh'
+  String get placementLeftThigh => 'Left thigh';
+
+  /// en: 'Right thigh'
+  String get placementRightThigh => 'Right thigh';
+
+  /// en: 'Left arm'
+  String get placementLeftArm => 'Left arm';
+
+  /// en: 'Right arm'
+  String get placementRightArm => 'Right arm';
+
+  /// en: 'Left buttock'
+  String get placementLeftButtock => 'Left buttock';
+
+  /// en: 'Right buttock'
+  String get placementRightButtock => 'Right buttock';
+
+  /// en: 'Left abdomen'
+  String get placementLeftAbdomen => 'Left abdomen';
+
+  /// en: 'Right abdomen'
+  String get placementRightAbdomen => 'Right abdomen';
 
   /// en: 'Required field'
   String get requiredField => 'Required field';
@@ -1062,8 +1086,16 @@ extension on Translations {
       'unitNmolPerL' => 'nmol/L',
       'injectionSideLeft' => 'Left',
       'injectionSideRight' => 'Right',
-      'intakeSummaryInjectionSideLeft' => 'Left side',
-      'intakeSummaryInjectionSideRight' => 'Right side',
+      'placementLeft' => 'Left side',
+      'placementRight' => 'Right side',
+      'placementLeftThigh' => 'Left thigh',
+      'placementRightThigh' => 'Right thigh',
+      'placementLeftArm' => 'Left arm',
+      'placementRightArm' => 'Right arm',
+      'placementLeftButtock' => 'Left buttock',
+      'placementRightButtock' => 'Right buttock',
+      'placementLeftAbdomen' => 'Left abdomen',
+      'placementRightAbdomen' => 'Right abdomen',
       'requiredField' => 'Required field',
       'mustBePositiveNumber' => 'Must be a positive number',
       'invalidTotalAmount' => 'Invalid total amount',
