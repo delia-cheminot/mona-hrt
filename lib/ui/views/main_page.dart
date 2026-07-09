@@ -62,12 +62,18 @@ class _MainPageState extends State<MainPage> {
       },
       child: Scaffold(
         appBar: AppBar(
+          key: ValueKey(_selectedIndex),
           title: Text(currentTab.title),
           centerTitle: true,
           actions: currentTab.buildActions?.call(context),
         ),
         body: SafeArea(
-          child: currentTab.page,
+          child: IndexedStack(
+            index: _selectedIndex,
+            children: [
+              for (final tab in tabs) tab.page,
+            ],
+          ),
         ),
         bottomNavigationBar: Column(
           mainAxisSize: MainAxisSize.min,
