@@ -125,6 +125,7 @@
   "bloodTestDateLabel": "วันที่ตรวจ",
   "chartNowConcentration": "ตอนนี้ {{value}}",
   "chartBloodTestLevelTooltip": "ณ {{date}}: {{level}}",
+  "chartLevelTooltip": "ณ {{date}}: {{level}}",
   "empty_supplies": "ไม่มีสต็อกอยู่ โปรดเพื่มสต็อก",
   "newItem": "สต็อกใหม่",
   "adminRoute": "วิธีนำเข้าร่างกาย",

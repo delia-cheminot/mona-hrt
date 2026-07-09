@@ -435,6 +435,10 @@ class Translations with BaseTranslations<AppLocale, Translations> {
           {required Object date, required Object level}) =>
       '${date}: ${level}';
 
+  /// en: '{date}: {level}'
+  String chartLevelTooltip({required Object date, required Object level}) =>
+      '${date}: ${level}';
+
   /// en: 'No supplies. Add an item to get started.'
   String get empty_supplies => 'No supplies. Add an item to get started.';
 
@@ -1005,6 +1009,8 @@ extension on Translations {
       'chartNowConcentration' => ({required Object value}) => 'Now ${value}',
       'chartBloodTestLevelTooltip' =>
         ({required Object date, required Object level}) => '${date}: ${level}',
+      'chartLevelTooltip' => ({required Object date, required Object level}) =>
+          '${date}: ${level}',
       'empty_supplies' => 'No supplies. Add an item to get started.',
       'newItem' => 'New item',
       'adminRoute' => 'Administration route',

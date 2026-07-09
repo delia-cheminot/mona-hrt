@@ -131,6 +131,7 @@
   "bloodTestDateLabel": "Дата анализа",
   "chartNowConcentration": "Сейчас {{value}}",
   "chartBloodTestLevelTooltip": "{{date}}: {{level}}",
+  "chartLevelTooltip": "{{date}}: {{level}}",
   "empty_supplies": "Нет препаратов. Для начала работы добавьте препарат.",
   "newItem": "Новый препарат",
   "adminRoute": "Способ приёма",

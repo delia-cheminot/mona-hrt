@@ -126,6 +126,7 @@
   "bloodTestDateLabel": "Date de la prise",
   "chartNowConcentration": "Maintenant {{value}}",
   "chartBloodTestLevelTooltip": "{{date}} : {{level}}",
+  "chartLevelTooltip": "{{date}} : {{level}}",
   "empty_supplies": "Aucun consommable. Ajoutez un élément pour commencer.",
   "newItem": "Nouvel élément",
   "adminRoute": "Voie d'administration",

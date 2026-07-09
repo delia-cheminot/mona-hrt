@@ -130,6 +130,7 @@
   "bloodTestDateLabel": "Дата аналізу",
   "chartNowConcentration": "Поточна {{value}}",
   "chartBloodTestLevelTooltip": "{{date}}: {{level}}",
+  "chartLevelTooltip": "{{date}}: {{level}}",
   "empty_supplies": "Додайте препарат, щоб почати.",
   "newItem": "Новий препарат",
   "adminRoute": "Шлях введення",

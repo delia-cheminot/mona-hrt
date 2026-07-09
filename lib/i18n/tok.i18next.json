@@ -47,6 +47,7 @@
   "notes": "lipu",
   "microliters": "μL",
   "chartBloodTestLevelTooltip": "{{date}}: {{level}}",
+  "chartLevelTooltip": "{{date}}: {{level}}",
   "empty_supplies": "jo li lon ala. o pana e ijo sin la o open.",
   "allItemsFilter": "ale",
   "newItem": "ijo sin",

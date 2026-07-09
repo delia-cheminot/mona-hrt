@@ -176,7 +176,8 @@ class MainGraph extends StatelessWidget {
           return touchedSpots.map((spot) {
             String text;
             if (spot.barIndex == 0) {
-              text = spot.y.toStringAsFixed(1);
+              text =
+                  '${t.chartLevelTooltip(date: _getDateLabel(spot.x, tMin, context), level: spot.y.toStringAsFixed(1))} ${unit.localizedName}';
             } else {
               text =
                   '${t.chartBloodTestLevelTooltip(date: _getDateLabel(spot.x, tMin, context), level: spot.y.toStringAsFixed(1))} ${unit.localizedName}';
