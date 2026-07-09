@@ -314,6 +314,9 @@ class TranslationsTh extends Translations
           {required Object date, required Object level}) =>
       'ณ ${date}: ${level}';
   @override
+  String chartLevelTooltip({required Object date, required Object level}) =>
+      'ณ ${date}: ${level}';
+  @override
   String get empty_supplies => 'ไม่มีสต็อกอยู่ โปรดเพื่มสต็อก';
   @override
   String get newItem => 'สต็อกใหม่';
@@ -748,6 +751,8 @@ extension on TranslationsTh {
       'chartNowConcentration' => ({required Object value}) => 'ตอนนี้ ${value}',
       'chartBloodTestLevelTooltip' => (
               {required Object date, required Object level}) =>
+          'ณ ${date}: ${level}',
+      'chartLevelTooltip' => ({required Object date, required Object level}) =>
           'ณ ${date}: ${level}',
       'empty_supplies' => 'ไม่มีสต็อกอยู่ โปรดเพื่มสต็อก',
       'newItem' => 'สต็อกใหม่',

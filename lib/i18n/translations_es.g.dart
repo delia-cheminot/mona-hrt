@@ -322,6 +322,9 @@ class TranslationsEs extends Translations
           {required Object date, required Object level}) =>
       '${date}: ${level}';
   @override
+  String chartLevelTooltip({required Object date, required Object level}) =>
+      '${date}: ${level}';
+  @override
   String get empty_supplies =>
       'Sin suministros. Añade un elemento para comenzar.';
   @override
@@ -762,6 +765,8 @@ extension on TranslationsEs {
       'chartNowConcentration' => ({required Object value}) => 'Ahora ${value}',
       'chartBloodTestLevelTooltip' =>
         ({required Object date, required Object level}) => '${date}: ${level}',
+      'chartLevelTooltip' => ({required Object date, required Object level}) =>
+          '${date}: ${level}',
       'empty_supplies' => 'Sin suministros. Añade un elemento para comenzar.',
       'newItem' => 'Nuevo elemento',
       'adminRoute' => 'Vía de administración',
