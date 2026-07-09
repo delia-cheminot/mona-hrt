@@ -317,6 +317,9 @@ class TranslationsUk extends Translations
           {required Object date, required Object level}) =>
       '${date}: ${level}';
   @override
+  String chartLevelTooltip({required Object date, required Object level}) =>
+      '${date}: ${level}';
+  @override
   String get empty_supplies => 'Додайте препарат, щоб почати.';
   @override
   String get newItem => 'Новий препарат';
@@ -769,6 +772,8 @@ extension on TranslationsUk {
           'Поточна ${value}',
       'chartBloodTestLevelTooltip' =>
         ({required Object date, required Object level}) => '${date}: ${level}',
+      'chartLevelTooltip' => ({required Object date, required Object level}) =>
+          '${date}: ${level}',
       'empty_supplies' => 'Додайте препарат, щоб почати.',
       'newItem' => 'Новий препарат',
       'adminRoute' => 'Шлях введення',

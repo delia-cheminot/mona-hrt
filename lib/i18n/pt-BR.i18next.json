@@ -126,6 +126,7 @@
   "bloodTestDateLabel": "Data do exame",
   "chartNowConcentration": "Agora {{value}}",
   "chartBloodTestLevelTooltip": "{{date}}: {{level}}",
+  "chartLevelTooltip": "{{date}}: {{level}}",
   "empty_supplies": "Sem suprimentos. Adicione um item para começar.",
   "newItem": "Novo item",
   "adminRoute": "Via de administração",

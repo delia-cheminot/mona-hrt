@@ -131,6 +131,7 @@
   "bloodTestDateLabel": "Dátum krvného testu",
   "chartNowConcentration": "Teraz {{value}}",
   "chartBloodTestLevelTooltip": "{{date}}: {{level}}",
+  "chartLevelTooltip": "{{date}}: {{level}}",
   "empty_supplies": "Žiadne zásoby. Pridaj vybavenie pre začatie.",
   "newItem": "Nové vybavenie",
   "adminRoute": "Spôsob podávania",

@@ -153,6 +153,9 @@ class TranslationsTok extends Translations
           {required Object date, required Object level}) =>
       '${date}: ${level}';
   @override
+  String chartLevelTooltip({required Object date, required Object level}) =>
+      '${date}: ${level}';
+  @override
   String get empty_supplies => 'jo li lon ala. o pana e ijo sin la o open.';
   @override
   String get allItemsFilter => 'ale';
@@ -250,6 +253,8 @@ extension on TranslationsTok {
       'microliters' => 'μL',
       'chartBloodTestLevelTooltip' =>
         ({required Object date, required Object level}) => '${date}: ${level}',
+      'chartLevelTooltip' => ({required Object date, required Object level}) =>
+          '${date}: ${level}',
       'empty_supplies' => 'jo li lon ala. o pana e ijo sin la o open.',
       'allItemsFilter' => 'ale',
       'newItem' => 'ijo sin',
