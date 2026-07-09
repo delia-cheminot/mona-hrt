@@ -494,6 +494,22 @@ class TranslationsFr extends Translations
   @override
   String get placementRight => 'Côté droit';
   @override
+  String get placementLeftThigh => 'Cuisse gauche';
+  @override
+  String get placementRightThigh => 'Cuisse droite';
+  @override
+  String get placementLeftArm => 'Bras gauche';
+  @override
+  String get placementRightArm => 'Bras droit';
+  @override
+  String get placementLeftButtock => 'Fesse gauche';
+  @override
+  String get placementRightButtock => 'Fesse droite';
+  @override
+  String get placementLeftAbdomen => 'Abdomen (gauche)';
+  @override
+  String get placementRightAbdomen => 'Abdomen (droite)';
+  @override
   String get requiredField => 'Champ obligatoire';
   @override
   String get mustBePositiveNumber => 'Doit être un nombre positif';
@@ -869,6 +885,14 @@ extension on TranslationsFr {
       'injectionSideRight' => 'Droite',
       'placementLeft' => 'Côté gauche',
       'placementRight' => 'Côté droit',
+      'placementLeftThigh' => 'Cuisse gauche',
+      'placementRightThigh' => 'Cuisse droite',
+      'placementLeftArm' => 'Bras gauche',
+      'placementRightArm' => 'Bras droit',
+      'placementLeftButtock' => 'Fesse gauche',
+      'placementRightButtock' => 'Fesse droite',
+      'placementLeftAbdomen' => 'Abdomen (gauche)',
+      'placementRightAbdomen' => 'Abdomen (droite)',
       'requiredField' => 'Champ obligatoire',
       'mustBePositiveNumber' => 'Doit être un nombre positif',
       'invalidTotalAmount' => 'Montant total invalide',
