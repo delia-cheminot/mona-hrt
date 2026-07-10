@@ -5,6 +5,7 @@ import 'package:mona/controllers/medication_intake_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
+import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
@@ -13,13 +14,13 @@ import 'package:mona/i18n/helpers/supply_item_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
-import 'package:mona/ui/widgets/dropdowns/injection_side_dropdown.dart';
 import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_info_text.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/ui/widgets/placement_picker.dart';
 import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +43,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
   late TextEditingController _wastedAmountController;
   late Decimal _deadSpace; // in μL
   late TextEditingController _deadSpaceController;
-  InjectionSide? _selectedSide;
+  List<Placement> _selectedPlacements = [];
   bool _hasInitializedSide = false;
   SupplyItem? _selectedSupplyItem;
   bool _hasInitializedSupplyItem = false;
@@ -90,7 +91,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
       deadSpace: _deadSpace,
       takenDateTime: _takenDate.toUtc(),
       takenTimeZone: timezoneIdentifier,
-      side: _selectedSide,
+      placements: _selectedPlacements,
       supplyItem: newItem,
       notes: notes,
     );
@@ -112,12 +113,10 @@ class _EditIntakePageState extends State<EditIntakePage> {
     Navigator.of(context).pop();
   }
 
-  void _onInjectionSideChanged(InjectionSide? side) {
-    if (side != null) {
-      setState(() {
-        _selectedSide = side;
-      });
-    }
+  void _onPlacementChanged(List<Placement> placements) {
+    setState(() {
+      _selectedPlacements = placements;
+    });
   }
 
   void _onTakenDateChanged(DateTime date) {
@@ -208,7 +207,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
             medicationIntakeProvider.isLoading || supplyItemProvider.isLoading;
 
         if (!isLoading && !_hasInitializedSide && _isInjection) {
-          _selectedSide = widget.intake.side;
+          _selectedPlacements = widget.intake.placements;
           _hasInitializedSide = true;
         }
 
@@ -294,12 +293,13 @@ class _EditIntakePageState extends State<EditIntakePage> {
               label: t.supplyItem,
             ),
             if (_isInjection) ...[
-              FormDropdownField<InjectionSide>(
-                value: _selectedSide,
-                items: injectionSideDropdownMenuItems(),
-                onChanged: _onInjectionSideChanged,
-                label: t.injectionSide,
-              ),
+              if (preferencesService.placementsList.isNotEmpty) ...[
+                PlacementPicker(
+                  options: preferencesService.placementsList,
+                  selected: _selectedPlacements,
+                  onChanged: _onPlacementChanged,
+                ),
+              ],
               FormTextField(
                 controller: _wastedAmountController,
                 label: t.wastedAmount,

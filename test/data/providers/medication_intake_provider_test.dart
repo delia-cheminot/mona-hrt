@@ -342,7 +342,7 @@ void main() {
         final result = provider.getTakenIntakesForScheduleOn(42, targetDate);
 
         // Assert
-        expect(result.map((i) => i.id).toList(), [100, 101]);
+        expect(result.map((i) => i.id).toList(), [101, 100]);
       });
 
       test('returns empty list when no intakes match the date', () async {

@@ -168,18 +168,6 @@ class MedicationIntakeManager {
     ));
   }
 
-  InjectionSide getNextSide() {
-    final lastIntake = _medicationIntakeProvider.getLastTakenInjectionIntake();
-
-    if (lastIntake == null || lastIntake.side == null) {
-      return InjectionSide.left;
-    }
-
-    return lastIntake.side == InjectionSide.left
-        ? InjectionSide.right
-        : InjectionSide.left;
-  }
-
   Placement? suggestNextPlacement({required int scheduleId}) {
     final placementsList = _preferencesService.placementsList;
     final perSchedule = _preferencesService.placementSuggestionPerSchedule;
