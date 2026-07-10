@@ -244,7 +244,6 @@
   "injectionSites": "Sites d'injection",
   "injectionSitesDescription": "Gérez votre rotation de sites.",
   "addInjectionSite": "Ajouter un site",
-  "addPresetSite": "Choisir un site prédéfini",
   "customSiteLabel": "Nom de site personnalisé",
   "noInjectionSitesYet": "Aucun site. Ajoutez-en un pour commencer.",
   "placementSuggestionPerScheduleTitle": "Suggérer par planning",

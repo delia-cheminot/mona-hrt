@@ -516,8 +516,6 @@ class TranslationsFr extends Translations
   @override
   String get addInjectionSite => 'Ajouter un site';
   @override
-  String get addPresetSite => 'Choisir un site prédéfini';
-  @override
   String get customSiteLabel => 'Nom de site personnalisé';
   @override
   String get noInjectionSitesYet => 'Aucun site. Ajoutez-en un pour commencer.';
@@ -913,7 +911,6 @@ extension on TranslationsFr {
       'injectionSites' => 'Sites d\'injection',
       'injectionSitesDescription' => 'Gérez votre rotation de sites.',
       'addInjectionSite' => 'Ajouter un site',
-      'addPresetSite' => 'Choisir un site prédéfini',
       'customSiteLabel' => 'Nom de site personnalisé',
       'noInjectionSitesYet' => 'Aucun site. Ajoutez-en un pour commencer.',
       'placementSuggestionPerScheduleTitle' => 'Suggérer par planning',

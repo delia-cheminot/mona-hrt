@@ -718,9 +718,6 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Add site'
   String get addInjectionSite => 'Add site';
 
-  /// en: 'Choose a preset site'
-  String get addPresetSite => 'Choose a preset site';
-
   /// en: 'Custom site name'
   String get customSiteLabel => 'Custom site name';
 
@@ -1131,7 +1128,6 @@ extension on Translations {
       'injectionSites' => 'Injection sites',
       'injectionSitesDescription' => 'Manage the sites you rotate between.',
       'addInjectionSite' => 'Add site',
-      'addPresetSite' => 'Choose a preset site',
       'customSiteLabel' => 'Custom site name',
       'noInjectionSitesYet' => 'No sites yet. Add one to get started.',
       'placementSuggestionPerScheduleTitle' => 'Suggest per schedule',
