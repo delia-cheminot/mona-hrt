@@ -10,6 +10,7 @@ import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
+import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
@@ -135,6 +136,7 @@ void main() {
             supplyItem: supplyItem,
             schedule: schedule,
             side: InjectionSide.right,
+            placements: [aPlacement(preset: PlacementPreset.leftThigh)],
             notes: notes,
           );
         });
@@ -162,6 +164,12 @@ void main() {
         test('propagates side to the intake', () {
           // Assert
           expect(addedIntake.side, InjectionSide.right);
+        });
+
+        test('propagates placements to the intake', () {
+          // Assert
+          expect(addedIntake.placements,
+              [aPlacement(preset: PlacementPreset.leftThigh)]);
         });
 
         test('propagates scheduleId from the schedule', () {
@@ -752,6 +760,7 @@ void main() {
           takenDateTime: takenDate,
           takenTimeZone: newTimezone,
           side: InjectionSide.left,
+          placements: [aCustomPlacement('belly')],
           supplyItem: null,
           notes: newNotes,
         );
@@ -767,6 +776,7 @@ void main() {
               .having((i) => i.takenDateTime, 'takenDateTime', takenDate)
               .having((i) => i.takenTimeZone, 'takenTimeZone', newTimezone)
               .having((i) => i.side, 'side', InjectionSide.left)
+              .having((i) => i.placements, 'placements', [aCustomPlacement('belly')])
               .having((i) => i.notes, 'notes', newNotes)
               .having((i) => i.supplyItemId, 'supplyItemId', isNull),
         );

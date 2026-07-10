@@ -5,6 +5,7 @@ import 'package:mona/controllers/supply_item_manager.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
+import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
 import '../data/model/medication_intake.dart';
@@ -29,6 +30,7 @@ class MedicationIntakeManager {
     Decimal? deadSpace, //in μL
     String? notes,
     Decimal? wastedAmount, // in mL
+    List<Placement> placements = const [],
   }) async {
     if (!takenDateTime.isUtc) {
       throw ArgumentError('takenDateTime must be in UTC');
@@ -51,6 +53,7 @@ class MedicationIntakeManager {
       notes: notes,
       wastedAmount: wastedAmount,
       deadSpace: deadSpace,
+      placements: placements,
     ));
 
     final itemManager = SupplyItemManager(_supplyItemProvider);
@@ -105,6 +108,7 @@ class MedicationIntakeManager {
     InjectionSide? side,
     SupplyItem? supplyItem,
     String? notes,
+    List<Placement> placements = const [],
   }) async {
     if (!takenDateTime.isUtc) {
       throw ArgumentError('takenDateTime must be in UTC');
@@ -157,6 +161,7 @@ class MedicationIntakeManager {
       side: side,
       supplyItemId: supplyItem?.id,
       notes: notes,
+      placements: placements,
     ));
   }
 
