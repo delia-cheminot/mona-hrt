@@ -1077,8 +1077,8 @@ void main() {
       });
     });
 
-    group('suggestNextPlacement', () {
-      test('suggests the least-recently-used site', () {
+    group('getOrderedPlacements', () {
+      test('orders sites from least- to most-recently used', () {
         // Arrange
         when(mockMedicationIntakeProvider.takenIntakesSortedDesc).thenReturn([
           anInjection(
@@ -1092,13 +1092,16 @@ void main() {
         ]);
 
         // Act
-        final suggestion = manager.suggestNextPlacement(scheduleId: 42);
+        final ordered = manager.getOrderedPlacements(scheduleId: 42);
 
         // Assert
-        expect(suggestion, const PresetPlacement(PlacementPreset.left));
+        expect(ordered, const [
+          PresetPlacement(PlacementPreset.left),
+          PresetPlacement(PlacementPreset.right),
+        ]);
       });
 
-      test('prefers a never-used site over any used one', () {
+      test('puts never-used sites before used ones', () {
         // Arrange
         when(mockMedicationIntakeProvider.takenIntakesSortedDesc).thenReturn([
           anInjection(
@@ -1108,16 +1111,23 @@ void main() {
         ]);
 
         // Act
-        final suggestion = manager.suggestNextPlacement(scheduleId: 42);
+        final ordered = manager.getOrderedPlacements(scheduleId: 42);
 
         // Assert
-        expect(suggestion, const PresetPlacement(PlacementPreset.right));
+        expect(ordered, const [
+          PresetPlacement(PlacementPreset.right),
+          PresetPlacement(PlacementPreset.left),
+        ]);
       });
 
       test('a multi-site intake marks all of its sites used', () {
         // Arrange
-        when(mockMedicationIntakeProvider.getTakenIntakesDescForSchedule(any))
-            .thenReturn([
+        when(mockPreferencesService.placementsList).thenReturn(const [
+          PresetPlacement(PlacementPreset.left),
+          PresetPlacement(PlacementPreset.right),
+          PresetPlacement(PlacementPreset.leftArm),
+        ]);
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc).thenReturn([
           anInjection(
             takenDateTime: DateTime.utc(2025, 9, 15),
             placements: const [
@@ -1128,23 +1138,27 @@ void main() {
         ]);
 
         // Act
-        final suggestion = manager.suggestNextPlacement(scheduleId: 42);
+        final ordered = manager.getOrderedPlacements(scheduleId: 42);
 
         // Assert
-        expect(suggestion, const PresetPlacement(PlacementPreset.left));
+        expect(ordered, const [
+          PresetPlacement(PlacementPreset.leftArm),
+          PresetPlacement(PlacementPreset.left),
+          PresetPlacement(PlacementPreset.right),
+        ]);
       });
 
-      test('returns null when there are no configured sites', () {
+      test('returns an empty list when there are no configured sites', () {
         // Arrange
         when(mockPreferencesService.placementsList).thenReturn(const []);
-        when(mockMedicationIntakeProvider.getTakenIntakesDescForSchedule(any))
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc)
             .thenReturn([]);
 
         // Act
-        final suggestion = manager.suggestNextPlacement(scheduleId: 42);
+        final ordered = manager.getOrderedPlacements(scheduleId: 42);
 
         // Assert
-        expect(suggestion, isNull);
+        expect(ordered, isEmpty);
       });
 
       test('per-schedule scope ignores history from other schedules', () {
@@ -1168,10 +1182,44 @@ void main() {
         ]);
 
         // Act
+        final ordered = manager.getOrderedPlacements(scheduleId: 42);
+
+        // Assert
+        expect(ordered, const [
+          PresetPlacement(PlacementPreset.left),
+          PresetPlacement(PlacementPreset.right),
+        ]);
+      });
+    });
+
+    group('suggestNextPlacement', () {
+      test('returns the most stale site (first of the ordered list)', () {
+        // Arrange
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc).thenReturn([
+          anInjection(
+            takenDateTime: DateTime.utc(2025, 9, 15),
+            placements: const [PresetPlacement(PlacementPreset.left)],
+          ),
+        ]);
+
+        // Act
         final suggestion = manager.suggestNextPlacement(scheduleId: 42);
 
         // Assert
-        expect(suggestion, const PresetPlacement(PlacementPreset.left));
+        expect(suggestion, const PresetPlacement(PlacementPreset.right));
+      });
+
+      test('returns null when there are no configured sites', () {
+        // Arrange
+        when(mockPreferencesService.placementsList).thenReturn(const []);
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc)
+            .thenReturn([]);
+
+        // Act
+        final suggestion = manager.suggestNextPlacement(scheduleId: 42);
+
+        // Assert
+        expect(suggestion, isNull);
       });
     });
   });

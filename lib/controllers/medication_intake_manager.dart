@@ -168,11 +168,9 @@ class MedicationIntakeManager {
     ));
   }
 
-  Placement? suggestNextPlacement({required int scheduleId}) {
+  List<Placement> getOrderedPlacements({required int scheduleId}) {
     final placementsList = _preferencesService.placementsList;
     final perSchedule = _preferencesService.placementSuggestionPerSchedule;
-
-    if (placementsList.isEmpty) return null;
 
     final history = perSchedule
         ? _medicationIntakeProvider.getTakenIntakesDescForSchedule(scheduleId)
@@ -187,15 +185,15 @@ class MedicationIntakeManager {
           DateTime.fromMillisecondsSinceEpoch(0);
     }
 
-    Placement best = placementsList.first;
-    DateTime bestTime = lastUsed(best);
-    for (final placement in placementsList.skip(1)) {
-      final time = lastUsed(placement);
-      if (time.isBefore(bestTime)) {
-        best = placement;
-        bestTime = time;
-      }
-    }
-    return best;
+    final ordered = [...placementsList];
+    ordered.sort((a, b) {
+      final byLastUsed = lastUsed(a).compareTo(lastUsed(b));
+      if (byLastUsed != 0) return byLastUsed;
+      return placementsList.indexOf(a).compareTo(placementsList.indexOf(b));
+    });
+    return ordered;
   }
+
+  Placement? suggestNextPlacement({required int scheduleId}) =>
+      getOrderedPlacements(scheduleId: scheduleId).firstOrNull;
 }

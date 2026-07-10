@@ -43,6 +43,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
   late TextEditingController _wastedAmountController;
   late Decimal _wastedAmount;
   List<Placement> _selectedPlacements = [];
+  List<Placement> _orderedPlacements = [];
   bool _hasInitializedSide = false;
   SupplyItem? _selectedSupplyItem;
   bool _hasInitializedSupplyItem = false;
@@ -186,13 +187,13 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
             medicationIntakeProvider.isLoading || supplyItemProvider.isLoading;
 
         if (!isLoading && !_hasInitializedSide && isInjection) {
-          final suggestedPlacement = MedicationIntakeManager(
+          _orderedPlacements = MedicationIntakeManager(
             medicationIntakeProvider,
             supplyItemProvider,
             preferencesService,
-          ).suggestNextPlacement(scheduleId: widget.schedule.id);
-          if (suggestedPlacement != null) {
-            _selectedPlacements = [suggestedPlacement];
+          ).getOrderedPlacements(scheduleId: widget.schedule.id);
+          if (_orderedPlacements.isNotEmpty) {
+            _selectedPlacements = [_orderedPlacements.first];
           }
           _hasInitializedSide = true;
         }
@@ -273,9 +274,9 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
             ),
             FormSpacer(),
             if (isInjection) ...[
-              if (preferencesService.placementsList.isNotEmpty) ...[
+              if (_orderedPlacements.isNotEmpty) ...[
                 PlacementPicker(
-                  options: preferencesService.placementsList,
+                  options: _orderedPlacements,
                   selected: _selectedPlacements,
                   onChanged: _onPlacementChanged,
                 ),
