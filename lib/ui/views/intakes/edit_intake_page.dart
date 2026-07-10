@@ -285,13 +285,13 @@ class _EditIntakePageState extends State<EditIntakePage> {
                   widget.intake.molecule,
                 ),
               ),
-            FormSpacer(),
             FormDropdownField<SupplyItem?>(
               value: _selectedSupplyItem,
               items: supplyItemDropdownItems,
               onChanged: _onSupplyItemChanged,
               label: t.supplyItem,
             ),
+            FormSpacer(),
             if (_isInjection) ...[
               if (preferencesService.placementsList.isNotEmpty) ...[
                 PlacementPicker(
@@ -299,6 +299,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
                   selected: _selectedPlacements,
                   onChanged: _onPlacementChanged,
                 ),
+                FormSpacer(),
               ],
               FormTextField(
                 controller: _wastedAmountController,

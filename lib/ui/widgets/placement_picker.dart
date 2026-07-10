@@ -39,7 +39,6 @@ class PlacementPicker extends StatelessWidget {
                 .map((option) => FilterChip(
                       label: Text(option.localizedName),
                       selected: selected.contains(option),
-                      showCheckmark: false,
                       onSelected: (s) => _toggle(option),
                     ))
                 .toList(),

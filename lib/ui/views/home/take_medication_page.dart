@@ -265,13 +265,13 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
                   widget.schedule.molecule,
                 ),
               ),
-            FormSpacer(),
             FormDropdownField<SupplyItem?>(
               value: _selectedSupplyItem,
               items: supplyItemDropdownItems,
               onChanged: _onSupplyItemChanged,
               label: t.supplyItem,
             ),
+            FormSpacer(),
             if (isInjection) ...[
               if (preferencesService.placementsList.isNotEmpty) ...[
                 PlacementPicker(
@@ -279,6 +279,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
                   selected: _selectedPlacements,
                   onChanged: _onPlacementChanged,
                 ),
+                FormSpacer(),
               ],
               FormTextField(
                   controller: _wastedAmountController,
