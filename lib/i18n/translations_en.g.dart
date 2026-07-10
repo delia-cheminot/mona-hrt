@@ -708,6 +708,32 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Right abdomen'
   String get placementRightAbdomen => 'Right abdomen';
 
+  /// en: 'Injection sites'
+  String get injectionSites => 'Injection sites';
+
+  /// en: 'Manage the sites you rotate between.'
+  String get injectionSitesDescription =>
+      'Manage the sites you rotate between.';
+
+  /// en: 'Add site'
+  String get addInjectionSite => 'Add site';
+
+  /// en: 'Choose a preset site'
+  String get addPresetSite => 'Choose a preset site';
+
+  /// en: 'Custom site name'
+  String get customSiteLabel => 'Custom site name';
+
+  /// en: 'No sites yet. Add one to get started.'
+  String get noInjectionSitesYet => 'No sites yet. Add one to get started.';
+
+  /// en: 'Suggest per schedule'
+  String get placementSuggestionPerScheduleTitle => 'Suggest per schedule';
+
+  /// en: 'Base the next-site suggestion on this schedule's history only.'
+  String get placementSuggestionPerScheduleDescription =>
+      'Base the next-site suggestion on this schedule\'s history only.';
+
   /// en: 'Required field'
   String get requiredField => 'Required field';
 
@@ -1102,6 +1128,15 @@ extension on Translations {
       'placementRightButtock' => 'Right buttock',
       'placementLeftAbdomen' => 'Left abdomen',
       'placementRightAbdomen' => 'Right abdomen',
+      'injectionSites' => 'Injection sites',
+      'injectionSitesDescription' => 'Manage the sites you rotate between.',
+      'addInjectionSite' => 'Add site',
+      'addPresetSite' => 'Choose a preset site',
+      'customSiteLabel' => 'Custom site name',
+      'noInjectionSitesYet' => 'No sites yet. Add one to get started.',
+      'placementSuggestionPerScheduleTitle' => 'Suggest per schedule',
+      'placementSuggestionPerScheduleDescription' =>
+        'Base the next-site suggestion on this schedule\'s history only.',
       'requiredField' => 'Required field',
       'mustBePositiveNumber' => 'Must be a positive number',
       'invalidTotalAmount' => 'Invalid total amount',

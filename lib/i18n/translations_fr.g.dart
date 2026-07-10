@@ -510,6 +510,23 @@ class TranslationsFr extends Translations
   @override
   String get placementRightAbdomen => 'Abdomen (droite)';
   @override
+  String get injectionSites => 'Sites d\'injection';
+  @override
+  String get injectionSitesDescription => 'Gérez votre rotation de sites.';
+  @override
+  String get addInjectionSite => 'Ajouter un site';
+  @override
+  String get addPresetSite => 'Choisir un site prédéfini';
+  @override
+  String get customSiteLabel => 'Nom de site personnalisé';
+  @override
+  String get noInjectionSitesYet => 'Aucun site. Ajoutez-en un pour commencer.';
+  @override
+  String get placementSuggestionPerScheduleTitle => 'Suggérer par planning';
+  @override
+  String get placementSuggestionPerScheduleDescription =>
+      'Base la suggestion du site suivant sur l\'historique de ce planning uniquement.';
+  @override
   String get requiredField => 'Champ obligatoire';
   @override
   String get mustBePositiveNumber => 'Doit être un nombre positif';
@@ -893,6 +910,15 @@ extension on TranslationsFr {
       'placementRightButtock' => 'Fesse droite',
       'placementLeftAbdomen' => 'Abdomen (gauche)',
       'placementRightAbdomen' => 'Abdomen (droite)',
+      'injectionSites' => 'Sites d\'injection',
+      'injectionSitesDescription' => 'Gérez votre rotation de sites.',
+      'addInjectionSite' => 'Ajouter un site',
+      'addPresetSite' => 'Choisir un site prédéfini',
+      'customSiteLabel' => 'Nom de site personnalisé',
+      'noInjectionSitesYet' => 'Aucun site. Ajoutez-en un pour commencer.',
+      'placementSuggestionPerScheduleTitle' => 'Suggérer par planning',
+      'placementSuggestionPerScheduleDescription' =>
+        'Base la suggestion du site suivant sur l\'historique de ce planning uniquement.',
       'requiredField' => 'Champ obligatoire',
       'mustBePositiveNumber' => 'Doit être un nombre positif',
       'invalidTotalAmount' => 'Montant total invalide',
