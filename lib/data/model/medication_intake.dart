@@ -5,7 +5,9 @@ import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/custom_mappers.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/ester.dart';
+import 'package:mona/data/model/mapping_hooks.dart';
 import 'package:mona/data/model/molecule.dart';
+import 'package:mona/data/model/placement.dart';
 import 'package:mona/util/timezone_location.dart';
 import 'package:mona/util/validators.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -44,6 +46,8 @@ class MedicationIntake with MedicationIntakeMappable {
   final Ester? ester;
   final int? supplyItemId;
   final String? notes;
+  @MappableField(hook: JsonStringHook())
+  final List<Placement> placements;
 
   MedicationIntake({
     int? id,
@@ -60,6 +64,7 @@ class MedicationIntake with MedicationIntakeMappable {
     this.ester,
     this.supplyItemId,
     this.notes,
+    this.placements = const [],
   }) : id = id ?? DateTime.now().millisecondsSinceEpoch {
     if (takenDateTime != null && !takenDateTime!.isUtc) {
       throw ArgumentError('takenDateTime must be UTC');

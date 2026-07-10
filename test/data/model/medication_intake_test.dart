@@ -8,6 +8,8 @@ import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 
+import '../../fixtures.dart';
+
 void main() {
   setUpAll(() {
     tz.initializeTimeZones();
@@ -41,21 +43,23 @@ void main() {
     });
 
     test('toMap and fromMap should preserve values', () {
-      final taken = DateTime.utc(2025, 9, 14, 12, 0);
+      // Arrange
+      final intake = aMedicationIntake(
+        id: 1,
+        time: const TimeOfDay(hour: 8, minute: 30),
+        dose: Decimal.parse('2.5'),
+        wastedAmount: Decimal.parse('0.1'),
+        scheduleId: 42,
+        administrationRoute: AdministrationRoute.injection,
+        ester: Ester.cypionate,
+        side: InjectionSide.left,
+        placements: [
+          aPlacement(),
+          aCustomPlacement(),
+        ],
+      );
 
-      final intake = MedicationIntake(
-          id: 1,
-          takenDose: Decimal.parse('2.5'),
-          wastedAmount: Decimal.parse('0.1'),
-          takenDateTime: taken,
-          takenTimeZone: 'Etc/UTC',
-          scheduleId: 42,
-          side: InjectionSide.left,
-          molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.injection,
-          ester: Ester.cypionate,
-          scheduledTime: const TimeOfDay(hour: 8, minute: 30));
-
+      // Act
       final map = intake.toMap();
       final fromMap =
           MedicationIntakeMapper.fromMap(Map<String, dynamic>.from(map));
@@ -77,7 +81,8 @@ void main() {
                 intake.administrationRoute)
             .having((i) => i.ester, 'ester', intake.ester)
             .having(
-                (i) => i.scheduledTime, 'scheduledTime', intake.scheduledTime),
+                (i) => i.scheduledTime, 'scheduledTime', intake.scheduledTime)
+            .having((i) => i.placements, 'placements', intake.placements),
       );
     });
 

@@ -11,6 +11,7 @@ import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
+import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/planned_notification.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/model/units.dart';
@@ -78,6 +79,11 @@ WeeklySchedule aWeeklyStrategy({
       notificationTimes: notificationTimes,
     );
 
+Placement aPlacement({PlacementPreset preset = PlacementPreset.left}) =>
+    PresetPlacement(preset);
+
+Placement aCustomPlacement([String label = 'belly']) => CustomPlacement(label);
+
 MedicationIntake aMedicationIntake({
   TimeOfDay? time,
   int? id,
@@ -87,6 +93,9 @@ MedicationIntake aMedicationIntake({
   Decimal? wastedAmount,
   Decimal? deadSpace,
   AdministrationRoute administrationRoute = AdministrationRoute.oral,
+  Ester? ester,
+  InjectionSide? side,
+  List<Placement> placements = const [],
 }) =>
     MedicationIntake(
       id: id ?? _generateId(),
@@ -102,24 +111,31 @@ MedicationIntake aMedicationIntake({
       supplyItemId: supplyItemId,
       wastedAmount: wastedAmount,
       deadSpace: deadSpace,
+      ester: ester,
+      side: side,
+      placements: placements,
     );
 
 /// An estradiol injection intake (the only kind plotted on the graph),
 /// pinned to an exact UTC [takenDateTime].
 MedicationIntake anInjection({
   int? id,
+  int? scheduleId,
   required DateTime takenDateTime,
   Decimal? dose,
   Ester ester = Ester.valerate,
+  List<Placement> placements = const [],
 }) =>
     MedicationIntake(
       id: id ?? _generateId(),
       takenDose: dose ?? Decimal.parse('2.0'),
       takenDateTime: takenDateTime,
       takenTimeZone: 'Etc/UTC',
+      scheduleId: scheduleId,
       molecule: KnownMolecules.estradiol,
       administrationRoute: AdministrationRoute.injection,
       ester: ester,
+      placements: placements,
     );
 
 BloodTest aBloodTest({

@@ -69,6 +69,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
         TimeOfDayMapper(),
       ]);
       InjectionSideMapper.ensureInitialized();
+      PlacementMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -157,6 +158,14 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     _$notes,
     opt: true,
   );
+  static List<Placement> _$placements(MedicationIntake v) => v.placements;
+  static const Field<MedicationIntake, List<Placement>> _f$placements = Field(
+    'placements',
+    _$placements,
+    opt: true,
+    def: const [],
+    hook: JsonStringHook(),
+  );
 
   @override
   final MappableFields<MedicationIntake> fields = const {
@@ -174,6 +183,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     #ester: _f$ester,
     #supplyItemId: _f$supplyItemId,
     #notes: _f$notes,
+    #placements: _f$placements,
   };
 
   static MedicationIntake _instantiate(DecodingData data) {
@@ -192,6 +202,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
       ester: data.dec(_f$ester),
       supplyItemId: data.dec(_f$supplyItemId),
       notes: data.dec(_f$notes),
+      placements: data.dec(_f$placements),
     );
   }
 
@@ -257,6 +268,8 @@ extension MedicationIntakeValueCopy<$R, $Out>
 
 abstract class MedicationIntakeCopyWith<$R, $In extends MedicationIntake, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
+  ListCopyWith<$R, Placement, PlacementCopyWith<$R, Placement, Placement>>
+      get placements;
   $R call({
     int? id,
     TimeOfDay? scheduledTime,
@@ -272,6 +285,7 @@ abstract class MedicationIntakeCopyWith<$R, $In extends MedicationIntake, $Out>
     Ester? ester,
     int? supplyItemId,
     String? notes,
+    List<Placement>? placements,
   });
   MedicationIntakeCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
@@ -286,6 +300,13 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
   @override
   late final ClassMapperBase<MedicationIntake> $mapper =
       MedicationIntakeMapper.ensureInitialized();
+  @override
+  ListCopyWith<$R, Placement, PlacementCopyWith<$R, Placement, Placement>>
+      get placements => ListCopyWith(
+            $value.placements,
+            (v, t) => v.copyWith.$chain(t),
+            (v) => call(placements: v),
+          );
   @override
   $R call({
     Object? id = $none,
@@ -302,6 +323,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
     Object? ester = $none,
     Object? supplyItemId = $none,
     Object? notes = $none,
+    List<Placement>? placements,
   }) =>
       $apply(
         FieldCopyWithData({
@@ -320,6 +342,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
           if (ester != $none) #ester: ester,
           if (supplyItemId != $none) #supplyItemId: supplyItemId,
           if (notes != $none) #notes: notes,
+          if (placements != null) #placements: placements,
         }),
       );
   @override
@@ -341,6 +364,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
         ester: data.get(#ester, or: $value.ester),
         supplyItemId: data.get(#supplyItemId, or: $value.supplyItemId),
         notes: data.get(#notes, or: $value.notes),
+        placements: data.get(#placements, or: $value.placements),
       );
 
   @override
