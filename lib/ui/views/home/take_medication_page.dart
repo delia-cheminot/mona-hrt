@@ -12,6 +12,7 @@ import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/helpers/supply_item_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
+import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dropdowns/injection_side_dropdown.dart';
 import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
@@ -60,14 +61,18 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
 
   bool get _isFormValid => _takenDoseError == null && _deadSpaceError == null;
 
-  void _takeIntake(MedicationIntakeProvider medicationIntakeProvider,
-      SupplyItemProvider supplyItemProvider) async {
+  void _takeIntake(
+    MedicationIntakeProvider medicationIntakeProvider,
+    SupplyItemProvider supplyItemProvider,
+    PreferencesService preferencesService,
+  ) async {
     if (!_isFormValid || !mounted || _isTaken) return;
 
     final String? notes =
         _notesController.text.isEmpty ? null : _notesController.text;
 
-    MedicationIntakeManager(medicationIntakeProvider, supplyItemProvider)
+    MedicationIntakeManager(
+            medicationIntakeProvider, supplyItemProvider, preferencesService)
         .takeMedication(
             takenDose: _takenDose,
             scheduledTime: widget.scheduledTime,
@@ -174,8 +179,10 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
     final bool isInjection =
         widget.schedule.administrationRoute == AdministrationRoute.injection;
 
-    return Consumer2<MedicationIntakeProvider, SupplyItemProvider>(
-      builder: (context, medicationIntakeProvider, supplyItemProvider, child) {
+    return Consumer3<MedicationIntakeProvider, SupplyItemProvider,
+        PreferencesService>(
+      builder: (context, medicationIntakeProvider, supplyItemProvider,
+          preferencesService, child) {
         final bool isLoading =
             medicationIntakeProvider.isLoading || supplyItemProvider.isLoading;
 
@@ -183,6 +190,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
           _selectedSide = MedicationIntakeManager(
             medicationIntakeProvider,
             supplyItemProvider,
+            preferencesService,
           ).getNextSide();
           _hasInitializedSide = true;
         }
@@ -230,7 +238,8 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
           submitButtonKey: const ValueKey('takeIntakeSubmit'),
           isFormValid: _isFormValid,
           saveChanges: (!isLoading && _isFormValid && !_isTaken)
-              ? () => _takeIntake(medicationIntakeProvider, supplyItemProvider)
+              ? () => _takeIntake(medicationIntakeProvider, supplyItemProvider,
+                  preferencesService)
               : () {},
           fields: [
             FormDateTimeField(

@@ -14,12 +14,14 @@ import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
+import 'package:mona/services/preferences_service.dart';
 
 import '../fixtures.dart';
 
 @GenerateNiceMocks([
   MockSpec<MedicationIntakeProvider>(),
   MockSpec<SupplyItemProvider>(),
+  MockSpec<PreferencesService>(),
 ])
 import 'medication_intake_manager_test.mocks.dart';
 
@@ -36,13 +38,21 @@ void main() {
 
   late MockMedicationIntakeProvider mockMedicationIntakeProvider;
   late MockSupplyItemProvider mockSupplyItemProvider;
+  late MockPreferencesService mockPreferencesService;
   late MedicationIntakeManager manager;
 
   setUp(() {
     mockMedicationIntakeProvider = MockMedicationIntakeProvider();
     mockSupplyItemProvider = MockSupplyItemProvider();
-    manager = MedicationIntakeManager(
-        mockMedicationIntakeProvider, mockSupplyItemProvider);
+    mockPreferencesService = MockPreferencesService();
+    when(mockPreferencesService.placementsList).thenReturn(const [
+      PresetPlacement(PlacementPreset.left),
+      PresetPlacement(PlacementPreset.right),
+    ]);
+    when(mockPreferencesService.placementSuggestionPerSchedule)
+        .thenReturn(false);
+    manager = MedicationIntakeManager(mockMedicationIntakeProvider,
+        mockSupplyItemProvider, mockPreferencesService);
   });
 
   group('MedicationIntakeManager', () {
@@ -776,7 +786,8 @@ void main() {
               .having((i) => i.takenDateTime, 'takenDateTime', takenDate)
               .having((i) => i.takenTimeZone, 'takenTimeZone', newTimezone)
               .having((i) => i.side, 'side', InjectionSide.left)
-              .having((i) => i.placements, 'placements', [aCustomPlacement('belly')])
+              .having((i) => i.placements, 'placements',
+                  [aCustomPlacement('belly')])
               .having((i) => i.notes, 'notes', newNotes)
               .having((i) => i.supplyItemId, 'supplyItemId', isNull),
         );
@@ -1066,95 +1077,101 @@ void main() {
       });
     });
 
-    group('getNextSide', () {
-      test('returns right when last injection side is left', () {
+    group('suggestNextPlacement', () {
+      test('suggests the least-recently-used site', () {
         // Arrange
-        final firstIntake = MedicationIntake(
-          id: 1,
-          takenDose: Decimal.parse('2.5'),
-          takenDateTime: DateTime.utc(2025, 9, 14, 12, 0),
-          takenTimeZone: 'Etc/UTC',
-          scheduleId: 42,
-          side: InjectionSide.left,
-          molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.injection,
-        );
-        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
-            .thenReturn(firstIntake);
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc).thenReturn([
+          anInjection(
+            takenDateTime: DateTime.utc(2025, 9, 15),
+            placements: const [PresetPlacement(PlacementPreset.right)],
+          ),
+          anInjection(
+            takenDateTime: DateTime.utc(2025, 9, 14),
+            placements: const [PresetPlacement(PlacementPreset.left)],
+          ),
+        ]);
 
         // Act
-        final InjectionSide nextSide = manager.getNextSide();
+        final suggestion = manager.suggestNextPlacement(scheduleId: 42);
 
         // Assert
-        expect(nextSide, InjectionSide.right);
+        expect(suggestion, const PresetPlacement(PlacementPreset.left));
       });
 
-      test('returns left when last injection side is right', () {
+      test('prefers a never-used site over any used one', () {
         // Arrange
-        final lastIntake = MedicationIntake(
-          id: 2,
-          takenDose: Decimal.parse('2.5'),
-          takenDateTime: DateTime.utc(2025, 9, 15, 12, 0),
-          takenTimeZone: 'Etc/UTC',
-          scheduleId: 42,
-          side: InjectionSide.right,
-          molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.injection,
-        );
-        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
-            .thenReturn(lastIntake);
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc).thenReturn([
+          anInjection(
+            takenDateTime: DateTime.utc(2025, 9, 15),
+            placements: const [PresetPlacement(PlacementPreset.left)],
+          ),
+        ]);
 
-        // Act / Assert
-        expect(manager.getNextSide(), InjectionSide.left);
+        // Act
+        final suggestion = manager.suggestNextPlacement(scheduleId: 42);
+
+        // Assert
+        expect(suggestion, const PresetPlacement(PlacementPreset.right));
       });
 
-      test('returns left when there is no last injection intake', () {
+      test('a multi-site intake marks all of its sites used', () {
         // Arrange
-        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
-            .thenReturn(null);
+        when(mockMedicationIntakeProvider.getTakenIntakesDescForSchedule(any))
+            .thenReturn([
+          anInjection(
+            takenDateTime: DateTime.utc(2025, 9, 15),
+            placements: const [
+              PresetPlacement(PlacementPreset.left),
+              PresetPlacement(PlacementPreset.right),
+            ],
+          ),
+        ]);
 
-        // Act / Assert
-        expect(manager.getNextSide(), InjectionSide.left);
+        // Act
+        final suggestion = manager.suggestNextPlacement(scheduleId: 42);
+
+        // Assert
+        expect(suggestion, const PresetPlacement(PlacementPreset.left));
       });
 
-      test('returns left when last injection intake side is null', () {
+      test('returns null when there are no configured sites', () {
         // Arrange
-        final intake = MedicationIntake(
-          id: 3,
-          takenDose: Decimal.parse('2.5'),
-          takenDateTime: DateTime.utc(2025, 9, 16, 12, 0),
-          takenTimeZone: 'Etc/UTC',
-          scheduleId: 42,
-          side: null,
-          molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.injection,
-        );
-        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
-            .thenReturn(intake);
+        when(mockPreferencesService.placementsList).thenReturn(const []);
+        when(mockMedicationIntakeProvider.getTakenIntakesDescForSchedule(any))
+            .thenReturn([]);
 
-        // Act / Assert
-        expect(manager.getNextSide(), InjectionSide.left);
+        // Act
+        final suggestion = manager.suggestNextPlacement(scheduleId: 42);
+
+        // Assert
+        expect(suggestion, isNull);
       });
 
-      test(
-          'alternates from last injection even when a non-injection intake was taken more recently',
-          () {
+      test('per-schedule scope ignores history from other schedules', () {
         // Arrange
-        final lastInjection = MedicationIntake(
-          id: 4,
-          takenDose: Decimal.parse('2.5'),
-          takenDateTime: DateTime.utc(2025, 9, 14, 12, 0),
-          takenTimeZone: 'Etc/UTC',
-          scheduleId: 42,
-          side: InjectionSide.left,
-          molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.injection,
-        );
-        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
-            .thenReturn(lastInjection);
+        when(mockPreferencesService.placementSuggestionPerSchedule)
+            .thenReturn(true);
+        when(mockMedicationIntakeProvider.getTakenIntakesDescForSchedule(42))
+            .thenReturn([
+          anInjection(
+            scheduleId: 42,
+            takenDateTime: DateTime.utc(2025, 9, 14),
+            placements: const [PresetPlacement(PlacementPreset.right)],
+          ),
+        ]);
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc).thenReturn([
+          anInjection(
+            scheduleId: 99,
+            takenDateTime: DateTime.utc(2025, 9, 16),
+            placements: const [PresetPlacement(PlacementPreset.left)],
+          ),
+        ]);
 
-        // Act / Assert
-        expect(manager.getNextSide(), InjectionSide.right);
+        // Act
+        final suggestion = manager.suggestNextPlacement(scheduleId: 42);
+
+        // Assert
+        expect(suggestion, const PresetPlacement(PlacementPreset.left));
       });
     });
   });

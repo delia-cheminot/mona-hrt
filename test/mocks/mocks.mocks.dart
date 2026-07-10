@@ -293,7 +293,7 @@ class MockMedicationIntakeProvider extends _i1.Mock
       ) as bool);
 
   @override
-  List<_i13.MedicationIntake> getTakenIntakesForSchedule(int? scheduleId) =>
+  List<_i13.MedicationIntake> getTakenIntakesDescForSchedule(int? scheduleId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getTakenIntakesForSchedule,

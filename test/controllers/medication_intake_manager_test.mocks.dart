@@ -15,9 +15,12 @@ import 'package:mona/data/model/graph_calculator.dart' as _i6;
 import 'package:mona/data/model/medication_intake.dart' as _i4;
 import 'package:mona/data/model/medication_supply_item.dart' as _i11;
 import 'package:mona/data/model/molecule.dart' as _i13;
+import 'package:mona/data/model/placement.dart' as _i18;
 import 'package:mona/data/model/supply_item.dart' as _i10;
+import 'package:mona/data/model/units.dart' as _i17;
 import 'package:mona/data/providers/medication_intake_provider.dart' as _i3;
 import 'package:mona/data/providers/supply_item_provider.dart' as _i9;
+import 'package:mona/services/preferences_service.dart' as _i16;
 import 'package:mona/services/repository.dart' as _i2;
 
 // ignore_for_file: type=lint
@@ -113,7 +116,7 @@ class MockMedicationIntakeProvider extends _i1.Mock
       ) as bool);
 
   @override
-  List<_i4.MedicationIntake> getTakenIntakesForSchedule(int? scheduleId) =>
+  List<_i4.MedicationIntake> getTakenIntakesDescForSchedule(int? scheduleId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getTakenIntakesForSchedule,
@@ -434,6 +437,189 @@ class MockSupplyItemProvider extends _i1.Mock
         Invocation.method(
           #updateItem,
           [item],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  void addListener(_i8.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void removeListener(_i8.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void notifyListeners() => super.noSuchMethod(
+        Invocation.method(
+          #notifyListeners,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [PreferencesService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockPreferencesService extends _i1.Mock
+    implements _i16.PreferencesService {
+  @override
+  bool get autoCheckUpdatesEnabled => (super.noSuchMethod(
+        Invocation.getter(#autoCheckUpdatesEnabled),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  bool get notificationsEnabled => (super.noSuchMethod(
+        Invocation.getter(#notificationsEnabled),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  _i17.Units get units => (super.noSuchMethod(
+        Invocation.getter(#units),
+        returnValue: _i17.Units.pg_mL_ng_dL,
+        returnValueForMissingStub: _i17.Units.pg_mL_ng_dL,
+      ) as _i17.Units);
+
+  @override
+  List<_i13.Molecule> get customMolecules => (super.noSuchMethod(
+        Invocation.getter(#customMolecules),
+        returnValue: <_i13.Molecule>[],
+        returnValueForMissingStub: <_i13.Molecule>[],
+      ) as List<_i13.Molecule>);
+
+  @override
+  List<_i13.Molecule> get allMolecules => (super.noSuchMethod(
+        Invocation.getter(#allMolecules),
+        returnValue: <_i13.Molecule>[],
+        returnValueForMissingStub: <_i13.Molecule>[],
+      ) as List<_i13.Molecule>);
+
+  @override
+  List<_i18.Placement> get placementsList => (super.noSuchMethod(
+        Invocation.getter(#placementsList),
+        returnValue: <_i18.Placement>[],
+        returnValueForMissingStub: <_i18.Placement>[],
+      ) as List<_i18.Placement>);
+
+  @override
+  bool get placementSuggestionPerSchedule => (super.noSuchMethod(
+        Invocation.getter(#placementSuggestionPerSchedule),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  bool get hasListeners => (super.noSuchMethod(
+        Invocation.getter(#hasListeners),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  _i5.Future<void> setAutoCheckUpdatesEnabled(bool? isEnabled) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setAutoCheckUpdatesEnabled,
+          [isEnabled],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> setNotificationsEnabled(bool? isEnabled) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setNotificationsEnabled,
+          [isEnabled],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> setSavedLanguageTag(String? code) => (super.noSuchMethod(
+        Invocation.method(
+          #setSavedLanguageTag,
+          [code],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> setUnits(_i17.Units? units) => (super.noSuchMethod(
+        Invocation.method(
+          #setUnits,
+          [units],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> addCustomMolecule(_i13.Molecule? molecule) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addCustomMolecule,
+          [molecule],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> removeCustomMolecule(String? name) => (super.noSuchMethod(
+        Invocation.method(
+          #removeCustomMolecule,
+          [name],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> setPlacementsList(List<_i18.Placement>? placements) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setPlacementsList,
+          [placements],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> setPlacementSuggestionPerSchedule(bool? isEnabled) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setPlacementSuggestionPerSchedule,
+          [isEnabled],
         ),
         returnValue: _i5.Future<void>.value(),
         returnValueForMissingStub: _i5.Future<void>.value(),

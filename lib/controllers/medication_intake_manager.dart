@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
@@ -8,6 +9,7 @@ import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
+import 'package:mona/services/preferences_service.dart';
 import '../data/model/medication_intake.dart';
 import '../data/providers/medication_intake_provider.dart';
 
@@ -16,9 +18,10 @@ final Decimal microlitersToMilliliters = Decimal.parse('0.001');
 class MedicationIntakeManager {
   final MedicationIntakeProvider _medicationIntakeProvider;
   final SupplyItemProvider _supplyItemProvider;
+  final PreferencesService _preferencesService;
 
-  MedicationIntakeManager(
-      this._medicationIntakeProvider, this._supplyItemProvider);
+  MedicationIntakeManager(this._medicationIntakeProvider,
+      this._supplyItemProvider, this._preferencesService);
 
   Future<void> takeMedication({
     required Decimal takenDose,
@@ -175,5 +178,36 @@ class MedicationIntakeManager {
     return lastIntake.side == InjectionSide.left
         ? InjectionSide.right
         : InjectionSide.left;
+  }
+
+  Placement? suggestNextPlacement({required int scheduleId}) {
+    final placementsList = _preferencesService.placementsList;
+    final perSchedule = _preferencesService.placementSuggestionPerSchedule;
+
+    if (placementsList.isEmpty) return null;
+
+    final history = perSchedule
+        ? _medicationIntakeProvider.getTakenIntakesDescForSchedule(scheduleId)
+        : _medicationIntakeProvider.takenIntakesSortedDesc;
+
+    DateTime lastUsed(Placement placement) {
+      return history
+              .firstWhereOrNull(
+                (intake) => intake.placements.contains(placement),
+              )
+              ?.takenDateTime ??
+          DateTime.fromMillisecondsSinceEpoch(0);
+    }
+
+    Placement best = placementsList.first;
+    DateTime bestTime = lastUsed(best);
+    for (final placement in placementsList.skip(1)) {
+      final time = lastUsed(placement);
+      if (time.isBefore(bestTime)) {
+        best = placement;
+        bestTime = time;
+      }
+    }
+    return best;
   }
 }

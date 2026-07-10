@@ -11,6 +11,7 @@ import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/helpers/supply_item_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
+import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
 import 'package:mona/ui/widgets/dropdowns/injection_side_dropdown.dart';
 import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
@@ -62,10 +63,12 @@ class _EditIntakePageState extends State<EditIntakePage> {
       widget.intake.administrationRoute == AdministrationRoute.injection;
 
   void _editIntake(
-      MedicationIntakeProvider medicationIntakeProvider,
-      SupplyItemProvider supplyItemProvider,
-      MedicationIntake intake,
-      SupplyItem? newItem) async {
+    MedicationIntakeProvider medicationIntakeProvider,
+    SupplyItemProvider supplyItemProvider,
+    PreferencesService preferencesService,
+    MedicationIntake intake,
+    SupplyItem? newItem,
+  ) async {
     if (!_isFormValid) return;
     if (!mounted) return;
 
@@ -78,7 +81,8 @@ class _EditIntakePageState extends State<EditIntakePage> {
     final String? notes =
         _notesController.text.isEmpty ? null : _notesController.text;
 
-    await MedicationIntakeManager(medicationIntakeProvider, supplyItemProvider)
+    await MedicationIntakeManager(
+            medicationIntakeProvider, supplyItemProvider, preferencesService)
         .editIntake(
       intake,
       takenDose: _takenDose,
@@ -98,10 +102,12 @@ class _EditIntakePageState extends State<EditIntakePage> {
   void _deleteIntake(
     MedicationIntakeProvider medicationIntakeProvider,
     SupplyItemProvider supplyItemProvider,
+    PreferencesService preferencesService,
     MedicationIntake intake,
   ) async {
     if (!mounted) return;
-    MedicationIntakeManager(medicationIntakeProvider, supplyItemProvider)
+    MedicationIntakeManager(
+            medicationIntakeProvider, supplyItemProvider, preferencesService)
         .deleteIntake(intake);
     Navigator.of(context).pop();
   }
@@ -194,8 +200,10 @@ class _EditIntakePageState extends State<EditIntakePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<MedicationIntakeProvider, SupplyItemProvider>(
-      builder: (context, medicationIntakeProvider, supplyItemProvider, child) {
+    return Consumer3<MedicationIntakeProvider, SupplyItemProvider,
+        PreferencesService>(
+      builder: (context, medicationIntakeProvider, supplyItemProvider,
+          preferencesService, child) {
         final bool isLoading =
             medicationIntakeProvider.isLoading || supplyItemProvider.isLoading;
 
@@ -237,14 +245,23 @@ class _EditIntakePageState extends State<EditIntakePage> {
           deleteButtonKey: const ValueKey('editIntakeDelete'),
           isFormValid: _isFormValid,
           saveChanges: (!isLoading && _isFormValid)
-              ? () => _editIntake(medicationIntakeProvider, supplyItemProvider,
-                  widget.intake, _selectedSupplyItem)
+              ? () => _editIntake(
+                    medicationIntakeProvider,
+                    supplyItemProvider,
+                    preferencesService,
+                    widget.intake,
+                    _selectedSupplyItem,
+                  )
               : () {},
           onDelete: () async {
             final confirmed = await confirmDeleteIntake(context);
             if (confirmed == false) return;
             _deleteIntake(
-                medicationIntakeProvider, supplyItemProvider, widget.intake);
+              medicationIntakeProvider,
+              supplyItemProvider,
+              preferencesService,
+              widget.intake,
+            );
           },
           fields: [
             FormDateTimeField(

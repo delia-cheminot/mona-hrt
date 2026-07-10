@@ -200,13 +200,13 @@ void main() {
         ));
         await provider.fetchIntakes();
 
-        expect(provider.getTakenIntakesForSchedule(100).length, 1);
+        expect(provider.getTakenIntakesDescForSchedule(100).length, 1);
       });
 
       test('returns empty list if no taken intakes for schedule', () async {
         await provider.fetchIntakes();
 
-        expect(provider.getTakenIntakesForSchedule(3), isEmpty);
+        expect(provider.getTakenIntakesDescForSchedule(3), isEmpty);
       });
     });
 
