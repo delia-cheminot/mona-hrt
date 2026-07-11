@@ -1,0 +1,22 @@
+Take control of your hormonal health with Mona, the fully local, open-source app designed to help you track, understand, and manage your hormone journey.
+
+Why Mona is different:
+
+- Completely private: All your data stays on your device. Nothing is sent to servers.
+- Open source: The app is fully open source, allowing maximum transparency and contributions from the community.
+- Free for life: No subscriptions, no premium features. Mona is free for everyone.
+
+Medication reminders:
+
+- Add your medication regimens
+- Get detailed info for each upcoming dose (quantity, date, side, missed doses)
+- Receive notifications so you never miss a dose
+
+Manage your medication stock efficiently:
+
+- Keep track of each medication in stock
+- Quantities are automatically updated with each intake
+
+Hormone levels graph:
+
+- For users on estradiol monotherapy, visualize simulated hormone levels over time

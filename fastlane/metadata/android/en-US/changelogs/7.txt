@@ -1,0 +1,13 @@
+New:
+
+- Transdermal drops: now a supported route of administration
+- Notes on intakes: jot down anything useful on any intake
+- Units: a setting to pick units used across the app
+- Android: back button now goes to home tab instead of closing
+- Import data from previous versions of Mona
+
+Fixes:
+
+- "schedule" shows in singular when you only have one
+- Graph X axis uses only injections for its min/max range
+- Fixed a 1.7 bug that blocked some imports

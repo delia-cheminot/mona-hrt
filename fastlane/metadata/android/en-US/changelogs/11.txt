@@ -1,0 +1,3 @@
+- Track additional supplies such as wipes, bandages, and syringes.
+- Create recurring weekly schedules on specific weekdays.
+- DHT is now available in the molecule list.

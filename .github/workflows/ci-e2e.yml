@@ -1,0 +1,168 @@
+name: CI - E2E
+
+# Patrol drives the real app on an Android emulator. Patrol has no Linux-desktop
+# support, so these tests cannot run on a plain runner — they need the
+# KVM-accelerated emulator from reactivecircus/android-emulator-runner. This job
+# is intentionally separate from ci-pr.yml because the emulator makes it slow.
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # Discover the test files at runtime and emit a JSON matrix, so new
+  # integration_test/*_test.dart files are picked up automatically.
+  # `shard` is the file name minus `_test.dart`
+  discover:
+    name: Discover test files
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.find.outputs.matrix }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Build test matrix
+        id: find
+        run: |
+          matrix=$(find integration_test -name '*_test.dart' -printf '%f\t%p\n' | sort \
+            | jq -R -s -c '
+                split("\n") | map(select(length > 0)) | map(split("\t"))
+                | { include: map({ shard: (.[0] | sub("_test\\.dart$"; "")), test_file: .[1] }) }')
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+          echo "Discovered matrix: $matrix"
+
+  e2e_android:
+    name: Patrol Android (${{ matrix.shard }})
+    needs: discover
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      # One shard per discovered test file: a flaky file only retries itself,
+      # the shards run in parallel, and failures are isolated per file in the
+      # checks UI. max-parallel bounds how many emulators boot at once so a large
+      # suite doesn't overwhelm the runner pool.
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.discover.outputs.matrix) }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      # ubuntu-latest ships ~30 GB of toolchains we don't use (.NET, Haskell,
+      # etc.). The Android system-image install + AVD snapshot can exhaust the
+      # remaining disk ("No space left on device"), failing the emulator before
+      # our test script even runs. Reclaim the unused space, but KEEP the Android
+      # SDK and the Flutter/Java tool-cache the next steps depend on.
+      - name: Free disk space
+        uses: jlumbroso/free-disk-space@main
+        with:
+          android: false
+          tool-cache: false
+          dotnet: true
+          haskell: true
+          large-packages: false
+          docker-images: true
+          swap-storage: true
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: .fvmrc
+          cache: true
+
+      # Pin a JDK for the Android Gradle build so it never falls back to an
+      # invalid JAVA_HOME (AGP needs JDK 17).
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Get dependencies
+        # Installs the Patrol framework AND the Patrol CLI: patrol_cli is a
+        # dev_dependency (pinned in pubspec.lock), so there is no separate
+        # `dart pub global activate`. The CLI is run as `dart run patrol_cli:main`.
+        run: flutter pub get
+
+      # Cache the Gradle home so the Android build isn't cold on every run
+      # (a cold build re-downloads AGP + deps and can take 10–20 min by itself).
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('android/**/*.gradle*', 'android/gradle/wrapper/gradle-wrapper.properties', 'pubspec.lock') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      # Build the app + instrumentation APKs outside the emulator.
+      - name: Build Patrol APKs
+        timeout-minutes: 25
+        run: dart run patrol_cli:main build android --flavor standalone
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' \
+            | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      # Cache the AVD and a warm boot snapshot so the emulator loads from a saved
+      # state instead of cold-booting on every run
+      - name: Cache AVD snapshot
+        uses: actions/cache@v4
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-api34-google_apis-x86_64-pixel_6
+
+      # On a cache miss, boot the emulator once with snapshot-save enabled and
+      # immediately exit. Skipped entirely on a cache hit.
+      - name: Create AVD snapshot
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          force-avd-creation: false
+          disable-animations: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+          script: echo "AVD snapshot generated."
+
+      # The app builds debug with applicationIdSuffix ".dev" (see
+      # android/app/build.gradle), so the installed package under test is
+      # com.deliacheminot.mona.dev — already set as patrol.android.package_name
+      # in pubspec.yaml. PATROL_TARGET selects this shard's single test file;
+      # run_patrol_e2e.sh passes it to `patrol test --target`.
+      #
+      # force-avd-creation: false reuses the cached AVD
+      - name: Run Patrol tests on emulator
+        timeout-minutes: 45
+        uses: reactivecircus/android-emulator-runner@v2
+        env:
+          PATROL_TARGET: ${{ matrix.test_file }}
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          force-avd-creation: false
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot-save -noaudio -no-boot-anim
+          script: bash scripts/run_patrol_e2e.sh
+
+      - name: Upload Patrol results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: patrol-results-${{ matrix.shard }}
+          path: |
+            build/app/outputs/androidTest-results/
+            build/app/reports/
+          if-no-files-found: ignore

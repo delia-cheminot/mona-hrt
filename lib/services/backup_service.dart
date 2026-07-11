@@ -3,8 +3,8 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:mona/services/db/app_database.dart';
+import 'package:mona/services/db/historical_schemas.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class BackupService {
@@ -41,40 +41,78 @@ class BackupService {
   }
 
   Future<void> _processImport(Map<String, dynamic> backupData) async {
-    final db = await AppDatabase.getInstance().database;
+    final metadata = backupData['metadata'] as Map<String, dynamic>;
+    final backupVersion = metadata['database_version'] as int;
     final dataSection = backupData['data'] as Map<String, dynamic>;
 
-    await db.transaction((txn) async {
-      for (final table in _tables) {
-        await txn.delete(table);
-      }
-      for (final table in _tables) {
-        if (dataSection.containsKey(table) && dataSection[table] != null) {
-          for (final item in dataSection[table]) {
-            await txn.insert(table, Map<String, dynamic>.from(item));
+    final appDb = AppDatabase.getInstance();
+    final dbPath = await appDb.filePath();
+    final backupPath = await appDb.backupFilePath();
+
+    await appDb.close();
+    final hadExistingDb = await File(dbPath).exists();
+    if (hadExistingDb) {
+      await File(dbPath).rename(backupPath);
+    }
+
+    try {
+      final db = await openDatabase(
+        dbPath,
+        version: backupVersion,
+        onCreate: (db, version) async {
+          for (final statement in historicalSchemaFor(version)) {
+            await db.execute(statement);
           }
+        },
+        onOpen: (db) async {
+          await db.execute('PRAGMA foreign_keys = ON');
+        },
+      );
+
+      try {
+        await db.transaction((txn) async {
+          await txn.execute('PRAGMA defer_foreign_keys = ON');
+
+          for (final entry in dataSection.entries) {
+            final rows = entry.value;
+            for (final row in rows) {
+              await txn.insert(entry.key, Map<String, Object?>.from(row));
+            }
+          }
+        });
+      } finally {
+        await db.close();
+      }
+
+      if (hadExistingDb) {
+        final bak = File(backupPath);
+        if (await bak.exists()) {
+          await bak.delete();
         }
       }
-    });
+    } catch (_) {
+      await _rollback(dbPath, backupPath, hadExistingDb);
+      rethrow;
+    }
   }
 
-  Future<bool> _createSafetyBackup() async {
-    try {
-      final jsonString = await _generateBackupJson();
-      final tempDir = await getTemporaryDirectory();
+  Future<void> _rollback(
+      String dbPath, String backupPath, bool hadExistingDb) async {
+    final partialDatabase = File(dbPath);
+    if (await partialDatabase.exists()) {
+      await partialDatabase.delete();
+    }
 
-      // Save silently to the app's hidden cache
-      final file = File('${tempDir.path}/mona_safety_backup.json');
-      await file.writeAsString(jsonString);
-      return true;
-    } catch (e) {
-      print('Safety backup failed: $e');
-      return false;
+    if (hadExistingDb) {
+      final bak = File(backupPath);
+      if (await bak.exists()) {
+        await bak.rename(dbPath);
+      }
     }
   }
 
   void _validateBackup(Map<String, dynamic> backupData) {
-    if (!backupData.containsKey('metadata')) {
+    if (!backupData.containsKey('metadata') || backupData['metadata'] is! Map) {
       throw const FormatException('Invalid backup: missing metadata');
     }
 
@@ -83,35 +121,24 @@ class BackupService {
           'Invalid backup: missing or invalid data object');
     }
 
-    final dataSection = backupData['data'] as Map<String, dynamic>;
-
-    for (final table in _tables) {
-      if (dataSection.containsKey(table) &&
-          dataSection[table] != null &&
-          dataSection[table] is! List) {
-        throw FormatException('Invalid backup: $table must be a list');
-      }
+    final metadata = backupData['metadata'] as Map<String, dynamic>;
+    final version = metadata['database_version'];
+    if (version is! int) {
+      throw const FormatException(
+          'Invalid backup: missing or invalid database version');
     }
-  }
+    if (version < oldestImportableVersion || version > currentDatabaseVersion) {
+      throw FormatException(
+        'Unsupported backup version: $version '
+        '(supported range: $oldestImportableVersion..$currentDatabaseVersion)',
+      );
+    }
 
-  Future<bool> restoreSafetyBackup() async {
-    try {
-      final tempDir = await getTemporaryDirectory();
-      final file = File('${tempDir.path}/mona_safety_backup.json');
-
-      if (!await file.exists()) return false;
-
-      final jsonString = await file.readAsString();
-      final Map<String, dynamic> backupData = jsonDecode(jsonString);
-
-      _validateBackup(backupData);
-      await _processImport(backupData);
-
-      await file.delete();
-      return true;
-    } catch (e) {
-      print('Restore failed: $e');
-      return false;
+    final dataSection = backupData['data'] as Map<String, dynamic>;
+    for (final entry in dataSection.entries) {
+      if (entry.value != null && entry.value is! List) {
+        throw FormatException('Invalid backup: ${entry.key} must be a list');
+      }
     }
   }
 
@@ -151,24 +178,16 @@ class BackupService {
       allowedExtensions: isAndroid ? null : ['json'],
     );
 
-    if (result != null && result.files.single.path != null) {
-      try {
-        final file = File(result.files.single.path!);
-        final jsonString = await file.readAsString();
-        final Map<String, dynamic> backupData = jsonDecode(jsonString);
-
-        _validateBackup(backupData);
-
-        await _createSafetyBackup();
-
-        await _processImport(backupData);
-
-        return true;
-      } catch (e) {
-        print('Backup import failed: $e');
-        return false;
-      }
+    if (result == null || result.files.single.path == null) {
+      return false;
     }
-    return false;
+
+    final file = File(result.files.single.path!);
+    final jsonString = await file.readAsString();
+    final Map<String, dynamic> backupData = jsonDecode(jsonString);
+
+    _validateBackup(backupData);
+    await _processImport(backupData);
+    return true;
   }
 }

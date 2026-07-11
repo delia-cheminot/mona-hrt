@@ -7,15 +7,17 @@ class FormInfoText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color color = Theme.of(context).colorScheme.onSurface;
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Text.rich(
         TextSpan(
           children: [
-            const WidgetSpan(
+            WidgetSpan(
               child: Icon(
                 Icons.info_outline,
                 size: 16,
+                color: color,
               ),
             ),
             TextSpan(

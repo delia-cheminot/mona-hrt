@@ -8,6 +8,10 @@ class MainTabConfig {
   final List<Widget> Function(BuildContext context)? buildActions;
   final FloatingActionButton? Function(BuildContext context)? buildFab;
 
+  /// Key applied to the [BottomNavigationBarItem] corresponding to this tab
+  /// so e2e tests can target it without depending on its (localized) label.
+  final Key? navKey;
+
   const MainTabConfig({
     required this.title,
     required this.page,
@@ -15,5 +19,6 @@ class MainTabConfig {
     required this.selectedIcon,
     this.buildActions,
     this.buildFab,
+    this.navKey,
   });
 }

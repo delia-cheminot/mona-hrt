@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/blood_test.dart';
+import 'package:mona/data/model/units.dart';
 
 void main() {
   group('BloodTest', () {
@@ -10,7 +11,7 @@ void main() {
         id: 1,
         dateTime: DateTime.utc(2025, 3, 14, 6, 7),
         timeZone: 'Etc/UTC',
-        estradiolLevels: Decimal.parse('167.1'),
+        estradiolLevels: UnitValue(Decimal.parse('167.1'), EstradiolUnit.pg_mL),
         testosteroneLevels: null,
       );
 
@@ -38,8 +39,9 @@ void main() {
         id: 1,
         dateTime: DateTime.utc(2024, 1, 1),
         timeZone: 'Etc/UTC',
-        estradiolLevels: Decimal.parse('167.1'),
-        testosteroneLevels: Decimal.parse('1.67'),
+        estradiolLevels: UnitValue(Decimal.parse('167.1'), EstradiolUnit.pg_mL),
+        testosteroneLevels:
+            UnitValue(Decimal.parse('1.67'), TestosteroneUnit.ng_dL),
       );
       final newDate = DateTime.utc(2025, 1, 1);
 
@@ -65,8 +67,9 @@ void main() {
         id: 1,
         dateTime: DateTime.utc(2024, 1, 1),
         timeZone: 'Etc/UTC',
-        estradiolLevels: Decimal.parse('10'),
-        testosteroneLevels: Decimal.parse('20'),
+        estradiolLevels: UnitValue(Decimal.parse('10'), EstradiolUnit.pg_mL),
+        testosteroneLevels:
+            UnitValue(Decimal.parse('20'), TestosteroneUnit.ng_dL),
       );
 
       // Act

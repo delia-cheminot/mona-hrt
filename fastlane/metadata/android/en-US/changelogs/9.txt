@@ -1,0 +1,3 @@
+- Added Russian translation. Привет to our new Russian-speaking users!
+- Removed unused internet permission. Your data stays on your device, as it should.
+- Fixed missing title on the "no intakes today" message.

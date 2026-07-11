@@ -37,13 +37,13 @@ void main() {
 
     test('can insert and query supply_items', () async {
       final id = await db.insert('supply_items', {
+        'type': 'medication',
         'name': 'Test Item',
         'totalDose': '100',
         'usedDose': '0',
         'concentration': '10',
-        'quantity': 1,
-        'moleculeJson': '{"name":"estradiol","unit":"mg"}',
-        'administrationRouteName': 'oral',
+        'molecule': '{"name":"estradiol","unit":"mg"}',
+        'administrationRoute': 'oral',
       });
 
       final item = await db.query(
@@ -64,24 +64,48 @@ void main() {
       );
     });
 
+    test('can insert and query generic supply_items', () async {
+      // Act
+      final id = await db.insert('supply_items', {
+        'type': 'generic',
+        'name': 'Test generic Item',
+        'amount': 5,
+        'genericSupplyType': 'syringe',
+      });
+
+      final item = await db.query(
+        'supply_items',
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+
+      // Assert
+      expect(
+          item.single,
+          allOf(
+            containsPair('name', 'Test generic Item'),
+            containsPair('amount', 5),
+            containsPair('genericSupplyType', 'syringe'),
+          ));
+    });
+
     test('can insert and query medication_intakes', () async {
       final supplyItemId = await db.insert('supply_items', {
+        'type': 'medication',
         'name': 'Test Item',
         'totalDose': '100',
         'usedDose': '10',
         'concentration': '200',
-        'quantity': 1,
-        'moleculeJson': '{"name":"progesterone","unit":"mg"}',
-        'administrationRouteName': 'oral',
+        'molecule': '{"name":"progesterone","unit":"mg"}',
+        'administrationRoute': 'oral',
       });
 
       final id = await db.insert('medication_intakes', {
-        'scheduledDateTime': DateTime(2025, 9, 14, 10, 30).toIso8601String(),
         'takenDateTime': null,
-        'dose': '2.5',
+        'takenDose': '2.5',
         'side': null,
-        'moleculeJson': '{"name":"estradiol","unit":"mg"}',
-        'administrationRouteName': 'oral',
+        'molecule': '{"name":"estradiol","unit":"mg"}',
+        'administrationRoute': 'oral',
         'supplyItemId': supplyItemId,
       });
 
@@ -97,7 +121,7 @@ void main() {
         intake,
         allOf(
           containsPair('id', id),
-          containsPair('dose', '2.5'),
+          containsPair('takenDose', '2.5'),
           containsPair('takenDateTime', null),
           containsPair('side', null),
           containsPair('supplyItemId', supplyItemId),
@@ -112,13 +136,11 @@ void main() {
 
       expect(
           () async => await db.insert('medication_intakes', {
-                'scheduledDateTime':
-                    DateTime(2025, 9, 14, 10, 30).toIso8601String(),
                 'takenDateTime': null,
-                'dose': '2.5',
+                'takenDose': '2.5',
                 'side': null,
-                'moleculeJson': '{"name":"estradiol","unit":"mg"}',
-                'administrationRouteName': 'oral',
+                'molecule': '{"name":"estradiol","unit":"mg"}',
+                'administrationRoute': 'oral',
                 'supplyItemId': supplyItemId,
               }),
           throwsA(
@@ -132,22 +154,21 @@ void main() {
         "deleting a supplyItem sets the field supplyItemId in medication_intakes NULL",
         () async {
       final supplyItemId = await db.insert('supply_items', {
+        'type': 'medication',
         'name': 'Test Item',
         'totalDose': '100',
         'usedDose': '10',
         'concentration': '200',
-        'quantity': 1,
-        'moleculeJson': '{"name":"progesterone","unit":"mg"}',
-        'administrationRouteName': 'oral',
+        'molecule': '{"name":"progesterone","unit":"mg"}',
+        'administrationRoute': 'oral',
       });
 
       final intakeId = await db.insert('medication_intakes', {
-        'scheduledDateTime': DateTime(2025, 9, 14, 10, 30).toIso8601String(),
         'takenDateTime': null,
-        'dose': '2.5',
+        'takenDose': '2.5',
         'side': null,
-        'moleculeJson': '{"name":"estradiol","unit":"mg"}',
-        'administrationRouteName': 'oral',
+        'molecule': '{"name":"estradiol","unit":"mg"}',
+        'administrationRoute': 'oral',
         'supplyItemId': supplyItemId,
       });
 
@@ -168,11 +189,11 @@ void main() {
       final id = await db.insert('medication_schedules', {
         'name': 'Morning Med',
         'dose': '5',
-        'intervalDays': 1,
         'startDate': DateTime(2025, 9, 13).toIso8601String(),
-        'moleculeJson': '{"name":"estradiol","unit":"mg"}',
-        'administrationRouteName': 'oral',
-        'notificationTimes': '["12:30", "18:30"]',
+        'molecule': '{"name":"estradiol","unit":"mg"}',
+        'administrationRoute': 'oral',
+        'scheduling':
+            '{"type":"intervalDays","intervalDays":1,"notificationTimes":["8:30"]}',
       });
 
       final schedule = await db.query(
@@ -184,13 +205,39 @@ void main() {
       expect(
         [
           schedule.first['name'],
-          schedule.first['intervalDays'],
+          schedule.first['scheduling'],
         ],
         [
           'Morning Med',
-          1,
+          '{"type":"intervalDays","intervalDays":1,"notificationTimes":["8:30"]}',
         ],
       );
+    });
+
+    test('can insert and query blood_tests', () async {
+      final id = await db.insert('blood_tests', {
+        'dateTime': DateTime(2025, 9, 13).toIso8601String(),
+        'timeZone': 'Etc/UTC',
+        'estradiolLevels': '167.1',
+        'estradiolUnit': 'pg/mL',
+        'testosteroneLevels': '1.67',
+        'testosteroneUnit': 'ng/dL',
+      });
+
+      final test =
+          await db.query('blood_tests', where: 'id = ?', whereArgs: [id]);
+
+      expect([
+        test.first['estradiolLevels'],
+        test.first['estradiolUnit'],
+        test.first['testosteroneLevels'],
+        test.first['testosteroneUnit'],
+      ], [
+        '167.1',
+        'pg/mL',
+        '1.67',
+        'ng/dL',
+      ]);
     });
   });
 }

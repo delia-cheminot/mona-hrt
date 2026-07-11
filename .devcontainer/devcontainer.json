@@ -1,0 +1,44 @@
+{
+    "$schema": "https://raw.githubusercontent.com/devcontainers/spec/refs/heads/main/schemas/devContainer.schema.json",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "Dart-Code.dart-code",
+                "Dart-Code.flutter"
+            ]
+        }
+    },
+    "build": {
+        "dockerfile": "../Containerfile",
+        "context": "..",
+        "target": "development"
+    },
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "configureZshAsDefaultShell": true,
+            "upgradePackages": "true",
+            "installZsh": true
+        },
+        "ghcr.io/devcontainers/features/git:1": {}
+    },
+    "runArgs": ["--add-host=host.docker.internal:host-gateway"],
+    "onCreateCommand": {
+        "take ownership of android sdk": "sudo chown vscode:vscode /opt -Rc",
+        "install flutter and dependencies": "fvm install && fvm flutter pub get",
+        "setup build prefix": "mkdir -p ${containerWorkspaceFolder}/build/prefix"
+    },
+    "containerEnv": {
+        "PREFIX": "${containerWorkspaceFolder}/build/prefix",
+        "WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
+        "XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}",
+        "XDG_SESSION_TYPE": "${localEnv:XDG_SESSION_TYPE}",
+        "DBUS_SYSTEM_BUS_ADDRESS": "unix:path=/var/run/dbus/system_bus_socket"
+    },
+    "remoteEnv": {
+        "PATH": "${containerEnv:HOME}/fvm/default/bin:${containerEnv:HOME}/.pub-cache/bin:${containerEnv:ANDROID_HOME}/platform-tools:${containerEnv:PATH}"
+    },
+    "mounts": [
+        "source=${localEnv:XDG_RUNTIME_DIR},target=${localEnv:XDG_RUNTIME_DIR},type=bind,consistency=cached",
+        "source=/var/run/dbus/system_bus_socket,target=/var/run/dbus/system_bus_socket,type=bind,consistency=cached"
+    ]
+}

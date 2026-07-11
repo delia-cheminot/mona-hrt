@@ -1,0 +1,1 @@
+[NEW] Daily schedule Schedule multiple intakes per day with their own times. Each one shows independently on the homepage so you know what you've taken.  [FIX] Ukrainian translation Administration routes were not translated. Fixed.  [FIX] Duplicate notifications Some users were getting notified twice for the same intake. Fixed.

@@ -1,0 +1,1 @@
+Fix: Add back multiple notifications for interval schedules

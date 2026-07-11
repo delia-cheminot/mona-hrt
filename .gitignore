@@ -18,10 +18,6 @@ migrate_working_dir/
 *.iws
 .idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control
-.vscode/
-
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
@@ -52,3 +48,11 @@ android/build/
 
 # Code coverage
 coverage/
+
+# Nix/direnv
+.direnv/
+# Patrol E2E: generated test bundle (regenerated on every `patrol test`/`build`)
+integration_test/test_bundle.dart
+
+# Intermediate slang input
+lib/i18n/generated/

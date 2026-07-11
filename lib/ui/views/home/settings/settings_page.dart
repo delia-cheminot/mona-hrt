@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/distribution.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/helpers/units_l10n.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/backup_service.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
@@ -13,16 +14,10 @@ import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/home/settings/language_page.dart';
 import 'package:mona/ui/views/home/settings/schedules/schedules_page.dart';
 import 'package:mona/ui/views/home/settings/theme_page.dart';
+import 'package:mona/ui/views/home/settings/units_page.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-
-String? _nativeLanguageNameForStoredTag(String tag) {
-  for (final (code, _, nativeName) in LanguagePage.languages) {
-    if (code == tag) return nativeName;
-  }
-  return null;
-}
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -95,14 +90,13 @@ class _SettingsPageState extends State<SettingsPage>
   }
 
   Future<void> _exportData() async {
-    final localizations = context.l10n;
     try {
       final savedPath = await BackupService().exportData();
 
       if (savedPath != null && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(localizations.backupSavedTo(savedPath)),
+            content: Text(t.backupSavedTo(path: savedPath)),
             duration: const Duration(seconds: 4),
           ),
         );
@@ -110,29 +104,28 @@ class _SettingsPageState extends State<SettingsPage>
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(localizations.exportFailed(e))),
+          SnackBar(content: Text(t.exportFailed(error: e))),
         );
       }
     }
   }
 
   Future<void> _importData() async {
-    final l10n = context.l10n;
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(l10n.importDataTitle),
-        content: Text(l10n.importDataOverwriteWarning),
+        title: Text(t.importDataTitle),
+        content: Text(t.importDataOverwriteWarning),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text(l10n.cancel),
+            child: Text(t.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
             style: TextButton.styleFrom(
                 foregroundColor: Theme.of(context).colorScheme.error),
-            child: Text(l10n.importConfirm),
+            child: Text(t.importConfirm),
           ),
         ],
       ),
@@ -146,12 +139,12 @@ class _SettingsPageState extends State<SettingsPage>
             context: context,
             barrierDismissible: false,
             builder: (context) => AlertDialog(
-              title: Text(l10n.importSuccessfulTitle),
-              content: Text(l10n.importRestartRequired),
+              title: Text(t.importSuccessfulTitle),
+              content: Text(t.importRestartRequired),
               actions: [
                 TextButton(
                   onPressed: () => exit(0),
-                  child: Text(l10n.closeApp),
+                  child: Text(t.closeApp),
                 ),
               ],
             ),
@@ -160,7 +153,7 @@ class _SettingsPageState extends State<SettingsPage>
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.importFailed(e))),
+            SnackBar(content: Text(t.importFailed(error: e))),
           );
         }
       }
@@ -172,17 +165,16 @@ class _SettingsPageState extends State<SettingsPage>
     final medicationScheduleProvider =
         context.watch<MedicationScheduleProvider>();
     final preferencesService = context.watch<PreferencesService>();
-    final localizations = context.l10n;
 
     if (medicationScheduleProvider.isLoading) {
       return Scaffold(
-        appBar: AppBar(title: Text(localizations.settingsTitle)),
+        appBar: AppBar(title: Text(t.settingsTitle)),
         body: Center(child: CircularProgressIndicator()),
       );
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(localizations.settingsTitle)),
+      appBar: AppBar(title: Text(t.settingsTitle)),
       body: ListView(
         children: [
           //
@@ -192,15 +184,16 @@ class _SettingsPageState extends State<SettingsPage>
             padding: const EdgeInsets.symmetric(
                 horizontal: borderPadding, vertical: 8.0),
             child: Text(
-              localizations.schedulesAndNotifications,
+              t.schedulesAndNotifications,
             ),
           ),
           ListTile(
-            title: Text(localizations.schedules),
+            key: const ValueKey('settingsSchedulesTile'),
+            title: Text(t.schedules),
             subtitle: Text(medicationScheduleProvider.schedules.isEmpty
-                ? localizations.noSchedules
-                : localizations.schedulesCreated(
-                    medicationScheduleProvider.schedules.length)),
+                ? t.noSchedules
+                : t.schedulesCreated(
+                    count: medicationScheduleProvider.schedules.length)),
             trailing: Icon(Icons.chevron_right),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute<void>(
@@ -209,16 +202,16 @@ class _SettingsPageState extends State<SettingsPage>
             },
           ),
           SwitchListTile(
-            title: Text(localizations.enableNotifications),
-            subtitle: Text(localizations.enableNotificationsDescription),
+            title: Text(t.enableNotifications),
+            subtitle: Text(t.enableNotificationsDescription),
             value: _notificationsEnabled,
             onChanged: _toggleNotifications,
           ),
           if (_notificationsEnabled && !_permissionGranted)
             ListTile(
               leading: const Icon(Icons.info_outline),
-              title: Text(localizations.notificationsDisabledTitle),
-              subtitle: Text(localizations.clickToOpenSettings),
+              title: Text(t.notificationsDisabledTitle),
+              subtitle: Text(t.clickToOpenSettings),
               trailing: const Icon(Icons.chevron_right),
               onTap: () async {
                 await openAppSettings();
@@ -229,8 +222,8 @@ class _SettingsPageState extends State<SettingsPage>
               !_exactAlarmsGranted)
             ListTile(
               leading: const Icon(Icons.info_outline),
-              title: Text(localizations.exactRemindersDisabled),
-              subtitle: Text(localizations.remindersDelayed),
+              title: Text(t.exactRemindersDisabled),
+              subtitle: Text(t.remindersDelayed),
               trailing: const Icon(Icons.chevron_right),
               onTap: () async {
                 await openAppSettings();
@@ -244,15 +237,15 @@ class _SettingsPageState extends State<SettingsPage>
             padding: const EdgeInsets.symmetric(
                 horizontal: borderPadding, vertical: 8.0),
             child: Text(
-              localizations.general,
+              t.general,
             ),
           ),
           ListTile(
-            title: Text(localizations.language),
+            title: Text(t.language),
             subtitle: Text(
               preferencesService.savedLanguageTag == null
-                  ? localizations.languageFollowDevice
-                  : (_nativeLanguageNameForStoredTag(
+                  ? t.languageFollowDevice
+                  : (LanguagePage.nativeNameOf(
                           preferencesService.savedLanguageTag!) ??
                       preferencesService.savedLanguageTag!),
             ),
@@ -261,6 +254,15 @@ class _SettingsPageState extends State<SettingsPage>
               Navigator.of(context).push(
                 MaterialPageRoute<void>(builder: (context) => LanguagePage()),
               );
+            },
+          ),
+          ListTile(
+            title: Text(t.units),
+            subtitle: Text(preferencesService.units.localizedName),
+            trailing: Icon(Icons.chevron_right),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute<void>(builder: (context) => UnitsPage()));
             },
           ),
           ListTile(
@@ -273,24 +275,24 @@ class _SettingsPageState extends State<SettingsPage>
               );
             },
           ),
-          if (Platform.isAndroid && !isPlayStoreDistribution) ...[
+          if (Platform.isAndroid && !isStoreDistribution) ...[
             const Divider(),
             Padding(
               padding: const EdgeInsets.symmetric(
                   horizontal: borderPadding, vertical: 8.0),
               child: Text(
-                localizations.updates,
+                t.updates,
               ),
             ),
             SwitchListTile(
-              title: Text(localizations.autoUpdate),
-              subtitle: Text(localizations.autoUpdateDescription),
+              title: Text(t.autoUpdate),
+              subtitle: Text(t.autoUpdateDescription),
               value: _autoCheckUpdatesEnabled,
               onChanged: _toggleAutoCheckUpdates,
             ),
             ListTile(
-              title: Text(localizations.checkForUpdates),
-              subtitle: Text(localizations.checkForUpdatesDescription),
+              title: Text(t.checkForUpdates),
+              subtitle: Text(t.checkForUpdatesDescription),
               trailing: const Icon(Symbols.update),
               onTap: () => UpdateService().checkForUpdates(context),
             ),
@@ -303,18 +305,18 @@ class _SettingsPageState extends State<SettingsPage>
             padding: const EdgeInsets.symmetric(
                 horizontal: borderPadding, vertical: 8.0),
             child: Text(
-              localizations.dataManagement,
+              t.dataManagement,
             ),
           ),
           ListTile(
-            title: Text(localizations.exportDataTitle),
-            subtitle: Text(localizations.exportDataSubtitle),
+            title: Text(t.exportDataTitle),
+            subtitle: Text(t.exportDataSubtitle),
             trailing: const Icon(Symbols.upload),
             onTap: _exportData,
           ),
           ListTile(
-            title: Text(localizations.importDataTitle),
-            subtitle: Text(localizations.importDataSubtitle),
+            title: Text(t.importDataTitle),
+            subtitle: Text(t.importDataSubtitle),
             trailing: const Icon(Symbols.download),
             onTap: _importData,
           ),
@@ -326,7 +328,7 @@ class _SettingsPageState extends State<SettingsPage>
               final info = snapshot.data!;
               return Center(
                 child: Text(
-                  localizations.appVersion(info.version),
+                  t.appVersion(version: info.version),
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               );

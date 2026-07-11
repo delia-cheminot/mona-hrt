@@ -1,45 +1,49 @@
 const String createSupplyItemsTable = '''
     CREATE TABLE supply_items(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      totalDose TEXT NOT NULL,
-      usedDose TEXT NOT NULL,
-      concentration TEXT NOT NULL,
+      type TEXT NOT NULL,
       name TEXT NOT NULL,
-      quantity INTEGER NOT NULL,
-      moleculeJson TEXT NOT NULL,
-      administrationRouteName TEXT NOT NULL,
-      esterName TEXT
+      totalDose TEXT,
+      usedDose TEXT,
+      concentration TEXT,
+      molecule TEXT,
+      administrationRoute TEXT,
+      ester TEXT,
+      amount INTEGER,
+      genericSupplyType TEXT
     )
     ''';
 
 const String createMedicationIntakesTable = '''
     CREATE TABLE medication_intakes(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      scheduledDateTime TEXT NOT NULL,
+      scheduledTime TEXT,
       takenDateTime TEXT,
       takenTimeZone TEXT,
-      dose TEXT NOT NULL,
+      takenDose TEXT NOT NULL,
+      wastedAmount TEXT,
+      deadSpace TEXT,
       scheduleId INTEGER,
       side TEXT,
-      moleculeJson TEXT NOT NULL,
-      administrationRouteName TEXT NOT NULL,
-      esterName TEXT,
+      molecule TEXT NOT NULL,
+      administrationRoute TEXT NOT NULL,
+      ester TEXT,
       supplyItemId INTEGER,
+      notes TEXT,
       FOREIGN KEY (supplyItemId) REFERENCES supply_items(id) ON DELETE SET NULL
     )
-    '''; // TODO use foreign key for scheduleId
+    ''';
 
 const String createMedicationSchedulesTable = '''
     CREATE TABLE medication_schedules(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       dose TEXT NOT NULL,
-      intervalDays INTEGER NOT NULL,
       startDate TEXT NOT NULL,
-      moleculeJson TEXT NOT NULL,
-      administrationRouteName TEXT NOT NULL,
-      esterName TEXT,
-      notificationTimes TEXT NOT NULL
+      molecule TEXT NOT NULL,
+      administrationRoute TEXT NOT NULL,
+      ester TEXT,
+      scheduling TEXT NOT NULL
     )
     ''';
 
@@ -49,6 +53,8 @@ const String createBloodTestsTable = '''
       dateTime TEXT NOT NULL,
       timeZone TEXT NOT NULL,
       estradiolLevels TEXT,
-      testosteroneLevels TEXT
+      testosteroneLevels TEXT,
+      estradiolUnit TEXT,
+      testosteroneUnit TEXT
     )
     ''';

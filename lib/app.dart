@@ -1,11 +1,13 @@
 import 'package:dynamic_system_colors/dynamic_system_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/controllers/notification_scheduler.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
-import 'package:mona/l10n/app_localizations.dart';
-import 'package:mona/l10n/locale_provider.dart';
+import 'package:mona/i18n/build_context_extensions.dart';
+import 'package:mona/i18n/locale_provider.dart';
+import 'package:mona/i18n/tok_localizations.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/theme/app_theme_controller.dart';
@@ -24,6 +26,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   late MedicationScheduleProvider _medicationScheduleProvider;
   late MedicationIntakeProvider _medicationIntakeProvider;
   late PreferencesService _preferencesService;
+  late NotificationScheduler _notificationScheduler;
 
   @override
   void initState() {
@@ -37,6 +40,11 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
       _medicationScheduleProvider = context.read<MedicationScheduleProvider>();
       _medicationIntakeProvider = context.read<MedicationIntakeProvider>();
       _preferencesService = context.read<PreferencesService>();
+      _notificationScheduler = NotificationScheduler(
+        NotificationPlanner(
+            _medicationIntakeProvider, _medicationScheduleProvider),
+        _preferencesService,
+      );
       _medicationScheduleProvider.addListener(_regenerateNotifications);
       _medicationIntakeProvider.addListener(_regenerateNotifications);
       _preferencesService.addListener(_regenerateNotifications);
@@ -53,20 +61,11 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  void _regenerateNotifications() async {
+  void _regenerateNotifications() {
     if (!mounted) return;
 
     final locale = context.read<LocaleProvider>().locale;
-
-    final l10n = await AppLocalizations.delegate.load(locale);
-
-    if (!mounted) return;
-
-    NotificationScheduler(
-      _medicationScheduleProvider,
-      _medicationIntakeProvider,
-      _preferencesService,
-    ).regenerateAll(l10n, locale.toLanguageTag());
+    _notificationScheduler.regenerateAll(locale.intlLanguageTag);
   }
 
   void _checkTimezoneChange() {
@@ -99,7 +98,8 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
           locale: context.watch<LocaleProvider>().locale,
           supportedLocales: context.watch<LocaleProvider>().supportedLocales,
           localizationsDelegates: const [
-            AppLocalizations.delegate,
+            TokMaterialLocalizationsDelegate(),
+            TokCupertinoLocalizationsDelegate(),
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
@@ -107,7 +107,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
           theme: themes.theme,
           darkTheme: themes.darkTheme,
           themeMode: ThemeMode.system,
-          home: MainPage(),
+          home: const MainPage(),
         );
       },
     );

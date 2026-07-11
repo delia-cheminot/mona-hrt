@@ -31,12 +31,66 @@
         "https://i.imgur.com/vuSqW2l.png",
         "https://i.imgur.com/5cjzlB0.png"
       ],
-      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.6.0/mona-1.6.0.ipa",
-      "size": 10700000,
-      "version": "1.6.0",
-      "versionDate": "2026-04-22T12:39:00Z",
-      "versionDescription": "- Mona now speaks your language: Mona is now available in French, German, Spanish, Portuguese, and Brasilian Portuguese.\n- Smarter notifications: If you've already logged an intake for today, Mona won't send a reminder for it. One less thing to dismiss.\n- Bug fix: blood test times shifting on save. When editing a blood test, the time was displayed in UTC instead of your local timezone, which caused it to drift when saved. That's now fixed.",
+      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.12.1/mona-1.12.1.ipa",
+      "size": 12095714,
+      "version": "1.12.1",
+      "versionDate": "2026-06-28T00:00:00Z",
+      "versionDescription": "New:\n\n- Display a message when an intake is recorded\n\nFix:\n\n- Fixes a bug causing notifications to duplicate",
       "versions": [
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.12.1/mona-1.12.1.ipa",
+          "size": 12095714,
+          "version": "1.12.1",
+          "buildVersion": "12",
+          "date": "2026-06-28T00:00:00Z",
+          "localizedDescription": "New:\n\n- Display a message when an intake is recorded\n\nFix:\n\n- Fixes a bug causing notifications to duplicate",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.12.0/mona-1.12.0.ipa",
+          "size": 12095702,
+          "version": "1.12.0",
+          "buildVersion": "12",
+          "date": "2026-06-15T00:00:00Z",
+          "localizedDescription": "New:\n\n- Add wasted amount with an intake\n- New language: Thai\n\nFixes:\n\n- Version numbers display in the correct order in the update dialog\n- Some icons were missing, they're back now",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.10.1/mona-1.10.1.ipa",
+          "size": 10700000,
+          "version": "1.10.1",
+          "buildVersion": "10",
+          "date": "2026-05-30T00:00:00Z",
+          "localizedDescription": "Fix: Add back multiple notifications for interval schedules",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.10.0/mona-1.10.0.ipa",
+          "size": 10700000,
+          "version": "1.10.0",
+          "buildVersion": "9",
+          "date": "2026-05-29T00:00:00Z",
+          "localizedDescription": "- Added Russian translation. Привет to our new Russian-speaking users!\n- Removed unused internet permission. Your data stays on your device, as it should.\n- Fixed missing title on the 'no intakes today' message.",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.9.0/mona-1.9.0.ipa",
+          "size": 10700000,
+          "version": "1.9.0",
+          "buildVersion": "8",
+          "date": "2026-05-26T00:00:00Z",
+          "localizedDescription": "[NEW] Daily schedule\nSchedule multiple intakes per day with their own times. Each one shows independently on the homepage so you know what you've taken.\n\n[FIX] Ukrainian translation\nAdministration routes were not translated. Fixed.\n\n[FIX] Duplicate notifications\nSome users were getting notified twice for the same intake. Fixed.",
+          "minOSVersion": "13.0"
+        },
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.8.0/mona-1.8.0.ipa",
+          "size": 10700000,
+          "version": "1.8.0",
+          "buildVersion": "3",
+          "date": "2026-05-13T11:00:00Z",
+          "localizedDescription": "- Transdermal drops: Drops are now a supported route of administration.\n- Notes on intakes: You can now add free notes to any intake. Jot down whatever feels useful!\n- Units: A new setting lets you choose the units used across the whole app.\n- Import from older versions: You can now import data from previous versions of Mona. No one gets left behind!\n\nBug fixes:\n- The word 'schedule' now correctly shows in singular when you only have one\n- The graph's X axis now only looks at injections for its min/max range, instead of all intakes\n- Fixed a bug introduced in 1.7 that was blocking some imports\n- Android back button fix: Pressing back now takes you to the home tab instead of closing the app.\n- Import from older versions: You can now import data from previous versions of Mona. No one gets left behind!\n\nBug fixes:\n- The word 'schedule' now correctly shows in singular when you only have one\n- The graph's X axis now only looks at injections for its min/max range, instead of all intakes\n- Fixed a bug introduced in 1.7 that was blocking some imports",
+          "minOSVersion": "13.0"
+        },
         {
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.6.0/mona-1.6.0.ipa",
           "size": 10700000,

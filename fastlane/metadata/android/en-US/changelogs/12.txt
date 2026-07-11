@@ -1,0 +1,9 @@
+New:
+
+- Add wasted amount with an intake
+- New language: Thai
+
+Fixes:
+
+- Version numbers display in the correct order in the update dialog
+- Some icons were missing, they're back now

@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
-import '../data/model/supply_item.dart';
+import 'package:mona/data/model/generic_supply_item.dart';
+import '../data/model/medication_supply_item.dart';
 import '../data/providers/supply_item_provider.dart';
 
 class SupplyItemManager {
@@ -7,8 +8,8 @@ class SupplyItemManager {
 
   SupplyItemManager(this._supplyItemProvider);
 
-  /// Uses a portion of the amount of the [SupplyItem] and updates the database.
-  Future<void> useDose(SupplyItem item, Decimal doseToUse) async {
+  /// Uses a portion of the amount of the [MedicationSupplyItem] and updates the database.
+  Future<void> useDose(MedicationSupplyItem item, Decimal doseToUse) async {
     if (doseToUse == Decimal.zero) {
       return;
     }
@@ -26,22 +27,39 @@ class SupplyItemManager {
     ));
   }
 
-  /// Switch doses between two [SupplyItem]
-  void switchDoses(SupplyItem? previousItem, SupplyItem? nextItem,
-      Decimal previousDose, Decimal nextDose) {
+  /// Uses one unit of the [GenericSupply] and updates the database.
+  Future<void> use(GenericSupply item) async {
+    await _supplyItemProvider.updateItem(item.copyWith(
+      amount: item.amount - 1,
+    ));
+  }
+
+  /// Puts back one unit of the [GenericSupply] and updates the database.
+  Future<void> putBack(GenericSupply item) async {
+    await _supplyItemProvider.updateItem(item.copyWith(
+      amount: item.amount + 1,
+    ));
+  }
+
+  /// Switch doses between two [MedicationSupplyItem]
+  Future<void> switchDoses(
+      MedicationSupplyItem? previousItem,
+      MedicationSupplyItem? nextItem,
+      Decimal previousDose,
+      Decimal nextDose) async {
     bool sameItems = nextItem == previousItem;
 
     if (previousItem != null) {
       if (sameItems) {
         Decimal doseDifference = nextDose - previousDose;
-        useDose(previousItem, doseDifference);
+        await useDose(previousItem, doseDifference);
       } else {
-        useDose(previousItem, -previousDose);
+        await useDose(previousItem, -previousDose);
       }
     }
 
     if (nextItem != null && !sameItems) {
-      useDose(nextItem, nextDose);
+      await useDose(nextItem, nextDose);
     }
   }
 }

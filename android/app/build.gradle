@@ -38,6 +38,14 @@ android {
         includeInBundle = false
     }
 
+    // Reproducible builds hygiene: PNG crunching during the build and runtime
+    // PNG generation from vector drawables both produce non-deterministic
+    // bytes between machines. Launcher icons are pre-rendered via
+    // flutter_launcher_icons, so disabling these has no visible effect.
+    aaptOptions {
+        cruncherEnabled = false
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -49,19 +57,38 @@ android {
         jvmTarget = "17"
     }
 
+    // Patrol E2E: required for `clearPackageData` between Dart tests.
+    testOptions {
+        execution "ANDROIDX_TEST_ORCHESTRATOR"
+    }
+
     defaultConfig {
         applicationId = "com.deliacheminot.mona"
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
+        // Patrol E2E: run instrumented Dart tests via the Patrol JUnit runner.
+        testInstrumentationRunner "pl.leancode.patrol.PatrolJUnitRunner"
+        testInstrumentationRunnerArguments clearPackageData: "true"
+        // Empty list disables generating density-specific PNGs from vector
+        // drawables at build time (nondeterministic across machines).
+        vectorDrawables.generatedDensities = []
+        // Defensive: strip ELF build-id from any plugin-compiled native libs.
+        // Most plugins ship prebuilt .so files (unaffected), but a few use
+        // CMake — this avoids a random build-id sneaking into their output.
+        externalNativeBuild {
+            cmake {
+                cFlags "-Wl,--build-id=none"
+            }
+        }
     }
 
-    // `play`: Google Play (no REQUEST_INSTALL_PACKAGES; Dart hides sideload update UI).
-    // `standalone`: sideload / GitHub APKs (in-app updates + install permission).
+    // `store`: App stores (no REQUEST_INSTALL_PACKAGES; Dart hides sideload update UI).
+    // `standalone`: sideload / GitHub APK (in-app updates + install permission).
     flavorDimensions "distribution"
     productFlavors {
-        play {
+        store {
             dimension "distribution"
         }
         standalone {
@@ -102,4 +129,6 @@ flutter {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+    // Patrol E2E: test orchestrator enables clearPackageData between tests.
+    androidTestUtil("androidx.test:orchestrator:1.5.1")
 }

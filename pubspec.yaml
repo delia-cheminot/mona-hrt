@@ -16,7 +16,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.6.0+4
+version: 1.13.0+14
 
 environment:
   sdk: ">=3.3.4 <4.0.0"
@@ -37,6 +37,7 @@ dependencies:
   sqflite: ^2.3.3+1
   sqflite_common_ffi: ^2.0.0+2
   path: ^1.9.0
+  clock: ^1.1.1
   decimal: ^3.2.4
   flutter_svg: ^2.2.3
   graph_calculator: ^0.0.4
@@ -51,14 +52,15 @@ dependencies:
   timezone: ^0.11.0
   flutter_timezone: ^5.0.1
   shared_preferences: ^2.5.4
-  material_symbols_icons: ^4.2906.0
+  # Pinned: 4.2928.x breaks icon font tree-shaking on Flutter < 3.44
+  # https://github.com/timmaffett/material_symbols_icons/issues/46
+  material_symbols_icons: 4.2906.0
   flutter_launcher_icons: ^0.14.4
   permission_handler: ^12.0.1
   collection: ^1.19.1
   http: ^1.2.0
   package_info_plus: ^9.0.0
   url_launcher: ^6.2.6
-  device_info_plus: ^12.3.0
   path_provider: ^2.1.4
   open_filex: ^4.5.0
   pub_semver: ^2.2.0
@@ -68,14 +70,37 @@ dependencies:
   share_plus: ^10.0.0
   material_color_utilities: ^0.13.0
   dart_mappable: ^4.8.0
+  m3e_core: ^0.1.0
+  slang: ^4.16.0
+  slang_flutter: ^4.16.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  integration_test:
+    sdk: flutter
+  patrol: ^4.6.1
+  patrol_cli: ^4.4.0
   build_runner: ^2.4.9
+  fake_async: ^1.3.1
   dart_mappable_builder: ^4.8.0
   flutter_lints: ^6.0.0
   mockito: ^5.4.4
+  slang_build_runner: ^4.16.0
+
+# Patrol E2E configuration. See integration_test/README.md for how to run.
+# package_name MUST match the package the test build actually installs. Debug
+# builds append `.dev` (see android/app/build.gradle buildTypes.debug), so this
+# is the `.dev` id, NOT the base `com.deliacheminot.mona`. This matters: Patrol
+# uninstalls/reinstalls this package and `clearPackageData` wipes its data
+# between tests — pointing it at the base id would destroy a production install.
+patrol:
+  app_name: Mona
+  test_directory: integration_test
+  android:
+    package_name: com.deliacheminot.mona.dev
+  ios:
+    bundle_id: com.deliacheminot.mona
 
 flutter_launcher_icons:
   android: true
@@ -97,7 +122,6 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-  generate: true
 
   assets:
     - assets/

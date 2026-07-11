@@ -1,19 +1,140 @@
 name: CI - release
 
-# Trigger on version tags pushed after merging dev into main (e.g. v1.2.3)
+# Triggered automatically when a release PR (head=dev → base=main) is merged,
+# or manually via workflow_dispatch as a fallback.
+#
+# Release PR convention:
+#   - title:  "v<MAJOR>.<MINOR>.<PATCH>+<BUILD>"
+#   - body:   plain text release notes (≤ 500 bytes)
+#   - head:   dev
+#   - base:   main
+#
+# CI parses version + build from the PR title, writes pubspec.yaml,
+# ios/Runner.xcodeproj/project.pbxproj, and
+# fastlane/metadata/android/en-US/changelogs/<BUILD>.txt (from PR body),
+# then commits, tags v<X>.<Y>.<Z>, builds APK/AAB, and creates a GitHub Release.
+
 on:
-  push:
-    tags:
-      - "v*.*.*"
+  pull_request:
+    types: [closed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version (e.g. 1.9.0)"
+        required: true
+        type: string
+      build_number:
+        description: "Build number / Android versionCode (integer)"
+        required: true
+        type: string
+      release_notes:
+        description: "Release notes (≤ 500 bytes plain text)"
+        required: true
+        type: string
+
+concurrency:
+  group: release
+  cancel-in-progress: false
 
 jobs:
+  # ── Parse PR / inputs, validate, capture changelog ────────────────────────
+  prepare:
+    name: Prepare release
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true && github.event.pull_request.head.ref == 'dev')
+    outputs:
+      version: ${{ steps.parse.outputs.version }}
+      tag: ${{ steps.parse.outputs.tag }}
+      build_number: ${{ steps.parse.outputs.build_number }}
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Parse version and build number
+        id: parse
+        env:
+          EVENT: ${{ github.event_name }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          INPUT_VERSION: ${{ inputs.version }}
+          INPUT_BUILD: ${{ inputs.build_number }}
+        run: |
+          if [[ "$EVENT" == "workflow_dispatch" ]]; then
+            VERSION="$INPUT_VERSION"
+            BUILD="$INPUT_BUILD"
+          else
+            if ! [[ "$PR_TITLE" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)\+([0-9]+)$ ]]; then
+              echo "::error::PR title must be exactly 'v<X>.<Y>.<Z>+<BUILD>' (e.g. 'v1.9.0+7'). Got: '$PR_TITLE'"
+              exit 1
+            fi
+            VERSION="${BASH_REMATCH[1]}"
+            BUILD="${BASH_REMATCH[2]}"
+          fi
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Bad version: '$VERSION'"; exit 1
+          fi
+          if ! [[ "$BUILD" =~ ^[0-9]+$ ]]; then
+            echo "::error::Bad build number: '$BUILD'"; exit 1
+          fi
+          if git ls-remote --tags --exit-code origin "refs/tags/v${VERSION}" >/dev/null 2>&1; then
+            echo "::error::Tag v${VERSION} already exists on origin"; exit 1
+          fi
+          if [[ -f "fastlane/metadata/android/en-US/changelogs/${BUILD}.txt" ]]; then
+            echo "::error::fastlane/metadata/android/en-US/changelogs/${BUILD}.txt already exists. Pick a higher build number or remove the file from main."
+            exit 1
+          fi
+          {
+            echo "version=${VERSION}"
+            echo "tag=v${VERSION}"
+            echo "build_number=${BUILD}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Capture release notes into changelog file
+        env:
+          EVENT: ${{ github.event_name }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          INPUT_NOTES: ${{ inputs.release_notes }}
+          BUILD: ${{ steps.parse.outputs.build_number }}
+        run: |
+          if [[ "$EVENT" == "workflow_dispatch" ]]; then
+            NOTES="$INPUT_NOTES"
+          else
+            NOTES="$PR_BODY"
+          fi
+          if [[ -z "$(printf %s "$NOTES" | tr -d '[:space:]')" ]]; then
+            echo "::error::Release notes are empty"; exit 1
+          fi
+          DIR="fastlane/metadata/android/en-US/changelogs"
+          mkdir -p "$DIR"
+          printf '%s\n' "$NOTES" > "${DIR}/${BUILD}.txt"
+          SIZE=$(wc -c < "${DIR}/${BUILD}.txt")
+          if (( SIZE > 500 )); then
+            echo "::error::Release notes are ${SIZE} bytes (>500). IzzyOnDroid would truncate — please shorten the PR body."
+            exit 1
+          fi
+
+      - name: Upload changelog artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: release-changelog
+          path: fastlane/metadata/android/en-US/changelogs/${{ steps.parse.outputs.build_number }}.txt
+          retention-days: 1
+
   # ── Format ────────────────────────────────────────────────────────────────
   format:
     name: Format
     runs-on: ubuntu-latest
+    needs: [prepare]
     steps:
-      - name: Checkout repository
+      - name: Checkout main
         uses: actions/checkout@v6
+        with:
+          ref: main
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -32,9 +153,12 @@ jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
+    needs: [prepare]
     steps:
-      - name: Checkout repository
+      - name: Checkout main
         uses: actions/checkout@v6
+        with:
+          ref: main
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -53,9 +177,12 @@ jobs:
   test_coverage:
     name: Tests and coverage
     runs-on: ubuntu-latest
+    needs: [prepare]
     steps:
-      - name: Checkout repository
+      - name: Checkout main
         uses: actions/checkout@v6
+        with:
+          ref: main
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -70,78 +197,66 @@ jobs:
       - name: Run tests with coverage
         run: flutter test --coverage
 
-  # ── Version bump commit ───────────────────────────────────────────────────
+  # ── Bump pubspec/pbxproj, commit changelog, tag ───────────────────────────
   bump_version:
-    name: Bump version
+    name: Bump version and tag
     runs-on: ubuntu-latest
-    # Only run after all quality checks pass
-    needs: [format, analyze, test_coverage]
+    needs: [prepare, format, analyze, test_coverage]
 
     steps:
-      - name: Checkout repository
-        # Needs a PAT (not the default GITHUB_TOKEN) so the push is allowed
-        # on a branch protected by branch protection rules.
-        # Create a fine-grained PAT with "Contents: Read and write" on this repo
-        # and store it as the secret VERSION_BUMP_PAT.
+      - name: Checkout main
         uses: actions/checkout@v6
         with:
           token: ${{ secrets.VERSION_BUMP_PAT }}
           ref: main
 
-      # Extract version number from the tag (strips the leading "v")
-      - name: Parse version from tag
-        id: version
-        run: |
-          VERSION="${GITHUB_REF_NAME#v}"           # e.g. "1.2.3"
-          BUILD_NUMBER="${{ github.run_number }}"   # auto-incremented by GitHub
-          echo "version=$VERSION"       >> "$GITHUB_OUTPUT"
-          echo "build_number=$BUILD_NUMBER" >> "$GITHUB_OUTPUT"
+      - name: Download release changelog
+        uses: actions/download-artifact@v6
+        with:
+          name: release-changelog
+          path: fastlane/metadata/android/en-US/changelogs/
 
-      # Update pubspec.yaml: replace the version line
       - name: Update pubspec.yaml
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
+          BUILD: ${{ needs.prepare.outputs.build_number }}
         run: |
-          VERSION="${{ steps.version.outputs.version }}"
-          BUILD="${{ steps.version.outputs.build_number }}"
           sed -i "s/^version: .*/version: ${VERSION}+${BUILD}/" pubspec.yaml
 
-      # Update MARKETING_VERSION in the Runner target only (not RunnerTests).
-      # RunnerTests always has MARKETING_VERSION = 1.0 so we only replace
-      # occurrences that match the previous app version (read from pubspec
-      # before the sed above ran — we re-read the file on disk).
       - name: Update MARKETING_VERSION in project.pbxproj
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
         run: |
-          VERSION="${{ steps.version.outputs.version }}"
           FILE="ios/Runner.xcodeproj/project.pbxproj"
-          # Read the old version straight from the pbxproj (e.g. "1.5.2")
           OLD_VERSION=$(grep -m1 'MARKETING_VERSION = [0-9]' "$FILE" \
             | sed 's/.*MARKETING_VERSION = \([^;]*\);.*/\1/')
           sed -i "s/MARKETING_VERSION = ${OLD_VERSION};/MARKETING_VERSION = ${VERSION};/g" "$FILE"
 
-      # Commit the two modified files
-      - name: Commit version bump
+      - name: Commit bump and push tag
+        env:
+          TAG: ${{ needs.prepare.outputs.tag }}
         run: |
           git config user.name  "délia"
           git config user.email "delia@cheminot.net"
-          git add pubspec.yaml ios/Runner.xcodeproj/project.pbxproj
-          git commit -m "chore: update version"
-          git push origin main
+          git add pubspec.yaml ios/Runner.xcodeproj/project.pbxproj fastlane/metadata/android/en-US/changelogs/
+          git commit -m "chore: release ${TAG}"
+          git tag "${TAG}"
+          git push --atomic origin main "refs/tags/${TAG}"
 
-  # ── Build Android release APK (signed) ────────────────────────────────────
-  build_android:
-    name: Build Android APK (release)
+  # ── Build Android release APK (standalone) ────────────────────────────────
+  build_android_standalone:
+    name: Build Android APK (standalone)
     runs-on: ubuntu-latest
-    # Run after the version bump so the APK embeds the correct version
-    needs: [bump_version]
+    needs: [prepare, bump_version]
 
     steps:
-      # Checkout main again so we get the version bump commit
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
-          ref: main
+          ref: ${{ needs.prepare.outputs.tag }}
 
       - name: Set up Java 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "17"
@@ -156,13 +271,18 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
-      # Decode the keystore stored as a base64 secret and write it to disk
+      - name: Patch jni for reproducible builds
+        # Strip the non-deterministic linker build-id from libdartjni.so so
+        # reproducible-build diff matches.
+        run: |
+          : "${PUB_CACHE:=$HOME/.pub-cache}"
+          sed -i -e 's/-Wl,/-Wl,--build-id=none,/' "${PUB_CACHE}"/hosted/*/jni-*/src/CMakeLists.txt
+
       - name: Decode keystore
         run: |
           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode \
             > android/app/upload-keystore.jks
 
-      # Write key.properties so Gradle can find the signing config
       - name: Create key.properties
         run: |
           cat <<EOF > android/key.properties
@@ -173,50 +293,154 @@ jobs:
           EOF
 
       - name: Build release APK
-        run: flutter build apk --release --flavor standalone
+        run: |
+          flutter clean
+          flutter build apk --release --flavor standalone
 
-      # Remove signing artifacts from the runner before the job ends
       - name: Clean up signing files
         if: always()
         run: |
           rm -f android/app/upload-keystore.jks
           rm -f android/key.properties
 
-      # Rename the APK to mona-[version].apk (strips the leading "v" from the tag)
       - name: Rename APK
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
         run: |
-          VERSION="${GITHUB_REF_NAME#v}"
           mv build/app/outputs/flutter-apk/app-standalone-release.apk "build/app/outputs/flutter-apk/mona-${VERSION}.apk"
 
       - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
-          name: android-release-apk
+          name: android-release-apk-standalone
           path: build/app/outputs/flutter-apk/mona-*.apk
           retention-days: 7
 
-  # ── GitHub Release ─────────────────────────────────────────────────────────
+  # ── Build Android release App Bundle + split-per-ABI APKs (Store) ─────────
+  build_android_store:
+    name: Build Android AAB and APKs (store)
+    runs-on: ubuntu-latest
+    needs: [prepare, bump_version]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.prepare.outputs.tag }}
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: .fvmrc
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Patch jni for reproducible builds
+        # Strip the non-deterministic linker build-id from libdartjni.so so
+        # reproducible-build diff matches.
+        run: |
+          : "${PUB_CACHE:=$HOME/.pub-cache}"
+          sed -i -e 's/-Wl,/-Wl,--build-id=none,/' "${PUB_CACHE}"/hosted/*/jni-*/src/CMakeLists.txt
+
+      - name: Decode keystore
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode \
+            > android/app/upload-keystore.jks
+
+      - name: Create key.properties
+        run: |
+          cat <<EOF > android/key.properties
+          storeFile=upload-keystore.jks
+          storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}
+          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
+          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+          EOF
+
+      - name: Build release App Bundle
+        run: |
+          flutter clean
+          flutter build appbundle --release --flavor store
+
+      - name: Build release APKs (split per ABI)
+        run: |
+          flutter build apk --release --flavor store --split-per-abi
+
+      - name: Clean up signing files
+        if: always()
+        run: |
+          rm -f android/app/upload-keystore.jks
+          rm -f android/key.properties
+
+      - name: Rename AAB
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
+        run: |
+          mv build/app/outputs/bundle/storeRelease/app-store-release.aab "build/app/outputs/bundle/storeRelease/mona-${VERSION}.aab"
+
+      - name: Rename per-ABI APKs
+        run: |
+          cd build/app/outputs/flutter-apk
+          for f in app-*-store-release.apk; do
+            abi="${f#app-}"
+            abi="${abi%-store-release.apk}"
+            mv "$f" "mona-store-${abi}.apk"
+          done
+
+      - name: Upload AAB artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: android-release-aab-store
+          path: build/app/outputs/bundle/storeRelease/mona-*.aab
+          retention-days: 7
+
+      - name: Upload store APK artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: android-release-apk-store
+          path: build/app/outputs/flutter-apk/mona-store-*.apk
+          retention-days: 7
+
+  # ── GitHub Release with PR body / dispatch input as body ──────────────────
   create_release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
-    needs: [build_android]
+    needs: [prepare, build_android_standalone, build_android_store]
     permissions:
       contents: write
 
     steps:
-      # Download the APK uploaded by the build_android job
-      - name: Download APK artifact
-        uses: actions/download-artifact@v4
+      - name: Download standalone APK artifact
+        uses: actions/download-artifact@v6
         with:
-          name: android-release-apk
+          name: android-release-apk-standalone
           path: artifacts/
 
-      # Create the release and attach the APK
-      # The tag name becomes the release title (e.g. "v1.2.3")
-      - name: Create release and upload APK
+      - name: Download store split-per-ABI APK artifacts
+        uses: actions/download-artifact@v6
+        with:
+          name: android-release-apk-store
+          path: artifacts/
+
+      - name: Download release changelog
+        uses: actions/download-artifact@v6
+        with:
+          name: release-changelog
+          path: notes/
+
+      - name: Create release and upload APKs
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref_name }}
-          name: ${{ github.ref_name }}
-          files: artifacts/mona-*.apk
-          generate_release_notes: false
+          tag_name: ${{ needs.prepare.outputs.tag }}
+          name: ${{ needs.prepare.outputs.tag }}
+          files: |
+            artifacts/mona-*.apk
+          body_path: notes/${{ needs.prepare.outputs.build_number }}.txt

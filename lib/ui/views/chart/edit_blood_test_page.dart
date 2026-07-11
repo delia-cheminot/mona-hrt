@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:mona/data/model/blood_test.dart';
+import 'package:mona/data/model/units.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
-import 'package:mona/l10n/build_context_extensions.dart';
+import 'package:mona/i18n/helpers/units_l10n.dart';
+import 'package:mona/i18n/translations.g.dart';
+import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
 import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
@@ -24,14 +28,14 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
   late TextEditingController _testosteroneLevelsController;
   late DateTime _testDateTime;
   late BloodTestProvider _bloodTestProvider;
+  late PreferencesService _preferencesService;
   bool _dateTimeChanged = false;
 
-  String? get _testDateError =>
-      BloodTest.validateDate(context.l10n, _testDateTime);
+  String? get _testDateError => BloodTest.validateDate(_testDateTime);
   String? get _estradiolLevelsError =>
-      BloodTest.validateLevel(context.l10n, _estradiolLevelsController.text);
+      BloodTest.validateLevel(_estradiolLevelsController.text);
   String? get _testosteroneLevelsError =>
-      BloodTest.validateLevel(context.l10n, _testosteroneLevelsController.text);
+      BloodTest.validateLevel(_testosteroneLevelsController.text);
 
   bool get _isFormValid => _testDateError == null;
 
@@ -56,12 +60,25 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
     final timezone =
         _dateTimeChanged ? await FlutterTimezone.getLocalTimezone() : null;
 
+    final defaultUnits = _preferencesService.units;
+
+    final estradiolLevels = _estradiolLevelsController.text.toDecimalOrNull;
+    final estradiolUnit =
+        widget.bloodtest.estradiolLevels?.unit ?? defaultUnits.estradiol;
+    final testosteroneLevels =
+        _testosteroneLevelsController.text.toDecimalOrNull;
+    final testosteroneUnit =
+        widget.bloodtest.testosteroneLevels?.unit ?? defaultUnits.testosterone;
+
     final updatedBloodTest = widget.bloodtest.copyWith(
-      dateTime: _testDateTime.toUtc(),
-      timeZone: timezone?.identifier,
-      estradiolLevels: _estradiolLevelsController.text.toDecimalOrNull,
-      testosteroneLevels: _testosteroneLevelsController.text.toDecimalOrNull,
-    );
+        dateTime: _testDateTime.toUtc(),
+        timeZone: timezone?.identifier,
+        estradiolLevels: estradiolLevels != null
+            ? UnitValue(estradiolLevels, estradiolUnit)
+            : null,
+        testosteroneLevels: testosteroneLevels != null
+            ? UnitValue(testosteroneLevels, testosteroneUnit)
+            : null);
     await _bloodTestProvider.updateBloodTest(updatedBloodTest);
 
     if (!mounted) return;
@@ -72,10 +89,11 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
   void initState() {
     super.initState();
     _bloodTestProvider = Provider.of<BloodTestProvider>(context, listen: false);
+    _preferencesService = Provider.of(context, listen: false);
     _estradiolLevelsController = TextEditingController(
-        text: widget.bloodtest.estradiolLevels?.toString());
+        text: widget.bloodtest.estradiolLevels?.value.toString());
     _testosteroneLevelsController = TextEditingController(
-        text: widget.bloodtest.testosteroneLevels?.toString());
+        text: widget.bloodtest.testosteroneLevels?.value.toString());
     _testDateTime = widget.bloodtest.localDateTime;
   }
 
@@ -88,36 +106,40 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
+    final defaultUnits = _preferencesService.units;
     return ModelForm(
-      title: l10n.editBloodTest,
-      submitButtonLabel: l10n.save,
+      title: t.editBloodTest,
+      submitButtonLabel: t.save,
       isFormValid: _isFormValid,
       saveChanges: _saveBloodTest,
       onDelete: _confirmDelete,
       fields: <Widget>[
         FormTextField(
           controller: _estradiolLevelsController,
-          label: l10n.estradiolLevelLabel,
+          label: t.estradiolLevelLabel,
           errorText: _estradiolLevelsError,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          regexFormatter: '[0-9.,]',
-          suffixText: 'pg/mL',
+          regexFormatter: RegexPatterns.floatNumber,
+          suffixText:
+              (widget.bloodtest.estradiolLevels?.unit ?? defaultUnits.estradiol)
+                  .localizedName,
         ),
         FormTextField(
           controller: _testosteroneLevelsController,
-          label: l10n.testosteroneLevelLabel,
+          label: t.testosteroneLevelLabel,
           errorText: _testosteroneLevelsError,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
-          regexFormatter: '[0-9.,]',
-          suffixText: 'ng/dL',
+          regexFormatter: RegexPatterns.floatNumber,
+          suffixText: (widget.bloodtest.testosteroneLevels?.unit ??
+                  defaultUnits.testosterone)
+              .localizedName,
         ),
         FormSpacer(),
         FormDateTimeField(
           datetime: _testDateTime,
-          label: l10n.bloodTestDateLabel,
+          label: t.bloodTestDateLabel,
           errorText: _testDateError,
           onChanged: (date) => setState(() {
             _testDateTime = date;

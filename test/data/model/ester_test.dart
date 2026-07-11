@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/ester.dart';
-import 'package:mona/l10n/app_localizations_en.dart';
 import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
 
 void main() {
@@ -27,7 +26,7 @@ void main() {
     group('esterDropdownMenuItems', () {
       test('contains all esters', () {
         // Act
-        final items = esterDropdownMenuItems(AppLocalizationsEn());
+        final items = esterDropdownMenuItems();
 
         // Assert
         expect(items.length, Ester.all.length);
@@ -35,7 +34,7 @@ void main() {
 
       test('menu items labels match English localization', () {
         // Act
-        final items = esterDropdownMenuItems(AppLocalizationsEn());
+        final items = esterDropdownMenuItems();
         final firstLabel = (items.first.child as Text).data;
 
         // Assert

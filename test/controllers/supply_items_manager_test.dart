@@ -3,8 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mona/controllers/supply_item_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/generic_supply_item.dart';
+import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
-import 'package:mona/data/model/supply_item.dart';
 import '../mocks/mocks.mocks.dart';
 
 void main() {
@@ -18,88 +19,55 @@ void main() {
 
   group('SupplyItemManager', () {
     group('useDose', () {
-      test('should use amount correctly', () async {
-        final item = SupplyItem(
+      late MedicationSupplyItem item;
+
+      setUp(() {
+        item = MedicationSupplyItem(
           name: 'h',
-          totalDose: Decimal.parse('20'),
+          totalDose: Decimal.parse('10'),
           usedDose: Decimal.parse('5'),
           concentration: Decimal.parse('1'),
           molecule: KnownMolecules.estradiol,
           administrationRoute: AdministrationRoute.oral,
         );
 
-        late SupplyItem updatedItem;
-        when(mockSupplyItemProvider.updateItem(any))
-            .thenAnswer((invocation) async {
-          updatedItem = invocation.positionalArguments.first as SupplyItem;
-          return Future.value();
-        });
-
+        when(mockSupplyItemProvider.updateItem(any)).thenAnswer((_) async {});
+      });
+      test('should use amount correctly', () async {
         await manager.useDose(item, Decimal.parse('5'));
 
-        expect(updatedItem.usedDose, Decimal.parse('10'));
+        final captured = verify(
+          mockSupplyItemProvider.updateItem(captureAny),
+        ).captured.first as MedicationSupplyItem;
+
+        expect(captured.usedDose, Decimal.parse('10'));
       });
 
       test(
           'should clamp dose when using more than available and update provider',
           () async {
-        final item = SupplyItem(
-          name: 'h',
-          totalDose: Decimal.parse('10'),
-          usedDose: Decimal.parse('5'),
-          concentration: Decimal.parse('1'),
-          molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.oral,
-        );
-
-        late SupplyItem updatedItem;
-        when(mockSupplyItemProvider.updateItem(any))
-            .thenAnswer((invocation) async {
-          updatedItem = invocation.positionalArguments.first as SupplyItem;
-          return Future.value();
-        });
-
         await manager.useDose(item, Decimal.parse('6'));
 
-        expect(item.usedDose, Decimal.parse('5'));
-        expect(updatedItem.usedDose, Decimal.parse('10'));
+        final updated = (verify(mockSupplyItemProvider.updateItem(captureAny))
+            .captured
+            .first as MedicationSupplyItem);
+
+        expect(updated.usedDose, Decimal.parse('10'));
       });
 
       test(
           'should clamp dose when putting back more than the maximum quantity of a supply and update provider',
           () async {
-        final item = SupplyItem(
-          name: 'h',
-          totalDose: Decimal.parse('10'),
-          usedDose: Decimal.parse('5'),
-          concentration: Decimal.parse('1'),
-          molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.oral,
-        );
-
-        late SupplyItem updatedItem;
-        when(mockSupplyItemProvider.updateItem(any))
-            .thenAnswer((invocation) async {
-          updatedItem = invocation.positionalArguments.first as SupplyItem;
-          return Future.value();
-        });
-
         await manager.useDose(item, Decimal.parse('-6'));
 
-        expect(item.usedDose, Decimal.parse('5'));
-        expect(updatedItem.usedDose, Decimal.parse('0'));
+        final updated = (verify(mockSupplyItemProvider.updateItem(captureAny))
+            .captured
+            .first as MedicationSupplyItem);
+
+        expect(updated.usedDose, Decimal.parse('0'));
       });
 
       test('use zero amount', () async {
-        final item = SupplyItem(
-          name: 'h',
-          totalDose: Decimal.parse('10'),
-          usedDose: Decimal.parse('5'),
-          concentration: Decimal.parse('1'),
-          molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.oral,
-        );
-
         await manager.useDose(item, Decimal.zero);
 
         expect(item.usedDose, Decimal.parse('5'));
@@ -107,18 +75,54 @@ void main() {
       });
     });
 
-    group('switchItems', () {
-      late final SupplyItem baseItem;
+    group('use', () {
+      test('decrements amount by 1', () async {
+        // Arrange
+        late GenericSupply updatedItem;
+        final item = GenericSupply(
+            id: 7,
+            name: 'Syringe',
+            amount: 5,
+            genericSupplyType: GenericSupplyType.syringe);
+        when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
+          updatedItem = inv.positionalArguments.first as GenericSupply;
+        });
 
-      SupplyItem? previousItem;
-      SupplyItem? nextItem;
+        // Act
+        await manager.use(item);
 
-      SupplyItem? updatedItem;
-      SupplyItem? updatedPreviousItem;
-      SupplyItem? updatedNextItem;
+        // Assert
+        expect(updatedItem.amount, item.amount - 1);
+      });
+    });
 
-      setUpAll(() {
-        baseItem = SupplyItem(
+    group('putBack', () {
+      test('increments amount by 1', () async {
+        // Arrange
+        late GenericSupply updatedItem;
+        final item = GenericSupply(
+            id: 7,
+            name: 'Syringe',
+            amount: 5,
+            genericSupplyType: GenericSupplyType.syringe);
+        when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
+          updatedItem = inv.positionalArguments.first as GenericSupply;
+        });
+
+        // Act
+        await manager.putBack(item);
+
+        // Assert
+        expect(updatedItem.amount, item.amount + 1);
+      });
+    });
+
+    group('switchDoses', () {
+      late MedicationSupplyItem baseItem;
+      late MedicationSupplyItem nextItem;
+
+      setUp(() {
+        baseItem = MedicationSupplyItem(
           id: 0,
           name: 'progesterone',
           totalDose: Decimal.parse('30'),
@@ -127,82 +131,65 @@ void main() {
           molecule: KnownMolecules.progesterone,
           administrationRoute: AdministrationRoute.oral,
         );
-      });
 
-      setUp(() {
-        previousItem = null;
-        nextItem = null;
-        updatedPreviousItem = null;
-        updatedNextItem = null;
+        nextItem = baseItem.copyWith(id: 1);
 
-        when(mockSupplyItemProvider.updateItem(any))
-            .thenAnswer((invocation) async {
-          final item = invocation.positionalArguments.first as SupplyItem;
-          updatedItem = item;
-          if (item == previousItem) {
-            updatedPreviousItem = item;
-          } else if (item == nextItem) {
-            updatedNextItem = item;
-          }
-        });
+        when(mockSupplyItemProvider.updateItem(any)).thenAnswer((_) async {});
       });
 
       test('previousItem is null and nextItem is null', () async {
-        manager.switchDoses(previousItem, nextItem, Decimal.ten, Decimal.zero);
+        manager.switchDoses(null, null, Decimal.ten, Decimal.zero);
 
-        // Nothing should be updated because both items are null
         verifyNever(mockSupplyItemProvider.updateItem(any));
-        expect(updatedPreviousItem, null);
-        expect(updatedNextItem, null);
       });
 
       test('previousItem is null and nextItem is valid', () async {
-        previousItem = null;
-        nextItem = baseItem.copyWith(id: 1);
+        await manager.switchDoses(
+            null, nextItem, Decimal.one, Decimal.parse('2'));
 
-        manager.switchDoses(
-            previousItem, nextItem, Decimal.one, Decimal.parse('2'));
+        final captured = verify(mockSupplyItemProvider.updateItem(captureAny))
+            .captured
+            .first as MedicationSupplyItem;
 
-        // Because the previous item is null, it should never be updated
-        expect(updatedPreviousItem, null);
-        expect(updatedNextItem?.usedDose, Decimal.parse('12'));
-        verify(mockSupplyItemProvider.updateItem(any)).called(1);
+        expect(captured.usedDose, Decimal.parse('12'));
       });
 
       test('previousItem is valid and nextItem is null', () async {
-        previousItem = baseItem;
-        nextItem = null;
+        await manager.switchDoses(
+            baseItem, null, Decimal.one, Decimal.parse('2'));
 
-        manager.switchDoses(
-            previousItem, nextItem, Decimal.one, Decimal.parse('2'));
+        final captured = verify(mockSupplyItemProvider.updateItem(captureAny))
+            .captured
+            .first as MedicationSupplyItem;
 
-        expect(updatedPreviousItem?.usedDose, Decimal.parse('9'));
-        // Because the next item is null, it should never be updated
-        expect(updatedNextItem, null);
-        verify(mockSupplyItemProvider.updateItem(any)).called(1);
+        expect(captured.usedDose, Decimal.parse('9'));
       });
 
       test('previousItem and nextItem are the same', () async {
-        previousItem = baseItem;
-        nextItem = previousItem;
-
         manager.switchDoses(
-            previousItem, nextItem, Decimal.parse('6'), Decimal.parse('7'));
+            baseItem, baseItem, Decimal.parse('6'), Decimal.parse('7'));
 
-        expect(updatedItem?.usedDose, Decimal.parse('11'));
-        verify(mockSupplyItemProvider.updateItem(any)).called(1);
+        final captured = verify(mockSupplyItemProvider.updateItem(captureAny))
+            .captured
+            .first as MedicationSupplyItem;
+
+        expect(captured.usedDose, Decimal.parse('11'));
       });
 
       test('previousItem and nextItem are different and both valid', () async {
-        previousItem = baseItem;
-        nextItem = baseItem.copyWith(id: 1);
+        await manager.switchDoses(
+            baseItem, nextItem, Decimal.parse('6'), Decimal.parse('7'));
 
-        manager.switchDoses(
-            previousItem, nextItem, Decimal.parse('6'), Decimal.parse('7'));
+        final captured = verify(mockSupplyItemProvider.updateItem(captureAny))
+            .captured
+            .cast<MedicationSupplyItem>();
 
-        expect(updatedPreviousItem?.usedDose, Decimal.parse('4'));
-        expect(updatedNextItem?.usedDose, Decimal.parse('17'));
-        verify(mockSupplyItemProvider.updateItem(any)).called(2);
+        expect(captured.length, 2);
+        final prev = captured.firstWhere((e) => e.id == baseItem.id);
+        final next = captured.firstWhere((e) => e.id == nextItem.id);
+
+        expect(prev.usedDose, Decimal.parse('4'));
+        expect(next.usedDose, Decimal.parse('17'));
       });
     });
   });

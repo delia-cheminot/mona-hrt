@@ -66,6 +66,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
         AdministrationRouteNameMapper(),
         EsterNameMapper(),
         DecimalStringMapper(),
+        TimeOfDayMapper(),
       ]);
       InjectionSideMapper.ensureInitialized();
     }
@@ -81,14 +82,29 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     _$id,
     opt: true,
   );
-  static DateTime _$scheduledDateTime(MedicationIntake v) =>
-      v.scheduledDateTime;
-  static const Field<MedicationIntake, DateTime> _f$scheduledDateTime = Field(
-    'scheduledDateTime',
-    _$scheduledDateTime,
+  static TimeOfDay? _$scheduledTime(MedicationIntake v) => v.scheduledTime;
+  static const Field<MedicationIntake, TimeOfDay> _f$scheduledTime = Field(
+    'scheduledTime',
+    _$scheduledTime,
+    opt: true,
   );
-  static Decimal _$dose(MedicationIntake v) => v.dose;
-  static const Field<MedicationIntake, Decimal> _f$dose = Field('dose', _$dose);
+  static Decimal _$takenDose(MedicationIntake v) => v.takenDose;
+  static const Field<MedicationIntake, Decimal> _f$takenDose = Field(
+    'takenDose',
+    _$takenDose,
+  );
+  static Decimal? _$wastedAmount(MedicationIntake v) => v.wastedAmount;
+  static const Field<MedicationIntake, Decimal> _f$wastedAmount = Field(
+    'wastedAmount',
+    _$wastedAmount,
+    opt: true,
+  );
+  static Decimal? _$deadSpace(MedicationIntake v) => v.deadSpace;
+  static const Field<MedicationIntake, Decimal> _f$deadSpace = Field(
+    'deadSpace',
+    _$deadSpace,
+    opt: true,
+  );
   static DateTime? _$takenDateTime(MedicationIntake v) => v.takenDateTime;
   static const Field<MedicationIntake, DateTime> _f$takenDateTime = Field(
     'takenDateTime',
@@ -117,21 +133,16 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
   static const Field<MedicationIntake, Molecule> _f$molecule = Field(
     'molecule',
     _$molecule,
-    key: r'moleculeJson',
   );
   static AdministrationRoute _$administrationRoute(MedicationIntake v) =>
       v.administrationRoute;
   static const Field<MedicationIntake, AdministrationRoute>
-      _f$administrationRoute = Field(
-    'administrationRoute',
-    _$administrationRoute,
-    key: r'administrationRouteName',
-  );
+      _f$administrationRoute =
+      Field('administrationRoute', _$administrationRoute);
   static Ester? _$ester(MedicationIntake v) => v.ester;
   static const Field<MedicationIntake, Ester> _f$ester = Field(
     'ester',
     _$ester,
-    key: r'esterName',
     opt: true,
   );
   static int? _$supplyItemId(MedicationIntake v) => v.supplyItemId;
@@ -140,12 +151,20 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     _$supplyItemId,
     opt: true,
   );
+  static String? _$notes(MedicationIntake v) => v.notes;
+  static const Field<MedicationIntake, String> _f$notes = Field(
+    'notes',
+    _$notes,
+    opt: true,
+  );
 
   @override
   final MappableFields<MedicationIntake> fields = const {
     #id: _f$id,
-    #scheduledDateTime: _f$scheduledDateTime,
-    #dose: _f$dose,
+    #scheduledTime: _f$scheduledTime,
+    #takenDose: _f$takenDose,
+    #wastedAmount: _f$wastedAmount,
+    #deadSpace: _f$deadSpace,
     #takenDateTime: _f$takenDateTime,
     #takenTimeZone: _f$takenTimeZone,
     #scheduleId: _f$scheduleId,
@@ -154,13 +173,16 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     #administrationRoute: _f$administrationRoute,
     #ester: _f$ester,
     #supplyItemId: _f$supplyItemId,
+    #notes: _f$notes,
   };
 
   static MedicationIntake _instantiate(DecodingData data) {
     return MedicationIntake(
       id: data.dec(_f$id),
-      scheduledDateTime: data.dec(_f$scheduledDateTime),
-      dose: data.dec(_f$dose),
+      scheduledTime: data.dec(_f$scheduledTime),
+      takenDose: data.dec(_f$takenDose),
+      wastedAmount: data.dec(_f$wastedAmount),
+      deadSpace: data.dec(_f$deadSpace),
       takenDateTime: data.dec(_f$takenDateTime),
       takenTimeZone: data.dec(_f$takenTimeZone),
       scheduleId: data.dec(_f$scheduleId),
@@ -169,6 +191,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
       administrationRoute: data.dec(_f$administrationRoute),
       ester: data.dec(_f$ester),
       supplyItemId: data.dec(_f$supplyItemId),
+      notes: data.dec(_f$notes),
     );
   }
 
@@ -236,8 +259,10 @@ abstract class MedicationIntakeCopyWith<$R, $In extends MedicationIntake, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   $R call({
     int? id,
-    DateTime? scheduledDateTime,
-    Decimal? dose,
+    TimeOfDay? scheduledTime,
+    Decimal? takenDose,
+    Decimal? wastedAmount,
+    Decimal? deadSpace,
     DateTime? takenDateTime,
     String? takenTimeZone,
     int? scheduleId,
@@ -246,6 +271,7 @@ abstract class MedicationIntakeCopyWith<$R, $In extends MedicationIntake, $Out>
     AdministrationRoute? administrationRoute,
     Ester? ester,
     int? supplyItemId,
+    String? notes,
   });
   MedicationIntakeCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
@@ -263,8 +289,10 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
   @override
   $R call({
     Object? id = $none,
-    DateTime? scheduledDateTime,
-    Decimal? dose,
+    Object? scheduledTime = $none,
+    Decimal? takenDose,
+    Object? wastedAmount = $none,
+    Object? deadSpace = $none,
     Object? takenDateTime = $none,
     Object? takenTimeZone = $none,
     Object? scheduleId = $none,
@@ -273,12 +301,15 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
     AdministrationRoute? administrationRoute,
     Object? ester = $none,
     Object? supplyItemId = $none,
+    Object? notes = $none,
   }) =>
       $apply(
         FieldCopyWithData({
           if (id != $none) #id: id,
-          if (scheduledDateTime != null) #scheduledDateTime: scheduledDateTime,
-          if (dose != null) #dose: dose,
+          if (scheduledTime != $none) #scheduledTime: scheduledTime,
+          if (takenDose != null) #takenDose: takenDose,
+          if (wastedAmount != $none) #wastedAmount: wastedAmount,
+          if (deadSpace != $none) #deadSpace: deadSpace,
           if (takenDateTime != $none) #takenDateTime: takenDateTime,
           if (takenTimeZone != $none) #takenTimeZone: takenTimeZone,
           if (scheduleId != $none) #scheduleId: scheduleId,
@@ -288,16 +319,16 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
             #administrationRoute: administrationRoute,
           if (ester != $none) #ester: ester,
           if (supplyItemId != $none) #supplyItemId: supplyItemId,
+          if (notes != $none) #notes: notes,
         }),
       );
   @override
   MedicationIntake $make(CopyWithData data) => MedicationIntake(
         id: data.get(#id, or: $value.id),
-        scheduledDateTime: data.get(
-          #scheduledDateTime,
-          or: $value.scheduledDateTime,
-        ),
-        dose: data.get(#dose, or: $value.dose),
+        scheduledTime: data.get(#scheduledTime, or: $value.scheduledTime),
+        takenDose: data.get(#takenDose, or: $value.takenDose),
+        wastedAmount: data.get(#wastedAmount, or: $value.wastedAmount),
+        deadSpace: data.get(#deadSpace, or: $value.deadSpace),
         takenDateTime: data.get(#takenDateTime, or: $value.takenDateTime),
         takenTimeZone: data.get(#takenTimeZone, or: $value.takenTimeZone),
         scheduleId: data.get(#scheduleId, or: $value.scheduleId),
@@ -309,6 +340,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
         ),
         ester: data.get(#ester, or: $value.ester),
         supplyItemId: data.get(#supplyItemId, or: $value.supplyItemId),
+        notes: data.get(#notes, or: $value.notes),
       );
 
   @override

@@ -1,0 +1,5 @@
+targets:
+  $default:
+    builders:
+      slang_build_runner:
+        enabled: false

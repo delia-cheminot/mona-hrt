@@ -57,6 +57,7 @@ class MedicationScheduleProvider extends ChangeNotifier {
   static final _defaultRepository = Repository<MedicationSchedule>(
     tableName: 'medication_schedules',
     toMap: (MedicationSchedule schedule) => schedule.toMap(),
-    fromMap: (Map<String, Object?> map) => MedicationSchedule.fromMap(map),
+    fromMap: (map) =>
+        MedicationScheduleMapper.fromMap(Map<String, dynamic>.from(map)),
   );
 }

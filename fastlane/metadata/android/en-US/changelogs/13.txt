@@ -1,0 +1,7 @@
+New:
+
+- Display a message when an intake is recorded
+
+Fix:
+
+- Fixes a bug causing notifications to duplicate

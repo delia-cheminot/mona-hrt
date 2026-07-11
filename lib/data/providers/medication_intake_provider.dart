@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
-import 'package:mona/data/model/ester.dart';
+import 'package:mona/data/model/graph_calculator.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/services/repository.dart';
-
-class GraphIntake {
-  final double dose;
-  final Ester ester;
-
-  GraphIntake(this.dose, this.ester);
-}
+import 'package:mona/util/time_difference.dart';
 
 class MedicationIntakeProvider extends ChangeNotifier {
   List<MedicationIntake> _intakes = [];
@@ -36,7 +30,7 @@ class MedicationIntakeProvider extends ChangeNotifier {
   List<MedicationIntake> get notTakenIntakes =>
       _intakes.where((intake) => !intake.isTaken).toList();
 
-  List<MedicationIntake> get graphIntakes => takenIntakes
+  List<MedicationIntake> get plottableIntakes => takenIntakes
       .where((intake) =>
           intake.molecule == KnownMolecules.estradiol &&
           intake.administrationRoute == AdministrationRoute.injection &&
@@ -84,29 +78,45 @@ class MedicationIntakeProvider extends ChangeNotifier {
     await fetchIntakes();
   }
 
-  Map<int, GraphIntake> getDaysAndIntakes() {
-    if (graphIntakes.isEmpty) return {};
+  List<GraphIntake> getIntakesForGraph(DateTime tMin) {
+    if (plottableIntakes.isEmpty) return [];
 
-    final startDate = getFirstIntakeLocalDate()!;
-    return Map.fromEntries(
-      graphIntakes.map(
-        (intake) => MapEntry(
-          intake.takenLocalDate!.differenceInDays(startDate),
-          GraphIntake(intake.dose.toDouble(), intake.ester!),
-        ),
-      ),
-    );
+    return plottableIntakes
+        .map((intake) => GraphIntake(
+              dose: intake.takenDose.toDouble(),
+              ester: intake.ester!,
+              time: timeDifferenceInDays(intake.takenDateTime!, tMin),
+            ))
+        .toList();
   }
 
-  Date? getFirstIntakeLocalDate() {
-    if (takenIntakes.isEmpty) return null;
+  DateTime? getFirstGraphIntakeInstant() {
+    if (plottableIntakes.isEmpty) return null;
 
-    return takenIntakes
+    return plottableIntakes
         .reduce((a, b) => a.takenDateTime!.isBefore(b.takenDateTime!) ? a : b)
-        .takenLocalDate;
+        .takenDateTime;
   }
 
-  Date? getLastIntakeDateFromList(List<MedicationIntake> intakes) {
+  DateTime? getGraphLocalStart() {
+    final firstInstant = getFirstGraphIntakeInstant();
+    if (firstInstant == null) return null;
+
+    final local = firstInstant.toLocal();
+    return DateTime(local.year, local.month, local.day);
+  }
+
+  double? getGraphSpan(DateTime tMin) {
+    if (plottableIntakes.isEmpty) return null;
+
+    final lastInstant = plottableIntakes
+        .reduce((a, b) => a.takenDateTime!.isAfter(b.takenDateTime!) ? a : b)
+        .takenDateTime!;
+
+    return timeDifferenceInDays(lastInstant, tMin);
+  }
+
+  Date? getLastIntakeLocalDateFromList(List<MedicationIntake> intakes) {
     if (intakes.isEmpty) return null;
 
     return intakes
@@ -114,18 +124,38 @@ class MedicationIntakeProvider extends ChangeNotifier {
         .takenLocalDate;
   }
 
-  Date? getLastIntakeDate() {
-    return getLastIntakeDateFromList(takenIntakes);
+  Date? getLastIntakeLocalDateForSchedule(int scheduleId) {
+    final scheduleIntakes = getTakenIntakesForSchedule(scheduleId);
+    return getLastIntakeLocalDateFromList(scheduleIntakes);
   }
 
-  Date? getLastIntakeDateForSchedule(int scheduleId) {
+  List<MedicationIntake> getTakenIntakesForScheduleOn(
+      int scheduleId, Date date) {
+    return getTakenIntakesForSchedule(scheduleId)
+        .where((intake) => intake.takenLocalDate == date)
+        .toList();
+  }
+
+  MedicationIntake? getLastTakenIntakeForSchedule(int scheduleId) {
     final scheduleIntakes = getTakenIntakesForSchedule(scheduleId);
-    return getLastIntakeDateFromList(scheduleIntakes);
+    if (scheduleIntakes.isEmpty) return null;
+    return scheduleIntakes
+        .reduce((a, b) => a.takenDateTime!.isAfter(b.takenDateTime!) ? a : b);
   }
 
   MedicationIntake? getLastTakenIntake() {
     if (takenIntakes.isEmpty) return null;
     return takenIntakes
+        .reduce((a, b) => a.takenDateTime!.isAfter(b.takenDateTime!) ? a : b);
+  }
+
+  MedicationIntake? getLastTakenInjectionIntake() {
+    final injectionIntakes = takenIntakes
+        .where((intake) =>
+            intake.administrationRoute == AdministrationRoute.injection)
+        .toList();
+    if (injectionIntakes.isEmpty) return null;
+    return injectionIntakes
         .reduce((a, b) => a.takenDateTime!.isAfter(b.takenDateTime!) ? a : b);
   }
 
