@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:m3e_core/m3e_core.dart';
 import 'package:mona/data/model/placement.dart';
 import 'package:mona/i18n/helpers/placement_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
+import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:provider/provider.dart';
 
 class InjectionSitesPage extends StatelessWidget {
@@ -37,38 +39,68 @@ class InjectionSitesPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(t.injectionSites)),
-      body: ListView(
-        children: [
-          if (sites.isEmpty)
-            Padding(
-              padding: const EdgeInsets.all(borderPadding),
-              child: Text(t.noInjectionSitesYet),
-            ),
-          for (int i = 0; i < sites.length; i++)
-            ListTile(
-              title: Text(sites[i].localizedName),
-              trailing: IconButton(
-                key: ValueKey('deleteSite_$i'),
-                icon: const Icon(Icons.delete_outline),
-                onPressed: () => _removeSiteAt(preferencesService, i),
+      body: SingleChildScrollView(
+        padding: pagePadding,
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                t.injectionSitesDescription,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
-          ListTile(
-            key: const ValueKey('addInjectionSiteTile'),
-            leading: const Icon(Icons.add),
-            title: Text(t.addInjectionSite),
-            onTap: () => _addSite(context, preferencesService),
-          ),
-          const Divider(),
-          SwitchListTile(
-            key: const ValueKey('placementScopeToggle'),
-            title: Text(t.placementSuggestionPerScheduleTitle),
-            subtitle: Text(t.placementSuggestionPerScheduleDescription),
-            value: preferencesService.placementSuggestionPerSchedule,
-            onChanged: (value) =>
-                preferencesService.setPlacementSuggestionPerSchedule(value),
-          ),
-        ],
+            FormSpacer(),
+            M3ECardColumn(
+              padding: EdgeInsets.zero,
+              onTap: (index) => _removeSiteAt(preferencesService, index),
+              children: [
+                if (sites.isEmpty)
+                  ListTile(
+                    title: Text(t.noInjectionSitesYet),
+                    subtitle: Text(t.noInjectionAddOneToGetStarted),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  ),
+                for (int i = 0; i < sites.length; i++)
+                  ListTile(
+                    title: Text(sites[i].localizedName),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    trailing: IconButton(
+                      key: ValueKey('deleteSite_$i'),
+                      icon: const Icon(Icons.delete_outline),
+                      onPressed: () => _removeSiteAt(preferencesService, i),
+                    ),
+                  ),
+                ListTile(
+                  key: const ValueKey('addInjectionSiteTile'),
+                  leading: const Icon(Icons.add),
+                  title: Text(t.addInjectionSite),
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  onTap: () => _addSite(context, preferencesService),
+                ),
+              ],
+            ),
+            FormSpacer(),
+            M3ECardColumn(
+              padding: EdgeInsets.zero,
+              children: [
+                SwitchListTile(
+                  key: const ValueKey('placementScopeToggle'),
+                  title: Text(t.placementSuggestionPerScheduleTitle),
+                  subtitle: Text(t.placementSuggestionPerScheduleDescription),
+                  value: preferencesService.placementSuggestionPerSchedule,
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  onChanged: (value) => preferencesService
+                      .setPlacementSuggestionPerSchedule(value),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

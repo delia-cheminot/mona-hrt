@@ -721,8 +721,12 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Custom site name'
   String get customSiteLabel => 'Custom site name';
 
-  /// en: 'No sites yet. Add one to get started.'
-  String get noInjectionSitesYet => 'No sites yet. Add one to get started.';
+  /// en: 'No sites yet'
+  String get noInjectionSitesYet => 'No sites yet';
+
+  /// en: 'Add a site below to get started.'
+  String get noInjectionAddOneToGetStarted =>
+      'Add a site below to get started.';
 
   /// en: 'Suggest per schedule'
   String get placementSuggestionPerScheduleTitle => 'Suggest per schedule';
@@ -1129,7 +1133,8 @@ extension on Translations {
       'injectionSitesDescription' => 'Manage the sites you rotate between.',
       'addInjectionSite' => 'Add site',
       'customSiteLabel' => 'Custom site name',
-      'noInjectionSitesYet' => 'No sites yet. Add one to get started.',
+      'noInjectionSitesYet' => 'No sites yet',
+      'noInjectionAddOneToGetStarted' => 'Add a site below to get started.',
       'placementSuggestionPerScheduleTitle' => 'Suggest per schedule',
       'placementSuggestionPerScheduleDescription' =>
         'Base the next-site suggestion on this schedule\'s history only.',

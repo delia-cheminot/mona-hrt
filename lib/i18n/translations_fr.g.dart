@@ -518,12 +518,15 @@ class TranslationsFr extends Translations
   @override
   String get customSiteLabel => 'Nom de site personnalisé';
   @override
-  String get noInjectionSitesYet => 'Aucun site. Ajoutez-en un pour commencer.';
+  String get noInjectionSitesYet => 'Aucun site';
+  @override
+  String get noInjectionAddOneToGetStarted =>
+      'Ajoutez un site ci-dessous pour commencer.';
   @override
   String get placementSuggestionPerScheduleTitle => 'Suggérer par planning';
   @override
   String get placementSuggestionPerScheduleDescription =>
-      'Base la suggestion du site suivant sur l\'historique de ce planning uniquement.';
+      'Base la suggestion du site suivant sur ce planning uniquement.';
   @override
   String get requiredField => 'Champ obligatoire';
   @override
@@ -912,10 +915,12 @@ extension on TranslationsFr {
       'injectionSitesDescription' => 'Gérez votre rotation de sites.',
       'addInjectionSite' => 'Ajouter un site',
       'customSiteLabel' => 'Nom de site personnalisé',
-      'noInjectionSitesYet' => 'Aucun site. Ajoutez-en un pour commencer.',
+      'noInjectionSitesYet' => 'Aucun site',
+      'noInjectionAddOneToGetStarted' =>
+        'Ajoutez un site ci-dessous pour commencer.',
       'placementSuggestionPerScheduleTitle' => 'Suggérer par planning',
       'placementSuggestionPerScheduleDescription' =>
-        'Base la suggestion du site suivant sur l\'historique de ce planning uniquement.',
+        'Base la suggestion du site suivant sur ce planning uniquement.',
       'requiredField' => 'Champ obligatoire',
       'mustBePositiveNumber' => 'Doit être un nombre positif',
       'invalidTotalAmount' => 'Montant total invalide',
