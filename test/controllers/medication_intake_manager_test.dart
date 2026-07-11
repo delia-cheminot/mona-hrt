@@ -145,7 +145,6 @@ void main() {
             takenDateTime: takenDate,
             supplyItem: supplyItem,
             schedule: schedule,
-            side: InjectionSide.right,
             placements: [aPlacement(preset: PlacementPreset.leftThigh)],
             notes: notes,
           );
@@ -169,11 +168,6 @@ void main() {
         test('sets takenTimeZone from the local timezone', () {
           // Assert
           expect(addedIntake.takenTimeZone, 'UTC');
-        });
-
-        test('propagates side to the intake', () {
-          // Assert
-          expect(addedIntake.side, InjectionSide.right);
         });
 
         test('propagates placements to the intake', () {
@@ -769,7 +763,6 @@ void main() {
           deadSpace: newDeadSpace,
           takenDateTime: takenDate,
           takenTimeZone: newTimezone,
-          side: InjectionSide.left,
           placements: [aCustomPlacement('belly')],
           supplyItem: null,
           notes: newNotes,
@@ -785,7 +778,6 @@ void main() {
               .having((i) => i.deadSpace, 'deadSpace', newDeadSpace)
               .having((i) => i.takenDateTime, 'takenDateTime', takenDate)
               .having((i) => i.takenTimeZone, 'takenTimeZone', newTimezone)
-              .having((i) => i.side, 'side', InjectionSide.left)
               .having((i) => i.placements, 'placements',
                   [aCustomPlacement('belly')])
               .having((i) => i.notes, 'notes', newNotes)

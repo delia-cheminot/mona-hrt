@@ -113,8 +113,8 @@ class _AddSiteDialogState extends State<_AddSiteDialog> {
                     ListTile(
                       key: ValueKey('presetSite_${preset.name}'),
                       title: Text(preset.localizedName),
-                      onTap: () => Navigator.of(context)
-                          .pop(PresetPlacement(preset)),
+                      onTap: () =>
+                          Navigator.of(context).pop(PresetPlacement(preset)),
                     ),
                 ],
               ),

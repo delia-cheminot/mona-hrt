@@ -52,7 +52,6 @@ void main() {
         scheduleId: 42,
         administrationRoute: AdministrationRoute.injection,
         ester: Ester.cypionate,
-        side: InjectionSide.left,
         placements: [
           aPlacement(),
           aCustomPlacement(),
@@ -75,7 +74,6 @@ void main() {
             .having((i) => i.takenDose, 'dose', intake.takenDose)
             .having((i) => i.wastedAmount, 'wastedAmount', intake.wastedAmount)
             .having((i) => i.scheduleId, 'scheduleId', intake.scheduleId)
-            .having((i) => i.side, 'side', intake.side)
             .having((i) => i.molecule, 'molecule', intake.molecule)
             .having((i) => i.administrationRoute, 'administrationRoute',
                 intake.administrationRoute)

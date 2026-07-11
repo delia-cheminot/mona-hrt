@@ -103,7 +103,6 @@ void main() {
       final id = await db.insert('medication_intakes', {
         'takenDateTime': null,
         'takenDose': '2.5',
-        'side': null,
         'placements': '[]',
         'molecule': '{"name":"estradiol","unit":"mg"}',
         'administrationRoute': 'oral',
@@ -124,7 +123,7 @@ void main() {
           containsPair('id', id),
           containsPair('takenDose', '2.5'),
           containsPair('takenDateTime', null),
-          containsPair('side', null),
+          containsPair('placements', '[]'),
           containsPair('supplyItemId', supplyItemId),
         ),
       );
@@ -139,7 +138,6 @@ void main() {
           () async => await db.insert('medication_intakes', {
                 'takenDateTime': null,
                 'takenDose': '2.5',
-                'side': null,
                 'placements': '[]',
                 'molecule': '{"name":"estradiol","unit":"mg"}',
                 'administrationRoute': 'oral',
@@ -168,7 +166,6 @@ void main() {
       final intakeId = await db.insert('medication_intakes', {
         'takenDateTime': null,
         'takenDose': '2.5',
-        'side': null,
         'placements': '[]',
         'molecule': '{"name":"estradiol","unit":"mg"}',
         'administrationRoute': 'oral',

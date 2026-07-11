@@ -275,7 +275,6 @@ const String _medicationIntakesV14 = '''
       wastedAmount TEXT,
       deadSpace TEXT,
       scheduleId INTEGER,
-      side TEXT,
       molecule TEXT NOT NULL,
       administrationRoute TEXT NOT NULL,
       ester TEXT,

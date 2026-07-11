@@ -8,52 +8,6 @@
 
 part of 'medication_intake.dart';
 
-class InjectionSideMapper extends EnumMapper<InjectionSide> {
-  InjectionSideMapper._();
-
-  static InjectionSideMapper? _instance;
-  static InjectionSideMapper ensureInitialized() {
-    if (_instance == null) {
-      MapperContainer.globals.use(_instance = InjectionSideMapper._());
-    }
-    return _instance!;
-  }
-
-  static InjectionSide fromValue(dynamic value) {
-    ensureInitialized();
-    return MapperContainer.globals.fromValue(value);
-  }
-
-  @override
-  InjectionSide decode(dynamic value) {
-    switch (value) {
-      case r'left':
-        return InjectionSide.left;
-      case r'right':
-        return InjectionSide.right;
-      default:
-        throw MapperException.unknownEnumValue(value);
-    }
-  }
-
-  @override
-  dynamic encode(InjectionSide self) {
-    switch (self) {
-      case InjectionSide.left:
-        return r'left';
-      case InjectionSide.right:
-        return r'right';
-    }
-  }
-}
-
-extension InjectionSideMapperExtension on InjectionSide {
-  String toValue() {
-    InjectionSideMapper.ensureInitialized();
-    return MapperContainer.globals.toValue<InjectionSide>(this) as String;
-  }
-}
-
 class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
   MedicationIntakeMapper._();
 
@@ -68,7 +22,6 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
         DecimalStringMapper(),
         TimeOfDayMapper(),
       ]);
-      InjectionSideMapper.ensureInitialized();
       PlacementMapper.ensureInitialized();
     }
     return _instance!;
@@ -124,12 +77,6 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     _$scheduleId,
     opt: true,
   );
-  static InjectionSide? _$side(MedicationIntake v) => v.side;
-  static const Field<MedicationIntake, InjectionSide> _f$side = Field(
-    'side',
-    _$side,
-    opt: true,
-  );
   static Molecule _$molecule(MedicationIntake v) => v.molecule;
   static const Field<MedicationIntake, Molecule> _f$molecule = Field(
     'molecule',
@@ -177,7 +124,6 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     #takenDateTime: _f$takenDateTime,
     #takenTimeZone: _f$takenTimeZone,
     #scheduleId: _f$scheduleId,
-    #side: _f$side,
     #molecule: _f$molecule,
     #administrationRoute: _f$administrationRoute,
     #ester: _f$ester,
@@ -196,7 +142,6 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
       takenDateTime: data.dec(_f$takenDateTime),
       takenTimeZone: data.dec(_f$takenTimeZone),
       scheduleId: data.dec(_f$scheduleId),
-      side: data.dec(_f$side),
       molecule: data.dec(_f$molecule),
       administrationRoute: data.dec(_f$administrationRoute),
       ester: data.dec(_f$ester),
@@ -279,7 +224,6 @@ abstract class MedicationIntakeCopyWith<$R, $In extends MedicationIntake, $Out>
     DateTime? takenDateTime,
     String? takenTimeZone,
     int? scheduleId,
-    InjectionSide? side,
     Molecule? molecule,
     AdministrationRoute? administrationRoute,
     Ester? ester,
@@ -317,7 +261,6 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
     Object? takenDateTime = $none,
     Object? takenTimeZone = $none,
     Object? scheduleId = $none,
-    Object? side = $none,
     Molecule? molecule,
     AdministrationRoute? administrationRoute,
     Object? ester = $none,
@@ -335,7 +278,6 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
           if (takenDateTime != $none) #takenDateTime: takenDateTime,
           if (takenTimeZone != $none) #takenTimeZone: takenTimeZone,
           if (scheduleId != $none) #scheduleId: scheduleId,
-          if (side != $none) #side: side,
           if (molecule != null) #molecule: molecule,
           if (administrationRoute != null)
             #administrationRoute: administrationRoute,
@@ -355,7 +297,6 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
         takenDateTime: data.get(#takenDateTime, or: $value.takenDateTime),
         takenTimeZone: data.get(#takenTimeZone, or: $value.takenTimeZone),
         scheduleId: data.get(#scheduleId, or: $value.scheduleId),
-        side: data.get(#side, or: $value.side),
         molecule: data.get(#molecule, or: $value.molecule),
         administrationRoute: data.get(
           #administrationRoute,

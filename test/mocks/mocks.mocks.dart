@@ -296,7 +296,7 @@ class MockMedicationIntakeProvider extends _i1.Mock
   List<_i13.MedicationIntake> getTakenIntakesDescForSchedule(int? scheduleId) =>
       (super.noSuchMethod(
         Invocation.method(
-          #getTakenIntakesForSchedule,
+          #getTakenIntakesDescForSchedule,
           [scheduleId],
         ),
         returnValue: <_i13.MedicationIntake>[],

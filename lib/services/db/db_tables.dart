@@ -24,7 +24,6 @@ const String createMedicationIntakesTable = '''
       wastedAmount TEXT,
       deadSpace TEXT,
       scheduleId INTEGER,
-      side TEXT,
       molecule TEXT NOT NULL,
       administrationRoute TEXT NOT NULL,
       ester TEXT,

@@ -29,7 +29,6 @@ class MedicationIntakeManager {
     required DateTime takenDateTime,
     SupplyItem? supplyItem,
     required MedicationSchedule schedule,
-    InjectionSide? side,
     Decimal? deadSpace, //in μL
     String? notes,
     Decimal? wastedAmount, // in mL
@@ -47,7 +46,6 @@ class MedicationIntakeManager {
       scheduledTime: scheduledTime,
       takenDateTime: takenDateTime,
       takenTimeZone: tzName,
-      side: side,
       scheduleId: schedule.id,
       molecule: schedule.molecule,
       administrationRoute: schedule.administrationRoute,
@@ -108,7 +106,6 @@ class MedicationIntakeManager {
     Decimal? deadSpace,
     required DateTime takenDateTime,
     required String takenTimeZone,
-    InjectionSide? side,
     SupplyItem? supplyItem,
     String? notes,
     List<Placement> placements = const [],
@@ -161,7 +158,6 @@ class MedicationIntakeManager {
       takenDose: takenDose,
       wastedAmount: wastedAmount,
       deadSpace: deadSpace,
-      side: side,
       supplyItemId: supplyItem?.id,
       notes: notes,
       placements: placements,

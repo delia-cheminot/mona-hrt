@@ -14,12 +14,6 @@ import 'package:timezone/timezone.dart' as tz;
 
 part 'medication_intake.mapper.dart';
 
-@MappableEnum(mode: ValuesMode.named)
-enum InjectionSide {
-  left,
-  right,
-}
-
 @MappableClass(
   includeCustomMappers: [
     MoleculeJsonMapper(),
@@ -39,7 +33,6 @@ class MedicationIntake with MedicationIntakeMappable {
   final Decimal? wastedAmount; // mL
   final Decimal? deadSpace; // μL
   final int? scheduleId;
-  final InjectionSide? side;
   bool get isTaken => takenDateTime != null;
   final Molecule molecule;
   final AdministrationRoute administrationRoute;
@@ -58,7 +51,6 @@ class MedicationIntake with MedicationIntakeMappable {
     this.takenDateTime,
     this.takenTimeZone,
     this.scheduleId,
-    this.side,
     required this.molecule,
     required this.administrationRoute,
     this.ester,

@@ -94,7 +94,6 @@ MedicationIntake aMedicationIntake({
   Decimal? deadSpace,
   AdministrationRoute administrationRoute = AdministrationRoute.oral,
   Ester? ester,
-  InjectionSide? side,
   List<Placement> placements = const [],
 }) =>
     MedicationIntake(
@@ -112,7 +111,6 @@ MedicationIntake aMedicationIntake({
       wastedAmount: wastedAmount,
       deadSpace: deadSpace,
       ester: ester,
-      side: side,
       placements: placements,
     );
 
