@@ -1,0 +1,10 @@
+New :
+
+- You can now add your own injection sites rotation.
+- Intakes support having multiple sites.
+- New custom theme settings.
+- The graph tooltip now displays the date.
+
+Bug fixes :
+
+- Corrected a bug resetting the main tabs scroll position.
