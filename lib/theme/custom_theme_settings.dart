@@ -16,8 +16,9 @@ class CustomThemeSettings {
   static const String jsonKeyVariant = 'variant';
   static const String jsonKeyContrast = 'contrastLevel';
 
-  static const double contrastMin = -1.0;
-  static const double contrastMax = 1.0;
+  static const double contrastStandard = 0.0;
+  static const double contrastMedium = 0.5;
+  static const double contrastHigh = 1.0;
 
   final int seedArgb;
   final DynamicSchemeVariant variant;

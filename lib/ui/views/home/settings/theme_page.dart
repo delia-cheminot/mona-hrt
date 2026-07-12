@@ -52,23 +52,26 @@ class ThemePage extends StatelessWidget {
                 const SizedBox(height: 16),
                 Text('Contraste',
                     style: Theme.of(context).textTheme.titleSmall),
-                Text(
-                  _contrastLabel(customTheme.contrastLevel),
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-                Slider(
-                  value: customTheme.contrastLevel.clamp(
-                    CustomThemeSettings.contrastMin,
-                    CustomThemeSettings.contrastMax,
-                  ),
-                  min: CustomThemeSettings.contrastMin,
-                  max: CustomThemeSettings.contrastMax,
-                  divisions: 2,
-                  label: _contrastLabel(customTheme.contrastLevel),
-                  onChanged: (v) {
+                const SizedBox(height: 8),
+                SegmentedButton<double>(
+                  segments: const [
+                    ButtonSegment(
+                      value: CustomThemeSettings.contrastStandard,
+                      label: Text('Standard'),
+                    ),
+                    ButtonSegment(
+                      value: CustomThemeSettings.contrastMedium,
+                      label: Text('Moyen'),
+                    ),
+                    ButtonSegment(
+                      value: CustomThemeSettings.contrastHigh,
+                      label: Text('Élevé'),
+                    ),
+                  ],
+                  selected: {customTheme.contrastLevel},
+                  onSelectionChanged: (selection) {
                     preferences.setCustomTheme(
-                      customTheme.copyWith(
-                          contrastLevel: _snapContrastToStop(v)),
+                      customTheme.copyWith(contrastLevel: selection.first),
                     );
                   },
                 ),
@@ -95,19 +98,6 @@ class ThemePage extends StatelessWidget {
       ),
     );
   }
-}
-
-/// Slider à 3 crans pour M3 : -1, 0, 1.
-double _snapContrastToStop(double value) {
-  if (value <= -0.5) return -1.0;
-  if (value >= 0.5) return 1.0;
-  return 0.0;
-}
-
-String _contrastLabel(double level) {
-  if (level <= -0.5) return 'Faible (accessibilité minimale)';
-  if (level >= 0.5) return 'Élevé (accessibilité max.)';
-  return 'Standard (spec M3)';
 }
 
 class _ThemeShowcaseCard extends StatelessWidget {
