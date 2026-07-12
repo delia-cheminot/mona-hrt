@@ -40,8 +40,6 @@ class IntakeTile extends StatelessWidget {
       context: context,
     );
 
-    final textColor = viewModel.isActive ? null : null;
-
     return Card.filled(
       color: viewModel.isActive
           ? theme.colorScheme.surfaceContainerHighest
@@ -71,23 +69,18 @@ class IntakeTile extends StatelessWidget {
               if (viewModel.scheduledText != null)
                 Text(
                   viewModel.scheduledText!,
-                  style:
-                      theme.textTheme.labelMedium?.copyWith(color: textColor),
+                  style: theme.textTheme.labelMedium,
                 ),
               Text(
                 schedule.name,
-                style: theme.textTheme.titleMedium?.copyWith(color: textColor),
+                style: theme.textTheme.titleMedium,
               ),
             ],
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (status != ScheduleStatus.upcoming)
-                Text(
-                  viewModel.intakeInfo,
-                  style: TextStyle(color: textColor),
-                ),
+              if (status != ScheduleStatus.upcoming) Text(viewModel.intakeInfo),
               if (viewModel.warningText != null)
                 Text.rich(
                   TextSpan(
@@ -96,14 +89,10 @@ class IntakeTile extends StatelessWidget {
                         child: Icon(
                           Icons.error_outline,
                           size: 16,
-                          color: textColor,
                         ),
                       ),
                       const TextSpan(text: " "),
-                      TextSpan(
-                        text: viewModel.warningText!,
-                        style: TextStyle(color: textColor),
-                      ),
+                      TextSpan(text: viewModel.warningText!),
                     ],
                   ),
                 )
