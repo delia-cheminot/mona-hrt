@@ -237,7 +237,7 @@ class _SettingsPageState extends State<SettingsPage>
           Padding(
             padding: const EdgeInsets.symmetric(
                 horizontal: borderPadding, vertical: 8.0),
-            child: Text('Paramètres médicaux'),
+            child: Text(t.medicalSettings),
           ),
           ListTile(
             key: const ValueKey('settingsInjectionSitesTile'),
@@ -286,9 +286,8 @@ class _SettingsPageState extends State<SettingsPage>
             },
           ),
           ListTile(
-            title: const Text('Thème'),
-            subtitle:
-                const Text('Personnaliser les couleurs de l\'application'),
+            title: Text(t.theme),
+            subtitle: Text(t.themeCustomizeColors),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {
               Navigator.of(context).push(

@@ -129,6 +129,27 @@ class TranslationsFr extends Translations
   String get remindersDelayed =>
       'Les rappels peuvent être légèrement retardés. Appuyez pour ouvrir les paramètres.';
   @override
+  String get medicalSettings => 'Paramètres médicaux';
+  @override
+  String get theme => 'Thème';
+  @override
+  String get themeCustomizeColors =>
+      'Personnaliser les couleurs de l\'application';
+  @override
+  String get customThemeEnabled => 'Thème personnalisé';
+  @override
+  String get themeGenerate => 'Générer';
+  @override
+  String get themeVariant => 'Variante';
+  @override
+  String get themeContrast => 'Contraste';
+  @override
+  String get themeContrastStandard => 'Standard';
+  @override
+  String get themeContrastMedium => 'Moyen';
+  @override
+  String get themeContrastHigh => 'Élevé';
+  @override
   String get autoUpdate => 'Mise à jour automatique';
   @override
   String get autoUpdateDescription =>
@@ -705,6 +726,16 @@ extension on TranslationsFr {
         'Les heures de rappel exactes sont désactivées',
       'remindersDelayed' =>
         'Les rappels peuvent être légèrement retardés. Appuyez pour ouvrir les paramètres.',
+      'medicalSettings' => 'Paramètres médicaux',
+      'theme' => 'Thème',
+      'themeCustomizeColors' => 'Personnaliser les couleurs de l\'application',
+      'customThemeEnabled' => 'Thème personnalisé',
+      'themeGenerate' => 'Générer',
+      'themeVariant' => 'Variante',
+      'themeContrast' => 'Contraste',
+      'themeContrastStandard' => 'Standard',
+      'themeContrastMedium' => 'Moyen',
+      'themeContrastHigh' => 'Élevé',
       'autoUpdate' => 'Mise à jour automatique',
       'autoUpdateDescription' =>
         'Vérifier automatiquement les nouvelles mises à jour au lancement de l\'application',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/theme/custom_theme_schemes.dart';
 import 'package:mona/theme/custom_theme_settings.dart';
@@ -14,11 +15,11 @@ class ThemePage extends StatelessWidget {
     final customTheme = preferences.customTheme;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Thème')),
+      appBar: AppBar(title: Text(t.theme)),
       body: ListView(
         children: [
           SwitchListTile(
-            title: const Text('Thème personnalisé'),
+            title: Text(t.customThemeEnabled),
             value: preferences.customThemeEnabled,
             onChanged: (v) => preferences.setCustomThemeEnabled(v),
           ),
@@ -32,7 +33,7 @@ class ThemePage extends StatelessWidget {
                       seedArgb: CustomThemeSchemes.randomSourceArgb()),
                 );
               },
-              child: const Text('Générer'),
+              child: Text(t.themeGenerate),
             ),
           ),
           const SizedBox(height: 16),
@@ -41,7 +42,7 @@ class ThemePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text('Variante M3',
+                Text(t.themeVariant,
                     style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(height: 4),
                 _VariantGrid(
@@ -51,22 +52,22 @@ class ThemePage extends StatelessWidget {
                       .setCustomTheme(customTheme.copyWith(variant: v)),
                 ),
                 const SizedBox(height: 16),
-                Text('Contraste',
+                Text(t.themeContrast,
                     style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(height: 8),
                 SegmentedButton<double>(
-                  segments: const [
+                  segments: [
                     ButtonSegment(
                       value: CustomThemeSettings.contrastStandard,
-                      label: Text('Standard'),
+                      label: Text(t.themeContrastStandard),
                     ),
                     ButtonSegment(
                       value: CustomThemeSettings.contrastMedium,
-                      label: Text('Moyen'),
+                      label: Text(t.themeContrastMedium),
                     ),
                     ButtonSegment(
                       value: CustomThemeSettings.contrastHigh,
-                      label: Text('Élevé'),
+                      label: Text(t.themeContrastHigh),
                     ),
                   ],
                   selected: {customTheme.contrastLevel},

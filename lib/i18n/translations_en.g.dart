@@ -160,6 +160,36 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   String get remindersDelayed =>
       'Reminders may be slightly delayed. Tap to open settings.';
 
+  /// en: 'Medical settings'
+  String get medicalSettings => 'Medical settings';
+
+  /// en: 'Theme'
+  String get theme => 'Theme';
+
+  /// en: 'Customize the app colors'
+  String get themeCustomizeColors => 'Customize the app colors';
+
+  /// en: 'Custom theme'
+  String get customThemeEnabled => 'Custom theme';
+
+  /// en: 'Generate'
+  String get themeGenerate => 'Generate';
+
+  /// en: 'Variant'
+  String get themeVariant => 'Variant';
+
+  /// en: 'Contrast'
+  String get themeContrast => 'Contrast';
+
+  /// en: 'Standard'
+  String get themeContrastStandard => 'Standard';
+
+  /// en: 'Medium'
+  String get themeContrastMedium => 'Medium';
+
+  /// en: 'High'
+  String get themeContrastHigh => 'High';
+
   /// en: 'Auto-Update'
   String get autoUpdate => 'Auto-Update';
 
@@ -931,6 +961,16 @@ extension on Translations {
       'exactRemindersDisabled' => 'Exact reminder times are disabled',
       'remindersDelayed' =>
         'Reminders may be slightly delayed. Tap to open settings.',
+      'medicalSettings' => 'Medical settings',
+      'theme' => 'Theme',
+      'themeCustomizeColors' => 'Customize the app colors',
+      'customThemeEnabled' => 'Custom theme',
+      'themeGenerate' => 'Generate',
+      'themeVariant' => 'Variant',
+      'themeContrast' => 'Contrast',
+      'themeContrastStandard' => 'Standard',
+      'themeContrastMedium' => 'Medium',
+      'themeContrastHigh' => 'High',
       'autoUpdate' => 'Auto-Update',
       'autoUpdateDescription' =>
         'Automatically check new updates when app is launched',
