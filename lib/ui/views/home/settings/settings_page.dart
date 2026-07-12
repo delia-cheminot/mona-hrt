@@ -232,6 +232,34 @@ class _SettingsPageState extends State<SettingsPage>
             ),
           const Divider(),
           //
+          // ==== Medical settings ====
+          //
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: borderPadding, vertical: 8.0),
+            child: Text('Paramètres médicaux'),
+          ),
+          ListTile(
+            key: const ValueKey('settingsInjectionSitesTile'),
+            title: Text(t.injectionSites),
+            subtitle: Text(t.injectionSitesDescription),
+            trailing: Icon(Icons.chevron_right),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute<void>(
+                  builder: (context) => const InjectionSitesPage()));
+            },
+          ),
+          ListTile(
+            title: Text(t.units),
+            subtitle: Text(preferencesService.units.localizedName),
+            trailing: Icon(Icons.chevron_right),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute<void>(builder: (context) => UnitsPage()));
+            },
+          ),
+          const Divider(),
+          //
           // ==== General ====
           //
           Padding(
@@ -258,32 +286,15 @@ class _SettingsPageState extends State<SettingsPage>
             },
           ),
           ListTile(
-            title: Text(t.units),
-            subtitle: Text(preferencesService.units.localizedName),
-            trailing: Icon(Icons.chevron_right),
-            onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute<void>(builder: (context) => UnitsPage()));
-            },
-          ),
-          ListTile(
-            title: const Text('theme'),
+            title: const Text('Thème'),
+            subtitle:
+                const Text('Personnaliser les couleurs de l\'application'),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute<void>(
                     builder: (context) => const ThemePage()),
               );
-            },
-          ),
-          ListTile(
-            key: const ValueKey('settingsInjectionSitesTile'),
-            title: Text(t.injectionSites),
-            subtitle: Text(t.injectionSitesDescription),
-            trailing: Icon(Icons.chevron_right),
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute<void>(
-                  builder: (context) => const InjectionSitesPage()));
             },
           ),
           if (Platform.isAndroid && !isStoreDistribution) ...[
