@@ -49,8 +49,10 @@ class MedicationIntakeProvider extends ChangeNotifier {
       ..sort((a, b) => b.takenDateTime!.compareTo(a.takenDateTime!));
   }
 
-  List<MedicationIntake> getTakenIntakesForSchedule(int scheduleId) =>
-      takenIntakes.where((intake) => intake.scheduleId == scheduleId).toList();
+  List<MedicationIntake> getTakenIntakesDescForSchedule(int scheduleId) =>
+      takenIntakesSortedDesc
+          .where((intake) => intake.scheduleId == scheduleId)
+          .toList();
 
   Future<void> fetchIntakes() async {
     _intakes = await repository.getAll();
@@ -125,19 +127,19 @@ class MedicationIntakeProvider extends ChangeNotifier {
   }
 
   Date? getLastIntakeLocalDateForSchedule(int scheduleId) {
-    final scheduleIntakes = getTakenIntakesForSchedule(scheduleId);
+    final scheduleIntakes = getTakenIntakesDescForSchedule(scheduleId);
     return getLastIntakeLocalDateFromList(scheduleIntakes);
   }
 
   List<MedicationIntake> getTakenIntakesForScheduleOn(
       int scheduleId, Date date) {
-    return getTakenIntakesForSchedule(scheduleId)
+    return getTakenIntakesDescForSchedule(scheduleId)
         .where((intake) => intake.takenLocalDate == date)
         .toList();
   }
 
   MedicationIntake? getLastTakenIntakeForSchedule(int scheduleId) {
-    final scheduleIntakes = getTakenIntakesForSchedule(scheduleId);
+    final scheduleIntakes = getTakenIntakesDescForSchedule(scheduleId);
     if (scheduleIntakes.isEmpty) return null;
     return scheduleIntakes
         .reduce((a, b) => a.takenDateTime!.isAfter(b.takenDateTime!) ? a : b);

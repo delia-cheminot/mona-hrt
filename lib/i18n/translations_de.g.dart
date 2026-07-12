@@ -481,9 +481,9 @@ class TranslationsDe extends Translations
   @override
   String get injectionSideRight => 'Rechts';
   @override
-  String get intakeSummaryInjectionSideLeft => 'Linke Seite';
+  String get placementLeft => 'Linke Seite';
   @override
-  String get intakeSummaryInjectionSideRight => 'Rechte Seite';
+  String get placementRight => 'Rechte Seite';
   @override
   String get requiredField => 'Pflichtfeld';
   @override
@@ -849,8 +849,8 @@ extension on TranslationsDe {
       'unitNmolPerL' => 'nmol/L',
       'injectionSideLeft' => 'Links',
       'injectionSideRight' => 'Rechts',
-      'intakeSummaryInjectionSideLeft' => 'Linke Seite',
-      'intakeSummaryInjectionSideRight' => 'Rechte Seite',
+      'placementLeft' => 'Linke Seite',
+      'placementRight' => 'Rechte Seite',
       'requiredField' => 'Pflichtfeld',
       'mustBePositiveNumber' => 'Muss eine positive Zahl sein',
       'invalidTotalAmount' => 'Ungültige Gesamtmenge',

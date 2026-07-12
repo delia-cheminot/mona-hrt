@@ -476,9 +476,9 @@ class TranslationsEs extends Translations
   @override
   String get injectionSideRight => 'Derecha';
   @override
-  String get intakeSummaryInjectionSideLeft => 'Lado izquierdo';
+  String get placementLeft => 'Lado izquierdo';
   @override
-  String get intakeSummaryInjectionSideRight => 'Lado derecho';
+  String get placementRight => 'Lado derecho';
   @override
   String get requiredField => 'Campo obligatorio';
   @override
@@ -843,8 +843,8 @@ extension on TranslationsEs {
       'unitNmolPerL' => 'nmol/L',
       'injectionSideLeft' => 'Izquierda',
       'injectionSideRight' => 'Derecha',
-      'intakeSummaryInjectionSideLeft' => 'Lado izquierdo',
-      'intakeSummaryInjectionSideRight' => 'Lado derecho',
+      'placementLeft' => 'Lado izquierdo',
+      'placementRight' => 'Lado derecho',
       'requiredField' => 'Campo obligatorio',
       'mustBePositiveNumber' => 'Debe ser un número positivo',
       'invalidTotalAmount' => 'Cantidad total no válida',

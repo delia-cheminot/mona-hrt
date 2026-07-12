@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
@@ -5,8 +6,10 @@ import 'package:mona/controllers/supply_item_manager.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
+import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
+import 'package:mona/services/preferences_service.dart';
 import '../data/model/medication_intake.dart';
 import '../data/providers/medication_intake_provider.dart';
 
@@ -15,9 +18,10 @@ final Decimal microlitersToMilliliters = Decimal.parse('0.001');
 class MedicationIntakeManager {
   final MedicationIntakeProvider _medicationIntakeProvider;
   final SupplyItemProvider _supplyItemProvider;
+  final PreferencesService _preferencesService;
 
-  MedicationIntakeManager(
-      this._medicationIntakeProvider, this._supplyItemProvider);
+  MedicationIntakeManager(this._medicationIntakeProvider,
+      this._supplyItemProvider, this._preferencesService);
 
   Future<void> takeMedication({
     required Decimal takenDose,
@@ -25,10 +29,10 @@ class MedicationIntakeManager {
     required DateTime takenDateTime,
     SupplyItem? supplyItem,
     required MedicationSchedule schedule,
-    InjectionSide? side,
     Decimal? deadSpace, //in μL
     String? notes,
     Decimal? wastedAmount, // in mL
+    List<Placement> placements = const [],
   }) async {
     if (!takenDateTime.isUtc) {
       throw ArgumentError('takenDateTime must be in UTC');
@@ -42,7 +46,6 @@ class MedicationIntakeManager {
       scheduledTime: scheduledTime,
       takenDateTime: takenDateTime,
       takenTimeZone: tzName,
-      side: side,
       scheduleId: schedule.id,
       molecule: schedule.molecule,
       administrationRoute: schedule.administrationRoute,
@@ -51,6 +54,7 @@ class MedicationIntakeManager {
       notes: notes,
       wastedAmount: wastedAmount,
       deadSpace: deadSpace,
+      placements: placements,
     ));
 
     final itemManager = SupplyItemManager(_supplyItemProvider);
@@ -102,9 +106,9 @@ class MedicationIntakeManager {
     Decimal? deadSpace,
     required DateTime takenDateTime,
     required String takenTimeZone,
-    InjectionSide? side,
     SupplyItem? supplyItem,
     String? notes,
+    List<Placement> placements = const [],
   }) async {
     if (!takenDateTime.isUtc) {
       throw ArgumentError('takenDateTime must be in UTC');
@@ -154,21 +158,38 @@ class MedicationIntakeManager {
       takenDose: takenDose,
       wastedAmount: wastedAmount,
       deadSpace: deadSpace,
-      side: side,
       supplyItemId: supplyItem?.id,
       notes: notes,
+      placements: placements,
     ));
   }
 
-  InjectionSide getNextSide() {
-    final lastIntake = _medicationIntakeProvider.getLastTakenInjectionIntake();
+  List<Placement> getOrderedPlacements({required int scheduleId}) {
+    final placementsList = _preferencesService.placementsList;
+    final perSchedule = _preferencesService.placementSuggestionPerSchedule;
 
-    if (lastIntake == null || lastIntake.side == null) {
-      return InjectionSide.left;
+    final history = perSchedule
+        ? _medicationIntakeProvider.getTakenIntakesDescForSchedule(scheduleId)
+        : _medicationIntakeProvider.takenIntakesSortedDesc;
+
+    DateTime lastUsed(Placement placement) {
+      return history
+              .firstWhereOrNull(
+                (intake) => intake.placements.contains(placement),
+              )
+              ?.takenDateTime ??
+          DateTime.fromMillisecondsSinceEpoch(0);
     }
 
-    return lastIntake.side == InjectionSide.left
-        ? InjectionSide.right
-        : InjectionSide.left;
+    final ordered = [...placementsList];
+    ordered.sort((a, b) {
+      final byLastUsed = lastUsed(a).compareTo(lastUsed(b));
+      if (byLastUsed != 0) return byLastUsed;
+      return placementsList.indexOf(a).compareTo(placementsList.indexOf(b));
+    });
+    return ordered;
   }
+
+  Placement? suggestNextPlacement({required int scheduleId}) =>
+      getOrderedPlacements(scheduleId: scheduleId).firstOrNull;
 }

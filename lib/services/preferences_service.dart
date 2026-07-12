@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:mona/data/model/molecule.dart';
+import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/theme/custom_theme_settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,11 +12,18 @@ class PreferencesService extends ChangeNotifier {
   static const _customMoleculesKey = 'custom_molecules';
   static const _languageTagKey = 'language_tag';
   static const _unitsTagKey = "units";
+  static const _autoCheckUpdatesKey = 'auto_check_updates';
+  static const _placementsListKey = 'placements_list';
+  static const _placementSuggestionPerScheduleKey =
+      'placement_suggestion_per_schedule';
 
   static const bool defaultNotificationsEnabled = false;
-
-  static const _autoCheckUpdatesKey = 'auto_check_updates';
   static const bool defaultAutoCheckUpdates = false;
+  static const List<Placement> defaultPlacementsList = [
+    PresetPlacement(PlacementPreset.left),
+    PresetPlacement(PlacementPreset.right),
+  ];
+  static const bool defaultPlacementSuggestionPerSchedule = false;
 
   static const _customThemeEnabledKey = 'custom_theme_enabled';
   static const _customThemeSettingsKey = 'custom_theme_settings';
@@ -139,6 +147,31 @@ class PreferencesService extends ChangeNotifier {
     final jsonString = jsonEncode(updated.map((m) => m.toJson()).toList());
 
     await _prefs.setString(_customMoleculesKey, jsonString);
+    notifyListeners();
+  }
+
+  List<Placement> get placementsList {
+    final jsonString = _prefs.getString(_placementsListKey);
+    if (jsonString == null) return defaultPlacementsList;
+
+    final List<dynamic> decoded = jsonDecode(jsonString);
+    return decoded
+        .map((e) => PlacementMapper.fromMap(Map<String, dynamic>.from(e)))
+        .toList();
+  }
+
+  Future<void> setPlacementsList(List<Placement> placements) async {
+    final jsonString = jsonEncode(placements.map((p) => p.toMap()).toList());
+    await _prefs.setString(_placementsListKey, jsonString);
+    notifyListeners();
+  }
+
+  bool get placementSuggestionPerSchedule =>
+      _prefs.getBool(_placementSuggestionPerScheduleKey) ??
+      defaultPlacementSuggestionPerSchedule;
+
+  Future<void> setPlacementSuggestionPerSchedule(bool isEnabled) async {
+    await _prefs.setBool(_placementSuggestionPerScheduleKey, isEnabled);
     notifyListeners();
   }
 
