@@ -8,34 +8,22 @@ import 'package:material_color_utilities/hct/hct.dart';
 import 'custom_theme_settings.dart';
 
 class CustomThemeSchemes {
-  static ({ColorScheme light, ColorScheme dark}) buildColorSchemes({
-    required int seedArgb,
-    required DynamicSchemeVariant variant,
-    required double contrastLevel,
-  }) {
-    return (
-      light: schemeFor(
-        seedArgb: seedArgb,
-        variant: variant,
-        contrastLevel: contrastLevel,
-        brightness: Brightness.light,
-      ),
-      dark: schemeFor(
-        seedArgb: seedArgb,
-        variant: variant,
-        contrastLevel: contrastLevel,
-        brightness: Brightness.dark,
-      ),
-    );
-  }
-
   static ({ColorScheme light, ColorScheme dark}) fromSettings(
     CustomThemeSettings settings,
   ) {
-    return buildColorSchemes(
-      seedArgb: settings.seedArgb,
-      variant: settings.variant,
-      contrastLevel: settings.contrastLevel,
+    return (
+      light: schemeFor(
+        seedArgb: settings.seedArgb,
+        variant: settings.variant,
+        contrastLevel: settings.contrastLevel,
+        brightness: Brightness.light,
+      ),
+      dark: schemeFor(
+        seedArgb: settings.seedArgb,
+        variant: settings.variant,
+        contrastLevel: settings.contrastLevel,
+        brightness: Brightness.dark,
+      ),
     );
   }
 
