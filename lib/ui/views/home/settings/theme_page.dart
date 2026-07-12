@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/theme/custom_theme_schemes.dart';
 import 'package:mona/theme/custom_theme_settings.dart';
+import 'package:mona/ui/constants/dimensions.dart';
 import 'package:provider/provider.dart';
 
 class ThemePage extends StatelessWidget {
@@ -23,7 +24,7 @@ class ThemePage extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: pagePadding,
             child: FilledButton(
               onPressed: () async {
                 await preferences.setCustomTheme(
@@ -36,7 +37,7 @@ class ThemePage extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: pagePadding,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -78,121 +79,7 @@ class ThemePage extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Source ARGB: 0x'
-                  '${customTheme.seedArgb.toRadixString(16).toUpperCase().padLeft(8, '0')}',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-                const SizedBox(height: 12),
-                _ThemeShowcaseCard(settings: customTheme),
-              ],
-            ),
-          ),
         ],
-      ),
-    );
-  }
-}
-
-class _ThemeShowcaseCard extends StatelessWidget {
-  const _ThemeShowcaseCard({required this.settings});
-
-  final CustomThemeSettings settings;
-
-  @override
-  Widget build(BuildContext context) {
-    final schemes = CustomThemeSchemes.fromSettings(settings);
-    final scheme = Theme.of(context).brightness == Brightness.dark
-        ? schemes.dark
-        : schemes.light;
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: Theme(
-        data: ThemeData(colorScheme: scheme, useMaterial3: true),
-        child: Builder(
-          builder: (context) {
-            final c = ColorScheme.of(context);
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Material(
-                  color: c.primaryContainer,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 8,
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.palette,
-                          size: 18,
-                          color: c.onPrimaryContainer,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Aperçu thème',
-                          style: TextStyle(
-                            color: c.onPrimaryContainer,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      FilledButton(
-                        onPressed: () {},
-                        child: const Text('Action principale'),
-                      ),
-                      const SizedBox(height: 8),
-                      FilledButton(
-                        onPressed: () {},
-                        style: FilledButton.styleFrom(
-                          backgroundColor: c.secondary,
-                          foregroundColor: c.onSecondary,
-                        ),
-                        child: const Text('Action secondaire'),
-                      ),
-                      const SizedBox(height: 8),
-                      FilledButton(
-                        onPressed: () {},
-                        style: FilledButton.styleFrom(
-                          backgroundColor: c.tertiary,
-                          foregroundColor: c.onTertiary,
-                        ),
-                        child: const Text('Action tertiaire'),
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(height: 1, color: c.outlineVariant),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-                  child: Text(
-                    'Lorem dolor sit, pour voir le texte (onSurface) et les '
-                    'lignes sur surface.',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(color: c.onSurfaceVariant),
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
       ),
     );
   }
