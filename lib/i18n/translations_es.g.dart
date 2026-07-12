@@ -232,28 +232,11 @@ class TranslationsEs extends Translations
   @override
   String get scheduling => 'Programación';
   @override
-  String get noNotifications => 'Sin notificaciones';
-  @override
   String get editSchedule => 'Editar horario';
   @override
   String deleteSchedule({required Object name}) => '¿Eliminar ${name}?';
   @override
-  String get scheduleNotifications => 'Notificaciones del horario';
-  @override
   String get addNotification => 'Agregar una notificación';
-  @override
-  String noNotificationsForSchedule({required Object scheduleName}) =>
-      'No hay notificaciones para ${scheduleName}. Puedes añadir una usando el botón Añadir.';
-  @override
-  String get notificationsUpdated =>
-      '¡Las notificaciones han sido actualizadas!';
-  @override
-  String get notificationsUpdatedDescription =>
-      'Cada horario ahora tiene sus propias notificaciones.\n\nConfigura las notificaciones de tus horarios para no perderte nada.';
-  @override
-  String get dontShowAgain => 'No mostrar de nuevo';
-  @override
-  String get scheduleSettings => 'Configuración del horario';
   @override
   String get empty_intakes => 'Las dosis tomadas aparecerán aquí';
   @override
@@ -513,12 +496,6 @@ class TranslationsEs extends Translations
         other: '${count} creados',
       );
   @override
-  String notificationsCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-        count,
-        other: '${count} notificaciones',
-      );
-  @override
   String remaining({required num count, required Object unit}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
         count,
@@ -718,18 +695,9 @@ extension on TranslationsEs {
       'addIntakeTime' => 'Agregar una hora',
       'editScheduleInfo' => 'Editar información del horario',
       'scheduling' => 'Programación',
-      'noNotifications' => 'Sin notificaciones',
       'editSchedule' => 'Editar horario',
       'deleteSchedule' => ({required Object name}) => '¿Eliminar ${name}?',
-      'scheduleNotifications' => 'Notificaciones del horario',
       'addNotification' => 'Agregar una notificación',
-      'noNotificationsForSchedule' => ({required Object scheduleName}) =>
-          'No hay notificaciones para ${scheduleName}. Puedes añadir una usando el botón Añadir.',
-      'notificationsUpdated' => '¡Las notificaciones han sido actualizadas!',
-      'notificationsUpdatedDescription' =>
-        'Cada horario ahora tiene sus propias notificaciones.\n\nConfigura las notificaciones de tus horarios para no perderte nada.',
-      'dontShowAgain' => 'No mostrar de nuevo',
-      'scheduleSettings' => 'Configuración del horario',
       'empty_intakes' => 'Las dosis tomadas aparecerán aquí',
       'chooseSchedule' => 'Elegir un horario',
       'addSchedulesFirst' => 'Añade algún horario primero.',
@@ -869,11 +837,6 @@ extension on TranslationsEs {
             count,
             one: '${count} creado',
             other: '${count} creados',
-          ),
-      'notificationsCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
-            count,
-            other: '${count} notificaciones',
           ),
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(

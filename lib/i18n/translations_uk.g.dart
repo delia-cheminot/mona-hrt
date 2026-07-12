@@ -229,27 +229,11 @@ class TranslationsUk extends Translations
   @override
   String get scheduling => 'Планування';
   @override
-  String get noNotifications => 'Сповіщення відсутні';
-  @override
   String get editSchedule => 'Змінити розклад';
   @override
   String deleteSchedule({required Object name}) => 'Видалити ${name}?';
   @override
-  String get scheduleNotifications => 'Сповіщення розкладу';
-  @override
   String get addNotification => 'Додати сповіщення';
-  @override
-  String noNotificationsForSchedule({required Object scheduleName}) =>
-      'Сповіщення для ${scheduleName} відсутні. Натисніть Додати.';
-  @override
-  String get notificationsUpdated => 'Оновлено сповіщення!';
-  @override
-  String get notificationsUpdatedDescription =>
-      'Кожний розклад тепер має свої сповіщення.\n\nБажано увімкнути сповіщення для ваших розкладів щоб нічого не пропустити.';
-  @override
-  String get dontShowAgain => 'Більше не показувати';
-  @override
-  String get scheduleSettings => 'Налаштування розкладу';
   @override
   String get empty_intakes => 'Прийняті дози відображатимуться тут';
   @override
@@ -512,12 +496,6 @@ class TranslationsUk extends Translations
         other: 'Створено ${count} розкладів',
       );
   @override
-  String notificationsCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
-        count,
-        other: '${count} сповіщень',
-      );
-  @override
   String remaining({required num count, required Object unit}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
         count,
@@ -725,18 +703,9 @@ extension on TranslationsUk {
       'addIntakeTime' => 'Додати час',
       'editScheduleInfo' => 'Виправити інформацію',
       'scheduling' => 'Планування',
-      'noNotifications' => 'Сповіщення відсутні',
       'editSchedule' => 'Змінити розклад',
       'deleteSchedule' => ({required Object name}) => 'Видалити ${name}?',
-      'scheduleNotifications' => 'Сповіщення розкладу',
       'addNotification' => 'Додати сповіщення',
-      'noNotificationsForSchedule' => ({required Object scheduleName}) =>
-          'Сповіщення для ${scheduleName} відсутні. Натисніть Додати.',
-      'notificationsUpdated' => 'Оновлено сповіщення!',
-      'notificationsUpdatedDescription' =>
-        'Кожний розклад тепер має свої сповіщення.\n\nБажано увімкнути сповіщення для ваших розкладів щоб нічого не пропустити.',
-      'dontShowAgain' => 'Більше не показувати',
-      'scheduleSettings' => 'Налаштування розкладу',
       'empty_intakes' => 'Прийняті дози відображатимуться тут',
       'chooseSchedule' => 'Вибрати розклад',
       'addSchedulesFirst' => 'Спочатку додайте розклади.',
@@ -880,11 +849,6 @@ extension on TranslationsUk {
             one: 'Створено ${count} розклад',
             few: 'Створено ${count} розклади',
             other: 'Створено ${count} розкладів',
-          ),
-      'notificationsCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
-            count,
-            other: '${count} сповіщень',
           ),
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(

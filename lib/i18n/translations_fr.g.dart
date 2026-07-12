@@ -257,27 +257,11 @@ class TranslationsFr extends Translations
   @override
   String get scheduling => 'Programme';
   @override
-  String get noNotifications => 'Aucune notification';
-  @override
   String get editSchedule => 'Modifier le planning';
   @override
   String deleteSchedule({required Object name}) => 'Supprimer ${name} ?';
   @override
-  String get scheduleNotifications => 'Notifications du planning';
-  @override
   String get addNotification => 'Ajouter une notification';
-  @override
-  String noNotificationsForSchedule({required Object scheduleName}) =>
-      'Aucune notification pour ${scheduleName}. Vous pouvez en ajouter une en utilisant le bouton Ajouter.';
-  @override
-  String get notificationsUpdated => 'Les notifications ont été mises à jour !';
-  @override
-  String get notificationsUpdatedDescription =>
-      'Chaque planning a désormais ses propres notifications.\n\nVeuillez configurer les notifications pour vos plannings pour vous assurer de ne rien manquer.';
-  @override
-  String get dontShowAgain => 'Ne plus afficher';
-  @override
-  String get scheduleSettings => 'Paramètres des plannings';
   @override
   String get empty_intakes => 'Les prises enregistrées apparaîtront ici';
   @override
@@ -583,12 +567,6 @@ class TranslationsFr extends Translations
         other: '${count} créés',
       );
   @override
-  String notificationsCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
-        count,
-        other: '${count} notifications',
-      );
-  @override
   String remaining({required num count, required Object unit}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
@@ -800,18 +778,9 @@ extension on TranslationsFr {
       'addIntakeTime' => 'Ajouter une heure',
       'editScheduleInfo' => 'Modifier les informations du planning',
       'scheduling' => 'Programme',
-      'noNotifications' => 'Aucune notification',
       'editSchedule' => 'Modifier le planning',
       'deleteSchedule' => ({required Object name}) => 'Supprimer ${name} ?',
-      'scheduleNotifications' => 'Notifications du planning',
       'addNotification' => 'Ajouter une notification',
-      'noNotificationsForSchedule' => ({required Object scheduleName}) =>
-          'Aucune notification pour ${scheduleName}. Vous pouvez en ajouter une en utilisant le bouton Ajouter.',
-      'notificationsUpdated' => 'Les notifications ont été mises à jour !',
-      'notificationsUpdatedDescription' =>
-        'Chaque planning a désormais ses propres notifications.\n\nVeuillez configurer les notifications pour vos plannings pour vous assurer de ne rien manquer.',
-      'dontShowAgain' => 'Ne plus afficher',
-      'scheduleSettings' => 'Paramètres des plannings',
       'empty_intakes' => 'Les prises enregistrées apparaîtront ici',
       'chooseSchedule' => 'Choisir un planning',
       'addSchedulesFirst' => 'Ajoutez d\'abord des plannings.',
@@ -976,11 +945,6 @@ extension on TranslationsFr {
             count,
             one: '${count} créé',
             other: '${count} créés',
-          ),
-      'notificationsCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
-            count,
-            other: '${count} notifications',
           ),
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
