@@ -200,13 +200,13 @@ void main() {
         ));
         await provider.fetchIntakes();
 
-        expect(provider.getTakenIntakesForSchedule(100).length, 1);
+        expect(provider.getTakenIntakesDescForSchedule(100).length, 1);
       });
 
       test('returns empty list if no taken intakes for schedule', () async {
         await provider.fetchIntakes();
 
-        expect(provider.getTakenIntakesForSchedule(3), isEmpty);
+        expect(provider.getTakenIntakesDescForSchedule(3), isEmpty);
       });
     });
 
@@ -342,7 +342,7 @@ void main() {
         final result = provider.getTakenIntakesForScheduleOn(42, targetDate);
 
         // Assert
-        expect(result.map((i) => i.id).toList(), [100, 101]);
+        expect(result.map((i) => i.id).toList(), [101, 100]);
       });
 
       test('returns empty list when no intakes match the date', () async {

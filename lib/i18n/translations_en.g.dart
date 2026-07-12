@@ -160,6 +160,36 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   String get remindersDelayed =>
       'Reminders may be slightly delayed. Tap to open settings.';
 
+  /// en: 'Medical settings'
+  String get medicalSettings => 'Medical settings';
+
+  /// en: 'Theme'
+  String get theme => 'Theme';
+
+  /// en: 'Customize the app colors'
+  String get themeCustomizeColors => 'Customize the app colors';
+
+  /// en: 'Custom theme'
+  String get customThemeEnabled => 'Custom theme';
+
+  /// en: 'Generate'
+  String get themeGenerate => 'Generate';
+
+  /// en: 'Variant'
+  String get themeVariant => 'Variant';
+
+  /// en: 'Contrast'
+  String get themeContrast => 'Contrast';
+
+  /// en: 'Standard'
+  String get themeContrastStandard => 'Standard';
+
+  /// en: 'Medium'
+  String get themeContrastMedium => 'Medium';
+
+  /// en: 'High'
+  String get themeContrastHigh => 'High';
+
   /// en: 'Auto-Update'
   String get autoUpdate => 'Auto-Update';
 
@@ -306,37 +336,14 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Scheduling'
   String get scheduling => 'Scheduling';
 
-  /// en: 'No notifications'
-  String get noNotifications => 'No notifications';
-
   /// en: 'Edit schedule'
   String get editSchedule => 'Edit schedule';
 
   /// en: 'Delete {name}?'
   String deleteSchedule({required Object name}) => 'Delete ${name}?';
 
-  /// en: 'Schedule notifications'
-  String get scheduleNotifications => 'Schedule notifications';
-
   /// en: 'Add a notification'
   String get addNotification => 'Add a notification';
-
-  /// en: 'No notifications for {scheduleName}. You can add one using the Add button.'
-  String noNotificationsForSchedule({required Object scheduleName}) =>
-      'No notifications for ${scheduleName}. You can add one using the Add button.';
-
-  /// en: 'Notifications have been updated!'
-  String get notificationsUpdated => 'Notifications have been updated!';
-
-  /// en: 'Each schedule now has its own notifications.\n\nPlease set up notifications for your schedules to make sure you don't miss anything.'
-  String get notificationsUpdatedDescription =>
-      'Each schedule now has its own notifications.\n\nPlease set up notifications for your schedules to make sure you don\'t miss anything.';
-
-  /// en: 'Don't show again'
-  String get dontShowAgain => 'Don\'t show again';
-
-  /// en: 'Schedule settings'
-  String get scheduleSettings => 'Schedule settings';
 
   /// en: 'Taken intakes will appear here'
   String get empty_intakes => 'Taken intakes will appear here';
@@ -433,6 +440,10 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: '{date}: {level}'
   String chartBloodTestLevelTooltip(
           {required Object date, required Object level}) =>
+      '${date}: ${level}';
+
+  /// en: '{date}: {level}'
+  String chartLevelTooltip({required Object date, required Object level}) =>
       '${date}: ${level}';
 
   /// en: 'No supplies. Add an item to get started.'
@@ -675,10 +686,61 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   String get injectionSideRight => 'Right';
 
   /// en: 'Left side'
-  String get intakeSummaryInjectionSideLeft => 'Left side';
+  String get placementLeft => 'Left side';
 
   /// en: 'Right side'
-  String get intakeSummaryInjectionSideRight => 'Right side';
+  String get placementRight => 'Right side';
+
+  /// en: 'Left thigh'
+  String get placementLeftThigh => 'Left thigh';
+
+  /// en: 'Right thigh'
+  String get placementRightThigh => 'Right thigh';
+
+  /// en: 'Left arm'
+  String get placementLeftArm => 'Left arm';
+
+  /// en: 'Right arm'
+  String get placementRightArm => 'Right arm';
+
+  /// en: 'Left buttock'
+  String get placementLeftButtock => 'Left buttock';
+
+  /// en: 'Right buttock'
+  String get placementRightButtock => 'Right buttock';
+
+  /// en: 'Left abdomen'
+  String get placementLeftAbdomen => 'Left abdomen';
+
+  /// en: 'Right abdomen'
+  String get placementRightAbdomen => 'Right abdomen';
+
+  /// en: 'Injection sites'
+  String get injectionSites => 'Injection sites';
+
+  /// en: 'Manage the sites you rotate between.'
+  String get injectionSitesDescription =>
+      'Manage the sites you rotate between.';
+
+  /// en: 'Add site'
+  String get addInjectionSite => 'Add site';
+
+  /// en: 'Custom site name'
+  String get customSiteLabel => 'Custom site name';
+
+  /// en: 'No sites yet'
+  String get noInjectionSitesYet => 'No sites yet';
+
+  /// en: 'Add a site below to get started.'
+  String get noInjectionAddOneToGetStarted =>
+      'Add a site below to get started.';
+
+  /// en: 'Suggest per schedule'
+  String get placementSuggestionPerScheduleTitle => 'Suggest per schedule';
+
+  /// en: 'Base the next-site suggestion on this schedule's history only.'
+  String get placementSuggestionPerScheduleDescription =>
+      'Base the next-site suggestion on this schedule\'s history only.';
 
   /// en: 'Required field'
   String get requiredField => 'Required field';
@@ -718,13 +780,6 @@ class Translations with BaseTranslations<AppLocale, Translations> {
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         other: '${count} created',
-      );
-
-  /// en: '(other) {{count} notifications}'
-  String notificationsCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
-        count,
-        other: '${count} notifications',
       );
 
   /// en: '(other) {{count} {unit} remaining}'
@@ -876,6 +931,16 @@ extension on Translations {
       'exactRemindersDisabled' => 'Exact reminder times are disabled',
       'remindersDelayed' =>
         'Reminders may be slightly delayed. Tap to open settings.',
+      'medicalSettings' => 'Medical settings',
+      'theme' => 'Theme',
+      'themeCustomizeColors' => 'Customize the app colors',
+      'customThemeEnabled' => 'Custom theme',
+      'themeGenerate' => 'Generate',
+      'themeVariant' => 'Variant',
+      'themeContrast' => 'Contrast',
+      'themeContrastStandard' => 'Standard',
+      'themeContrastMedium' => 'Medium',
+      'themeContrastHigh' => 'High',
       'autoUpdate' => 'Auto-Update',
       'autoUpdateDescription' =>
         'Automatically check new updates when app is launched',
@@ -935,18 +1000,9 @@ extension on Translations {
       'addIntakeTime' => 'Add a time',
       'editScheduleInfo' => 'Edit schedule info',
       'scheduling' => 'Scheduling',
-      'noNotifications' => 'No notifications',
       'editSchedule' => 'Edit schedule',
       'deleteSchedule' => ({required Object name}) => 'Delete ${name}?',
-      'scheduleNotifications' => 'Schedule notifications',
       'addNotification' => 'Add a notification',
-      'noNotificationsForSchedule' => ({required Object scheduleName}) =>
-          'No notifications for ${scheduleName}. You can add one using the Add button.',
-      'notificationsUpdated' => 'Notifications have been updated!',
-      'notificationsUpdatedDescription' =>
-        'Each schedule now has its own notifications.\n\nPlease set up notifications for your schedules to make sure you don\'t miss anything.',
-      'dontShowAgain' => 'Don\'t show again',
-      'scheduleSettings' => 'Schedule settings',
       'empty_intakes' => 'Taken intakes will appear here',
       'chooseSchedule' => 'Choose a schedule',
       'addSchedulesFirst' => 'Add schedules first.',
@@ -981,6 +1037,8 @@ extension on Translations {
       'chartNowConcentration' => ({required Object value}) => 'Now ${value}',
       'chartBloodTestLevelTooltip' =>
         ({required Object date, required Object level}) => '${date}: ${level}',
+      'chartLevelTooltip' => ({required Object date, required Object level}) =>
+          '${date}: ${level}',
       'empty_supplies' => 'No supplies. Add an item to get started.',
       'newItem' => 'New item',
       'adminRoute' => 'Administration route',
@@ -1062,8 +1120,25 @@ extension on Translations {
       'unitNmolPerL' => 'nmol/L',
       'injectionSideLeft' => 'Left',
       'injectionSideRight' => 'Right',
-      'intakeSummaryInjectionSideLeft' => 'Left side',
-      'intakeSummaryInjectionSideRight' => 'Right side',
+      'placementLeft' => 'Left side',
+      'placementRight' => 'Right side',
+      'placementLeftThigh' => 'Left thigh',
+      'placementRightThigh' => 'Right thigh',
+      'placementLeftArm' => 'Left arm',
+      'placementRightArm' => 'Right arm',
+      'placementLeftButtock' => 'Left buttock',
+      'placementRightButtock' => 'Right buttock',
+      'placementLeftAbdomen' => 'Left abdomen',
+      'placementRightAbdomen' => 'Right abdomen',
+      'injectionSites' => 'Injection sites',
+      'injectionSitesDescription' => 'Manage the sites you rotate between.',
+      'addInjectionSite' => 'Add site',
+      'customSiteLabel' => 'Custom site name',
+      'noInjectionSitesYet' => 'No sites yet',
+      'noInjectionAddOneToGetStarted' => 'Add a site below to get started.',
+      'placementSuggestionPerScheduleTitle' => 'Suggest per schedule',
+      'placementSuggestionPerScheduleDescription' =>
+        'Base the next-site suggestion on this schedule\'s history only.',
       'requiredField' => 'Required field',
       'mustBePositiveNumber' => 'Must be a positive number',
       'invalidTotalAmount' => 'Invalid total amount',
@@ -1087,11 +1162,6 @@ extension on Translations {
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
             count,
             other: '${count} created',
-          ),
-      'notificationsCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
-            count,
-            other: '${count} notifications',
           ),
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(

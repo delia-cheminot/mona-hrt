@@ -230,27 +230,11 @@ class TranslationsPt extends Translations
   @override
   String get scheduling => 'Programação';
   @override
-  String get noNotifications => 'Sem notificações';
-  @override
   String get editSchedule => 'Editar cronograma';
   @override
   String deleteSchedule({required Object name}) => 'Excluir ${name}?';
   @override
-  String get scheduleNotifications => 'Notificações do cronograma';
-  @override
   String get addNotification => 'Adicionar notificação';
-  @override
-  String noNotificationsForSchedule({required Object scheduleName}) =>
-      'Sem notificações para ${scheduleName}. Você pode adicionar uma usando o botão Adicionar.';
-  @override
-  String get notificationsUpdated => 'As notificações foram atualizadas!';
-  @override
-  String get notificationsUpdatedDescription =>
-      'Cada cronograma agora tem suas próprias notificações.\n\nConfigure as notificações para seus cronogramas para garantir que você não perca nada.';
-  @override
-  String get dontShowAgain => 'Não mostrar novamente';
-  @override
-  String get scheduleSettings => 'Configurações do cronograma';
   @override
   String get empty_intakes => 'As doses registradas aparecerão aqui';
   @override
@@ -316,6 +300,9 @@ class TranslationsPt extends Translations
   @override
   String chartBloodTestLevelTooltip(
           {required Object date, required Object level}) =>
+      '${date}: ${level}';
+  @override
+  String chartLevelTooltip({required Object date, required Object level}) =>
       '${date}: ${level}';
   @override
   String get empty_supplies =>
@@ -469,9 +456,9 @@ class TranslationsPt extends Translations
   @override
   String get injectionSideRight => 'Direita';
   @override
-  String get intakeSummaryInjectionSideLeft => 'Lado esquerdo';
+  String get placementLeft => 'Lado esquerdo';
   @override
-  String get intakeSummaryInjectionSideRight => 'Lado direito';
+  String get placementRight => 'Lado direito';
   @override
   String get requiredField => 'Campo obrigatório';
   @override
@@ -504,12 +491,6 @@ class TranslationsPt extends Translations
         count,
         one: '${count} criado',
         other: '${count} criados',
-      );
-  @override
-  String notificationsCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
-        count,
-        other: '${count} notificações',
       );
   @override
   String remaining({required num count, required Object unit}) =>
@@ -711,18 +692,9 @@ extension on TranslationsPt {
       'addIntakeTime' => 'Adicionar horário',
       'editScheduleInfo' => 'Editar informações do cronograma',
       'scheduling' => 'Programação',
-      'noNotifications' => 'Sem notificações',
       'editSchedule' => 'Editar cronograma',
       'deleteSchedule' => ({required Object name}) => 'Excluir ${name}?',
-      'scheduleNotifications' => 'Notificações do cronograma',
       'addNotification' => 'Adicionar notificação',
-      'noNotificationsForSchedule' => ({required Object scheduleName}) =>
-          'Sem notificações para ${scheduleName}. Você pode adicionar uma usando o botão Adicionar.',
-      'notificationsUpdated' => 'As notificações foram atualizadas!',
-      'notificationsUpdatedDescription' =>
-        'Cada cronograma agora tem suas próprias notificações.\n\nConfigure as notificações para seus cronogramas para garantir que você não perca nada.',
-      'dontShowAgain' => 'Não mostrar novamente',
-      'scheduleSettings' => 'Configurações do cronograma',
       'empty_intakes' => 'As doses registradas aparecerão aqui',
       'chooseSchedule' => 'Escolher um cronograma',
       'addSchedulesFirst' => 'Adicione cronogramas primeiro.',
@@ -757,6 +729,8 @@ extension on TranslationsPt {
       'chartNowConcentration' => ({required Object value}) => 'Agora ${value}',
       'chartBloodTestLevelTooltip' =>
         ({required Object date, required Object level}) => '${date}: ${level}',
+      'chartLevelTooltip' => ({required Object date, required Object level}) =>
+          '${date}: ${level}',
       'empty_supplies' => 'Sem suprimentos. Adicione um item para começar.',
       'newItem' => 'Novo item',
       'adminRoute' => 'Via de administração',
@@ -833,8 +807,8 @@ extension on TranslationsPt {
       'unitNmolPerL' => 'nmol/L',
       'injectionSideLeft' => 'Esquerda',
       'injectionSideRight' => 'Direita',
-      'intakeSummaryInjectionSideLeft' => 'Lado esquerdo',
-      'intakeSummaryInjectionSideRight' => 'Lado direito',
+      'placementLeft' => 'Lado esquerdo',
+      'placementRight' => 'Lado direito',
       'requiredField' => 'Campo obrigatório',
       'mustBePositiveNumber' => 'Deve ser um número positivo',
       'invalidTotalAmount' => 'Quantidade total inválida',
@@ -859,11 +833,6 @@ extension on TranslationsPt {
             count,
             one: '${count} criado',
             other: '${count} criados',
-          ),
-      'notificationsCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
-            count,
-            other: '${count} notificações',
           ),
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(

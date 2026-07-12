@@ -237,27 +237,11 @@ class TranslationsDe extends Translations
   @override
   String get scheduling => 'Zeitplanung';
   @override
-  String get noNotifications => 'Keine Benachrichtigungen';
-  @override
   String get editSchedule => 'Zeitplan bearbeiten';
   @override
   String deleteSchedule({required Object name}) => '${name} löschen?';
   @override
-  String get scheduleNotifications => 'Benachrichtigungen für Zeitplan';
-  @override
   String get addNotification => 'Benachrichtigung hinzufügen';
-  @override
-  String noNotificationsForSchedule({required Object scheduleName}) =>
-      'Keine Benachrichtigungen für ${scheduleName}. Du kannst eine über die Schaltfläche „Hinzufügen“ erstellen.';
-  @override
-  String get notificationsUpdated => 'Benachrichtigungen wurden aktualisiert!';
-  @override
-  String get notificationsUpdatedDescription =>
-      'Jeder Zeitplan hat jetzt eigene Benachrichtigungen.\n\nBitte richte Benachrichtigungen für deine Zeitpläne ein, damit du nichts verpasst.';
-  @override
-  String get dontShowAgain => 'Nicht mehr anzeigen';
-  @override
-  String get scheduleSettings => 'Zeitplan-Einstellungen';
   @override
   String get empty_intakes => 'Erfasste Einnahmen werden hier angezeigt';
   @override
@@ -324,6 +308,9 @@ class TranslationsDe extends Translations
   @override
   String chartBloodTestLevelTooltip(
           {required Object date, required Object level}) =>
+      '${date}: ${level}';
+  @override
+  String chartLevelTooltip({required Object date, required Object level}) =>
       '${date}: ${level}';
   @override
   String get empty_supplies =>
@@ -478,9 +465,9 @@ class TranslationsDe extends Translations
   @override
   String get injectionSideRight => 'Rechts';
   @override
-  String get intakeSummaryInjectionSideLeft => 'Linke Seite';
+  String get placementLeft => 'Linke Seite';
   @override
-  String get intakeSummaryInjectionSideRight => 'Rechte Seite';
+  String get placementRight => 'Rechte Seite';
   @override
   String get requiredField => 'Pflichtfeld';
   @override
@@ -513,12 +500,6 @@ class TranslationsDe extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
         count,
         other: '${count} erstellt',
-      );
-  @override
-  String notificationsCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
-        count,
-        other: '${count} Benachrichtigungen',
       );
   @override
   String remaining({required num count, required Object unit}) =>
@@ -720,18 +701,9 @@ extension on TranslationsDe {
       'addIntakeTime' => 'Uhrzeit hinzufügen',
       'editScheduleInfo' => 'Zeitplan bearbeiten',
       'scheduling' => 'Zeitplanung',
-      'noNotifications' => 'Keine Benachrichtigungen',
       'editSchedule' => 'Zeitplan bearbeiten',
       'deleteSchedule' => ({required Object name}) => '${name} löschen?',
-      'scheduleNotifications' => 'Benachrichtigungen für Zeitplan',
       'addNotification' => 'Benachrichtigung hinzufügen',
-      'noNotificationsForSchedule' => ({required Object scheduleName}) =>
-          'Keine Benachrichtigungen für ${scheduleName}. Du kannst eine über die Schaltfläche „Hinzufügen“ erstellen.',
-      'notificationsUpdated' => 'Benachrichtigungen wurden aktualisiert!',
-      'notificationsUpdatedDescription' =>
-        'Jeder Zeitplan hat jetzt eigene Benachrichtigungen.\n\nBitte richte Benachrichtigungen für deine Zeitpläne ein, damit du nichts verpasst.',
-      'dontShowAgain' => 'Nicht mehr anzeigen',
-      'scheduleSettings' => 'Zeitplan-Einstellungen',
       'empty_intakes' => 'Erfasste Einnahmen werden hier angezeigt',
       'chooseSchedule' => 'Zeitplan auswählen',
       'addSchedulesFirst' => 'Erstelle zuerst Zeitpläne.',
@@ -766,6 +738,8 @@ extension on TranslationsDe {
       'chartNowConcentration' => ({required Object value}) => 'Jetzt ${value}',
       'chartBloodTestLevelTooltip' =>
         ({required Object date, required Object level}) => '${date}: ${level}',
+      'chartLevelTooltip' => ({required Object date, required Object level}) =>
+          '${date}: ${level}',
       'empty_supplies' =>
         'Keine Vorräte. Füge einen Eintrag hinzu, um zu beginnen.',
       'newItem' => 'Neuer Eintrag',
@@ -844,8 +818,8 @@ extension on TranslationsDe {
       'unitNmolPerL' => 'nmol/L',
       'injectionSideLeft' => 'Links',
       'injectionSideRight' => 'Rechts',
-      'intakeSummaryInjectionSideLeft' => 'Linke Seite',
-      'intakeSummaryInjectionSideRight' => 'Rechte Seite',
+      'placementLeft' => 'Linke Seite',
+      'placementRight' => 'Rechte Seite',
       'requiredField' => 'Pflichtfeld',
       'mustBePositiveNumber' => 'Muss eine positive Zahl sein',
       'invalidTotalAmount' => 'Ungültige Gesamtmenge',
@@ -870,11 +844,6 @@ extension on TranslationsDe {
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
             count,
             other: '${count} erstellt',
-          ),
-      'notificationsCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
-            count,
-            other: '${count} Benachrichtigungen',
           ),
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(

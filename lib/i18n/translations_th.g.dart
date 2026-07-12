@@ -226,27 +226,11 @@ class TranslationsTh extends Translations
   @override
   String get scheduling => 'การจัดเวลา';
   @override
-  String get noNotifications => 'ไม่มีการแจ้งเตือน';
-  @override
   String get editSchedule => 'แก้ไขตารางเวลา';
   @override
   String deleteSchedule({required Object name}) => 'ลบ ${name}?';
   @override
-  String get scheduleNotifications => 'การแจ้งเตือนตารางเวลา';
-  @override
   String get addNotification => 'เพื่มการแจ้งเตือน';
-  @override
-  String noNotificationsForSchedule({required Object scheduleName}) =>
-      'ไม่มีการแจ้งเตือนสำหรับ ${scheduleName} สามารถเพื่มได้ด้วยปุ่ม “เพื่ม”';
-  @override
-  String get notificationsUpdated => 'การแจ้งเตือนอัพเดตแล้ว';
-  @override
-  String get notificationsUpdatedDescription =>
-      'ทุกตารางเวลามีการแจ้งเตือนของตนเองแล้ว\n\nโปรดตั้งการแจ้งเตือนของตารางเวลาของคุณเพื่อที่จะไม่ลืม';
-  @override
-  String get dontShowAgain => 'อย่าแสตงอีก';
-  @override
-  String get scheduleSettings => 'ตั้งค่าตารางเวลา';
   @override
   String get empty_intakes => 'ยาที่ทานแล้วจะมาอยู่ที่นี่';
   @override
@@ -312,6 +296,9 @@ class TranslationsTh extends Translations
   @override
   String chartBloodTestLevelTooltip(
           {required Object date, required Object level}) =>
+      'ณ ${date}: ${level}';
+  @override
+  String chartLevelTooltip({required Object date, required Object level}) =>
       'ณ ${date}: ${level}';
   @override
   String get empty_supplies => 'ไม่มีสต็อกอยู่ โปรดเพื่มสต็อก';
@@ -474,9 +461,9 @@ class TranslationsTh extends Translations
   @override
   String get injectionSideRight => 'ขวา';
   @override
-  String get intakeSummaryInjectionSideLeft => 'ด้านซ้าย';
+  String get placementLeft => 'ด้านซ้าย';
   @override
-  String get intakeSummaryInjectionSideRight => 'ด้านขวา';
+  String get placementRight => 'ด้านขวา';
   @override
   String get requiredField => 'ต้องใส่';
   @override
@@ -508,12 +495,6 @@ class TranslationsTh extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
         count,
         other: 'สร้างแล้ว ${count}',
-      );
-  @override
-  String notificationsCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-        count,
-        other: '${count} การแจ้งเตือน',
       );
   @override
   String remaining({required num count, required Object unit}) =>
@@ -702,18 +683,9 @@ extension on TranslationsTh {
       'addIntakeTime' => 'เพื่มเวลา',
       'editScheduleInfo' => 'แก้ไขข้อมูลตารางเวลา',
       'scheduling' => 'การจัดเวลา',
-      'noNotifications' => 'ไม่มีการแจ้งเตือน',
       'editSchedule' => 'แก้ไขตารางเวลา',
       'deleteSchedule' => ({required Object name}) => 'ลบ ${name}?',
-      'scheduleNotifications' => 'การแจ้งเตือนตารางเวลา',
       'addNotification' => 'เพื่มการแจ้งเตือน',
-      'noNotificationsForSchedule' => ({required Object scheduleName}) =>
-          'ไม่มีการแจ้งเตือนสำหรับ ${scheduleName} สามารถเพื่มได้ด้วยปุ่ม “เพื่ม”',
-      'notificationsUpdated' => 'การแจ้งเตือนอัพเดตแล้ว',
-      'notificationsUpdatedDescription' =>
-        'ทุกตารางเวลามีการแจ้งเตือนของตนเองแล้ว\n\nโปรดตั้งการแจ้งเตือนของตารางเวลาของคุณเพื่อที่จะไม่ลืม',
-      'dontShowAgain' => 'อย่าแสตงอีก',
-      'scheduleSettings' => 'ตั้งค่าตารางเวลา',
       'empty_intakes' => 'ยาที่ทานแล้วจะมาอยู่ที่นี่',
       'chooseSchedule' => 'เลือกตารางเวลา',
       'addSchedulesFirst' => 'เพื่มตารางเวลาก่อน',
@@ -748,6 +720,8 @@ extension on TranslationsTh {
       'chartNowConcentration' => ({required Object value}) => 'ตอนนี้ ${value}',
       'chartBloodTestLevelTooltip' => (
               {required Object date, required Object level}) =>
+          'ณ ${date}: ${level}',
+      'chartLevelTooltip' => ({required Object date, required Object level}) =>
           'ณ ${date}: ${level}',
       'empty_supplies' => 'ไม่มีสต็อกอยู่ โปรดเพื่มสต็อก',
       'newItem' => 'สต็อกใหม่',
@@ -830,8 +804,8 @@ extension on TranslationsTh {
       'unitNmolPerL' => 'นาโนโมล/ลิตร',
       'injectionSideLeft' => 'ซ้าย',
       'injectionSideRight' => 'ขวา',
-      'intakeSummaryInjectionSideLeft' => 'ด้านซ้าย',
-      'intakeSummaryInjectionSideRight' => 'ด้านขวา',
+      'placementLeft' => 'ด้านซ้าย',
+      'placementRight' => 'ด้านขวา',
       'requiredField' => 'ต้องใส่',
       'mustBePositiveNumber' => 'ต้องเป็นตัวเลขมากกว่า 0',
       'invalidTotalAmount' => 'จำนวนรวมผิดรูปแบบ',
@@ -855,11 +829,6 @@ extension on TranslationsTh {
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
             count,
             other: 'สร้างแล้ว ${count}',
-          ),
-      'notificationsCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
-            count,
-            other: '${count} การแจ้งเตือน',
           ),
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(

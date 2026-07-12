@@ -11,8 +11,10 @@ import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/services/update_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
+import 'package:mona/ui/views/home/settings/injection_sites_page.dart';
 import 'package:mona/ui/views/home/settings/language_page.dart';
 import 'package:mona/ui/views/home/settings/schedules/schedules_page.dart';
+import 'package:mona/ui/views/home/settings/theme_page.dart';
 import 'package:mona/ui/views/home/settings/units_page.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -230,6 +232,34 @@ class _SettingsPageState extends State<SettingsPage>
             ),
           const Divider(),
           //
+          // ==== Medical settings ====
+          //
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: borderPadding, vertical: 8.0),
+            child: Text(t.medicalSettings),
+          ),
+          ListTile(
+            key: const ValueKey('settingsInjectionSitesTile'),
+            title: Text(t.injectionSites),
+            subtitle: Text(t.injectionSitesDescription),
+            trailing: Icon(Icons.chevron_right),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute<void>(
+                  builder: (context) => const InjectionSitesPage()));
+            },
+          ),
+          ListTile(
+            title: Text(t.units),
+            subtitle: Text(preferencesService.units.localizedName),
+            trailing: Icon(Icons.chevron_right),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute<void>(builder: (context) => UnitsPage()));
+            },
+          ),
+          const Divider(),
+          //
           // ==== General ====
           //
           Padding(
@@ -256,12 +286,14 @@ class _SettingsPageState extends State<SettingsPage>
             },
           ),
           ListTile(
-            title: Text(t.units),
-            subtitle: Text(preferencesService.units.localizedName),
-            trailing: Icon(Icons.chevron_right),
+            title: Text(t.theme),
+            subtitle: Text(t.themeCustomizeColors),
+            trailing: const Icon(Icons.chevron_right),
             onTap: () {
               Navigator.of(context).push(
-                  MaterialPageRoute<void>(builder: (context) => UnitsPage()));
+                MaterialPageRoute<void>(
+                    builder: (context) => const ThemePage()),
+              );
             },
           ),
           if (Platform.isAndroid && !isStoreDistribution) ...[

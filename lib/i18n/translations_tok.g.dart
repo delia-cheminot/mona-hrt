@@ -120,20 +120,12 @@ class TranslationsTok extends Translations
   @override
   String get scheduling => 'nasin tenpo';
   @override
-  String get noNotifications => 'pana toki li lon ala';
-  @override
   String get editSchedule => 'o ante e nasin tenpo';
   @override
   String deleteSchedule({required Object name}) =>
       'o weka ala weka e nasin tenpo ${name}?';
   @override
-  String get scheduleNotifications => 'pana toki pi nasin tenpo';
-  @override
   String get addNotification => 'o pana e pana toki sin';
-  @override
-  String get dontShowAgain => 'o pana ala e ni sin';
-  @override
-  String get scheduleSettings => 'poki nasin pi nasin tenpo';
   @override
   String get editIntake => 'o ante e open';
   @override
@@ -151,6 +143,9 @@ class TranslationsTok extends Translations
   @override
   String chartBloodTestLevelTooltip(
           {required Object date, required Object level}) =>
+      '${date}: ${level}';
+  @override
+  String chartLevelTooltip({required Object date, required Object level}) =>
       '${date}: ${level}';
   @override
   String get empty_supplies => 'jo li lon ala. o pana e ijo sin la o open.';
@@ -233,14 +228,10 @@ extension on TranslationsTok {
       'addIntakeTime' => 'o pana e tenpo',
       'editScheduleInfo' => 'o ante e sona pi nasin tenpo',
       'scheduling' => 'nasin tenpo',
-      'noNotifications' => 'pana toki li lon ala',
       'editSchedule' => 'o ante e nasin tenpo',
       'deleteSchedule' => ({required Object name}) =>
           'o weka ala weka e nasin tenpo ${name}?',
-      'scheduleNotifications' => 'pana toki pi nasin tenpo',
       'addNotification' => 'o pana e pana toki sin',
-      'dontShowAgain' => 'o pana ala e ni sin',
-      'scheduleSettings' => 'poki nasin pi nasin tenpo',
       'editIntake' => 'o ante e open',
       'date' => 'tenpo',
       'none' => 'ala',
@@ -250,6 +241,8 @@ extension on TranslationsTok {
       'microliters' => 'μL',
       'chartBloodTestLevelTooltip' =>
         ({required Object date, required Object level}) => '${date}: ${level}',
+      'chartLevelTooltip' => ({required Object date, required Object level}) =>
+          '${date}: ${level}',
       'empty_supplies' => 'jo li lon ala. o pana e ijo sin la o open.',
       'allItemsFilter' => 'ale',
       'newItem' => 'ijo sin',

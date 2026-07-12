@@ -68,6 +68,9 @@ dependencies:
     sdk: flutter
   file_picker: ^8.0.0
   share_plus: ^10.0.0
+  material_color_utilities: ^0.13.0
+  # Drop when Flutter ships spec 2025 natively with material_color_utilities.
+  libmonet: ^1.1.2
   dart_mappable: ^4.8.0
   m3e_core: ^0.1.0
   slang: ^4.16.0
