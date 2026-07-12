@@ -46,17 +46,23 @@ class AppThemeProvider extends ChangeNotifier {
     return (
       theme: ThemeData(
         useMaterial3: _useMaterial3,
-        colorScheme:
-            systemLight ?? ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: systemLight ?? _fallbackScheme(Brightness.light),
       ),
       darkTheme: ThemeData(
         useMaterial3: _useMaterial3,
-        colorScheme: systemDark ??
-            ColorScheme.fromSeed(
-              seedColor: Colors.deepPurple,
-              brightness: Brightness.dark,
-            ),
+        colorScheme: systemDark ?? _fallbackScheme(Brightness.dark),
       ),
+    );
+  }
+
+  static const _fallbackSeedArgb = 0xFF4B1570;
+
+  ColorScheme _fallbackScheme(Brightness brightness) {
+    return CustomThemeSchemes.schemeFor(
+      seedArgb: _fallbackSeedArgb,
+      variant: DynamicSchemeVariant.vibrant,
+      contrastLevel: 0.0,
+      brightness: brightness,
     );
   }
 }
