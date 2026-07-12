@@ -210,10 +210,10 @@ class _VariantGrid extends StatelessWidget {
   final ValueChanged<DynamicSchemeVariant> onChanged;
 
   static const _spec2025Variants = [
-    DynamicSchemeVariant.neutral,
     DynamicSchemeVariant.tonalSpot,
     DynamicSchemeVariant.vibrant,
     DynamicSchemeVariant.expressive,
+    DynamicSchemeVariant.neutral,
   ];
 
   @override
