@@ -10,6 +10,7 @@ import 'package:mona/i18n/locale_provider.dart';
 import 'package:mona/i18n/tok_localizations.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
+import 'package:mona/theme/app_theme_controller.dart';
 import 'package:provider/provider.dart';
 import 'ui/views/main_page.dart';
 
@@ -26,18 +27,6 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   late MedicationIntakeProvider _medicationIntakeProvider;
   late PreferencesService _preferencesService;
   late NotificationScheduler _notificationScheduler;
-
-  ColorScheme _getLightColorScheme(ColorScheme? lightDynamic) {
-    return lightDynamic ?? ColorScheme.fromSeed(seedColor: Colors.deepPurple);
-  }
-
-  ColorScheme _getDarkColorScheme(ColorScheme? darkDynamic) {
-    return darkDynamic ??
-        ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
-          brightness: Brightness.dark,
-        );
-  }
 
   @override
   void initState() {
@@ -96,10 +85,13 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<AppThemeProvider>();
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-        final lightColorScheme = _getLightColorScheme(lightDynamic);
-        final darkColorScheme = _getDarkColorScheme(darkDynamic);
+        final themes = context.read<AppThemeProvider>().buildThemeData(
+              systemLight: lightDynamic,
+              systemDark: darkDynamic,
+            );
 
         return MaterialApp(
           title: 'Mona',
@@ -112,14 +104,8 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          theme: ThemeData(
-            useMaterial3: true,
-            colorScheme: lightColorScheme,
-          ),
-          darkTheme: ThemeData(
-            useMaterial3: true,
-            colorScheme: darkColorScheme,
-          ),
+          theme: themes.theme,
+          darkTheme: themes.darkTheme,
           themeMode: ThemeMode.system,
           home: const MainPage(),
         );

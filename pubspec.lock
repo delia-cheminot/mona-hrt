@@ -605,6 +605,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
+  libmonet:
+    dependency: "direct main"
+    description:
+      name: libmonet
+      sha256: c412c970d89771b15f35a6c2697e7eab5bdfe8d6874d4666dc4b25ae52fd980e
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.2"
   lints:
     dependency: transitive
     description:
@@ -646,7 +654,7 @@ packages:
     source: hosted
     version: "0.12.19"
   material_color_utilities:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: material_color_utilities
       sha256: "9c337007e82b1889149c82ed242ed1cb24a66044e30979c44912381e9be4c48b"

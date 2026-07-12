@@ -230,27 +230,11 @@ class TranslationsRu extends Translations
   @override
   String get scheduling => 'Расписание';
   @override
-  String get noNotifications => 'Нет уведомлений';
-  @override
   String get editSchedule => 'Изменение расписания';
   @override
   String deleteSchedule({required Object name}) => 'Удалить ${name}?';
   @override
-  String get scheduleNotifications => 'Уведомления расписания';
-  @override
   String get addNotification => 'Добавить уведомление';
-  @override
-  String noNotificationsForSchedule({required Object scheduleName}) =>
-      'Для ${scheduleName} нет уведомлений. Вы можете создать их с помощью кнопки внизу.';
-  @override
-  String get notificationsUpdated => 'Уведомления были обновлены!';
-  @override
-  String get notificationsUpdatedDescription =>
-      'Каждое расписание теперь имеет свои уведомления.\n\nПожалуйста, (пере)настройте уведомления для своих расписаний.';
-  @override
-  String get dontShowAgain => 'Больше не показывать';
-  @override
-  String get scheduleSettings => 'Настройки расписания';
   @override
   String get empty_intakes => 'Добавленные приёмы будут отображаться тут';
   @override
@@ -513,14 +497,6 @@ class TranslationsRu extends Translations
         other: '${count} создано',
       );
   @override
-  String notificationsCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-        count,
-        one: '${count} уведомление',
-        few: '${count} уведомления',
-        other: '${count} уведомлений',
-      );
-  @override
   String remaining({required num count, required Object unit}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
         count,
@@ -727,18 +703,9 @@ extension on TranslationsRu {
       'addIntakeTime' => 'Добавить время',
       'editScheduleInfo' => 'Изменить информацию расписания',
       'scheduling' => 'Расписание',
-      'noNotifications' => 'Нет уведомлений',
       'editSchedule' => 'Изменение расписания',
       'deleteSchedule' => ({required Object name}) => 'Удалить ${name}?',
-      'scheduleNotifications' => 'Уведомления расписания',
       'addNotification' => 'Добавить уведомление',
-      'noNotificationsForSchedule' => ({required Object scheduleName}) =>
-          'Для ${scheduleName} нет уведомлений. Вы можете создать их с помощью кнопки внизу.',
-      'notificationsUpdated' => 'Уведомления были обновлены!',
-      'notificationsUpdatedDescription' =>
-        'Каждое расписание теперь имеет свои уведомления.\n\nПожалуйста, (пере)настройте уведомления для своих расписаний.',
-      'dontShowAgain' => 'Больше не показывать',
-      'scheduleSettings' => 'Настройки расписания',
       'empty_intakes' => 'Добавленные приёмы будут отображаться тут',
       'chooseSchedule' => 'Выберите расписание',
       'addSchedulesFirst' => 'Сначала добавьте расписание.',
@@ -881,13 +848,6 @@ extension on TranslationsRu {
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
             count,
             other: '${count} создано',
-          ),
-      'notificationsCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-            count,
-            one: '${count} уведомление',
-            few: '${count} уведомления',
-            other: '${count} уведомлений',
           ),
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
