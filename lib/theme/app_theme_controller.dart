@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/theme/custom_theme_schemes.dart';
 
-/// Resolves [ThemeData] for light and dark from system dynamic colors and
-/// [PreferencesService] (custom seed / toggles). Listens to prefs and notifies
-/// so widgets using [context.watch] can rebuild.
 class AppThemeProvider extends ChangeNotifier {
   AppThemeProvider(this._prefs) {
     _prefs.addListener(_onPrefsChanged);
@@ -22,8 +19,6 @@ class AppThemeProvider extends ChangeNotifier {
 
   static const _useMaterial3 = true;
 
-  /// Builds the pair of themes for the current preferences and the latest
-  /// system [ColorScheme]s from [DynamicColorBuilder] (null = use fallback).
   ({ThemeData theme, ThemeData darkTheme}) buildThemeData({
     required ColorScheme? systemLight,
     required ColorScheme? systemDark,

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Persisted M3 parameters (see [toJson] / [fromJson]). On/off is stored
-/// separately in [PreferencesService.customThemeEnabled], not in this object.
 @immutable
 class CustomThemeSettings {
   const CustomThemeSettings({
