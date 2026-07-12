@@ -472,9 +472,9 @@ class TranslationsSk extends Translations
   @override
   String get injectionSideRight => 'Vpravo';
   @override
-  String get intakeSummaryInjectionSideLeft => 'Ľavá strana';
+  String get placementLeft => 'Ľavá strana';
   @override
-  String get intakeSummaryInjectionSideRight => 'Pravá strana';
+  String get placementRight => 'Pravá strana';
   @override
   String get requiredField => 'Požadované políčko';
   @override
@@ -853,8 +853,8 @@ extension on TranslationsSk {
       'unitNmolPerL' => 'nmol/L',
       'injectionSideLeft' => 'Vľavo',
       'injectionSideRight' => 'Vpravo',
-      'intakeSummaryInjectionSideLeft' => 'Ľavá strana',
-      'intakeSummaryInjectionSideRight' => 'Pravá strana',
+      'placementLeft' => 'Ľavá strana',
+      'placementRight' => 'Pravá strana',
       'requiredField' => 'Požadované políčko',
       'mustBePositiveNumber' => 'Musí byť kladné číslo',
       'invalidTotalAmount' => 'Nesprávne celkové množstvo',

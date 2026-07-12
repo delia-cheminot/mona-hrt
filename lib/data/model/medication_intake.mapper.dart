@@ -8,52 +8,6 @@
 
 part of 'medication_intake.dart';
 
-class InjectionSideMapper extends EnumMapper<InjectionSide> {
-  InjectionSideMapper._();
-
-  static InjectionSideMapper? _instance;
-  static InjectionSideMapper ensureInitialized() {
-    if (_instance == null) {
-      MapperContainer.globals.use(_instance = InjectionSideMapper._());
-    }
-    return _instance!;
-  }
-
-  static InjectionSide fromValue(dynamic value) {
-    ensureInitialized();
-    return MapperContainer.globals.fromValue(value);
-  }
-
-  @override
-  InjectionSide decode(dynamic value) {
-    switch (value) {
-      case r'left':
-        return InjectionSide.left;
-      case r'right':
-        return InjectionSide.right;
-      default:
-        throw MapperException.unknownEnumValue(value);
-    }
-  }
-
-  @override
-  dynamic encode(InjectionSide self) {
-    switch (self) {
-      case InjectionSide.left:
-        return r'left';
-      case InjectionSide.right:
-        return r'right';
-    }
-  }
-}
-
-extension InjectionSideMapperExtension on InjectionSide {
-  String toValue() {
-    InjectionSideMapper.ensureInitialized();
-    return MapperContainer.globals.toValue<InjectionSide>(this) as String;
-  }
-}
-
 class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
   MedicationIntakeMapper._();
 
@@ -68,7 +22,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
         DecimalStringMapper(),
         TimeOfDayMapper(),
       ]);
-      InjectionSideMapper.ensureInitialized();
+      PlacementMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -123,12 +77,6 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     _$scheduleId,
     opt: true,
   );
-  static InjectionSide? _$side(MedicationIntake v) => v.side;
-  static const Field<MedicationIntake, InjectionSide> _f$side = Field(
-    'side',
-    _$side,
-    opt: true,
-  );
   static Molecule _$molecule(MedicationIntake v) => v.molecule;
   static const Field<MedicationIntake, Molecule> _f$molecule = Field(
     'molecule',
@@ -157,6 +105,14 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     _$notes,
     opt: true,
   );
+  static List<Placement> _$placements(MedicationIntake v) => v.placements;
+  static const Field<MedicationIntake, List<Placement>> _f$placements = Field(
+    'placements',
+    _$placements,
+    opt: true,
+    def: const [],
+    hook: JsonStringHook(),
+  );
 
   @override
   final MappableFields<MedicationIntake> fields = const {
@@ -168,12 +124,12 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     #takenDateTime: _f$takenDateTime,
     #takenTimeZone: _f$takenTimeZone,
     #scheduleId: _f$scheduleId,
-    #side: _f$side,
     #molecule: _f$molecule,
     #administrationRoute: _f$administrationRoute,
     #ester: _f$ester,
     #supplyItemId: _f$supplyItemId,
     #notes: _f$notes,
+    #placements: _f$placements,
   };
 
   static MedicationIntake _instantiate(DecodingData data) {
@@ -186,12 +142,12 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
       takenDateTime: data.dec(_f$takenDateTime),
       takenTimeZone: data.dec(_f$takenTimeZone),
       scheduleId: data.dec(_f$scheduleId),
-      side: data.dec(_f$side),
       molecule: data.dec(_f$molecule),
       administrationRoute: data.dec(_f$administrationRoute),
       ester: data.dec(_f$ester),
       supplyItemId: data.dec(_f$supplyItemId),
       notes: data.dec(_f$notes),
+      placements: data.dec(_f$placements),
     );
   }
 
@@ -257,6 +213,8 @@ extension MedicationIntakeValueCopy<$R, $Out>
 
 abstract class MedicationIntakeCopyWith<$R, $In extends MedicationIntake, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
+  ListCopyWith<$R, Placement, PlacementCopyWith<$R, Placement, Placement>>
+      get placements;
   $R call({
     int? id,
     TimeOfDay? scheduledTime,
@@ -266,12 +224,12 @@ abstract class MedicationIntakeCopyWith<$R, $In extends MedicationIntake, $Out>
     DateTime? takenDateTime,
     String? takenTimeZone,
     int? scheduleId,
-    InjectionSide? side,
     Molecule? molecule,
     AdministrationRoute? administrationRoute,
     Ester? ester,
     int? supplyItemId,
     String? notes,
+    List<Placement>? placements,
   });
   MedicationIntakeCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
@@ -287,6 +245,13 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
   late final ClassMapperBase<MedicationIntake> $mapper =
       MedicationIntakeMapper.ensureInitialized();
   @override
+  ListCopyWith<$R, Placement, PlacementCopyWith<$R, Placement, Placement>>
+      get placements => ListCopyWith(
+            $value.placements,
+            (v, t) => v.copyWith.$chain(t),
+            (v) => call(placements: v),
+          );
+  @override
   $R call({
     Object? id = $none,
     Object? scheduledTime = $none,
@@ -296,12 +261,12 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
     Object? takenDateTime = $none,
     Object? takenTimeZone = $none,
     Object? scheduleId = $none,
-    Object? side = $none,
     Molecule? molecule,
     AdministrationRoute? administrationRoute,
     Object? ester = $none,
     Object? supplyItemId = $none,
     Object? notes = $none,
+    List<Placement>? placements,
   }) =>
       $apply(
         FieldCopyWithData({
@@ -313,13 +278,13 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
           if (takenDateTime != $none) #takenDateTime: takenDateTime,
           if (takenTimeZone != $none) #takenTimeZone: takenTimeZone,
           if (scheduleId != $none) #scheduleId: scheduleId,
-          if (side != $none) #side: side,
           if (molecule != null) #molecule: molecule,
           if (administrationRoute != null)
             #administrationRoute: administrationRoute,
           if (ester != $none) #ester: ester,
           if (supplyItemId != $none) #supplyItemId: supplyItemId,
           if (notes != $none) #notes: notes,
+          if (placements != null) #placements: placements,
         }),
       );
   @override
@@ -332,7 +297,6 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
         takenDateTime: data.get(#takenDateTime, or: $value.takenDateTime),
         takenTimeZone: data.get(#takenTimeZone, or: $value.takenTimeZone),
         scheduleId: data.get(#scheduleId, or: $value.scheduleId),
-        side: data.get(#side, or: $value.side),
         molecule: data.get(#molecule, or: $value.molecule),
         administrationRoute: data.get(
           #administrationRoute,
@@ -341,6 +305,7 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
         ester: data.get(#ester, or: $value.ester),
         supplyItemId: data.get(#supplyItemId, or: $value.supplyItemId),
         notes: data.get(#notes, or: $value.notes),
+        placements: data.get(#placements, or: $value.placements),
       );
 
   @override

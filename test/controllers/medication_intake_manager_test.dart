@@ -10,15 +10,18 @@ import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
+import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
+import 'package:mona/services/preferences_service.dart';
 
 import '../fixtures.dart';
 
 @GenerateNiceMocks([
   MockSpec<MedicationIntakeProvider>(),
   MockSpec<SupplyItemProvider>(),
+  MockSpec<PreferencesService>(),
 ])
 import 'medication_intake_manager_test.mocks.dart';
 
@@ -35,13 +38,21 @@ void main() {
 
   late MockMedicationIntakeProvider mockMedicationIntakeProvider;
   late MockSupplyItemProvider mockSupplyItemProvider;
+  late MockPreferencesService mockPreferencesService;
   late MedicationIntakeManager manager;
 
   setUp(() {
     mockMedicationIntakeProvider = MockMedicationIntakeProvider();
     mockSupplyItemProvider = MockSupplyItemProvider();
-    manager = MedicationIntakeManager(
-        mockMedicationIntakeProvider, mockSupplyItemProvider);
+    mockPreferencesService = MockPreferencesService();
+    when(mockPreferencesService.placementsList).thenReturn(const [
+      PresetPlacement(PlacementPreset.left),
+      PresetPlacement(PlacementPreset.right),
+    ]);
+    when(mockPreferencesService.placementSuggestionPerSchedule)
+        .thenReturn(false);
+    manager = MedicationIntakeManager(mockMedicationIntakeProvider,
+        mockSupplyItemProvider, mockPreferencesService);
   });
 
   group('MedicationIntakeManager', () {
@@ -134,7 +145,7 @@ void main() {
             takenDateTime: takenDate,
             supplyItem: supplyItem,
             schedule: schedule,
-            side: InjectionSide.right,
+            placements: [aPlacement(preset: PlacementPreset.leftThigh)],
             notes: notes,
           );
         });
@@ -159,9 +170,10 @@ void main() {
           expect(addedIntake.takenTimeZone, 'UTC');
         });
 
-        test('propagates side to the intake', () {
+        test('propagates placements to the intake', () {
           // Assert
-          expect(addedIntake.side, InjectionSide.right);
+          expect(addedIntake.placements,
+              [aPlacement(preset: PlacementPreset.leftThigh)]);
         });
 
         test('propagates scheduleId from the schedule', () {
@@ -751,7 +763,7 @@ void main() {
           deadSpace: newDeadSpace,
           takenDateTime: takenDate,
           takenTimeZone: newTimezone,
-          side: InjectionSide.left,
+          placements: [aCustomPlacement('belly')],
           supplyItem: null,
           notes: newNotes,
         );
@@ -766,7 +778,8 @@ void main() {
               .having((i) => i.deadSpace, 'deadSpace', newDeadSpace)
               .having((i) => i.takenDateTime, 'takenDateTime', takenDate)
               .having((i) => i.takenTimeZone, 'takenTimeZone', newTimezone)
-              .having((i) => i.side, 'side', InjectionSide.left)
+              .having((i) => i.placements, 'placements',
+                  [aCustomPlacement('belly')])
               .having((i) => i.notes, 'notes', newNotes)
               .having((i) => i.supplyItemId, 'supplyItemId', isNull),
         );
@@ -1056,95 +1069,149 @@ void main() {
       });
     });
 
-    group('getNextSide', () {
-      test('returns right when last injection side is left', () {
+    group('getOrderedPlacements', () {
+      test('orders sites from least- to most-recently used', () {
         // Arrange
-        final firstIntake = MedicationIntake(
-          id: 1,
-          takenDose: Decimal.parse('2.5'),
-          takenDateTime: DateTime.utc(2025, 9, 14, 12, 0),
-          takenTimeZone: 'Etc/UTC',
-          scheduleId: 42,
-          side: InjectionSide.left,
-          molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.injection,
-        );
-        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
-            .thenReturn(firstIntake);
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc).thenReturn([
+          anInjection(
+            takenDateTime: DateTime.utc(2025, 9, 15),
+            placements: const [PresetPlacement(PlacementPreset.right)],
+          ),
+          anInjection(
+            takenDateTime: DateTime.utc(2025, 9, 14),
+            placements: const [PresetPlacement(PlacementPreset.left)],
+          ),
+        ]);
 
         // Act
-        final InjectionSide nextSide = manager.getNextSide();
+        final ordered = manager.getOrderedPlacements(scheduleId: 42);
 
         // Assert
-        expect(nextSide, InjectionSide.right);
+        expect(ordered, const [
+          PresetPlacement(PlacementPreset.left),
+          PresetPlacement(PlacementPreset.right),
+        ]);
       });
 
-      test('returns left when last injection side is right', () {
+      test('puts never-used sites before used ones', () {
         // Arrange
-        final lastIntake = MedicationIntake(
-          id: 2,
-          takenDose: Decimal.parse('2.5'),
-          takenDateTime: DateTime.utc(2025, 9, 15, 12, 0),
-          takenTimeZone: 'Etc/UTC',
-          scheduleId: 42,
-          side: InjectionSide.right,
-          molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.injection,
-        );
-        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
-            .thenReturn(lastIntake);
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc).thenReturn([
+          anInjection(
+            takenDateTime: DateTime.utc(2025, 9, 15),
+            placements: const [PresetPlacement(PlacementPreset.left)],
+          ),
+        ]);
 
-        // Act / Assert
-        expect(manager.getNextSide(), InjectionSide.left);
+        // Act
+        final ordered = manager.getOrderedPlacements(scheduleId: 42);
+
+        // Assert
+        expect(ordered, const [
+          PresetPlacement(PlacementPreset.right),
+          PresetPlacement(PlacementPreset.left),
+        ]);
       });
 
-      test('returns left when there is no last injection intake', () {
+      test('a multi-site intake marks all of its sites used', () {
         // Arrange
-        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
-            .thenReturn(null);
+        when(mockPreferencesService.placementsList).thenReturn(const [
+          PresetPlacement(PlacementPreset.left),
+          PresetPlacement(PlacementPreset.right),
+          PresetPlacement(PlacementPreset.leftArm),
+        ]);
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc).thenReturn([
+          anInjection(
+            takenDateTime: DateTime.utc(2025, 9, 15),
+            placements: const [
+              PresetPlacement(PlacementPreset.left),
+              PresetPlacement(PlacementPreset.right),
+            ],
+          ),
+        ]);
 
-        // Act / Assert
-        expect(manager.getNextSide(), InjectionSide.left);
+        // Act
+        final ordered = manager.getOrderedPlacements(scheduleId: 42);
+
+        // Assert
+        expect(ordered, const [
+          PresetPlacement(PlacementPreset.leftArm),
+          PresetPlacement(PlacementPreset.left),
+          PresetPlacement(PlacementPreset.right),
+        ]);
       });
 
-      test('returns left when last injection intake side is null', () {
+      test('returns an empty list when there are no configured sites', () {
         // Arrange
-        final intake = MedicationIntake(
-          id: 3,
-          takenDose: Decimal.parse('2.5'),
-          takenDateTime: DateTime.utc(2025, 9, 16, 12, 0),
-          takenTimeZone: 'Etc/UTC',
-          scheduleId: 42,
-          side: null,
-          molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.injection,
-        );
-        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
-            .thenReturn(intake);
+        when(mockPreferencesService.placementsList).thenReturn(const []);
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc)
+            .thenReturn([]);
 
-        // Act / Assert
-        expect(manager.getNextSide(), InjectionSide.left);
+        // Act
+        final ordered = manager.getOrderedPlacements(scheduleId: 42);
+
+        // Assert
+        expect(ordered, isEmpty);
       });
 
-      test(
-          'alternates from last injection even when a non-injection intake was taken more recently',
-          () {
+      test('per-schedule scope ignores history from other schedules', () {
         // Arrange
-        final lastInjection = MedicationIntake(
-          id: 4,
-          takenDose: Decimal.parse('2.5'),
-          takenDateTime: DateTime.utc(2025, 9, 14, 12, 0),
-          takenTimeZone: 'Etc/UTC',
-          scheduleId: 42,
-          side: InjectionSide.left,
-          molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.injection,
-        );
-        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
-            .thenReturn(lastInjection);
+        when(mockPreferencesService.placementSuggestionPerSchedule)
+            .thenReturn(true);
+        when(mockMedicationIntakeProvider.getTakenIntakesDescForSchedule(42))
+            .thenReturn([
+          anInjection(
+            scheduleId: 42,
+            takenDateTime: DateTime.utc(2025, 9, 14),
+            placements: const [PresetPlacement(PlacementPreset.right)],
+          ),
+        ]);
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc).thenReturn([
+          anInjection(
+            scheduleId: 99,
+            takenDateTime: DateTime.utc(2025, 9, 16),
+            placements: const [PresetPlacement(PlacementPreset.left)],
+          ),
+        ]);
 
-        // Act / Assert
-        expect(manager.getNextSide(), InjectionSide.right);
+        // Act
+        final ordered = manager.getOrderedPlacements(scheduleId: 42);
+
+        // Assert
+        expect(ordered, const [
+          PresetPlacement(PlacementPreset.left),
+          PresetPlacement(PlacementPreset.right),
+        ]);
+      });
+    });
+
+    group('suggestNextPlacement', () {
+      test('returns the most stale site (first of the ordered list)', () {
+        // Arrange
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc).thenReturn([
+          anInjection(
+            takenDateTime: DateTime.utc(2025, 9, 15),
+            placements: const [PresetPlacement(PlacementPreset.left)],
+          ),
+        ]);
+
+        // Act
+        final suggestion = manager.suggestNextPlacement(scheduleId: 42);
+
+        // Assert
+        expect(suggestion, const PresetPlacement(PlacementPreset.right));
+      });
+
+      test('returns null when there are no configured sites', () {
+        // Arrange
+        when(mockPreferencesService.placementsList).thenReturn(const []);
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc)
+            .thenReturn([]);
+
+        // Act
+        final suggestion = manager.suggestNextPlacement(scheduleId: 42);
+
+        // Assert
+        expect(suggestion, isNull);
       });
     });
   });

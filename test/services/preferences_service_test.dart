@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/molecule.dart';
+import 'package:mona/data/model/placement.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -190,6 +191,64 @@ void main() {
 
         // Assert
         expect(service.savedLanguageTag, isNull);
+      });
+    });
+
+    group('placementsList', () {
+      test('defaults to left and right when nothing saved', () async {
+        // Arrange
+        final service = await PreferencesService.init();
+
+        // Act
+        final placements = service.placementsList;
+
+        // Assert
+        expect(placements, const [
+          PresetPlacement(PlacementPreset.left),
+          PresetPlacement(PlacementPreset.right),
+        ]);
+      });
+
+      test('returns saved sites (preset + custom)', () async {
+        // Arrange
+        final placements = [
+          const PresetPlacement(PlacementPreset.leftThigh),
+          const CustomPlacement('belly'),
+        ];
+        final service = await PreferencesService.init();
+        await service.setPlacementsList(placements);
+
+        // Act
+        final reloaded = (await PreferencesService.init()).placementsList;
+
+        // Assert
+        expect(reloaded, placements);
+      });
+    });
+
+    group('placementSuggestionPerSchedule', () {
+      test('defaults to false', () async {
+        // Arrange
+        final service = await PreferencesService.init();
+
+        // Act
+        final perMedicine = service.placementSuggestionPerSchedule;
+
+        // Assert
+        expect(perMedicine, isFalse);
+      });
+
+      test('returns the saved value', () async {
+        // Arrange
+        final service = await PreferencesService.init();
+        await service.setPlacementSuggestionPerSchedule(true);
+
+        // Act
+        final reloaded =
+            (await PreferencesService.init()).placementSuggestionPerSchedule;
+
+        // Assert
+        expect(reloaded, isTrue);
       });
     });
   });

@@ -5,20 +5,22 @@ import 'package:mona/controllers/medication_intake_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
+import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/helpers/supply_item_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
+import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
-import 'package:mona/ui/widgets/dropdowns/injection_side_dropdown.dart';
 import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_info_text.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/ui/widgets/placement_picker.dart';
 import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +43,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
   late TextEditingController _wastedAmountController;
   late Decimal _deadSpace; // in μL
   late TextEditingController _deadSpaceController;
-  InjectionSide? _selectedSide;
+  List<Placement> _selectedPlacements = [];
   bool _hasInitializedSide = false;
   SupplyItem? _selectedSupplyItem;
   bool _hasInitializedSupplyItem = false;
@@ -62,10 +64,12 @@ class _EditIntakePageState extends State<EditIntakePage> {
       widget.intake.administrationRoute == AdministrationRoute.injection;
 
   void _editIntake(
-      MedicationIntakeProvider medicationIntakeProvider,
-      SupplyItemProvider supplyItemProvider,
-      MedicationIntake intake,
-      SupplyItem? newItem) async {
+    MedicationIntakeProvider medicationIntakeProvider,
+    SupplyItemProvider supplyItemProvider,
+    PreferencesService preferencesService,
+    MedicationIntake intake,
+    SupplyItem? newItem,
+  ) async {
     if (!_isFormValid) return;
     if (!mounted) return;
 
@@ -78,7 +82,8 @@ class _EditIntakePageState extends State<EditIntakePage> {
     final String? notes =
         _notesController.text.isEmpty ? null : _notesController.text;
 
-    await MedicationIntakeManager(medicationIntakeProvider, supplyItemProvider)
+    await MedicationIntakeManager(
+            medicationIntakeProvider, supplyItemProvider, preferencesService)
         .editIntake(
       intake,
       takenDose: _takenDose,
@@ -86,7 +91,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
       deadSpace: _deadSpace,
       takenDateTime: _takenDate.toUtc(),
       takenTimeZone: timezoneIdentifier,
-      side: _selectedSide,
+      placements: _selectedPlacements,
       supplyItem: newItem,
       notes: notes,
     );
@@ -98,20 +103,20 @@ class _EditIntakePageState extends State<EditIntakePage> {
   void _deleteIntake(
     MedicationIntakeProvider medicationIntakeProvider,
     SupplyItemProvider supplyItemProvider,
+    PreferencesService preferencesService,
     MedicationIntake intake,
   ) async {
     if (!mounted) return;
-    MedicationIntakeManager(medicationIntakeProvider, supplyItemProvider)
+    MedicationIntakeManager(
+            medicationIntakeProvider, supplyItemProvider, preferencesService)
         .deleteIntake(intake);
     Navigator.of(context).pop();
   }
 
-  void _onInjectionSideChanged(InjectionSide? side) {
-    if (side != null) {
-      setState(() {
-        _selectedSide = side;
-      });
-    }
+  void _onPlacementChanged(List<Placement> placements) {
+    setState(() {
+      _selectedPlacements = placements;
+    });
   }
 
   void _onTakenDateChanged(DateTime date) {
@@ -194,13 +199,15 @@ class _EditIntakePageState extends State<EditIntakePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<MedicationIntakeProvider, SupplyItemProvider>(
-      builder: (context, medicationIntakeProvider, supplyItemProvider, child) {
+    return Consumer3<MedicationIntakeProvider, SupplyItemProvider,
+        PreferencesService>(
+      builder: (context, medicationIntakeProvider, supplyItemProvider,
+          preferencesService, child) {
         final bool isLoading =
             medicationIntakeProvider.isLoading || supplyItemProvider.isLoading;
 
         if (!isLoading && !_hasInitializedSide && _isInjection) {
-          _selectedSide = widget.intake.side;
+          _selectedPlacements = widget.intake.placements;
           _hasInitializedSide = true;
         }
 
@@ -237,14 +244,23 @@ class _EditIntakePageState extends State<EditIntakePage> {
           deleteButtonKey: const ValueKey('editIntakeDelete'),
           isFormValid: _isFormValid,
           saveChanges: (!isLoading && _isFormValid)
-              ? () => _editIntake(medicationIntakeProvider, supplyItemProvider,
-                  widget.intake, _selectedSupplyItem)
+              ? () => _editIntake(
+                    medicationIntakeProvider,
+                    supplyItemProvider,
+                    preferencesService,
+                    widget.intake,
+                    _selectedSupplyItem,
+                  )
               : () {},
           onDelete: () async {
             final confirmed = await confirmDeleteIntake(context);
             if (confirmed == false) return;
             _deleteIntake(
-                medicationIntakeProvider, supplyItemProvider, widget.intake);
+              medicationIntakeProvider,
+              supplyItemProvider,
+              preferencesService,
+              widget.intake,
+            );
           },
           fields: [
             FormDateTimeField(
@@ -269,20 +285,22 @@ class _EditIntakePageState extends State<EditIntakePage> {
                   widget.intake.molecule,
                 ),
               ),
-            FormSpacer(),
             FormDropdownField<SupplyItem?>(
               value: _selectedSupplyItem,
               items: supplyItemDropdownItems,
               onChanged: _onSupplyItemChanged,
               label: t.supplyItem,
             ),
+            FormSpacer(),
             if (_isInjection) ...[
-              FormDropdownField<InjectionSide>(
-                value: _selectedSide,
-                items: injectionSideDropdownMenuItems(),
-                onChanged: _onInjectionSideChanged,
-                label: t.injectionSide,
-              ),
+              if (preferencesService.placementsList.isNotEmpty) ...[
+                PlacementPicker(
+                  options: preferencesService.placementsList,
+                  selected: _selectedPlacements,
+                  onChanged: _onPlacementChanged,
+                ),
+                FormSpacer(),
+              ],
               FormTextField(
                 controller: _wastedAmountController,
                 label: t.wastedAmount,

@@ -490,9 +490,43 @@ class TranslationsFr extends Translations
   @override
   String get injectionSideRight => 'Droite';
   @override
-  String get intakeSummaryInjectionSideLeft => 'Côté gauche';
+  String get placementLeft => 'Côté gauche';
   @override
-  String get intakeSummaryInjectionSideRight => 'Côté droit';
+  String get placementRight => 'Côté droit';
+  @override
+  String get placementLeftThigh => 'Cuisse gauche';
+  @override
+  String get placementRightThigh => 'Cuisse droite';
+  @override
+  String get placementLeftArm => 'Bras gauche';
+  @override
+  String get placementRightArm => 'Bras droit';
+  @override
+  String get placementLeftButtock => 'Fesse gauche';
+  @override
+  String get placementRightButtock => 'Fesse droite';
+  @override
+  String get placementLeftAbdomen => 'Abdomen (gauche)';
+  @override
+  String get placementRightAbdomen => 'Abdomen (droite)';
+  @override
+  String get injectionSites => 'Sites d\'injection';
+  @override
+  String get injectionSitesDescription => 'Gérez votre rotation de sites.';
+  @override
+  String get addInjectionSite => 'Ajouter un site';
+  @override
+  String get customSiteLabel => 'Nom de site personnalisé';
+  @override
+  String get noInjectionSitesYet => 'Aucun site';
+  @override
+  String get noInjectionAddOneToGetStarted =>
+      'Ajoutez un site ci-dessous pour commencer.';
+  @override
+  String get placementSuggestionPerScheduleTitle => 'Suggérer par planning';
+  @override
+  String get placementSuggestionPerScheduleDescription =>
+      'Base la suggestion du site suivant sur ce planning uniquement.';
   @override
   String get requiredField => 'Champ obligatoire';
   @override
@@ -867,8 +901,26 @@ extension on TranslationsFr {
       'unitNmolPerL' => 'nmol/L',
       'injectionSideLeft' => 'Gauche',
       'injectionSideRight' => 'Droite',
-      'intakeSummaryInjectionSideLeft' => 'Côté gauche',
-      'intakeSummaryInjectionSideRight' => 'Côté droit',
+      'placementLeft' => 'Côté gauche',
+      'placementRight' => 'Côté droit',
+      'placementLeftThigh' => 'Cuisse gauche',
+      'placementRightThigh' => 'Cuisse droite',
+      'placementLeftArm' => 'Bras gauche',
+      'placementRightArm' => 'Bras droit',
+      'placementLeftButtock' => 'Fesse gauche',
+      'placementRightButtock' => 'Fesse droite',
+      'placementLeftAbdomen' => 'Abdomen (gauche)',
+      'placementRightAbdomen' => 'Abdomen (droite)',
+      'injectionSites' => 'Sites d\'injection',
+      'injectionSitesDescription' => 'Gérez votre rotation de sites.',
+      'addInjectionSite' => 'Ajouter un site',
+      'customSiteLabel' => 'Nom de site personnalisé',
+      'noInjectionSitesYet' => 'Aucun site',
+      'noInjectionAddOneToGetStarted' =>
+        'Ajoutez un site ci-dessous pour commencer.',
+      'placementSuggestionPerScheduleTitle' => 'Suggérer par planning',
+      'placementSuggestionPerScheduleDescription' =>
+        'Base la suggestion du site suivant sur ce planning uniquement.',
       'requiredField' => 'Champ obligatoire',
       'mustBePositiveNumber' => 'Doit être un nombre positif',
       'invalidTotalAmount' => 'Montant total invalide',

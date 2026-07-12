@@ -11,6 +11,7 @@ import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/services/update_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
+import 'package:mona/ui/views/home/settings/injection_sites_page.dart';
 import 'package:mona/ui/views/home/settings/language_page.dart';
 import 'package:mona/ui/views/home/settings/schedules/schedules_page.dart';
 import 'package:mona/ui/views/home/settings/units_page.dart';
@@ -262,6 +263,16 @@ class _SettingsPageState extends State<SettingsPage>
             onTap: () {
               Navigator.of(context).push(
                   MaterialPageRoute<void>(builder: (context) => UnitsPage()));
+            },
+          ),
+          ListTile(
+            key: const ValueKey('settingsInjectionSitesTile'),
+            title: Text(t.injectionSites),
+            subtitle: Text(t.injectionSitesDescription),
+            trailing: Icon(Icons.chevron_right),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute<void>(
+                  builder: (context) => const InjectionSitesPage()));
             },
           ),
           if (Platform.isAndroid && !isStoreDistribution) ...[

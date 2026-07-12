@@ -3,27 +3,28 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i7;
-import 'dart:ui' as _i8;
+import 'dart:async' as _i8;
+import 'dart:ui' as _i9;
 
 import 'package:flutter_local_notifications/src/flutter_local_notifications_plugin.dart'
-    as _i9;
-import 'package:flutter_local_notifications/src/initialization_settings.dart'
     as _i10;
-import 'package:flutter_local_notifications/src/notification_details.dart'
-    as _i12;
-import 'package:flutter_local_notifications/src/platform_specifics/android/schedule_mode.dart'
-    as _i14;
-import 'package:flutter_local_notifications/src/types.dart' as _i15;
-import 'package:flutter_local_notifications_platform_interface/flutter_local_notifications_platform_interface.dart'
+import 'package:flutter_local_notifications/src/initialization_settings.dart'
     as _i11;
+import 'package:flutter_local_notifications/src/notification_details.dart'
+    as _i13;
+import 'package:flutter_local_notifications/src/platform_specifics/android/schedule_mode.dart'
+    as _i15;
+import 'package:flutter_local_notifications/src/types.dart' as _i16;
+import 'package:flutter_local_notifications_platform_interface/flutter_local_notifications_platform_interface.dart'
+    as _i12;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mona/controllers/notification_planner.dart' as _i2;
 import 'package:mona/data/model/molecule.dart' as _i6;
+import 'package:mona/data/model/placement.dart' as _i7;
 import 'package:mona/data/model/planned_notification.dart' as _i3;
 import 'package:mona/data/model/units.dart' as _i5;
 import 'package:mona/services/preferences_service.dart' as _i4;
-import 'package:timezone/timezone.dart' as _i13;
+import 'package:timezone/timezone.dart' as _i14;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -110,6 +111,20 @@ class MockPreferencesService extends _i1.Mock
       ) as List<_i6.Molecule>);
 
   @override
+  List<_i7.Placement> get placementsList => (super.noSuchMethod(
+        Invocation.getter(#placementsList),
+        returnValue: <_i7.Placement>[],
+        returnValueForMissingStub: <_i7.Placement>[],
+      ) as List<_i7.Placement>);
+
+  @override
+  bool get placementSuggestionPerSchedule => (super.noSuchMethod(
+        Invocation.getter(#placementSuggestionPerSchedule),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
@@ -117,70 +132,92 @@ class MockPreferencesService extends _i1.Mock
       ) as bool);
 
   @override
-  _i7.Future<void> setAutoCheckUpdatesEnabled(bool? isEnabled) =>
+  _i8.Future<void> setAutoCheckUpdatesEnabled(bool? isEnabled) =>
       (super.noSuchMethod(
         Invocation.method(
           #setAutoCheckUpdatesEnabled,
           [isEnabled],
         ),
-        returnValue: _i7.Future<void>.value(),
-        returnValueForMissingStub: _i7.Future<void>.value(),
-      ) as _i7.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
 
   @override
-  _i7.Future<void> setNotificationsEnabled(bool? isEnabled) =>
+  _i8.Future<void> setNotificationsEnabled(bool? isEnabled) =>
       (super.noSuchMethod(
         Invocation.method(
           #setNotificationsEnabled,
           [isEnabled],
         ),
-        returnValue: _i7.Future<void>.value(),
-        returnValueForMissingStub: _i7.Future<void>.value(),
-      ) as _i7.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
 
   @override
-  _i7.Future<void> setSavedLanguageTag(String? code) => (super.noSuchMethod(
+  _i8.Future<void> setSavedLanguageTag(String? code) => (super.noSuchMethod(
         Invocation.method(
           #setSavedLanguageTag,
           [code],
         ),
-        returnValue: _i7.Future<void>.value(),
-        returnValueForMissingStub: _i7.Future<void>.value(),
-      ) as _i7.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
 
   @override
-  _i7.Future<void> setUnits(_i5.Units? units) => (super.noSuchMethod(
+  _i8.Future<void> setUnits(_i5.Units? units) => (super.noSuchMethod(
         Invocation.method(
           #setUnits,
           [units],
         ),
-        returnValue: _i7.Future<void>.value(),
-        returnValueForMissingStub: _i7.Future<void>.value(),
-      ) as _i7.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
 
   @override
-  _i7.Future<void> addCustomMolecule(_i6.Molecule? molecule) =>
+  _i8.Future<void> addCustomMolecule(_i6.Molecule? molecule) =>
       (super.noSuchMethod(
         Invocation.method(
           #addCustomMolecule,
           [molecule],
         ),
-        returnValue: _i7.Future<void>.value(),
-        returnValueForMissingStub: _i7.Future<void>.value(),
-      ) as _i7.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
 
   @override
-  _i7.Future<void> removeCustomMolecule(String? name) => (super.noSuchMethod(
+  _i8.Future<void> removeCustomMolecule(String? name) => (super.noSuchMethod(
         Invocation.method(
           #removeCustomMolecule,
           [name],
         ),
-        returnValue: _i7.Future<void>.value(),
-        returnValueForMissingStub: _i7.Future<void>.value(),
-      ) as _i7.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
 
   @override
-  void addListener(_i8.VoidCallback? listener) => super.noSuchMethod(
+  _i8.Future<void> setPlacementsList(List<_i7.Placement>? placements) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setPlacementsList,
+          [placements],
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+
+  @override
+  _i8.Future<void> setPlacementSuggestionPerSchedule(bool? isEnabled) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setPlacementSuggestionPerSchedule,
+          [isEnabled],
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+
+  @override
+  void addListener(_i9.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -189,7 +226,7 @@ class MockPreferencesService extends _i1.Mock
       );
 
   @override
-  void removeListener(_i8.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i9.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -220,13 +257,13 @@ class MockPreferencesService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockFlutterLocalNotificationsPlugin extends _i1.Mock
-    implements _i9.FlutterLocalNotificationsPlugin {
+    implements _i10.FlutterLocalNotificationsPlugin {
   @override
-  _i7.Future<bool?> initialize({
-    required _i10.InitializationSettings? settings,
-    _i11.DidReceiveNotificationResponseCallback?
+  _i8.Future<bool?> initialize({
+    required _i11.InitializationSettings? settings,
+    _i12.DidReceiveNotificationResponseCallback?
         onDidReceiveNotificationResponse,
-    _i11.DidReceiveBackgroundNotificationResponseCallback?
+    _i12.DidReceiveBackgroundNotificationResponseCallback?
         onDidReceiveBackgroundNotificationResponse,
   }) =>
       (super.noSuchMethod(
@@ -240,28 +277,28 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
                 onDidReceiveBackgroundNotificationResponse,
           },
         ),
-        returnValue: _i7.Future<bool?>.value(),
-        returnValueForMissingStub: _i7.Future<bool?>.value(),
-      ) as _i7.Future<bool?>);
+        returnValue: _i8.Future<bool?>.value(),
+        returnValueForMissingStub: _i8.Future<bool?>.value(),
+      ) as _i8.Future<bool?>);
 
   @override
-  _i7.Future<_i11.NotificationAppLaunchDetails?>
+  _i8.Future<_i12.NotificationAppLaunchDetails?>
       getNotificationAppLaunchDetails() => (super.noSuchMethod(
             Invocation.method(
               #getNotificationAppLaunchDetails,
               [],
             ),
-            returnValue: _i7.Future<_i11.NotificationAppLaunchDetails?>.value(),
+            returnValue: _i8.Future<_i12.NotificationAppLaunchDetails?>.value(),
             returnValueForMissingStub:
-                _i7.Future<_i11.NotificationAppLaunchDetails?>.value(),
-          ) as _i7.Future<_i11.NotificationAppLaunchDetails?>);
+                _i8.Future<_i12.NotificationAppLaunchDetails?>.value(),
+          ) as _i8.Future<_i12.NotificationAppLaunchDetails?>);
 
   @override
-  _i7.Future<void> show({
+  _i8.Future<void> show({
     required int? id,
     String? title,
     String? body,
-    _i12.NotificationDetails? notificationDetails,
+    _i13.NotificationDetails? notificationDetails,
     String? payload,
   }) =>
       (super.noSuchMethod(
@@ -276,12 +313,12 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
             #payload: payload,
           },
         ),
-        returnValue: _i7.Future<void>.value(),
-        returnValueForMissingStub: _i7.Future<void>.value(),
-      ) as _i7.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
 
   @override
-  _i7.Future<void> cancel({
+  _i8.Future<void> cancel({
     required int? id,
     String? tag,
   }) =>
@@ -294,40 +331,40 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
             #tag: tag,
           },
         ),
-        returnValue: _i7.Future<void>.value(),
-        returnValueForMissingStub: _i7.Future<void>.value(),
-      ) as _i7.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
 
   @override
-  _i7.Future<void> cancelAll() => (super.noSuchMethod(
+  _i8.Future<void> cancelAll() => (super.noSuchMethod(
         Invocation.method(
           #cancelAll,
           [],
         ),
-        returnValue: _i7.Future<void>.value(),
-        returnValueForMissingStub: _i7.Future<void>.value(),
-      ) as _i7.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
 
   @override
-  _i7.Future<void> cancelAllPendingNotifications() => (super.noSuchMethod(
+  _i8.Future<void> cancelAllPendingNotifications() => (super.noSuchMethod(
         Invocation.method(
           #cancelAllPendingNotifications,
           [],
         ),
-        returnValue: _i7.Future<void>.value(),
-        returnValueForMissingStub: _i7.Future<void>.value(),
-      ) as _i7.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
 
   @override
-  _i7.Future<void> zonedSchedule({
+  _i8.Future<void> zonedSchedule({
     required int? id,
-    required _i13.TZDateTime? scheduledDate,
-    required _i12.NotificationDetails? notificationDetails,
-    required _i14.AndroidScheduleMode? androidScheduleMode,
+    required _i14.TZDateTime? scheduledDate,
+    required _i13.NotificationDetails? notificationDetails,
+    required _i15.AndroidScheduleMode? androidScheduleMode,
     String? title,
     String? body,
     String? payload,
-    _i15.DateTimeComponents? matchDateTimeComponents,
+    _i16.DateTimeComponents? matchDateTimeComponents,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -344,16 +381,16 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
             #matchDateTimeComponents: matchDateTimeComponents,
           },
         ),
-        returnValue: _i7.Future<void>.value(),
-        returnValueForMissingStub: _i7.Future<void>.value(),
-      ) as _i7.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
 
   @override
-  _i7.Future<void> periodicallyShow({
+  _i8.Future<void> periodicallyShow({
     required int? id,
-    required _i11.RepeatInterval? repeatInterval,
-    required _i12.NotificationDetails? notificationDetails,
-    required _i14.AndroidScheduleMode? androidScheduleMode,
+    required _i12.RepeatInterval? repeatInterval,
+    required _i13.NotificationDetails? notificationDetails,
+    required _i15.AndroidScheduleMode? androidScheduleMode,
     String? title,
     String? body,
     String? payload,
@@ -372,19 +409,19 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
             #payload: payload,
           },
         ),
-        returnValue: _i7.Future<void>.value(),
-        returnValueForMissingStub: _i7.Future<void>.value(),
-      ) as _i7.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
 
   @override
-  _i7.Future<void> periodicallyShowWithDuration({
+  _i8.Future<void> periodicallyShowWithDuration({
     required int? id,
     required Duration? repeatDurationInterval,
-    required _i12.NotificationDetails? notificationDetails,
+    required _i13.NotificationDetails? notificationDetails,
     String? title,
     String? body,
-    _i14.AndroidScheduleMode? androidScheduleMode =
-        _i14.AndroidScheduleMode.exact,
+    _i15.AndroidScheduleMode? androidScheduleMode =
+        _i15.AndroidScheduleMode.exact,
     String? payload,
   }) =>
       (super.noSuchMethod(
@@ -401,36 +438,36 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
             #payload: payload,
           },
         ),
-        returnValue: _i7.Future<void>.value(),
-        returnValueForMissingStub: _i7.Future<void>.value(),
-      ) as _i7.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
 
   @override
-  _i7.Future<List<_i11.PendingNotificationRequest>>
+  _i8.Future<List<_i12.PendingNotificationRequest>>
       pendingNotificationRequests() => (super.noSuchMethod(
             Invocation.method(
               #pendingNotificationRequests,
               [],
             ),
             returnValue:
-                _i7.Future<List<_i11.PendingNotificationRequest>>.value(
-                    <_i11.PendingNotificationRequest>[]),
+                _i8.Future<List<_i12.PendingNotificationRequest>>.value(
+                    <_i12.PendingNotificationRequest>[]),
             returnValueForMissingStub:
-                _i7.Future<List<_i11.PendingNotificationRequest>>.value(
-                    <_i11.PendingNotificationRequest>[]),
-          ) as _i7.Future<List<_i11.PendingNotificationRequest>>);
+                _i8.Future<List<_i12.PendingNotificationRequest>>.value(
+                    <_i12.PendingNotificationRequest>[]),
+          ) as _i8.Future<List<_i12.PendingNotificationRequest>>);
 
   @override
-  _i7.Future<List<_i11.ActiveNotification>> getActiveNotifications() =>
+  _i8.Future<List<_i12.ActiveNotification>> getActiveNotifications() =>
       (super.noSuchMethod(
         Invocation.method(
           #getActiveNotifications,
           [],
         ),
-        returnValue: _i7.Future<List<_i11.ActiveNotification>>.value(
-            <_i11.ActiveNotification>[]),
+        returnValue: _i8.Future<List<_i12.ActiveNotification>>.value(
+            <_i12.ActiveNotification>[]),
         returnValueForMissingStub:
-            _i7.Future<List<_i11.ActiveNotification>>.value(
-                <_i11.ActiveNotification>[]),
-      ) as _i7.Future<List<_i11.ActiveNotification>>);
+            _i8.Future<List<_i12.ActiveNotification>>.value(
+                <_i12.ActiveNotification>[]),
+      ) as _i8.Future<List<_i12.ActiveNotification>>);
 }

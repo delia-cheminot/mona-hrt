@@ -679,10 +679,61 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   String get injectionSideRight => 'Right';
 
   /// en: 'Left side'
-  String get intakeSummaryInjectionSideLeft => 'Left side';
+  String get placementLeft => 'Left side';
 
   /// en: 'Right side'
-  String get intakeSummaryInjectionSideRight => 'Right side';
+  String get placementRight => 'Right side';
+
+  /// en: 'Left thigh'
+  String get placementLeftThigh => 'Left thigh';
+
+  /// en: 'Right thigh'
+  String get placementRightThigh => 'Right thigh';
+
+  /// en: 'Left arm'
+  String get placementLeftArm => 'Left arm';
+
+  /// en: 'Right arm'
+  String get placementRightArm => 'Right arm';
+
+  /// en: 'Left buttock'
+  String get placementLeftButtock => 'Left buttock';
+
+  /// en: 'Right buttock'
+  String get placementRightButtock => 'Right buttock';
+
+  /// en: 'Left abdomen'
+  String get placementLeftAbdomen => 'Left abdomen';
+
+  /// en: 'Right abdomen'
+  String get placementRightAbdomen => 'Right abdomen';
+
+  /// en: 'Injection sites'
+  String get injectionSites => 'Injection sites';
+
+  /// en: 'Manage the sites you rotate between.'
+  String get injectionSitesDescription =>
+      'Manage the sites you rotate between.';
+
+  /// en: 'Add site'
+  String get addInjectionSite => 'Add site';
+
+  /// en: 'Custom site name'
+  String get customSiteLabel => 'Custom site name';
+
+  /// en: 'No sites yet'
+  String get noInjectionSitesYet => 'No sites yet';
+
+  /// en: 'Add a site below to get started.'
+  String get noInjectionAddOneToGetStarted =>
+      'Add a site below to get started.';
+
+  /// en: 'Suggest per schedule'
+  String get placementSuggestionPerScheduleTitle => 'Suggest per schedule';
+
+  /// en: 'Base the next-site suggestion on this schedule's history only.'
+  String get placementSuggestionPerScheduleDescription =>
+      'Base the next-site suggestion on this schedule\'s history only.';
 
   /// en: 'Required field'
   String get requiredField => 'Required field';
@@ -1068,8 +1119,25 @@ extension on Translations {
       'unitNmolPerL' => 'nmol/L',
       'injectionSideLeft' => 'Left',
       'injectionSideRight' => 'Right',
-      'intakeSummaryInjectionSideLeft' => 'Left side',
-      'intakeSummaryInjectionSideRight' => 'Right side',
+      'placementLeft' => 'Left side',
+      'placementRight' => 'Right side',
+      'placementLeftThigh' => 'Left thigh',
+      'placementRightThigh' => 'Right thigh',
+      'placementLeftArm' => 'Left arm',
+      'placementRightArm' => 'Right arm',
+      'placementLeftButtock' => 'Left buttock',
+      'placementRightButtock' => 'Right buttock',
+      'placementLeftAbdomen' => 'Left abdomen',
+      'placementRightAbdomen' => 'Right abdomen',
+      'injectionSites' => 'Injection sites',
+      'injectionSitesDescription' => 'Manage the sites you rotate between.',
+      'addInjectionSite' => 'Add site',
+      'customSiteLabel' => 'Custom site name',
+      'noInjectionSitesYet' => 'No sites yet',
+      'noInjectionAddOneToGetStarted' => 'Add a site below to get started.',
+      'placementSuggestionPerScheduleTitle' => 'Suggest per schedule',
+      'placementSuggestionPerScheduleDescription' =>
+        'Base the next-site suggestion on this schedule\'s history only.',
       'requiredField' => 'Required field',
       'mustBePositiveNumber' => 'Must be a positive number',
       'invalidTotalAmount' => 'Invalid total amount',

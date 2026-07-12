@@ -6,19 +6,21 @@ import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
+import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/helpers/supply_item_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
-import 'package:mona/ui/widgets/dropdowns/injection_side_dropdown.dart';
+import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_info_text.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/ui/widgets/placement_picker.dart';
 import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +42,8 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
   late Decimal _takenDose;
   late TextEditingController _wastedAmountController;
   late Decimal _wastedAmount;
-  InjectionSide? _selectedSide;
+  List<Placement> _selectedPlacements = [];
+  List<Placement> _orderedPlacements = [];
   bool _hasInitializedSide = false;
   SupplyItem? _selectedSupplyItem;
   bool _hasInitializedSupplyItem = false;
@@ -60,21 +63,25 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
 
   bool get _isFormValid => _takenDoseError == null && _deadSpaceError == null;
 
-  void _takeIntake(MedicationIntakeProvider medicationIntakeProvider,
-      SupplyItemProvider supplyItemProvider) async {
+  void _takeIntake(
+    MedicationIntakeProvider medicationIntakeProvider,
+    SupplyItemProvider supplyItemProvider,
+    PreferencesService preferencesService,
+  ) async {
     if (!_isFormValid || !mounted || _isTaken) return;
 
     final String? notes =
         _notesController.text.isEmpty ? null : _notesController.text;
 
-    MedicationIntakeManager(medicationIntakeProvider, supplyItemProvider)
+    MedicationIntakeManager(
+            medicationIntakeProvider, supplyItemProvider, preferencesService)
         .takeMedication(
             takenDose: _takenDose,
             scheduledTime: widget.scheduledTime,
             takenDateTime: _takenDate.toUtc(),
             supplyItem: _selectedSupplyItem,
             schedule: widget.schedule,
-            side: _selectedSide,
+            placements: _selectedPlacements,
             deadSpace: _deadSpace,
             notes: notes,
             wastedAmount: _wastedAmount);
@@ -93,12 +100,10 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
     Navigator.of(context).pop();
   }
 
-  void _onInjectionSideChanged(InjectionSide? side) {
-    if (side != null) {
-      setState(() {
-        _selectedSide = side;
-      });
-    }
+  void _onPlacementChanged(List<Placement> placements) {
+    setState(() {
+      _selectedPlacements = placements;
+    });
   }
 
   void _onTakenDateChanged(DateTime date) {
@@ -174,16 +179,22 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
     final bool isInjection =
         widget.schedule.administrationRoute == AdministrationRoute.injection;
 
-    return Consumer2<MedicationIntakeProvider, SupplyItemProvider>(
-      builder: (context, medicationIntakeProvider, supplyItemProvider, child) {
+    return Consumer3<MedicationIntakeProvider, SupplyItemProvider,
+        PreferencesService>(
+      builder: (context, medicationIntakeProvider, supplyItemProvider,
+          preferencesService, child) {
         final bool isLoading =
             medicationIntakeProvider.isLoading || supplyItemProvider.isLoading;
 
         if (!isLoading && !_hasInitializedSide && isInjection) {
-          _selectedSide = MedicationIntakeManager(
+          _orderedPlacements = MedicationIntakeManager(
             medicationIntakeProvider,
             supplyItemProvider,
-          ).getNextSide();
+            preferencesService,
+          ).getOrderedPlacements(scheduleId: widget.schedule.id);
+          if (_orderedPlacements.isNotEmpty) {
+            _selectedPlacements = [_orderedPlacements.first];
+          }
           _hasInitializedSide = true;
         }
 
@@ -230,7 +241,8 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
           submitButtonKey: const ValueKey('takeIntakeSubmit'),
           isFormValid: _isFormValid,
           saveChanges: (!isLoading && _isFormValid && !_isTaken)
-              ? () => _takeIntake(medicationIntakeProvider, supplyItemProvider)
+              ? () => _takeIntake(medicationIntakeProvider, supplyItemProvider,
+                  preferencesService)
               : () {},
           fields: [
             FormDateTimeField(
@@ -254,20 +266,22 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
                   widget.schedule.molecule,
                 ),
               ),
-            FormSpacer(),
             FormDropdownField<SupplyItem?>(
               value: _selectedSupplyItem,
               items: supplyItemDropdownItems,
               onChanged: _onSupplyItemChanged,
               label: t.supplyItem,
             ),
+            FormSpacer(),
             if (isInjection) ...[
-              FormDropdownField<InjectionSide>(
-                value: _selectedSide,
-                items: injectionSideDropdownMenuItems(),
-                onChanged: _onInjectionSideChanged,
-                label: t.injectionSide,
-              ),
+              if (_orderedPlacements.isNotEmpty) ...[
+                PlacementPicker(
+                  options: _orderedPlacements,
+                  selected: _selectedPlacements,
+                  onChanged: _onPlacementChanged,
+                ),
+                FormSpacer(),
+              ],
               FormTextField(
                   controller: _wastedAmountController,
                   label: t.wastedAmount,
