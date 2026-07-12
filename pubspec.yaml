@@ -69,10 +69,7 @@ dependencies:
   file_picker: ^8.0.0
   share_plus: ^10.0.0
   material_color_utilities: ^0.13.0
-  # M3 color spec 2025 (SpecVersion.spec2025) — not yet in Flutter's bundled
-  # material_color_utilities. Used only by CustomThemeSchemes as an adapter;
-  # drop when Flutter ships spec 2025 natively. Pinned to 1.1.x: 1.2.0 requires
-  # meta ^1.18.1, which conflicts with the meta version pinned by flutter_test.
+  # Drop when Flutter ships spec 2025 natively with material_color_utilities.
   libmonet: ^1.1.2
   dart_mappable: ^4.8.0
   m3e_core: ^0.1.0
