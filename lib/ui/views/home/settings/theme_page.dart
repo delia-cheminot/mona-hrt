@@ -209,13 +209,20 @@ class _VariantGrid extends StatelessWidget {
   final DynamicSchemeVariant selected;
   final ValueChanged<DynamicSchemeVariant> onChanged;
 
+  static const _spec2025Variants = [
+    DynamicSchemeVariant.neutral,
+    DynamicSchemeVariant.tonalSpot,
+    DynamicSchemeVariant.vibrant,
+    DynamicSchemeVariant.expressive,
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Wrap(
       spacing: 12,
       runSpacing: 12,
       children: [
-        for (final variant in DynamicSchemeVariant.values)
+        for (final variant in _spec2025Variants)
           _VariantSwatch(
             seedArgb: seedArgb,
             variant: variant,
@@ -244,9 +251,10 @@ class _VariantSwatch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = ColorScheme.fromSeed(
-      seedColor: Color(seedArgb),
-      dynamicSchemeVariant: variant,
+    final scheme = CustomThemeSchemes.schemeFor(
+      seedArgb: seedArgb,
+      variant: variant,
+      contrastLevel: CustomThemeSettings.contrastStandard,
       brightness: Theme.of(context).brightness,
     );
 

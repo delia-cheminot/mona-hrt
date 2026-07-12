@@ -605,6 +605,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
+  libmonet:
+    dependency: "direct main"
+    description:
+      name: libmonet
+      sha256: c412c970d89771b15f35a6c2697e7eab5bdfe8d6874d4666dc4b25ae52fd980e
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.2"
   lints:
     dependency: transitive
     description:
