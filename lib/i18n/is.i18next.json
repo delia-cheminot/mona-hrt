@@ -73,7 +73,7 @@
   "updateAppUpToDate": "Forritið þitt er uppfært!",
   "updateCheckNetworkError": "Gat ekki athugað hvort uppfærslur væru í augnablikinu.",
   "updateDialogTitle": "Uppfærsla í boði",
-  "updateDialogBody": "Útgáfa {{nýjasta}} er tiltæk! (Núverandi: {{núverandi}})\\n\\nUppfærsla sem er samhæf tækinu þínu er tilbúin til uppsetningar.",
+  "updateDialogBody": "Útgáfa {{latest}} er tiltæk! (Núverandi: {{current}})\\n\\nUppfærsla sem er samhæf tækinu þínu er tilbúin til uppsetningar.",
   "updateDownloadAndInstall": "Hlaða niður & Setja upp",
   "updateInstallPermissionRequired": "Leyfi þarf til að setja upp uppfærslur.",
   "updateDownloadingTitle": "Hlaðandi niður uppfærslu...",
