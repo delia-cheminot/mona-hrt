@@ -233,7 +233,7 @@ class TranslationsDe extends Translations
   @override
   String get addIntakeTime => 'Uhrzeit hinzufügen';
   @override
-  String get editScheduleInfo => 'Zeitplan bearbeiten';
+  String get editScheduleInfo => 'Zeitplaninformation bearbeiten';
   @override
   String get scheduling => 'Zeitplanung';
   @override
@@ -491,15 +491,27 @@ class TranslationsDe extends Translations
   String get cannotExceedTotalCapacity =>
       'Darf die Gesamtkapazität nicht überschreiten';
   @override
+  String get allItemsFilter => 'Alle';
+  @override
+  String get medicationItemsFilter => 'Medikamente';
+  @override
+  String get medicationItemType => 'Medikament';
+  @override
+  String get genericItemType => 'Verbrauchsmaterial';
+  @override
+  String get genericItemsFilter => 'Verbrauchsmaterialien';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
         count,
+        one: 'vor ${count} Tag',
         other: 'vor ${count} Tagen',
       );
   @override
   String inDaysCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
         count,
+        one: 'in ${count} Tag',
         other: 'in ${count} Tagen',
       );
   @override
@@ -512,12 +524,14 @@ class TranslationsDe extends Translations
   String schedulesCreated({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
         count,
+        one: '${count} erstellt',
         other: '${count} erstellt',
       );
   @override
   String notificationsCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
         count,
+        one: '${count} Benachrichtigung',
         other: '${count} Benachrichtigungen',
       );
   @override
@@ -718,7 +732,7 @@ extension on TranslationsDe {
       'startDate' => 'Startdatum',
       'pickATime' => 'Uhrzeit auswählen',
       'addIntakeTime' => 'Uhrzeit hinzufügen',
-      'editScheduleInfo' => 'Zeitplan bearbeiten',
+      'editScheduleInfo' => 'Zeitplaninformation bearbeiten',
       'scheduling' => 'Zeitplanung',
       'noNotifications' => 'Keine Benachrichtigungen',
       'editSchedule' => 'Zeitplan bearbeiten',
@@ -851,14 +865,21 @@ extension on TranslationsDe {
       'invalidTotalAmount' => 'Ungültige Gesamtmenge',
       'cannotExceedTotalCapacity' =>
         'Darf die Gesamtkapazität nicht überschreiten',
+      'allItemsFilter' => 'Alle',
+      'medicationItemsFilter' => 'Medikamente',
+      'medicationItemType' => 'Medikament',
+      'genericItemType' => 'Verbrauchsmaterial',
+      'genericItemsFilter' => 'Verbrauchsmaterialien',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
             count,
+            one: 'vor ${count} Tag',
             other: 'vor ${count} Tagen',
           ),
       'inDaysCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
             count,
+            one: 'in ${count} Tag',
             other: 'in ${count} Tagen',
           ),
       'scheduleFrequencyEveryNDays' => ({required num count}) =>
@@ -869,11 +890,13 @@ extension on TranslationsDe {
       'schedulesCreated' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
             count,
+            one: '${count} erstellt',
             other: '${count} erstellt',
           ),
       'notificationsCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
             count,
+            one: '${count} Benachrichtigung',
             other: '${count} Benachrichtigungen',
           ),
       'remaining' => ({required num count, required Object unit}) =>

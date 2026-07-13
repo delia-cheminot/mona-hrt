@@ -485,6 +485,10 @@ class TranslationsEs extends Translations
   @override
   String get cannotExceedTotalCapacity => 'No puede superar la capacidad total';
   @override
+  String get medicationItemsFilter => 'Medicamentos';
+  @override
+  String get medicationItemType => 'Medicamento';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
         count,
@@ -844,6 +848,8 @@ extension on TranslationsEs {
       'mustBePositiveNumber' => 'Debe ser un número positivo',
       'invalidTotalAmount' => 'Cantidad total no válida',
       'cannotExceedTotalCapacity' => 'No puede superar la capacidad total',
+      'medicationItemsFilter' => 'Medicamentos',
+      'medicationItemType' => 'Medicamento',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
             count,
