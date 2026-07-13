@@ -20,7 +20,7 @@
   "lastTaken": "Zuletzt genommen",
   "neverTakenYet": "Noch nie genommen",
   "scheduleFrequencyDaily": "Täglich",
-  "scheduleFrequencyEveryNDays_one": "Jeden Tag",
+  "scheduleFrequencyEveryNDays_one": "jeden Tag",
   "scheduleFrequencyEveryNDays_other": "Alle {{count}} Tage",
   "scheduleFrequencyInterval": "Intervall",
   "scheduleFrequencyWeekly": "Wöchentlich",
