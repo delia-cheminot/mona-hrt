@@ -53,6 +53,12 @@ class TranslationsNl extends Translations
       TranslationsNl(meta: meta ?? this.$meta);
 
   // Translations
+  @override
+  String get appTitle => 'Mona';
+  @override
+  String get nav_home => 'Mona';
+  @override
+  String get nav_intakes => 'Innamens';
 }
 
 /// The flat map containing all translations for locale <nl>.
@@ -62,6 +68,11 @@ class TranslationsNl extends Translations
 /// so the map is split into smaller functions (512 entries each).
 extension on TranslationsNl {
   dynamic _flatMapFunction(String path) {
-    ;
+    return switch (path) {
+      'appTitle' => 'Mona',
+      'nav_home' => 'Mona',
+      'nav_intakes' => 'Innamens',
+      _ => null,
+    };
   }
 }
