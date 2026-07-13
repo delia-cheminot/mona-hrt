@@ -223,5 +223,7 @@
   "requiredField": "Campo obligatorio",
   "mustBePositiveNumber": "Debe ser un número positivo",
   "invalidTotalAmount": "Cantidad total no válida",
-  "cannotExceedTotalCapacity": "No puede superar la capacidad total"
+  "cannotExceedTotalCapacity": "No puede superar la capacidad total",
+  "medicationItemsFilter": "Medicamentos",
+  "medicationItemType": "Medicamento"
 }
