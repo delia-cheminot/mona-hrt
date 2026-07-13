@@ -129,6 +129,27 @@ class TranslationsFr extends Translations
   String get remindersDelayed =>
       'Les rappels peuvent être légèrement retardés. Appuyez pour ouvrir les paramètres.';
   @override
+  String get medicalSettings => 'Paramètres médicaux';
+  @override
+  String get theme => 'Thème';
+  @override
+  String get themeCustomizeColors =>
+      'Personnaliser les couleurs de l\'application';
+  @override
+  String get customThemeEnabled => 'Thème personnalisé';
+  @override
+  String get themeGenerate => 'Générer';
+  @override
+  String get themeVariant => 'Variante';
+  @override
+  String get themeContrast => 'Contraste';
+  @override
+  String get themeContrastStandard => 'Standard';
+  @override
+  String get themeContrastMedium => 'Moyen';
+  @override
+  String get themeContrastHigh => 'Élevé';
+  @override
   String get autoUpdate => 'Mise à jour automatique';
   @override
   String get autoUpdateDescription =>
@@ -236,27 +257,11 @@ class TranslationsFr extends Translations
   @override
   String get scheduling => 'Programme';
   @override
-  String get noNotifications => 'Aucune notification';
-  @override
   String get editSchedule => 'Modifier le planning';
   @override
   String deleteSchedule({required Object name}) => 'Supprimer ${name} ?';
   @override
-  String get scheduleNotifications => 'Notifications du planning';
-  @override
   String get addNotification => 'Ajouter une notification';
-  @override
-  String noNotificationsForSchedule({required Object scheduleName}) =>
-      'Aucune notification pour ${scheduleName}. Vous pouvez en ajouter une en utilisant le bouton Ajouter.';
-  @override
-  String get notificationsUpdated => 'Les notifications ont été mises à jour !';
-  @override
-  String get notificationsUpdatedDescription =>
-      'Chaque planning a désormais ses propres notifications.\n\nVeuillez configurer les notifications pour vos plannings pour vous assurer de ne rien manquer.';
-  @override
-  String get dontShowAgain => 'Ne plus afficher';
-  @override
-  String get scheduleSettings => 'Paramètres des plannings';
   @override
   String get empty_intakes => 'Les prises enregistrées apparaîtront ici';
   @override
@@ -324,6 +329,9 @@ class TranslationsFr extends Translations
   @override
   String chartBloodTestLevelTooltip(
           {required Object date, required Object level}) =>
+      '${date} : ${level}';
+  @override
+  String chartLevelTooltip({required Object date, required Object level}) =>
       '${date} : ${level}';
   @override
   String get empty_supplies =>
@@ -487,9 +495,43 @@ class TranslationsFr extends Translations
   @override
   String get injectionSideRight => 'Droite';
   @override
-  String get intakeSummaryInjectionSideLeft => 'Côté gauche';
+  String get placementLeft => 'Côté gauche';
   @override
-  String get intakeSummaryInjectionSideRight => 'Côté droit';
+  String get placementRight => 'Côté droit';
+  @override
+  String get placementLeftThigh => 'Cuisse gauche';
+  @override
+  String get placementRightThigh => 'Cuisse droite';
+  @override
+  String get placementLeftArm => 'Bras gauche';
+  @override
+  String get placementRightArm => 'Bras droit';
+  @override
+  String get placementLeftButtock => 'Fesse gauche';
+  @override
+  String get placementRightButtock => 'Fesse droite';
+  @override
+  String get placementLeftAbdomen => 'Abdomen (gauche)';
+  @override
+  String get placementRightAbdomen => 'Abdomen (droite)';
+  @override
+  String get injectionSites => 'Sites d\'injection';
+  @override
+  String get injectionSitesDescription => 'Gérez votre rotation de sites.';
+  @override
+  String get addInjectionSite => 'Ajouter un site';
+  @override
+  String get customSiteLabel => 'Nom de site personnalisé';
+  @override
+  String get noInjectionSitesYet => 'Aucun site';
+  @override
+  String get noInjectionAddOneToGetStarted =>
+      'Ajoutez un site ci-dessous pour commencer.';
+  @override
+  String get placementSuggestionPerScheduleTitle => 'Suggérer par planning';
+  @override
+  String get placementSuggestionPerScheduleDescription =>
+      'Base la suggestion du site suivant sur ce planning uniquement.';
   @override
   String get requiredField => 'Champ obligatoire';
   @override
@@ -530,14 +572,6 @@ class TranslationsFr extends Translations
         one: '${count} créé',
         many: '${count} créés',
         other: '${count} créés',
-      );
-  @override
-  String notificationsCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
-        count,
-        one: '${count} notification',
-        many: '${count} de notifications',
-        other: '${count} notifications',
       );
   @override
   String remaining({required num count, required Object unit}) =>
@@ -691,6 +725,16 @@ extension on TranslationsFr {
         'Les heures de rappel exactes sont désactivées',
       'remindersDelayed' =>
         'Les rappels peuvent être légèrement retardés. Appuyez pour ouvrir les paramètres.',
+      'medicalSettings' => 'Paramètres médicaux',
+      'theme' => 'Thème',
+      'themeCustomizeColors' => 'Personnaliser les couleurs de l\'application',
+      'customThemeEnabled' => 'Thème personnalisé',
+      'themeGenerate' => 'Générer',
+      'themeVariant' => 'Variante',
+      'themeContrast' => 'Contraste',
+      'themeContrastStandard' => 'Standard',
+      'themeContrastMedium' => 'Moyen',
+      'themeContrastHigh' => 'Élevé',
       'autoUpdate' => 'Mise à jour automatique',
       'autoUpdateDescription' =>
         'Vérifier automatiquement les nouvelles mises à jour au lancement de l\'application',
@@ -755,18 +799,9 @@ extension on TranslationsFr {
       'addIntakeTime' => 'Ajouter une heure',
       'editScheduleInfo' => 'Modifier les informations du planning',
       'scheduling' => 'Programme',
-      'noNotifications' => 'Aucune notification',
       'editSchedule' => 'Modifier le planning',
       'deleteSchedule' => ({required Object name}) => 'Supprimer ${name} ?',
-      'scheduleNotifications' => 'Notifications du planning',
       'addNotification' => 'Ajouter une notification',
-      'noNotificationsForSchedule' => ({required Object scheduleName}) =>
-          'Aucune notification pour ${scheduleName}. Vous pouvez en ajouter une en utilisant le bouton Ajouter.',
-      'notificationsUpdated' => 'Les notifications ont été mises à jour !',
-      'notificationsUpdatedDescription' =>
-        'Chaque planning a désormais ses propres notifications.\n\nVeuillez configurer les notifications pour vos plannings pour vous assurer de ne rien manquer.',
-      'dontShowAgain' => 'Ne plus afficher',
-      'scheduleSettings' => 'Paramètres des plannings',
       'empty_intakes' => 'Les prises enregistrées apparaîtront ici',
       'chooseSchedule' => 'Choisir un planning',
       'addSchedulesFirst' => 'Ajoutez d\'abord des plannings.',
@@ -803,6 +838,8 @@ extension on TranslationsFr {
           'Maintenant ${value}',
       'chartBloodTestLevelTooltip' =>
         ({required Object date, required Object level}) => '${date} : ${level}',
+      'chartLevelTooltip' => ({required Object date, required Object level}) =>
+          '${date} : ${level}',
       'empty_supplies' =>
         'Aucun consommable. Ajoutez un élément pour commencer.',
       'newItem' => 'Nouvel élément',
@@ -885,8 +922,26 @@ extension on TranslationsFr {
       'unitNmolPerL' => 'nmol/L',
       'injectionSideLeft' => 'Gauche',
       'injectionSideRight' => 'Droite',
-      'intakeSummaryInjectionSideLeft' => 'Côté gauche',
-      'intakeSummaryInjectionSideRight' => 'Côté droit',
+      'placementLeft' => 'Côté gauche',
+      'placementRight' => 'Côté droit',
+      'placementLeftThigh' => 'Cuisse gauche',
+      'placementRightThigh' => 'Cuisse droite',
+      'placementLeftArm' => 'Bras gauche',
+      'placementRightArm' => 'Bras droit',
+      'placementLeftButtock' => 'Fesse gauche',
+      'placementRightButtock' => 'Fesse droite',
+      'placementLeftAbdomen' => 'Abdomen (gauche)',
+      'placementRightAbdomen' => 'Abdomen (droite)',
+      'injectionSites' => 'Sites d\'injection',
+      'injectionSitesDescription' => 'Gérez votre rotation de sites.',
+      'addInjectionSite' => 'Ajouter un site',
+      'customSiteLabel' => 'Nom de site personnalisé',
+      'noInjectionSitesYet' => 'Aucun site',
+      'noInjectionAddOneToGetStarted' =>
+        'Ajoutez un site ci-dessous pour commencer.',
+      'placementSuggestionPerScheduleTitle' => 'Suggérer par planning',
+      'placementSuggestionPerScheduleDescription' =>
+        'Base la suggestion du site suivant sur ce planning uniquement.',
       'requiredField' => 'Champ obligatoire',
       'mustBePositiveNumber' => 'Doit être un nombre positif',
       'invalidTotalAmount' => 'Montant total invalide',
@@ -918,13 +973,6 @@ extension on TranslationsFr {
             one: '${count} créé',
             many: '${count} créés',
             other: '${count} créés',
-          ),
-      'notificationsCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
-            count,
-            one: '${count} notification',
-            many: '${count} de notifications',
-            other: '${count} notifications',
           ),
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(

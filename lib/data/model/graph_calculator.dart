@@ -4,7 +4,28 @@ import 'package:decimal/decimal.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/units.dart';
-import 'package:mona/data/providers/medication_intake_provider.dart';
+
+class GraphIntake {
+  final double dose;
+  final Ester ester;
+  final double time; // in days
+
+  const GraphIntake({
+    required this.dose,
+    required this.ester,
+    required this.time,
+  });
+}
+
+class GraphBloodTest {
+  final double level;
+  final double offset;
+
+  const GraphBloodTest({
+    required this.level,
+    required this.offset,
+  });
+}
 
 class GraphCalculator {
   static const double tMaxOffset = 40.0;
@@ -60,8 +81,10 @@ class GraphCalculator {
     return _pkparams[intake.ester] ?? _pkparams[Ester.enanthate]!;
   }
 
-  double _singleInjectionConcentration(double t, int day, GraphIntake intake) {
-    if (t <= day || t >= day + _inactiveWindow) return 0.0;
+  double _singleIntakeConcentration(double t, GraphIntake intake) {
+    final time = intake.time;
+
+    if (t <= time || t >= time + _inactiveWindow) return 0.0;
 
     Map<String, double> pkparams = getPKParams(intake);
 
@@ -71,9 +94,9 @@ class GraphCalculator {
     final k2 = pkparams["k2"]!;
     final k3 = pkparams["k3"]!;
 
-    double part1 = math.exp(-k1 * (t - day)) / ((k1 - k2) * (k1 - k3));
-    double part2 = math.exp(-k2 * (t - day)) / ((k1 - k2) * (k2 - k3));
-    double part3 = math.exp(-k3 * (t - day)) / ((k1 - k3) * (k2 - k3));
+    double part1 = math.exp(-k1 * (t - time)) / ((k1 - k2) * (k1 - k3));
+    double part2 = math.exp(-k2 * (t - time)) / ((k1 - k2) * (k2 - k3));
+    double part3 = math.exp(-k3 * (t - time)) / ((k1 - k3) * (k2 - k3));
 
     double concentration =
         intake.dose * f * auc * k1 * k2 * k3 * (part1 - part2 + part3);
@@ -81,31 +104,40 @@ class GraphCalculator {
   }
 
   double totalConcentrationAtTime(
-      double t, Map<int, GraphIntake> daysAndIntakes, EstradiolUnit unit) {
-    if (daysAndIntakes.isEmpty) return 0.0;
-    final concentration = daysAndIntakes.entries
-        .map((e) => _singleInjectionConcentration(t, e.key, e.value))
+      double t, List<GraphIntake> intakes, EstradiolUnit unit) {
+    if (intakes.isEmpty) return 0.0;
+
+    final concentration = intakes
+        .map((intake) => _singleIntakeConcentration(t, intake))
         .fold(0.0, (sum, val) => sum + val);
     return EstradiolUnit.pg_mL
         .convert(Decimal.parse(concentration.toStringAsFixed(2)), unit)
         .toDouble();
   }
 
-  List<FlSpot> generateFlSpots(
-      Map<int, GraphIntake> daysAndIntakes, EstradiolUnit unit,
+  List<FlSpot> generateLevelsSpots(
+      List<GraphIntake> intakes, EstradiolUnit unit,
       {double tMin = 0, int numPoints = 1000}) {
-    if (daysAndIntakes.isEmpty) return <FlSpot>[];
+    if (intakes.isEmpty) return <FlSpot>[];
 
-    final int maxDay = daysAndIntakes.keys.reduce(math.max);
-    final double tMax = maxDay.toDouble() + tMaxOffset;
+    final double tMax =
+        intakes.map((i) => i.time).reduce(math.max) + tMaxOffset;
     final List<math.Point> points = [];
 
     for (int i = 0; i <= numPoints; i++) {
-      double t = tMin + ((tMax - tMin) / numPoints) * i;
-      double concentration = totalConcentrationAtTime(t, daysAndIntakes, unit);
+      final t = tMin + ((tMax - tMin) / numPoints) * i;
+      final concentration = totalConcentrationAtTime(t, intakes, unit);
       points.add(math.Point(t, concentration));
     }
 
     return points.map((p) => FlSpot(p.x.toDouble(), p.y.toDouble())).toList();
+  }
+
+  List<FlSpot> generateBloodSpots(List<GraphBloodTest> bloodTests) {
+    if (bloodTests.isEmpty) return <FlSpot>[];
+
+    return bloodTests
+        .map((bloodTest) => FlSpot(bloodTest.offset, bloodTest.level))
+        .toList();
   }
 }

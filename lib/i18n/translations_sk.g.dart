@@ -231,27 +231,11 @@ class TranslationsSk extends Translations
   @override
   String get scheduling => 'Plánovanie';
   @override
-  String get noNotifications => 'Žiadne notifikácie';
-  @override
   String get editSchedule => 'Upraviť plán';
   @override
   String deleteSchedule({required Object name}) => 'Vymazať ${name}?';
   @override
-  String get scheduleNotifications => 'Notifikácie plánu';
-  @override
   String get addNotification => 'Pridaj notifikáciu';
-  @override
-  String noNotificationsForSchedule({required Object scheduleName}) =>
-      'Žiadne notifikácie pre ${scheduleName}. Stlač tlačidlo Pridaj.';
-  @override
-  String get notificationsUpdated => 'Notifikácie boli aktualizované!';
-  @override
-  String get notificationsUpdatedDescription =>
-      'Každý plán má teraz vlastné notifikácie.\n\nZapni si notifikácie pre svoje plány, aby ti nič neušlo.';
-  @override
-  String get dontShowAgain => 'Nezobrazovať znovu';
-  @override
-  String get scheduleSettings => 'Nastavenia plánu';
   @override
   String get empty_intakes => 'Vzaté dávky sa zobrazia tu';
   @override
@@ -317,6 +301,9 @@ class TranslationsSk extends Translations
   @override
   String chartBloodTestLevelTooltip(
           {required Object date, required Object level}) =>
+      '${date}: ${level}';
+  @override
+  String chartLevelTooltip({required Object date, required Object level}) =>
       '${date}: ${level}';
   @override
   String get empty_supplies => 'Žiadne zásoby. Pridaj vybavenie pre začatie.';
@@ -469,9 +456,9 @@ class TranslationsSk extends Translations
   @override
   String get injectionSideRight => 'Vpravo';
   @override
-  String get intakeSummaryInjectionSideLeft => 'Ľavá strana';
+  String get placementLeft => 'Ľavá strana';
   @override
-  String get intakeSummaryInjectionSideRight => 'Pravá strana';
+  String get placementRight => 'Pravá strana';
   @override
   String get requiredField => 'Požadované políčko';
   @override
@@ -507,14 +494,6 @@ class TranslationsSk extends Translations
         one: 'Vytvorený ${count} plán',
         few: 'Vytvorené ${count} plány',
         other: 'Vytvorených ${count} plánov',
-      );
-  @override
-  String notificationsCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-        count,
-        one: '${count} notifikácia',
-        few: '${count} notifikácie',
-        other: '${count} notifikácií',
       );
   @override
   String remaining({required num count, required Object unit}) =>
@@ -726,18 +705,9 @@ extension on TranslationsSk {
       'addIntakeTime' => 'Pridaj čas',
       'editScheduleInfo' => 'Upraviť detaily plánu',
       'scheduling' => 'Plánovanie',
-      'noNotifications' => 'Žiadne notifikácie',
       'editSchedule' => 'Upraviť plán',
       'deleteSchedule' => ({required Object name}) => 'Vymazať ${name}?',
-      'scheduleNotifications' => 'Notifikácie plánu',
       'addNotification' => 'Pridaj notifikáciu',
-      'noNotificationsForSchedule' => ({required Object scheduleName}) =>
-          'Žiadne notifikácie pre ${scheduleName}. Stlač tlačidlo Pridaj.',
-      'notificationsUpdated' => 'Notifikácie boli aktualizované!',
-      'notificationsUpdatedDescription' =>
-        'Každý plán má teraz vlastné notifikácie.\n\nZapni si notifikácie pre svoje plány, aby ti nič neušlo.',
-      'dontShowAgain' => 'Nezobrazovať znovu',
-      'scheduleSettings' => 'Nastavenia plánu',
       'empty_intakes' => 'Vzaté dávky sa zobrazia tu',
       'chooseSchedule' => 'Vyber plán',
       'addSchedulesFirst' => 'Najprv pridaj plány.',
@@ -772,6 +742,8 @@ extension on TranslationsSk {
       'chartNowConcentration' => ({required Object value}) => 'Teraz ${value}',
       'chartBloodTestLevelTooltip' =>
         ({required Object date, required Object level}) => '${date}: ${level}',
+      'chartLevelTooltip' => ({required Object date, required Object level}) =>
+          '${date}: ${level}',
       'empty_supplies' => 'Žiadne zásoby. Pridaj vybavenie pre začatie.',
       'newItem' => 'Nové vybavenie',
       'adminRoute' => 'Spôsob podávania',
@@ -848,8 +820,8 @@ extension on TranslationsSk {
       'unitNmolPerL' => 'nmol/L',
       'injectionSideLeft' => 'Vľavo',
       'injectionSideRight' => 'Vpravo',
-      'intakeSummaryInjectionSideLeft' => 'Ľavá strana',
-      'intakeSummaryInjectionSideRight' => 'Pravá strana',
+      'placementLeft' => 'Ľavá strana',
+      'placementRight' => 'Pravá strana',
       'requiredField' => 'Požadované políčko',
       'mustBePositiveNumber' => 'Musí byť kladné číslo',
       'invalidTotalAmount' => 'Nesprávne celkové množstvo',
@@ -877,13 +849,6 @@ extension on TranslationsSk {
             one: 'Vytvorený ${count} plán',
             few: 'Vytvorené ${count} plány',
             other: 'Vytvorených ${count} plánov',
-          ),
-      'notificationsCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
-            count,
-            one: '${count} notifikácia',
-            few: '${count} notifikácie',
-            other: '${count} notifikácií',
           ),
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(

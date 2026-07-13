@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:patrol/patrol.dart';
 
@@ -14,6 +15,10 @@ const _takeIntakeSubmit = ValueKey('takeIntakeSubmit');
 const _editIntakeSave = ValueKey('editIntakeSave');
 const _editIntakeDelete = ValueKey('editIntakeDelete');
 const _editIntakeNotes = ValueKey('editIntakeNotes');
+const _settingsInjectionSitesTile = ValueKey('settingsInjectionSitesTile');
+const _addInjectionSiteTile = ValueKey('addInjectionSiteTile');
+const _customSiteField = ValueKey('customSiteField');
+const _confirmAddSite = ValueKey('confirmAddSite');
 
 const _emptyIntakes = 'Taken intakes will appear here';
 const _addSchedulesFirst = 'Add schedules first.';
@@ -24,6 +29,8 @@ const _nameLabel = 'Name';
 const _amountLabel = 'Amount';
 const _moleculeEstradiol = 'Estradiol';
 const _routeOral = 'Oral';
+const _routeInjection = 'Injection';
+const _esterEnanthate = 'Enanthate';
 const _next = 'Next';
 const _save = 'Save';
 const _intervalToggle = 'Interval';
@@ -81,6 +88,34 @@ void main() {
     expect($('Felt fine'), findsOneWidget);
   });
 
+  patrolTest('records an intake at a site added in settings', ($) async {
+    const site = 'my custom site';
+
+    await $.launchApp();
+    await $(Icons.settings).tap();
+    await $(_settingsInjectionSitesTile).scrollTo().tap();
+    await $(_addInjectionSiteTile).tap();
+    await $(_customSiteField).enterText(site);
+    await $(_confirmAddSite).tap();
+    await $(site).waitUntilVisible();
+
+    await $.tester.pageBack();
+    await $.pumpAndSettle();
+    await $.tester.pageBack();
+    await $.pumpAndSettle();
+    await _seedInjectionSchedule($, name: 'Testosterone');
+    await $.openIntakes();
+
+    await $(Icons.add).tap(); // fab
+    await $('Testosterone').tap(); // pick the schedule
+    await $(site).waitUntilVisible();
+    await $(FilterChip).containing(site).tap(); // pick the site
+    await $(_takeIntakeSubmit).tap();
+
+    await $(ListTile).waitUntilVisible(); // intake summary
+    expect($(find.textContaining(site)), findsWidgets);
+  });
+
   patrolTest('deletes an intake with confirmation', ($) async {
     await $.launchApp();
     await _seedSchedule($, name: 'Estradiol');
@@ -129,6 +164,36 @@ Future<void> _seedSchedule(
 
   // Pop Schedules -> Settings -> Home so the bottom nav (and Intakes tab) is
   // reachable again.
+  await $.tester.pageBack();
+  await $.pumpAndSettle();
+  await $.tester.pageBack();
+  await $.pumpAndSettle();
+}
+
+Future<void> _seedInjectionSchedule(
+  PatrolIntegrationTester $, {
+  required String name,
+}) async {
+  await $(Icons.settings).tap(); // Home -> Settings
+  await $(_schedulesTile).scrollTo().tap(); // -> Schedules
+
+  await $(Icons.add).tap(); // FAB: "Add a schedule"
+  await $(TextField).containing(_nameLabel).enterText(name);
+  await $(DropdownButtonFormField<Molecule>).tap();
+  await $(_moleculeEstradiol).tap();
+  await $(DropdownButtonFormField<AdministrationRoute>).tap();
+  await $(_routeInjection).tap();
+  await $(DropdownButtonFormField<Ester>).tap(); // injection-only field
+  await $(_esterEnanthate).tap();
+  await $(TextField).containing(_amountLabel).enterText('2');
+  await $(_next).tap();
+
+  await $(_intervalToggle).tap();
+  await $(TextField).containing(_everyLabel).enterText('3');
+  await $(_save).tap();
+  await $(ListTile).containing(name).waitUntilVisible();
+
+  // Pop Schedules -> Settings -> Home so the bottom nav is reachable again.
   await $.tester.pageBack();
   await $.pumpAndSettle();
   await $.tester.pageBack();

@@ -30,11 +30,8 @@ class MedicationSupplyItem extends SupplyItem
   final Decimal totalDose;
   final Decimal usedDose;
   final Decimal concentration;
-  @MappableField(key: 'moleculeJson')
   final Molecule molecule;
-  @MappableField(key: 'administrationRouteName')
   final AdministrationRoute administrationRoute;
-  @MappableField(key: 'esterName')
   final Ester? ester;
 
   MedicationSupplyItem({

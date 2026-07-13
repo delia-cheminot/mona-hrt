@@ -10,15 +10,18 @@ import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
+import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
+import 'package:mona/services/preferences_service.dart';
 
 import '../fixtures.dart';
 
 @GenerateNiceMocks([
   MockSpec<MedicationIntakeProvider>(),
   MockSpec<SupplyItemProvider>(),
+  MockSpec<PreferencesService>(),
 ])
 import 'medication_intake_manager_test.mocks.dart';
 
@@ -35,13 +38,21 @@ void main() {
 
   late MockMedicationIntakeProvider mockMedicationIntakeProvider;
   late MockSupplyItemProvider mockSupplyItemProvider;
+  late MockPreferencesService mockPreferencesService;
   late MedicationIntakeManager manager;
 
   setUp(() {
     mockMedicationIntakeProvider = MockMedicationIntakeProvider();
     mockSupplyItemProvider = MockSupplyItemProvider();
-    manager = MedicationIntakeManager(
-        mockMedicationIntakeProvider, mockSupplyItemProvider);
+    mockPreferencesService = MockPreferencesService();
+    when(mockPreferencesService.placementsList).thenReturn(const [
+      PresetPlacement(PlacementPreset.left),
+      PresetPlacement(PlacementPreset.right),
+    ]);
+    when(mockPreferencesService.placementSuggestionPerSchedule)
+        .thenReturn(false);
+    manager = MedicationIntakeManager(mockMedicationIntakeProvider,
+        mockSupplyItemProvider, mockPreferencesService);
   });
 
   group('MedicationIntakeManager', () {
@@ -134,7 +145,7 @@ void main() {
             takenDateTime: takenDate,
             supplyItem: supplyItem,
             schedule: schedule,
-            side: InjectionSide.right,
+            placements: [aPlacement(preset: PlacementPreset.leftThigh)],
             notes: notes,
           );
         });
@@ -159,9 +170,10 @@ void main() {
           expect(addedIntake.takenTimeZone, 'UTC');
         });
 
-        test('propagates side to the intake', () {
+        test('propagates placements to the intake', () {
           // Assert
-          expect(addedIntake.side, InjectionSide.right);
+          expect(addedIntake.placements,
+              [aPlacement(preset: PlacementPreset.leftThigh)]);
         });
 
         test('propagates scheduleId from the schedule', () {
@@ -351,6 +363,11 @@ void main() {
               () {
             // Assert
             expect(addedIntake.takenDose, dose);
+          });
+
+          test('persists deadSpace in μL on the intake', () {
+            // Assert
+            expect(addedIntake.deadSpace, deadSpace);
           });
         });
 
@@ -629,6 +646,89 @@ void main() {
                 supplyItem.usedDose - expectedRollback);
           });
         });
+
+        group('when intake has a deadSpace', () {
+          late MedicationSupplyItem updatedSupplyItem;
+          final supplyItem = aMedicationSupplyItem(
+            totalDose: Decimal.parse('100'),
+            usedDose: Decimal.parse('20'),
+            concentration: Decimal.parse('10'),
+          );
+          final dose = Decimal.parse('2');
+          // 100 μL x 0.001 mL/μL x concentration 10 = 1 dose unit to put back on top of dose.
+          final deadSpace = Decimal.parse('100');
+          final expectedRollback = Decimal.parse('3'); // 2 + 1
+          final intake = aMedicationIntake(
+            supplyItemId: supplyItem.id,
+            dose: dose,
+            deadSpace: deadSpace,
+          );
+
+          setUp(() async {
+            // Arrange
+            when(mockSupplyItemProvider.getItemById(supplyItem.id))
+                .thenReturn(supplyItem);
+            when(mockSupplyItemProvider.updateItem(any))
+                .thenAnswer((inv) async {
+              updatedSupplyItem =
+                  inv.positionalArguments.first as MedicationSupplyItem;
+            });
+
+            // Act
+            await manager.deleteIntake(intake);
+          });
+
+          test(
+              'decreases usedDose by takenDose + (concentration x deadSpace x 0.001)',
+              () {
+            // Assert
+            expect(updatedSupplyItem.usedDose,
+                supplyItem.usedDose - expectedRollback);
+          });
+        });
+
+        group('when intake has both wastedAmount and deadSpace', () {
+          late MedicationSupplyItem updatedSupplyItem;
+          final supplyItem = aMedicationSupplyItem(
+            totalDose: Decimal.parse('100'),
+            usedDose: Decimal.parse('30'),
+            concentration: Decimal.parse('10'),
+          );
+          final dose = Decimal.parse('2');
+          // 0.5 mL x concentration 10 = 5 dose units.
+          final wastedAmount = Decimal.parse('0.5');
+          // 100 μL x 0.001 mL/μL x concentration 10 = 1 dose unit.
+          final deadSpace = Decimal.parse('100');
+          final expectedRollback = Decimal.parse('8'); // 2 + 5 + 1
+          final intake = aMedicationIntake(
+            supplyItemId: supplyItem.id,
+            dose: dose,
+            wastedAmount: wastedAmount,
+            deadSpace: deadSpace,
+          );
+
+          setUp(() async {
+            // Arrange
+            when(mockSupplyItemProvider.getItemById(supplyItem.id))
+                .thenReturn(supplyItem);
+            when(mockSupplyItemProvider.updateItem(any))
+                .thenAnswer((inv) async {
+              updatedSupplyItem =
+                  inv.positionalArguments.first as MedicationSupplyItem;
+            });
+
+            // Act
+            await manager.deleteIntake(intake);
+          });
+
+          test(
+              'decreases usedDose by takenDose + (concentration x wastedAmount) + (concentration x deadSpace x 0.001)',
+              () {
+            // Assert
+            expect(updatedSupplyItem.usedDose,
+                supplyItem.usedDose - expectedRollback);
+          });
+        });
       });
     });
 
@@ -642,9 +742,11 @@ void main() {
           dose: Decimal.parse('2'),
           supplyItemId: null,
           wastedAmount: null,
+          deadSpace: null,
         );
         final newDose = Decimal.parse('3');
         final newWasted = Decimal.parse('0.2');
+        final newDeadSpace = Decimal.parse('50');
         final newTimezone = 'Europe/Paris';
         final newNotes = 'edited';
 
@@ -658,9 +760,10 @@ void main() {
           intake,
           takenDose: newDose,
           wastedAmount: newWasted,
+          deadSpace: newDeadSpace,
           takenDateTime: takenDate,
           takenTimeZone: newTimezone,
-          side: InjectionSide.left,
+          placements: [aCustomPlacement('belly')],
           supplyItem: null,
           notes: newNotes,
         );
@@ -672,9 +775,11 @@ void main() {
               .having((i) => i.id, 'id', intake.id)
               .having((i) => i.takenDose, 'takenDose', newDose)
               .having((i) => i.wastedAmount, 'wastedAmount', newWasted)
+              .having((i) => i.deadSpace, 'deadSpace', newDeadSpace)
               .having((i) => i.takenDateTime, 'takenDateTime', takenDate)
               .having((i) => i.takenTimeZone, 'takenTimeZone', newTimezone)
-              .having((i) => i.side, 'side', InjectionSide.left)
+              .having((i) => i.placements, 'placements',
+                  [aCustomPlacement('belly')])
               .having((i) => i.notes, 'notes', newNotes)
               .having((i) => i.supplyItemId, 'supplyItemId', isNull),
         );
@@ -686,13 +791,16 @@ void main() {
           SupplyItem? next,
           Decimal? previousDose,
           Decimal? previousWasted,
+          Decimal? previousDeadSpace,
           Decimal? newDose,
           Decimal? newWasted,
+          Decimal? newDeadSpace,
         }) async {
           final intake = aMedicationIntake(
             supplyItemId: previous?.id,
             dose: previousDose ?? Decimal.zero,
             wastedAmount: previousWasted,
+            deadSpace: previousDeadSpace,
           );
           if (previous != null) {
             when(mockSupplyItemProvider.getItemById(previous.id))
@@ -707,6 +815,7 @@ void main() {
             intake,
             takenDose: newDose ?? Decimal.zero,
             wastedAmount: newWasted,
+            deadSpace: newDeadSpace,
             takenDateTime: takenDate,
             takenTimeZone: 'Etc/UTC',
             supplyItem: next,
@@ -772,6 +881,29 @@ void main() {
         });
 
         test(
+            'null -> MedicationSupplyItem with deadSpace: increases usedDose by'
+            ' takenDose + (concentration x wastedAmount) + (concentration x deadSpace x 0.001)',
+            () async {
+          // Arrange
+          final next = aMedicationSupplyItem(
+            usedDose: Decimal.parse('1'),
+            concentration: Decimal.parse('10'),
+          );
+
+          // Act
+          // 1 + 2 + 0.5 x 10 + 100 x 0.001 x 10 = 9.
+          final updates = await capture(
+            next: next,
+            newDose: Decimal.parse('2'),
+            newWasted: Decimal.parse('0.5'),
+            newDeadSpace: Decimal.parse('100'),
+          );
+
+          // Assert
+          expect(updates, [_medication(id: next.id, usedDose: '9')]);
+        });
+
+        test(
             'MedicationSupplyItem -> null: rolls back usedDose by the previous'
             ' used dose', () async {
           final previous = aMedicationSupplyItem(
@@ -787,6 +919,28 @@ void main() {
             ),
             [_medication(id: previous.id, usedDose: '3')],
           );
+        });
+
+        test(
+            'MedicationSupplyItem with deadSpace -> null: rolls back usedDose by'
+            ' the previous used dose including deadSpace', () async {
+          // Arrange
+          final previous = aMedicationSupplyItem(
+            usedDose: Decimal.parse('10'),
+            concentration: Decimal.parse('10'),
+          );
+
+          // Act
+          // 10 - (2 + 0.5 x 10 + 100 x 0.001 x 10) = 2.
+          final updates = await capture(
+            previous: previous,
+            previousDose: Decimal.parse('2'),
+            previousWasted: Decimal.parse('0.5'),
+            previousDeadSpace: Decimal.parse('100'),
+          );
+
+          // Assert
+          expect(updates, [_medication(id: previous.id, usedDose: '2')]);
         });
 
         test(
@@ -808,6 +962,35 @@ void main() {
             ),
             [_medication(id: item.id, usedDose: '8')],
           );
+        });
+
+        test(
+            'same MedicationSupplyItem with changed deadSpace: adjusts usedDose'
+            ' by the delta including deadSpace', () async {
+          // Arrange
+          final item = aMedicationSupplyItem(
+            totalDose: Decimal.parse('100'),
+            usedDose: Decimal.parse('20'),
+            concentration: Decimal.parse('10'),
+          );
+
+          // Act
+          // old: 2 + 0.5 x 10 + 100 x 0.001 x 10 = 8
+          // new: 3 + 0.2 x 10 + 50 x 0.001 x 10 = 5.5
+          // 20 + (5.5 - 8) = 17.5
+          final updates = await capture(
+            previous: item,
+            next: item,
+            previousDose: Decimal.parse('2'),
+            previousWasted: Decimal.parse('0.5'),
+            previousDeadSpace: Decimal.parse('100'),
+            newDose: Decimal.parse('3'),
+            newWasted: Decimal.parse('0.2'),
+            newDeadSpace: Decimal.parse('50'),
+          );
+
+          // Assert
+          expect(updates, [_medication(id: item.id, usedDose: '17.5')]);
         });
 
         test(
@@ -886,95 +1069,149 @@ void main() {
       });
     });
 
-    group('getNextSide', () {
-      test('returns right when last injection side is left', () {
+    group('getOrderedPlacements', () {
+      test('orders sites from least- to most-recently used', () {
         // Arrange
-        final firstIntake = MedicationIntake(
-          id: 1,
-          takenDose: Decimal.parse('2.5'),
-          takenDateTime: DateTime.utc(2025, 9, 14, 12, 0),
-          takenTimeZone: 'Etc/UTC',
-          scheduleId: 42,
-          side: InjectionSide.left,
-          molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.injection,
-        );
-        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
-            .thenReturn(firstIntake);
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc).thenReturn([
+          anInjection(
+            takenDateTime: DateTime.utc(2025, 9, 15),
+            placements: const [PresetPlacement(PlacementPreset.right)],
+          ),
+          anInjection(
+            takenDateTime: DateTime.utc(2025, 9, 14),
+            placements: const [PresetPlacement(PlacementPreset.left)],
+          ),
+        ]);
 
         // Act
-        final InjectionSide nextSide = manager.getNextSide();
+        final ordered = manager.getOrderedPlacements(scheduleId: 42);
 
         // Assert
-        expect(nextSide, InjectionSide.right);
+        expect(ordered, const [
+          PresetPlacement(PlacementPreset.left),
+          PresetPlacement(PlacementPreset.right),
+        ]);
       });
 
-      test('returns left when last injection side is right', () {
+      test('puts never-used sites before used ones', () {
         // Arrange
-        final lastIntake = MedicationIntake(
-          id: 2,
-          takenDose: Decimal.parse('2.5'),
-          takenDateTime: DateTime.utc(2025, 9, 15, 12, 0),
-          takenTimeZone: 'Etc/UTC',
-          scheduleId: 42,
-          side: InjectionSide.right,
-          molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.injection,
-        );
-        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
-            .thenReturn(lastIntake);
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc).thenReturn([
+          anInjection(
+            takenDateTime: DateTime.utc(2025, 9, 15),
+            placements: const [PresetPlacement(PlacementPreset.left)],
+          ),
+        ]);
 
-        // Act / Assert
-        expect(manager.getNextSide(), InjectionSide.left);
+        // Act
+        final ordered = manager.getOrderedPlacements(scheduleId: 42);
+
+        // Assert
+        expect(ordered, const [
+          PresetPlacement(PlacementPreset.right),
+          PresetPlacement(PlacementPreset.left),
+        ]);
       });
 
-      test('returns left when there is no last injection intake', () {
+      test('a multi-site intake marks all of its sites used', () {
         // Arrange
-        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
-            .thenReturn(null);
+        when(mockPreferencesService.placementsList).thenReturn(const [
+          PresetPlacement(PlacementPreset.left),
+          PresetPlacement(PlacementPreset.right),
+          PresetPlacement(PlacementPreset.leftArm),
+        ]);
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc).thenReturn([
+          anInjection(
+            takenDateTime: DateTime.utc(2025, 9, 15),
+            placements: const [
+              PresetPlacement(PlacementPreset.left),
+              PresetPlacement(PlacementPreset.right),
+            ],
+          ),
+        ]);
 
-        // Act / Assert
-        expect(manager.getNextSide(), InjectionSide.left);
+        // Act
+        final ordered = manager.getOrderedPlacements(scheduleId: 42);
+
+        // Assert
+        expect(ordered, const [
+          PresetPlacement(PlacementPreset.leftArm),
+          PresetPlacement(PlacementPreset.left),
+          PresetPlacement(PlacementPreset.right),
+        ]);
       });
 
-      test('returns left when last injection intake side is null', () {
+      test('returns an empty list when there are no configured sites', () {
         // Arrange
-        final intake = MedicationIntake(
-          id: 3,
-          takenDose: Decimal.parse('2.5'),
-          takenDateTime: DateTime.utc(2025, 9, 16, 12, 0),
-          takenTimeZone: 'Etc/UTC',
-          scheduleId: 42,
-          side: null,
-          molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.injection,
-        );
-        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
-            .thenReturn(intake);
+        when(mockPreferencesService.placementsList).thenReturn(const []);
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc)
+            .thenReturn([]);
 
-        // Act / Assert
-        expect(manager.getNextSide(), InjectionSide.left);
+        // Act
+        final ordered = manager.getOrderedPlacements(scheduleId: 42);
+
+        // Assert
+        expect(ordered, isEmpty);
       });
 
-      test(
-          'alternates from last injection even when a non-injection intake was taken more recently',
-          () {
+      test('per-schedule scope ignores history from other schedules', () {
         // Arrange
-        final lastInjection = MedicationIntake(
-          id: 4,
-          takenDose: Decimal.parse('2.5'),
-          takenDateTime: DateTime.utc(2025, 9, 14, 12, 0),
-          takenTimeZone: 'Etc/UTC',
-          scheduleId: 42,
-          side: InjectionSide.left,
-          molecule: KnownMolecules.estradiol,
-          administrationRoute: AdministrationRoute.injection,
-        );
-        when(mockMedicationIntakeProvider.getLastTakenInjectionIntake())
-            .thenReturn(lastInjection);
+        when(mockPreferencesService.placementSuggestionPerSchedule)
+            .thenReturn(true);
+        when(mockMedicationIntakeProvider.getTakenIntakesDescForSchedule(42))
+            .thenReturn([
+          anInjection(
+            scheduleId: 42,
+            takenDateTime: DateTime.utc(2025, 9, 14),
+            placements: const [PresetPlacement(PlacementPreset.right)],
+          ),
+        ]);
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc).thenReturn([
+          anInjection(
+            scheduleId: 99,
+            takenDateTime: DateTime.utc(2025, 9, 16),
+            placements: const [PresetPlacement(PlacementPreset.left)],
+          ),
+        ]);
 
-        // Act / Assert
-        expect(manager.getNextSide(), InjectionSide.right);
+        // Act
+        final ordered = manager.getOrderedPlacements(scheduleId: 42);
+
+        // Assert
+        expect(ordered, const [
+          PresetPlacement(PlacementPreset.left),
+          PresetPlacement(PlacementPreset.right),
+        ]);
+      });
+    });
+
+    group('suggestNextPlacement', () {
+      test('returns the most stale site (first of the ordered list)', () {
+        // Arrange
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc).thenReturn([
+          anInjection(
+            takenDateTime: DateTime.utc(2025, 9, 15),
+            placements: const [PresetPlacement(PlacementPreset.left)],
+          ),
+        ]);
+
+        // Act
+        final suggestion = manager.suggestNextPlacement(scheduleId: 42);
+
+        // Assert
+        expect(suggestion, const PresetPlacement(PlacementPreset.right));
+      });
+
+      test('returns null when there are no configured sites', () {
+        // Arrange
+        when(mockPreferencesService.placementsList).thenReturn(const []);
+        when(mockMedicationIntakeProvider.takenIntakesSortedDesc)
+            .thenReturn([]);
+
+        // Act
+        final suggestion = manager.suggestNextPlacement(scheduleId: 42);
+
+        // Assert
+        expect(suggestion, isNull);
       });
     });
   });

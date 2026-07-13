@@ -1,9 +1,9 @@
 import 'dart:math' as math;
 
+import 'package:clock/clock.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/graph_calculator.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
@@ -12,6 +12,7 @@ import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/helpers/units_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
+import 'package:mona/util/time_difference.dart';
 import 'package:provider/provider.dart';
 
 class _ChartConstants {
@@ -39,34 +40,29 @@ class MainGraph extends StatelessWidget {
     final theme = Theme.of(context);
     final unit = preferencesProvider.units.estradiol;
 
-    Map<int, GraphIntake> daysAndIntakes =
-        medicationIntakeProvider.getDaysAndIntakes();
+    if (medicationIntakeProvider.plottableIntakes.isEmpty) {
+      return SizedBox.shrink();
+    }
 
-    if (daysAndIntakes.isEmpty) return SizedBox.shrink();
+    final DateTime tMin = medicationIntakeProvider.getGraphLocalStart()!;
+    final double tNow = timeDifferenceInDays(clock.now(), tMin);
+    final double graphSpan = medicationIntakeProvider.getGraphSpan(tMin)!;
 
-    final Date firstDay =
-        medicationIntakeProvider.getFirstGraphIntakeLocalDate()!;
-    Map<int, double> daysAndBloodTests =
-        bloodTestProvider.getDaysAndBloodTests(firstDay, unit);
+    List<GraphIntake> intakes =
+        medicationIntakeProvider.getIntakesForGraph(tMin);
+    List<GraphBloodTest> bloodTests =
+        bloodTestProvider.getBloodTestsForGraph(tMin, unit);
 
     final List<FlSpot> spots =
-        GraphCalculator().generateFlSpots(daysAndIntakes, unit);
-
-    final List<FlSpot> bloodSpots = daysAndBloodTests.entries
-        .map((e) => FlSpot(e.key.toDouble(), e.value))
-        .toList();
-
-    final int totalDays = medicationIntakeProvider
-        .getLastGraphIntakeDate()!
-        .differenceInDays(firstDay);
-    final double daysSinceStart =
-        DateTime.now().difference(firstDay.toDateTime()).inSeconds / 86400.0;
-
+        GraphCalculator().generateLevelsSpots(intakes, unit);
+    final List<FlSpot> bloodSpots =
+        GraphCalculator().generateBloodSpots(bloodTests);
     FlSpot? todaySpot;
-    if (daysSinceStart <= totalDays + GraphCalculator.tMaxOffset) {
-      final todayConcentration = GraphCalculator()
-          .totalConcentrationAtTime(daysSinceStart, daysAndIntakes, unit);
-      todaySpot = FlSpot(daysSinceStart, todayConcentration);
+
+    if (tNow <= graphSpan + GraphCalculator.tMaxOffset) {
+      final todayConcentration =
+          GraphCalculator().totalConcentrationAtTime(tNow, intakes, unit);
+      todaySpot = FlSpot(tNow, todayConcentration);
     }
 
     final double maxY =
@@ -94,20 +90,20 @@ class MainGraph extends StatelessWidget {
               child: LineChart(
                 LineChartData(
                   minX: 0,
-                  maxX: (totalDays + GraphCalculator.tMaxOffset),
+                  maxX: (graphSpan + GraphCalculator.tMaxOffset),
                   minY: 0,
                   maxY: maxYWithPadding,
                   gridData: FlGridData(show: true),
-                  titlesData: _buildTitlesData(context, firstDay),
+                  titlesData: _buildTitlesData(context, tMin),
                   borderData: FlBorderData(show: true),
                   lineBarsData: [
                     _buildLineBarData(spots, theme),
                     _buildBloodTestData(bloodSpots, theme),
                   ],
                   lineTouchData:
-                      _buildLineTouchData(context, theme, firstDay, unit),
-                  extraLinesData: _buildTodayVerticalLine(
-                      theme, todaySpot, daysSinceStart, unit),
+                      _buildLineTouchData(context, theme, tMin, unit),
+                  extraLinesData:
+                      _buildTodayVerticalLine(theme, todaySpot, tNow, unit),
                 ),
               ),
             ),
@@ -168,7 +164,7 @@ class MainGraph extends StatelessWidget {
   }
 
   LineTouchData _buildLineTouchData(BuildContext context, ThemeData theme,
-      Date firstDay, EstradiolUnit unit) {
+      DateTime tMin, EstradiolUnit unit) {
     return LineTouchData(
       touchTooltipData: LineTouchTooltipData(
         getTooltipColor: (touchedSpots) => theme.colorScheme.tertiaryContainer,
@@ -180,10 +176,11 @@ class MainGraph extends StatelessWidget {
           return touchedSpots.map((spot) {
             String text;
             if (spot.barIndex == 0) {
-              text = spot.y.toStringAsFixed(1);
+              text =
+                  '${t.chartLevelTooltip(date: _getDateLabel(spot.x, tMin, context), level: spot.y.toStringAsFixed(1))} ${unit.localizedName}';
             } else {
               text =
-                  '${t.chartBloodTestLevelTooltip(date: _getDateLabel(spot.x, firstDay, context), level: spot.y.toStringAsFixed(1))} ${unit.localizedName}';
+                  '${t.chartBloodTestLevelTooltip(date: _getDateLabel(spot.x, tMin, context), level: spot.y.toStringAsFixed(1))} ${unit.localizedName}';
             }
             return LineTooltipItem(
                 text,
@@ -196,7 +193,7 @@ class MainGraph extends StatelessWidget {
     );
   }
 
-  FlTitlesData _buildTitlesData(BuildContext context, Date firstDay) {
+  FlTitlesData _buildTitlesData(BuildContext context, DateTime tMin) {
     return FlTitlesData(
       show: true,
       bottomTitles: AxisTitles(
@@ -210,7 +207,7 @@ class MainGraph extends StatelessWidget {
               child: Transform.rotate(
                 angle: -math.pi / 4,
                 child: Text(
-                  _getDateLabel(value, firstDay, context),
+                  _getDateLabel(value, tMin, context),
                   style: const TextStyle(
                     fontSize: _ChartConstants.labelFontSize,
                   ),
@@ -236,8 +233,11 @@ class MainGraph extends StatelessWidget {
     );
   }
 
-  String _getDateLabel(double value, Date firstDay, BuildContext context) {
-    final date = firstDay.add(Duration(days: value.toInt()));
-    return DateFormat.Md(context.intlLanguageTag).format(date.toDateTime());
+  String _getDateLabel(double value, DateTime tMin, BuildContext context) {
+    final date = tMin
+        .add(Duration(
+            microseconds: (value * Duration.microsecondsPerDay).round()))
+        .toLocal();
+    return DateFormat.Md(context.intlLanguageTag).format(date);
   }
 }

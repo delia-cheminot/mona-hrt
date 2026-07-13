@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
@@ -10,8 +11,10 @@ import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
+import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/planned_notification.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
+import 'package:mona/data/model/units.dart';
 
 /// A time before the [testNow] hour (noon).
 const morning = TimeOfDay(hour: 9, minute: 0);
@@ -76,6 +79,11 @@ WeeklySchedule aWeeklyStrategy({
       notificationTimes: notificationTimes,
     );
 
+Placement aPlacement({PlacementPreset preset = PlacementPreset.left}) =>
+    PresetPlacement(preset);
+
+Placement aCustomPlacement([String label = 'belly']) => CustomPlacement(label);
+
 MedicationIntake aMedicationIntake({
   TimeOfDay? time,
   int? id,
@@ -83,7 +91,10 @@ MedicationIntake aMedicationIntake({
   Decimal? dose,
   int? supplyItemId,
   Decimal? wastedAmount,
+  Decimal? deadSpace,
   AdministrationRoute administrationRoute = AdministrationRoute.oral,
+  Ester? ester,
+  List<Placement> placements = const [],
 }) =>
     MedicationIntake(
       id: id ?? _generateId(),
@@ -98,6 +109,45 @@ MedicationIntake aMedicationIntake({
       scheduledTime: time,
       supplyItemId: supplyItemId,
       wastedAmount: wastedAmount,
+      deadSpace: deadSpace,
+      ester: ester,
+      placements: placements,
+    );
+
+/// An estradiol injection intake (the only kind plotted on the graph),
+/// pinned to an exact UTC [takenDateTime].
+MedicationIntake anInjection({
+  int? id,
+  int? scheduleId,
+  required DateTime takenDateTime,
+  Decimal? dose,
+  Ester ester = Ester.valerate,
+  List<Placement> placements = const [],
+}) =>
+    MedicationIntake(
+      id: id ?? _generateId(),
+      takenDose: dose ?? Decimal.parse('2.0'),
+      takenDateTime: takenDateTime,
+      takenTimeZone: 'Etc/UTC',
+      scheduleId: scheduleId,
+      molecule: KnownMolecules.estradiol,
+      administrationRoute: AdministrationRoute.injection,
+      ester: ester,
+      placements: placements,
+    );
+
+BloodTest aBloodTest({
+  int? id,
+  required DateTime dateTime,
+  Decimal? estradiolLevel,
+}) =>
+    BloodTest(
+      id: id ?? _generateId(),
+      dateTime: dateTime,
+      timeZone: 'Etc/UTC',
+      estradiolLevels: estradiolLevel != null
+          ? UnitValue(estradiolLevel, EstradiolUnit.pg_mL)
+          : null,
     );
 
 MedicationSupplyItem aMedicationSupplyItem({

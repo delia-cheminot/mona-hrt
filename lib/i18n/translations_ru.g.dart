@@ -230,27 +230,11 @@ class TranslationsRu extends Translations
   @override
   String get scheduling => 'Расписание';
   @override
-  String get noNotifications => 'Нет уведомлений';
-  @override
   String get editSchedule => 'Изменение расписания';
   @override
   String deleteSchedule({required Object name}) => 'Удалить ${name}?';
   @override
-  String get scheduleNotifications => 'Уведомления расписания';
-  @override
   String get addNotification => 'Добавить уведомление';
-  @override
-  String noNotificationsForSchedule({required Object scheduleName}) =>
-      'Для ${scheduleName} нет уведомлений. Вы можете создать их с помощью кнопки внизу.';
-  @override
-  String get notificationsUpdated => 'Уведомления были обновлены!';
-  @override
-  String get notificationsUpdatedDescription =>
-      'Каждое расписание теперь имеет свои уведомления.\n\nПожалуйста, (пере)настройте уведомления для своих расписаний.';
-  @override
-  String get dontShowAgain => 'Больше не показывать';
-  @override
-  String get scheduleSettings => 'Настройки расписания';
   @override
   String get empty_intakes => 'Добавленные приёмы будут отображаться тут';
   @override
@@ -317,6 +301,9 @@ class TranslationsRu extends Translations
   @override
   String chartBloodTestLevelTooltip(
           {required Object date, required Object level}) =>
+      '${date}: ${level}';
+  @override
+  String chartLevelTooltip({required Object date, required Object level}) =>
       '${date}: ${level}';
   @override
   String get empty_supplies =>
@@ -470,9 +457,9 @@ class TranslationsRu extends Translations
   @override
   String get injectionSideRight => 'Правая';
   @override
-  String get intakeSummaryInjectionSideLeft => 'Левая сторона';
+  String get placementLeft => 'Левая сторона';
   @override
-  String get intakeSummaryInjectionSideRight => 'Правая сторона';
+  String get placementRight => 'Правая сторона';
   @override
   String get requiredField => 'Обязательное поле';
   @override
@@ -508,14 +495,6 @@ class TranslationsRu extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
         count,
         other: '${count} создано',
-      );
-  @override
-  String notificationsCount({required num count}) =>
-      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-        count,
-        one: '${count} уведомление',
-        few: '${count} уведомления',
-        other: '${count} уведомлений',
       );
   @override
   String remaining({required num count, required Object unit}) =>
@@ -724,18 +703,9 @@ extension on TranslationsRu {
       'addIntakeTime' => 'Добавить время',
       'editScheduleInfo' => 'Изменить информацию расписания',
       'scheduling' => 'Расписание',
-      'noNotifications' => 'Нет уведомлений',
       'editSchedule' => 'Изменение расписания',
       'deleteSchedule' => ({required Object name}) => 'Удалить ${name}?',
-      'scheduleNotifications' => 'Уведомления расписания',
       'addNotification' => 'Добавить уведомление',
-      'noNotificationsForSchedule' => ({required Object scheduleName}) =>
-          'Для ${scheduleName} нет уведомлений. Вы можете создать их с помощью кнопки внизу.',
-      'notificationsUpdated' => 'Уведомления были обновлены!',
-      'notificationsUpdatedDescription' =>
-        'Каждое расписание теперь имеет свои уведомления.\n\nПожалуйста, (пере)настройте уведомления для своих расписаний.',
-      'dontShowAgain' => 'Больше не показывать',
-      'scheduleSettings' => 'Настройки расписания',
       'empty_intakes' => 'Добавленные приёмы будут отображаться тут',
       'chooseSchedule' => 'Выберите расписание',
       'addSchedulesFirst' => 'Сначала добавьте расписание.',
@@ -770,6 +740,8 @@ extension on TranslationsRu {
       'chartNowConcentration' => ({required Object value}) => 'Сейчас ${value}',
       'chartBloodTestLevelTooltip' =>
         ({required Object date, required Object level}) => '${date}: ${level}',
+      'chartLevelTooltip' => ({required Object date, required Object level}) =>
+          '${date}: ${level}',
       'empty_supplies' =>
         'Нет препаратов. Для начала работы добавьте препарат.',
       'newItem' => 'Новый препарат',
@@ -847,8 +819,8 @@ extension on TranslationsRu {
       'unitNmolPerL' => 'нмоль/л',
       'injectionSideLeft' => 'Левая',
       'injectionSideRight' => 'Правая',
-      'intakeSummaryInjectionSideLeft' => 'Левая сторона',
-      'intakeSummaryInjectionSideRight' => 'Правая сторона',
+      'placementLeft' => 'Левая сторона',
+      'placementRight' => 'Правая сторона',
       'requiredField' => 'Обязательное поле',
       'mustBePositiveNumber' => 'Число должно быть положительным',
       'invalidTotalAmount' => 'Неверное общее количество',
@@ -876,13 +848,6 @@ extension on TranslationsRu {
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
             count,
             other: '${count} создано',
-          ),
-      'notificationsCount' => ({required num count}) =>
-          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
-            count,
-            one: '${count} уведомление',
-            few: '${count} уведомления',
-            other: '${count} уведомлений',
           ),
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
