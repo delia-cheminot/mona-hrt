@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/i18n/translations.g.dart';
+import 'package:mona/ui/views/chart/bar_chart_graph.dart';
 import 'package:mona/ui/views/chart/chart_graph.dart';
 import 'package:mona/ui/views/chart/chart_slider.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
@@ -28,7 +29,7 @@ class _ChartPageState extends State<ChartPage> {
               value: sliderValue,
               onChanged: (v) => setState(() => sliderValue = v),
             ),
-            Expanded(child: MainGraph(window: sliderValue)),
+            Expanded(child: BarChartGraph(window: sliderValue)),
           ],
         ),
       );
