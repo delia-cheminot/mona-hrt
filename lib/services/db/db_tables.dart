@@ -30,7 +30,8 @@ const String createMedicationIntakesTable = '''
       supplyItemId INTEGER,
       notes TEXT,
       placements TEXT NOT NULL,
-      FOREIGN KEY (supplyItemId) REFERENCES supply_items(id) ON DELETE SET NULL
+      FOREIGN KEY (supplyItemId) REFERENCES supply_items(id) ON DELETE SET NULL,
+      FOREIGN KEY (scheduleId) REFERENCES medication_schedules(id) ON DELETE SET NULL
     )
     ''';
 
