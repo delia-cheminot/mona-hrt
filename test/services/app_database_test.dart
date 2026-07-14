@@ -185,6 +185,67 @@ void main() {
       );
     });
 
+    test(
+        "inserting a scheduleId that doesn't exist in medication_intakes does not succeed",
+        () async {
+      // Arrange
+      final scheduleId = -67;
+
+      // Act & Assert
+      expect(
+          () async => await db.insert('medication_intakes', {
+                'takenDateTime': null,
+                'takenDose': '2.5',
+                'placements': '[]',
+                'molecule': '{"name":"estradiol","unit":"mg"}',
+                'administrationRoute': 'oral',
+                'scheduleId': scheduleId,
+              }),
+          throwsA(
+            predicate((e) =>
+                e is DatabaseException &&
+                e.getResultCode() == 787), // foreign key constraint failed code
+          ));
+    });
+
+    test(
+        "deleting a schedule sets the field scheduleId in medication_intakes NULL",
+        () async {
+      // Arrange
+      final scheduleId = await db.insert('medication_schedules', {
+        'name': 'Morning Med',
+        'dose': '5',
+        'startDate': DateTime(2025, 9, 13).toIso8601String(),
+        'molecule': '{"name":"estradiol","unit":"mg"}',
+        'administrationRoute': 'oral',
+        'scheduling':
+            '{"type":"intervalDays","intervalDays":1,"notificationTimes":["8:30"]}',
+      });
+
+      final intakeId = await db.insert('medication_intakes', {
+        'takenDateTime': null,
+        'takenDose': '2.5',
+        'placements': '[]',
+        'molecule': '{"name":"estradiol","unit":"mg"}',
+        'administrationRoute': 'oral',
+        'scheduleId': scheduleId,
+      });
+
+      // Act
+      await db.delete("medication_schedules",
+          where: 'id = ?', whereArgs: [scheduleId]);
+
+      // Assert
+      final intakes = await db
+          .query("medication_intakes", where: 'id = ?', whereArgs: [intakeId]);
+      final intake = intakes.single;
+
+      expect(
+        intake,
+        containsPair('scheduleId', null),
+      );
+    });
+
     test('can insert and query medication_schedules', () async {
       final id = await db.insert('medication_schedules', {
         'name': 'Morning Med',

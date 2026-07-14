@@ -114,8 +114,8 @@ class AppDatabase {
 
   Future _createDB(Database db, int version) async {
     await db.execute(createSupplyItemsTable);
-    await db.execute(createMedicationIntakesTable);
     await db.execute(createMedicationSchedulesTable);
+    await db.execute(createMedicationIntakesTable);
     await db.execute(createBloodTestsTable);
   }
 
