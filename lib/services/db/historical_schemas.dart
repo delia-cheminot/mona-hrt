@@ -285,6 +285,27 @@ const String _medicationIntakesV14 = '''
     )
     ''';
 
+const String _medicationIntakesV15 = '''
+    CREATE TABLE medication_intakes(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      scheduledTime TEXT,
+      takenDateTime TEXT,
+      takenTimeZone TEXT,
+      takenDose TEXT NOT NULL,
+      wastedAmount TEXT,
+      deadSpace TEXT,
+      scheduleId INTEGER,
+      molecule TEXT NOT NULL,
+      administrationRoute TEXT NOT NULL,
+      ester TEXT,
+      supplyItemId INTEGER,
+      notes TEXT,
+      placements TEXT NOT NULL,
+      FOREIGN KEY (supplyItemId) REFERENCES supply_items(id) ON DELETE SET NULL,
+      FOREIGN KEY (scheduleId) REFERENCES medication_schedules(id) ON DELETE SET NULL
+    )
+    ''';
+
 const Map<int, List<String>> _historicalSchemas = {
   4: [
     _supplyItemsV4,
@@ -349,6 +370,12 @@ const Map<int, List<String>> _historicalSchemas = {
   14: [
     _supplyItemsV13,
     _medicationIntakesV14,
+    _medicationSchedulesV13,
+    _bloodTestsV7,
+  ],
+  15: [
+    _supplyItemsV13,
+    _medicationIntakesV15,
     _medicationSchedulesV13,
     _bloodTestsV7,
   ],
