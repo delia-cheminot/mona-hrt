@@ -3,6 +3,7 @@ import 'package:decimal/decimal.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/custom_mappers.dart';
 import 'package:mona/data/model/ester.dart';
+import 'package:mona/data/model/mapping_hooks.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/i18n/translations.g.dart';
@@ -16,7 +17,6 @@ part 'medication_supply_item.mapper.dart';
   includeCustomMappers: [
     DateStringMapper(),
     DecimalStringMapper(),
-    MoleculeJsonMapper(),
     AdministrationRouteNameMapper(),
     EsterNameMapper(),
   ],
@@ -30,6 +30,7 @@ class MedicationSupplyItem extends SupplyItem
   final Decimal totalDose;
   final Decimal usedDose;
   final Decimal concentration;
+  @MappableField(hook: JsonStringHook())
   final Molecule molecule;
   final AdministrationRoute administrationRoute;
   final Ester? ester;

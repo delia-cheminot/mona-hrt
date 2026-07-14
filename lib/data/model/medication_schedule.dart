@@ -14,7 +14,6 @@ part 'medication_schedule.mapper.dart';
 
 @MappableClass(
   includeCustomMappers: [
-    MoleculeJsonMapper(),
     AdministrationRouteNameMapper(),
     EsterNameMapper(),
     DecimalStringMapper(),
@@ -27,6 +26,7 @@ class MedicationSchedule with MedicationScheduleMappable {
   final String name;
   final Decimal dose;
   final Date startDate;
+  @MappableField(hook: JsonStringHook())
   final Molecule molecule;
   final AdministrationRoute administrationRoute;
   final Ester? ester;

@@ -1,36 +1,10 @@
-import 'dart:convert';
-
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/ester.dart';
-import 'package:mona/data/model/molecule.dart';
 import 'package:mona/util/string_parsing.dart';
-
-class MoleculeJsonMapper extends SimpleMapper<Molecule> {
-  const MoleculeJsonMapper();
-
-  @override
-  Molecule decode(Object value) {
-    if (value is String) {
-      return Molecule.fromJson(
-        jsonDecode(value) as Map<String, dynamic>,
-      );
-    }
-    if (value is Map) {
-      return Molecule.fromJson(Map<String, dynamic>.from(value));
-    }
-    throw FormatException(
-        'Expected JSON for molecule, got ${value.runtimeType}');
-  }
-
-  @override
-  Object? encode(Molecule self) {
-    return jsonEncode(self.toJson());
-  }
-}
 
 class AdministrationRouteNameMapper extends SimpleMapper<AdministrationRoute> {
   const AdministrationRouteNameMapper();

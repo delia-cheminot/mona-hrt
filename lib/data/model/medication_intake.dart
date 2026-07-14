@@ -16,7 +16,6 @@ part 'medication_intake.mapper.dart';
 
 @MappableClass(
   includeCustomMappers: [
-    MoleculeJsonMapper(),
     AdministrationRouteNameMapper(),
     EsterNameMapper(),
     DecimalStringMapper(),
@@ -34,6 +33,7 @@ class MedicationIntake with MedicationIntakeMappable {
   final Decimal? deadSpace; // μL
   final int? scheduleId;
   bool get isTaken => takenDateTime != null;
+  @MappableField(hook: JsonStringHook())
   final Molecule molecule;
   final AdministrationRoute administrationRoute;
   final Ester? ester;
