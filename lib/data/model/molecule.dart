@@ -15,16 +15,6 @@ class Molecule with MoleculeMappable {
   });
 
   String get normalizedName => name.trim().toLowerCase();
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Molecule &&
-          runtimeType == other.runtimeType &&
-          name == other.name;
-
-  @override
-  int get hashCode => name.hashCode;
 }
 
 class KnownMolecules {
