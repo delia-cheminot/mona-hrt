@@ -16,12 +16,12 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = MedicationIntakeMapper._());
       MapperContainer.globals.useAll([
-        MoleculeJsonMapper(),
         AdministrationRouteNameMapper(),
         EsterNameMapper(),
         DecimalStringMapper(),
         TimeOfDayMapper(),
       ]);
+      MoleculeMapper.ensureInitialized();
       PlacementMapper.ensureInitialized();
     }
     return _instance!;
@@ -81,6 +81,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
   static const Field<MedicationIntake, Molecule> _f$molecule = Field(
     'molecule',
     _$molecule,
+    hook: JsonStringHook(),
   );
   static AdministrationRoute _$administrationRoute(MedicationIntake v) =>
       v.administrationRoute;
@@ -213,6 +214,7 @@ extension MedicationIntakeValueCopy<$R, $Out>
 
 abstract class MedicationIntakeCopyWith<$R, $In extends MedicationIntake, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
+  MoleculeCopyWith<$R, Molecule, Molecule> get molecule;
   ListCopyWith<$R, Placement, PlacementCopyWith<$R, Placement, Placement>>
       get placements;
   $R call({
@@ -244,6 +246,9 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
   @override
   late final ClassMapperBase<MedicationIntake> $mapper =
       MedicationIntakeMapper.ensureInitialized();
+  @override
+  MoleculeCopyWith<$R, Molecule, Molecule> get molecule =>
+      $value.molecule.copyWith.$chain((v) => call(molecule: v));
   @override
   ListCopyWith<$R, Placement, PlacementCopyWith<$R, Placement, Placement>>
       get placements => ListCopyWith(

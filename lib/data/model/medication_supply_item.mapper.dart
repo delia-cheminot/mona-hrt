@@ -20,10 +20,10 @@ class MedicationSupplyItemMapper
       MapperContainer.globals.useAll([
         DateStringMapper(),
         DecimalStringMapper(),
-        MoleculeJsonMapper(),
         AdministrationRouteNameMapper(),
         EsterNameMapper(),
       ]);
+      MoleculeMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -62,6 +62,7 @@ class MedicationSupplyItemMapper
   static const Field<MedicationSupplyItem, Molecule> _f$molecule = Field(
     'molecule',
     _$molecule,
+    hook: JsonStringHook(),
   );
   static AdministrationRoute _$administrationRoute(MedicationSupplyItem v) =>
       v.administrationRoute;
@@ -169,6 +170,7 @@ abstract class MedicationSupplyItemCopyWith<
     $R,
     $In extends MedicationSupplyItem,
     $Out> implements SupplyItemCopyWith<$R, $In, $Out> {
+  MoleculeCopyWith<$R, Molecule, Molecule> get molecule;
   @override
   $R call({
     int? id,
@@ -193,6 +195,9 @@ class _MedicationSupplyItemCopyWithImpl<$R, $Out>
   @override
   late final ClassMapperBase<MedicationSupplyItem> $mapper =
       MedicationSupplyItemMapper.ensureInitialized();
+  @override
+  MoleculeCopyWith<$R, Molecule, Molecule> get molecule =>
+      $value.molecule.copyWith.$chain((v) => call(molecule: v));
   @override
   $R call({
     Object? id = $none,

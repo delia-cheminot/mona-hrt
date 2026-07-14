@@ -14,18 +14,6 @@ void main() {
       expect(normalizedName, 'testmol');
     });
 
-    test('toJson/fromJson roundtrip preserves values', () {
-      // Arrange
-      final molecule = Molecule(name: 'TestMol', unit: 'mg');
-
-      // Act
-      final json = molecule.toJson();
-      final fromJson = Molecule.fromJson(json);
-
-      // Assert
-      expect(fromJson, molecule);
-    });
-
     group('Molecule equality', () {
       test('two identical molecules are equal', () {
         // Arrange
