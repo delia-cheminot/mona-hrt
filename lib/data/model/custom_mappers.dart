@@ -88,29 +88,6 @@ class DateStringMapper extends SimpleMapper<Date> {
   }
 }
 
-class NotificationTimesMapper extends SimpleMapper<List<TimeOfDay>> {
-  const NotificationTimesMapper();
-
-  @override
-  List<TimeOfDay> decode(Object value) {
-    final list = jsonDecode(value as String) as List;
-    return list.map((e) {
-      final parts = (e as String).split(':');
-      return TimeOfDay(
-        hour: int.parse(parts[0]),
-        minute: int.parse(parts[1]),
-      );
-    }).toList();
-  }
-
-  @override
-  Object? encode(List<TimeOfDay> self) {
-    return jsonEncode(
-      self.map((t) => '${t.hour}:${t.minute}').toList(),
-    );
-  }
-}
-
 class TimeOfDayMapper extends SimpleMapper<TimeOfDay> {
   const TimeOfDayMapper();
 
