@@ -68,7 +68,7 @@ class ChooseScheduleTile extends StatelessWidget {
             backgroundColor: theme.colorScheme.primary,
             child: Icon(
               schedule.administrationRoute.icon,
-              color: theme.colorScheme.primaryContainer,
+              color: theme.colorScheme.onPrimary,
             ),
           ),
           title: Text(
