@@ -21,6 +21,7 @@ class LanguagePage extends StatelessWidget {
     'uk': (english: 'Ukrainian', native: 'Українська'),
     'ru': (english: 'Russian', native: 'Русский'),
     'th': (english: 'Thai', native: 'ภาษาไทย'),
+    'is': (english: 'Icelandic', native: 'Íslenska'),
     'et': (english: 'Estonian', native: 'Eesti'),
     'pl': (english: 'Polish', native: 'Polski'),
     'tok': (english: 'Toki Pona', native: 'toki pona'),

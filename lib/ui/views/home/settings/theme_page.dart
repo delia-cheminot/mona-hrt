@@ -44,7 +44,7 @@ class ThemePage extends StatelessWidget {
               children: [
                 Text(t.themeVariant,
                     style: Theme.of(context).textTheme.titleSmall),
-                const SizedBox(height: 4),
+                const SizedBox(height: 8),
                 _VariantGrid(
                   seedArgb: customTheme.seedArgb,
                   selected: customTheme.variant,

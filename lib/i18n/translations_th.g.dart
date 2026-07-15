@@ -134,7 +134,7 @@ class TranslationsTh extends Translations
   String get checkForUpdates => 'ตรวจหาอัพเดตใหม่';
   @override
   String get checkForUpdatesDescription =>
-      'ฉันจะตรวจหาอัพเดตใหม่ล่าสุดเอง\nจะทำให้เปิดเครือข่าย\n(จะไม่มีข้อมูลใดๆส่งออกนอกเครื่อง)';
+      'ตรวจหาอัพเดตใหม่\nต้องมีการเชื่อมต่ออินเทอร์เน็ต\n(ไม่มีข้อมูลใดๆออกนอกเครื่อง)';
   @override
   String appVersion({required Object version}) => 'Mona เวอร์ชั่น ${version}';
   @override
@@ -631,7 +631,7 @@ extension on TranslationsTh {
       'autoUpdateDescription' => 'ตรวจหาอัพเดตอัตโนมัติตอนที่เปิดแอพ',
       'checkForUpdates' => 'ตรวจหาอัพเดตใหม่',
       'checkForUpdatesDescription' =>
-        'ฉันจะตรวจหาอัพเดตใหม่ล่าสุดเอง\nจะทำให้เปิดเครือข่าย\n(จะไม่มีข้อมูลใดๆส่งออกนอกเครื่อง)',
+        'ตรวจหาอัพเดตใหม่\nต้องมีการเชื่อมต่ออินเทอร์เน็ต\n(ไม่มีข้อมูลใดๆออกนอกเครื่อง)',
       'appVersion' => ({required Object version}) =>
           'Mona เวอร์ชั่น ${version}',
       'backupSavedTo' => ({required Object path}) =>

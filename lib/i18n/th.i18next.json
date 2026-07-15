@@ -42,7 +42,7 @@
   "autoUpdate": "อัพเดตอัตโนมัติ",
   "autoUpdateDescription": "ตรวจหาอัพเดตอัตโนมัติตอนที่เปิดแอพ",
   "checkForUpdates": "ตรวจหาอัพเดตใหม่",
-  "checkForUpdatesDescription": "ฉันจะตรวจหาอัพเดตใหม่ล่าสุดเอง\\nจะทำให้เปิดเครือข่าย\\n(จะไม่มีข้อมูลใดๆส่งออกนอกเครื่อง)",
+  "checkForUpdatesDescription": "ตรวจหาอัพเดตใหม่\\nต้องมีการเชื่อมต่ออินเทอร์เน็ต\\n(ไม่มีข้อมูลใดๆออกนอกเครื่อง)",
   "appVersion": "Mona เวอร์ชั่น {{version}}",
   "backupSavedTo": "แบ็คอัพบันทึกไปที่ {{path}}",
   "exportFailed": "นำออกล้มเหลว: {{error}}",

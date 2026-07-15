@@ -545,18 +545,24 @@ class TranslationsFr extends Translations
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
+        one: 'il y a ${count} jour',
+        many: 'il y a ${count} de jours',
         other: 'il y a ${count} jours',
       );
   @override
   String inDaysCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
+        one: 'dans ${count} jour',
+        many: 'dans ${count} de jours',
         other: 'dans ${count} jours',
       );
   @override
   String scheduleFrequencyEveryNDays({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
+        one: 'Tous les ${count} jours',
+        many: 'Tous les ${count} de jours',
         other: 'Tous les ${count} jours',
       );
   @override
@@ -564,47 +570,55 @@ class TranslationsFr extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
         one: '${count} créé',
+        many: '${count} créés',
         other: '${count} créés',
       );
   @override
   String remaining({required num count, required Object unit}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
+        one: 'Reste ${count} ${unit}',
+        many: 'Reste ${count} de ${unit}',
         other: 'Reste ${count} ${unit}',
       );
   @override
   String syringeRemaining({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
-        one: '1 seringue restante',
+        one: '${count} seringue restante',
+        many: '${count} de seringues restantes',
         other: '${count} seringues restantes',
       );
   @override
   String wipeRemaining({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
-        one: '1 lingette restante',
+        one: '${count} lingette restante',
+        many: '${count} de lingettes restantes',
         other: '${count} lingettes restantes',
       );
   @override
   String needleRemaining({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
-        one: '1 aiguille restante',
+        one: '${count} aiguille restante',
+        many: '${count} d\'aiguilles restantes',
         other: '${count} aiguilles restantes',
       );
   @override
   String glovesRemaining({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
-        one: '1 gant restant',
+        one: '${count} gant restant',
+        many: '${count} de gants restants',
         other: '${count} gants restants',
       );
   @override
   String bandageRemaining({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
-        one: '1 pansement restant',
+        one: '${count} pansement restant',
+        many: '${count} de pansements restants',
         other: '${count} pansements restants',
       );
   @override
@@ -612,6 +626,7 @@ class TranslationsFr extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
         one: 'ml',
+        many: 'de ml',
         other: 'ml',
       );
   @override
@@ -619,6 +634,7 @@ class TranslationsFr extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
         one: 'comprimé',
+        many: 'de comprimés',
         other: 'comprimés',
       );
   @override
@@ -626,6 +642,7 @@ class TranslationsFr extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
         one: 'patch',
+        many: 'de patchs',
         other: 'patchs',
       );
   @override
@@ -633,6 +650,7 @@ class TranslationsFr extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
         one: 'pression',
+        many: 'de pressions',
         other: 'pressions',
       );
   @override
@@ -640,6 +658,7 @@ class TranslationsFr extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
         one: 'implant',
+        many: 'd\'implants',
         other: 'implants',
       );
   @override
@@ -647,6 +666,7 @@ class TranslationsFr extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
         one: 'suppositoire',
+        many: 'de suppositoires',
         other: 'suppositoires',
       );
   @override
@@ -654,6 +674,7 @@ class TranslationsFr extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
         one: 'pulvérisation',
+        many: 'de pulvérisations',
         other: 'pulvérisations',
       );
 }
@@ -928,99 +949,120 @@ extension on TranslationsFr {
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
+            one: 'il y a ${count} jour',
+            many: 'il y a ${count} de jours',
             other: 'il y a ${count} jours',
           ),
       'inDaysCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
+            one: 'dans ${count} jour',
+            many: 'dans ${count} de jours',
             other: 'dans ${count} jours',
           ),
       'scheduleFrequencyEveryNDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
+            one: 'Tous les ${count} jours',
+            many: 'Tous les ${count} de jours',
             other: 'Tous les ${count} jours',
           ),
       'schedulesCreated' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
             one: '${count} créé',
+            many: '${count} créés',
             other: '${count} créés',
           ),
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
+            one: 'Reste ${count} ${unit}',
+            many: 'Reste ${count} de ${unit}',
             other: 'Reste ${count} ${unit}',
           ),
       'syringeRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
-            one: '1 seringue restante',
+            one: '${count} seringue restante',
+            many: '${count} de seringues restantes',
             other: '${count} seringues restantes',
           ),
       'wipeRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
-            one: '1 lingette restante',
+            one: '${count} lingette restante',
+            many: '${count} de lingettes restantes',
             other: '${count} lingettes restantes',
           ),
       'needleRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
-            one: '1 aiguille restante',
+            one: '${count} aiguille restante',
+            many: '${count} d\'aiguilles restantes',
             other: '${count} aiguilles restantes',
           ),
       'glovesRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
-            one: '1 gant restant',
+            one: '${count} gant restant',
+            many: '${count} de gants restants',
             other: '${count} gants restants',
           ),
       'bandageRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
-            one: '1 pansement restant',
+            one: '${count} pansement restant',
+            many: '${count} de pansements restants',
             other: '${count} pansements restants',
           ),
       'administrationRouteUnitMl' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
             one: 'ml',
+            many: 'de ml',
             other: 'ml',
           ),
       'administrationRouteUnitPill' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
             one: 'comprimé',
+            many: 'de comprimés',
             other: 'comprimés',
           ),
       'administrationRouteUnitPatch' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
             one: 'patch',
+            many: 'de patchs',
             other: 'patchs',
           ),
       'administrationRouteUnitPump' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
             one: 'pression',
+            many: 'de pressions',
             other: 'pressions',
           ),
       'administrationRouteUnitImplant' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
             one: 'implant',
+            many: 'd\'implants',
             other: 'implants',
           ),
       'administrationRouteUnitSuppository' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
             one: 'suppositoire',
+            many: 'de suppositoires',
             other: 'suppositoires',
           ),
       'administrationRouteUnitSpray' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
             one: 'pulvérisation',
+            many: 'de pulvérisations',
             other: 'pulvérisations',
           ),
       _ => null,
