@@ -832,8 +832,6 @@ void main() {
             when(mockSupplyItemProvider.getItemById(previousMedication.id))
                 .thenReturn(previousMedication);
           }
-          // The manager resolves the generics it needs to put back (those
-          // removed from the intake) through getItemsByIds.
           final nextGenericIds = nextGenerics.map((generic) => generic.id);
           final removedGenerics = previousGenerics
               .where((generic) => !nextGenericIds.contains(generic.id))
