@@ -1214,6 +1214,7 @@ void main() {
     group('MonthlySchedule consistency between previous and next', () {
       test('previous is one interval before next', () {
         withFixedClock(() {
+          // testNow = 2026-06-01. Occurrences: Mar 21, Jun 21, Sep 21, ...
           // Arrange
           final start = Date(year: 2026, month: 3, day: 21);
           final s = MonthlySchedule(dayOfMonth: 21, intervalMonths: 3);
@@ -1223,7 +1224,13 @@ void main() {
           final previous = s.previousDate(start);
 
           // Assert
-          expect(previous, next.addMonths(-s.intervalMonths));
+          expect([
+            next,
+            previous
+          ], [
+            Date(year: 2026, month: 6, day: 21),
+            Date(year: 2026, month: 3, day: 21)
+          ]);
         });
       });
     });
