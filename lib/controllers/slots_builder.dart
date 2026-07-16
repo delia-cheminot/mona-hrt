@@ -24,6 +24,8 @@ class SlotsBuilder {
           slots.addAll(_daily(schedule, scheduling));
         case WeeklySchedule scheduling:
           slots.add(_weekly(schedule, scheduling));
+        case MonthlySchedule scheduling:
+          slots.add(_monthly(schedule, scheduling));
       }
     }
 
@@ -33,6 +35,26 @@ class SlotsBuilder {
   IntakeSlot _interval(
     MedicationSchedule schedule,
     IntervalDaysSchedule scheduling,
+  ) {
+    final lastTaken = _medicationIntakeProvider
+        .getLastIntakeLocalDateForSchedule(schedule.id);
+    final lastIntake =
+        _medicationIntakeProvider.getLastTakenIntakeForSchedule(schedule.id);
+
+    final status = scheduling.statusFor(
+      startDate: schedule.startDate,
+      lastTaken: lastTaken,
+    );
+    return IntakeSlot(
+      schedule: schedule,
+      status: status,
+      intake: status == ScheduleStatus.taken ? lastIntake : null,
+    );
+  }
+
+  IntakeSlot _monthly(
+    MedicationSchedule schedule,
+    MonthlySchedule scheduling,
   ) {
     final lastTaken = _medicationIntakeProvider
         .getLastIntakeLocalDateForSchedule(schedule.id);
