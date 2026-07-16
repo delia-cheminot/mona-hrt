@@ -27,6 +27,10 @@
   "scheduleFrequencyEveryNDays_other": "Tous les {{count}} jours",
   "scheduleFrequencyInterval": "Intervalle",
   "scheduleFrequencyWeekly": "Hebdomadaire",
+  "scheduleFrequencyMonthly": "Mensuel",
+  "scheduleFrequencyOnDayEveryNMonths_one": "Le {{day}} de chaque mois",
+  "scheduleFrequencyOnDayEveryNMonths_many": "Le {{day}}, tous les {{count}} de mois",
+  "scheduleFrequencyOnDayEveryNMonths_other": "Le {{day}}, tous les {{count}} mois",
   "newUpdateAvailable": "Une nouvelle mise à jour est disponible !",
   "goToSettings": "Aller aux paramètres",
   "settingsTitle": "Paramètres",
@@ -96,6 +100,8 @@
   "newSchedule": "Nouveau planning",
   "every": "Tous les",
   "days": "jours",
+  "dayOfMonth": "Jour du mois",
+  "months": "mois",
   "startDate": "Date de début",
   "pickATime": "Choisir une heure",
   "addIntakeTime": "Ajouter une heure",
@@ -274,6 +280,7 @@
   "placementSuggestionPerScheduleDescription": "Base la suggestion du site suivant sur ce planning uniquement.",
   "requiredField": "Champ obligatoire",
   "mustBePositiveNumber": "Doit être un nombre positif",
+  "mustBeBetween1And28": "Doit être entre 1 et 28",
   "invalidTotalAmount": "Montant total invalide",
   "cannotExceedTotalCapacity": "Ne peut pas dépasser la capacité totale"
 }

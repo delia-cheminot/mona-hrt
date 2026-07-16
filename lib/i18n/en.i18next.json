@@ -21,6 +21,9 @@
   "scheduleFrequencyEveryNDays_other": "Every {{count}} days",
   "scheduleFrequencyInterval": "Interval",
   "scheduleFrequencyWeekly": "Weekly",
+  "scheduleFrequencyMonthly": "Monthly",
+  "scheduleFrequencyOnDayEveryNMonths_one": "Day {{day}}, every month",
+  "scheduleFrequencyOnDayEveryNMonths_other": "Day {{day}}, every {{count}} months",
   "newUpdateAvailable": "A new update is available!",
   "goToSettings": "Go to Settings",
   "settingsTitle": "Settings",
@@ -88,6 +91,8 @@
   "newSchedule": "New schedule",
   "every": "Every",
   "days": "days",
+  "dayOfMonth": "Day of month",
+  "months": "months",
   "startDate": "Start date",
   "pickATime": "Pick a time",
   "addIntakeTime": "Add a time",
@@ -252,6 +257,7 @@
   "placementSuggestionPerScheduleDescription": "Base the next-site suggestion on this schedule's history only.",
   "requiredField": "Required field",
   "mustBePositiveNumber": "Must be a positive number",
+  "mustBeBetween1And28": "Must be between 1 and 28",
   "invalidTotalAmount": "Invalid total amount",
   "cannotExceedTotalCapacity": "Cannot exceed total capacity"
 }
