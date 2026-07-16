@@ -112,6 +112,71 @@ void main() {
     });
   });
 
+  group('planNotifications - MonthlySchedule', () {
+    test('empty notificationTimes -> no plans', () {
+      withFixedClock(() {
+        // Arrange
+        withSchedules([
+          aMedicationSchedule(
+              scheduling: aMonthlyStrategy(notificationTimes: const []))
+        ]);
+
+        // Act
+        final plans = planner.planNotifications(daysAhead: 3);
+
+        // Assert
+        expect(plans, isEmpty);
+      });
+    });
+
+    test('emits one PlannedOccurrence per (scheduled date, notificationTime)',
+        () {
+      withFixedClock(() {
+        // testNow = 2026-06-01. First future occurrence 2026-06-21.
+        // Arrange
+        withSchedules([
+          aMedicationSchedule(
+            scheduling: aMonthlyStrategy(
+                dayOfMonth: 21,
+                intervalMonths: 1,
+                notificationTimes: const [morning, afternoon]),
+            startDate: Date(year: 2026, month: 3, day: 21),
+          )
+        ]);
+        when(intakesProvider.getLastIntakeLocalDateForSchedule(any))
+            .thenReturn(null);
+
+        // Act
+        final plans = planner.planNotifications(daysAhead: 2);
+
+        // Assert
+        expect(plans.whereType<PlannedOccurrence>().length, 4);
+      });
+    });
+
+    test('skips today when status is taken', () {
+      withFixedClock(at: DateTime(2026, 6, 21, 12, 0), () {
+        // today (2026-06-21) is the only scheduled occurrence in range.
+        // Arrange
+        withSchedules([
+          aMedicationSchedule(
+            scheduling: aMonthlyStrategy(
+                dayOfMonth: 21, notificationTimes: const [afternoon]),
+            startDate: Date(year: 2026, month: 3, day: 21),
+          )
+        ]);
+        when(intakesProvider.getLastIntakeLocalDateForSchedule(any))
+            .thenReturn(Date.today());
+
+        // Act
+        final plans = planner.planNotifications(daysAhead: 1);
+
+        // Assert
+        expect(plans, isEmpty);
+      });
+    });
+  });
+
   group('planNotifications - DailySchedule', () {
     test('notify=false -> no plans', () {
       withFixedClock(() {
@@ -387,6 +452,21 @@ void main() {
 
       // Assert
       expect(daysAhead, 1); // 2 ~/ 3 = 0 -> clamped to 1.
+    });
+
+    test('monthly schedules count toward perOccurrence like interval', () {
+      // Arrange
+      withSchedules([
+        aMedicationSchedule(
+            scheduling: aMonthlyStrategy(
+                notificationTimes: const [morning, afternoon])),
+      ]);
+
+      // Act
+      final daysAhead = planner.daysAhead(maxScheduled: 64);
+
+      // Assert
+      expect(daysAhead, 32); // 64 ~/ 2
     });
   });
 
