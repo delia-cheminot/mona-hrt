@@ -154,6 +154,29 @@ void main() {
       });
     });
 
+    test('skips notifications in the past', () {
+      withFixedClock(() {
+        // testNow = 2026-06-01 noon; dayOfMonth 1 -> today is the next
+        // occurrence, so today's morning (09:00) is past and afternoon (15:00)
+        // is future.
+        // Arrange
+        withSchedules([
+          aMedicationSchedule(
+            scheduling: aMonthlyStrategy(
+                dayOfMonth: 1, notificationTimes: const [morning, afternoon]),
+            startDate: Date(year: 2026, month: 3, day: 1),
+          )
+        ]);
+
+        // Act
+        final plans =
+            planner.planNotifications(daysAhead: 1).cast<PlannedOccurrence>();
+
+        // Assert
+        expect(plans, hasLength(1)); // afternoon is kept
+      });
+    });
+
     test('skips today when status is taken', () {
       withFixedClock(at: DateTime(2026, 6, 21, 12, 0), () {
         // today (2026-06-21) is the only scheduled occurrence in range.
