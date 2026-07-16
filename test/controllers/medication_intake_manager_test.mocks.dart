@@ -378,6 +378,16 @@ class MockSupplyItemProvider extends _i1.Mock
       ) as bool);
 
   @override
+  List<_i11.SupplyItem> getItemsByIds(List<int>? ids) => (super.noSuchMethod(
+        Invocation.method(
+          #getItemsByIds,
+          [ids],
+        ),
+        returnValue: <_i11.SupplyItem>[],
+        returnValueForMissingStub: <_i11.SupplyItem>[],
+      ) as List<_i11.SupplyItem>);
+
+  @override
   _i6.Future<void> fetchItems() => (super.noSuchMethod(
         Invocation.method(
           #fetchItems,
