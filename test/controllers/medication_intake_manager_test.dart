@@ -541,9 +541,8 @@ void main() {
             usedDose: Decimal.parse('5'),
           );
           final dose = Decimal.parse('2');
-          final intake =
-              aMedicationIntake(
-                  medicationSupplyItemId: supplyItem.id, dose: dose);
+          final intake = aMedicationIntake(
+              medicationSupplyItemId: supplyItem.id, dose: dose);
 
           setUp(() async {
             // Arrange
