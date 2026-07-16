@@ -19,7 +19,7 @@ import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
-enum _ScheduleType { daily, intervalDays, weekly }
+enum _ScheduleType { daily, intervalDays, weekly, monthly }
 
 class NewScheduleSchedulingPage extends StatefulWidget {
   final String name;
@@ -50,6 +50,8 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   bool _dailyNotify = true;
   final List<int> _weeklyDays = [];
   late Date _startDate;
+  late TextEditingController _monthlyDayController;
+  late TextEditingController _monthlyIntervalController;
 
   String? get _intervalDaysError =>
       IntervalDaysSchedule.validateIntervalDays(_intervalDaysController.text);
@@ -59,6 +61,10 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       DailySchedule.validateIntakeTimes(_intakeOrNotificationTimes);
   String? get _weeklyDaysError =>
       WeeklySchedule.validateDaysOfWeek(_weeklyDays);
+  String? get _monthlyDayError =>
+      MonthlySchedule.validateDayOfMonth(_monthlyDayController.text);
+  String? get _monthlyIntervalError =>
+      MonthlySchedule.validateIntervalMonths(_monthlyIntervalController.text);
 
   bool get _isFormValid {
     if (_startDateError != null) return false;
@@ -66,6 +72,8 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       _ScheduleType.intervalDays => _intervalDaysError == null,
       _ScheduleType.daily => _dailyIntakeTimesError == null,
       _ScheduleType.weekly => _weeklyDaysError == null,
+      _ScheduleType.monthly =>
+        _monthlyDayError == null && _monthlyIntervalError == null,
     };
   }
 
@@ -136,6 +144,11 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
           daysOfWeek: List.unmodifiable(_weeklyDays),
           notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
         ),
+      _ScheduleType.monthly => MonthlySchedule(
+          dayOfMonth: _monthlyDayController.text.toInt,
+          intervalMonths: _monthlyIntervalController.text.toInt,
+          notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
+        ),
     };
 
     final schedule = MedicationSchedule(
@@ -161,11 +174,15 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
     super.initState();
     _intervalDaysController = TextEditingController();
     _startDate = Date.today();
+    _monthlyDayController = TextEditingController();
+    _monthlyIntervalController = TextEditingController(text: '1');
   }
 
   @override
   void dispose() {
     _intervalDaysController.dispose();
+    _monthlyDayController.dispose();
+    _monthlyIntervalController.dispose();
     super.dispose();
   }
 
@@ -185,6 +202,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
           _ScheduleType.intervalDays => _intervalDaysSpecifics(),
           _ScheduleType.daily => _dailySpecifics(),
           _ScheduleType.weekly => _weeklySpecifics(),
+          _ScheduleType.monthly => _monthlySpecifics(),
         },
         FormSpacer(),
         FormDateField(
@@ -219,6 +237,12 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
           ),
         ),
         M3EToggleButtonGroupAction(label: Text(t.scheduleFrequencyWeekly)),
+        M3EToggleButtonGroupAction(
+          label: Text(
+            t.scheduleFrequencyMonthly,
+            key: const ValueKey('scheduleTypeMonthly'),
+          ),
+        ),
       ],
     );
   }
@@ -294,6 +318,40 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
         _weeklyDays.remove(day);
       }
     });
+  }
+
+  List<Widget> _monthlySpecifics() {
+    return [
+      FormTextField(
+        controller: _monthlyDayController,
+        label: t.dayOfMonth,
+        fieldKey: const ValueKey('newScheduleDayOfMonth'),
+        errorText: _monthlyDayError,
+        onChanged: _refresh,
+        inputType: TextInputType.number,
+        regexFormatter: RegexPatterns.intNumber,
+      ),
+      FormSpacer(),
+      FormTextField(
+        controller: _monthlyIntervalController,
+        label: t.every,
+        fieldKey: const ValueKey('newScheduleEveryMonths'),
+        suffixText: t.months,
+        errorText: _monthlyIntervalError,
+        onChanged: _refresh,
+        inputType: TextInputType.number,
+        regexFormatter: RegexPatterns.intNumber,
+      ),
+      FormSpacer(),
+      TimeListCard(
+        times: _intakeOrNotificationTimes,
+        rowIcon: Icons.alarm,
+        addLabel: t.addNotification,
+        onAdd: _addTime,
+        onEdit: _editTime,
+        onDelete: _deleteTime,
+      ),
+    ];
   }
 
   void _deleteTime(int index) {
