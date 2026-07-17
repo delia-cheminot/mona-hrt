@@ -252,7 +252,7 @@ class _EditScheduleSchedulingPageState
       FormSpacer(),
       TimeListCard(
         times: _intakeOrNotificationTimes,
-        rowIcon: Icons.alarm,
+        rowIcon: Icons.notifications,
         addLabel: t.addNotification,
         onAdd: _addTime,
         onEdit: _editTime,
@@ -292,7 +292,7 @@ class _EditScheduleSchedulingPageState
       FormSpacer(),
       TimeListCard(
         times: _intakeOrNotificationTimes,
-        rowIcon: widget.schedule.administrationRoute.icon,
+        rowIcon: Icons.notifications,
         addLabel: t.addNotification,
         onAdd: _addTime,
         onEdit: _editTime,
@@ -324,7 +324,7 @@ class _EditScheduleSchedulingPageState
       FormSpacer(),
       TimeListCard(
         times: _intakeOrNotificationTimes,
-        rowIcon: Icons.alarm,
+        rowIcon: Icons.notifications,
         addLabel: t.addNotification,
         onAdd: _addTime,
         onEdit: _editTime,

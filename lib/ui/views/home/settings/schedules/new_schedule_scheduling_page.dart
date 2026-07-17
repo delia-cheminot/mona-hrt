@@ -264,7 +264,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       FormSpacer(),
       TimeListCard(
         times: _intakeOrNotificationTimes,
-        rowIcon: Icons.alarm,
+        rowIcon: Icons.notifications,
         addLabel: t.addNotification,
         onAdd: _addTime,
         onEdit: _editTime,
@@ -304,7 +304,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       FormSpacer(),
       TimeListCard(
         times: _intakeOrNotificationTimes,
-        rowIcon: widget.administrationRoute.icon,
+        rowIcon: Icons.notifications,
         addLabel: t.addNotification,
         onAdd: _addTime,
         onEdit: _editTime,
@@ -348,7 +348,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       FormSpacer(),
       TimeListCard(
         times: _intakeOrNotificationTimes,
-        rowIcon: Icons.alarm,
+        rowIcon: Icons.notifications,
         addLabel: t.addNotification,
         onAdd: _addTime,
         onEdit: _editTime,
