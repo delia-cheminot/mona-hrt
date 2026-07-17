@@ -566,7 +566,6 @@ class TranslationsDe extends Translations
   String remaining({required num count, required Object unit}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
         count,
-        one: '',
         other: '${count} ${unit} verbleibend',
       );
   @override
@@ -943,7 +942,6 @@ extension on TranslationsDe {
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
             count,
-            one: '',
             other: '${count} ${unit} verbleibend',
           ),
       'syringeRemaining' => ({required num count}) =>
