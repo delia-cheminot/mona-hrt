@@ -153,7 +153,7 @@
   "needle": "Agullas",
   "gloves": "Guantes",
   "bandage": "Vendas",
-  "syringeRemaining_one": "Queda {[count}} xiringa",
+  "syringeRemaining_one": "Queda {{count}} xiringa",
   "syringeRemaining_other": "Quedan {{count}} xiringa",
   "wipeRemaining_one": "Queda {{count}} toalliña",
   "wipeRemaining_other": "Quedan {{count}} toalliñas",

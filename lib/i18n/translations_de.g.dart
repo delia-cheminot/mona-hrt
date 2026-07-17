@@ -488,6 +488,53 @@ class TranslationsDe extends Translations
   @override
   String get genericItemsFilter => 'Verbrauchsmaterialien';
   @override
+  String get medicalSettings => 'Medizinische Einstellungen';
+  @override
+  String get theme => 'Design';
+  @override
+  String get themeVariant => 'Variante';
+  @override
+  String get themeContrast => 'Kontrast';
+  @override
+  String get themeContrastStandard => 'Standard';
+  @override
+  String get themeContrastHigh => 'Hoch';
+  @override
+  String get themeGenerate => 'Generieren';
+  @override
+  String get themeContrastMedium => 'Mittel';
+  @override
+  String get themeCustomizeColors => 'App-Farben anpassen';
+  @override
+  String get customThemeEnabled => 'Eigenes Design';
+  @override
+  String get placementLeftThigh => 'Linker Oberschenkel';
+  @override
+  String get placementRightThigh => 'Rechter Oberschenkel';
+  @override
+  String get placementLeftArm => 'Linker Arm';
+  @override
+  String get placementRightArm => 'Rechter Arm';
+  @override
+  String get placementLeftAbdomen => 'Linker Bauch';
+  @override
+  String get placementRightAbdomen => 'Rechter Bauch';
+  @override
+  String get injectionSites => 'Injektionsstellen';
+  @override
+  String get addInjectionSite => 'Stelle hinzufügen';
+  @override
+  String get customSiteLabel => 'Eigener Stellenname';
+  @override
+  String get noInjectionSitesYet => 'Noch keine Stellen';
+  @override
+  String get noInjectionAddOneToGetStarted =>
+      'Füge eine Stelle hinzu, um zu beginnen.';
+  @override
+  String get placementLeftButtock => 'Linkes Gesäß';
+  @override
+  String get placementRightButtock => 'Rechtes Gesäß';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
         count,
@@ -505,6 +552,7 @@ class TranslationsDe extends Translations
   String scheduleFrequencyEveryNDays({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
         count,
+        one: 'Jeden Tag',
         other: 'Alle ${count} Tage',
       );
   @override
@@ -518,6 +566,7 @@ class TranslationsDe extends Translations
   String remaining({required num count, required Object unit}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
         count,
+        one: '',
         other: '${count} ${unit} verbleibend',
       );
   @override
@@ -843,6 +892,30 @@ extension on TranslationsDe {
       'medicationItemType' => 'Medikament',
       'genericItemType' => 'Verbrauchsmaterial',
       'genericItemsFilter' => 'Verbrauchsmaterialien',
+      'medicalSettings' => 'Medizinische Einstellungen',
+      'theme' => 'Design',
+      'themeVariant' => 'Variante',
+      'themeContrast' => 'Kontrast',
+      'themeContrastStandard' => 'Standard',
+      'themeContrastHigh' => 'Hoch',
+      'themeGenerate' => 'Generieren',
+      'themeContrastMedium' => 'Mittel',
+      'themeCustomizeColors' => 'App-Farben anpassen',
+      'customThemeEnabled' => 'Eigenes Design',
+      'placementLeftThigh' => 'Linker Oberschenkel',
+      'placementRightThigh' => 'Rechter Oberschenkel',
+      'placementLeftArm' => 'Linker Arm',
+      'placementRightArm' => 'Rechter Arm',
+      'placementLeftAbdomen' => 'Linker Bauch',
+      'placementRightAbdomen' => 'Rechter Bauch',
+      'injectionSites' => 'Injektionsstellen',
+      'addInjectionSite' => 'Stelle hinzufügen',
+      'customSiteLabel' => 'Eigener Stellenname',
+      'noInjectionSitesYet' => 'Noch keine Stellen',
+      'noInjectionAddOneToGetStarted' =>
+        'Füge eine Stelle hinzu, um zu beginnen.',
+      'placementLeftButtock' => 'Linkes Gesäß',
+      'placementRightButtock' => 'Rechtes Gesäß',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
             count,
@@ -858,6 +931,7 @@ extension on TranslationsDe {
       'scheduleFrequencyEveryNDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
             count,
+            one: 'Jeden Tag',
             other: 'Alle ${count} Tage',
           ),
       'schedulesCreated' => ({required num count}) =>
@@ -869,6 +943,7 @@ extension on TranslationsDe {
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
             count,
+            one: '',
             other: '${count} ${unit} verbleibend',
           ),
       'syringeRemaining' => ({required num count}) =>
