@@ -15,7 +15,7 @@ import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
-enum _ScheduleType { daily, intervalDays, weekly }
+enum _ScheduleType { daily, intervalDays, weekly, monthly }
 
 class EditScheduleSchedulingPage extends StatefulWidget {
   final MedicationSchedule schedule;
@@ -32,6 +32,8 @@ class _EditScheduleSchedulingPageState
   late _ScheduleType _type;
 
   late TextEditingController _intervalDaysController;
+  late TextEditingController _monthlyDayController;
+  late TextEditingController _monthlyIntervalController;
   final List<TimeOfDay> _intakeOrNotificationTimes = [];
   bool _dailyNotify = true;
   final List<int> _weeklyDays = [];
@@ -47,6 +49,10 @@ class _EditScheduleSchedulingPageState
       DailySchedule.validateIntakeTimes(_intakeOrNotificationTimes);
   String? get _weeklyDaysError =>
       WeeklySchedule.validateDaysOfWeek(_weeklyDays);
+  String? get _monthlyDayError =>
+      MonthlySchedule.validateDayOfMonth(_monthlyDayController.text);
+  String? get _monthlyIntervalError =>
+      MonthlySchedule.validateIntervalMonths(_monthlyIntervalController.text);
 
   bool get _isFormValid {
     if (_startDateError != null) return false;
@@ -54,6 +60,8 @@ class _EditScheduleSchedulingPageState
       _ScheduleType.intervalDays => _intervalDaysError == null,
       _ScheduleType.daily => _dailyIntakeTimesError == null,
       _ScheduleType.weekly => _weeklyDaysError == null,
+      _ScheduleType.monthly =>
+        _monthlyDayError == null && _monthlyIntervalError == null,
     };
   }
 
@@ -119,6 +127,11 @@ class _EditScheduleSchedulingPageState
           daysOfWeek: List.unmodifiable(_weeklyDays),
           notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
         ),
+      _ScheduleType.monthly => MonthlySchedule(
+          dayOfMonth: _monthlyDayController.text.toInt,
+          intervalMonths: _monthlyIntervalController.text.toInt,
+          notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
+        ),
     };
 
     final updatedSchedule = widget.schedule.copyWith(
@@ -138,6 +151,8 @@ class _EditScheduleSchedulingPageState
     _startDate = widget.schedule.startDate;
 
     _intervalDaysController = TextEditingController();
+    _monthlyDayController = TextEditingController();
+    _monthlyIntervalController = TextEditingController(text: '1');
     switch (widget.schedule.scheduling) {
       case IntervalDaysSchedule(:final intervalDays, :final notificationTimes):
         _type = _ScheduleType.intervalDays;
@@ -151,6 +166,15 @@ class _EditScheduleSchedulingPageState
         _type = _ScheduleType.weekly;
         _weeklyDays.addAll(daysOfWeek);
         _intakeOrNotificationTimes.addAll(notificationTimes);
+      case MonthlySchedule(
+          :final dayOfMonth,
+          :final intervalMonths,
+          :final notificationTimes
+        ):
+        _type = _ScheduleType.monthly;
+        _monthlyDayController.text = dayOfMonth.toString();
+        _monthlyIntervalController.text = intervalMonths.toString();
+        _intakeOrNotificationTimes.addAll(notificationTimes);
     }
     _sortTimes();
   }
@@ -158,6 +182,8 @@ class _EditScheduleSchedulingPageState
   @override
   void dispose() {
     _intervalDaysController.dispose();
+    _monthlyDayController.dispose();
+    _monthlyIntervalController.dispose();
     super.dispose();
   }
 
@@ -175,6 +201,7 @@ class _EditScheduleSchedulingPageState
           _ScheduleType.intervalDays => _intervalDaysSpecifics(),
           _ScheduleType.daily => _dailySpecifics(),
           _ScheduleType.weekly => _weeklySpecifics(),
+          _ScheduleType.monthly => _monthlySpecifics(),
         },
         FormSpacer(),
         FormDateField(
@@ -190,21 +217,25 @@ class _EditScheduleSchedulingPageState
   }
 
   Widget _typeToggle() {
-    return M3EToggleButtonGroup(
-      type: M3EButtonGroupType.standard,
-      size: M3EButtonSize.md,
-      selectedIndex: _type.index,
-      onSelectedIndexChanged: (index) {
-        if (index == null) return;
-        setState(() {
-          _type = _ScheduleType.values[index];
-        });
-      },
-      actions: [
-        M3EToggleButtonGroupAction(label: Text(t.scheduleFrequencyDaily)),
-        M3EToggleButtonGroupAction(label: Text(t.scheduleFrequencyInterval)),
-        M3EToggleButtonGroupAction(label: Text(t.scheduleFrequencyWeekly)),
-      ],
+    return Center(
+      child: M3EToggleButtonGroup(
+        type: M3EButtonGroupType.connected,
+        size: M3EButtonSize.sm,
+        haptic: M3EHapticFeedback.light,
+        selectedIndex: _type.index,
+        onSelectedIndexChanged: (index) {
+          if (index == null) return;
+          setState(() {
+            _type = _ScheduleType.values[index];
+          });
+        },
+        actions: [
+          M3EToggleButtonGroupAction(label: Text(t.scheduleFrequencyDaily)),
+          M3EToggleButtonGroupAction(label: Text(t.scheduleFrequencyInterval)),
+          M3EToggleButtonGroupAction(label: Text(t.scheduleFrequencyWeekly)),
+          M3EToggleButtonGroupAction(label: Text(t.scheduleFrequencyMonthly)),
+        ],
+      ),
     );
   }
 
@@ -221,7 +252,7 @@ class _EditScheduleSchedulingPageState
       FormSpacer(),
       TimeListCard(
         times: _intakeOrNotificationTimes,
-        rowIcon: Icons.alarm,
+        rowIcon: Icons.notifications,
         addLabel: t.addNotification,
         onAdd: _addTime,
         onEdit: _editTime,
@@ -261,7 +292,39 @@ class _EditScheduleSchedulingPageState
       FormSpacer(),
       TimeListCard(
         times: _intakeOrNotificationTimes,
-        rowIcon: widget.schedule.administrationRoute.icon,
+        rowIcon: Icons.notifications,
+        addLabel: t.addNotification,
+        onAdd: _addTime,
+        onEdit: _editTime,
+        onDelete: _deleteTime,
+      ),
+    ];
+  }
+
+  List<Widget> _monthlySpecifics() {
+    return [
+      FormTextField(
+        controller: _monthlyDayController,
+        label: t.dayOfMonth,
+        errorText: _monthlyDayError,
+        onChanged: _refresh,
+        inputType: TextInputType.number,
+        regexFormatter: RegexPatterns.intNumber,
+      ),
+      FormSpacer(),
+      FormTextField(
+        controller: _monthlyIntervalController,
+        label: t.every,
+        suffixText: t.months,
+        errorText: _monthlyIntervalError,
+        onChanged: _refresh,
+        inputType: TextInputType.number,
+        regexFormatter: RegexPatterns.intNumber,
+      ),
+      FormSpacer(),
+      TimeListCard(
+        times: _intakeOrNotificationTimes,
+        rowIcon: Icons.notifications,
         addLabel: t.addNotification,
         onAdd: _addTime,
         onEdit: _editTime,

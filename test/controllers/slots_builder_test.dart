@@ -179,4 +179,41 @@ void main() {
       });
     });
   });
+
+  group('intakeSlots - MonthlySchedule', () {
+    test('returns exactly one slot', () {
+      withFixedClock(() {
+        // Arrange
+        final s = aMedicationSchedule(scheduling: aMonthlyStrategy());
+        withSchedules([s]);
+
+        // Act
+        final result = slotsBuilder.intakeSlots();
+
+        // Assert
+        expect(result, hasLength(1));
+      });
+    });
+
+    test('scheduled today, taken today -> taken with last intake attached', () {
+      withFixedClock(at: DateTime(2026, 6, 21, 12, 0), () {
+        // Arrange
+        final start = Date(year: 2026, month: 4, day: 21);
+        final intake = aMedicationIntake();
+        withSchedules([
+          aMedicationSchedule(
+              scheduling: aMonthlyStrategy(dayOfMonth: 21), startDate: start)
+        ]);
+        when(intakes.getLastIntakeLocalDateForSchedule(any))
+            .thenReturn(Date.today());
+        when(intakes.getLastTakenIntakeForSchedule(any)).thenReturn(intake);
+
+        // Act
+        final slot = slotsBuilder.intakeSlots().single;
+
+        // Assert
+        expect([slot.status, slot.intake], [ScheduleStatus.taken, intake]);
+      });
+    });
+  });
 }

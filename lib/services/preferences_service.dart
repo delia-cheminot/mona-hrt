@@ -109,7 +109,7 @@ class PreferencesService extends ChangeNotifier {
 
     final List<dynamic> decoded = jsonDecode(jsonString);
     return decoded
-        .map((e) => Molecule.fromJson(Map<String, dynamic>.from(e)))
+        .map((e) => MoleculeMapper.fromMap(Map<String, dynamic>.from(e)))
         .toList();
   }
 
@@ -133,7 +133,7 @@ class PreferencesService extends ChangeNotifier {
     }
 
     final updated = [...existing, molecule];
-    final jsonString = jsonEncode(updated.map((m) => m.toJson()).toList());
+    final jsonString = jsonEncode(updated.map((m) => m.toMap()).toList());
 
     await _prefs.setString(_customMoleculesKey, jsonString);
     notifyListeners();
@@ -144,7 +144,7 @@ class PreferencesService extends ChangeNotifier {
         .where((m) => m.normalizedName != name.trim().toLowerCase())
         .toList();
 
-    final jsonString = jsonEncode(updated.map((m) => m.toJson()).toList());
+    final jsonString = jsonEncode(updated.map((m) => m.toMap()).toList());
 
     await _prefs.setString(_customMoleculesKey, jsonString);
     notifyListeners();

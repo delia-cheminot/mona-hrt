@@ -28,6 +28,9 @@ extension MedicationScheduleL10n on MedicationSchedule {
               .join(', ');
           return days[0].toUpperCase() + days.substring(1);
         }(),
+      MonthlySchedule(:final dayOfMonth, :final intervalMonths) =>
+        t.scheduleFrequencyOnDayEveryNMonths(
+            count: intervalMonths, day: dayOfMonth),
     };
   }
 

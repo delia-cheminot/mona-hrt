@@ -16,7 +16,6 @@ part 'medication_intake.mapper.dart';
 
 @MappableClass(
   includeCustomMappers: [
-    MoleculeJsonMapper(),
     AdministrationRouteNameMapper(),
     EsterNameMapper(),
     DecimalStringMapper(),
@@ -34,10 +33,13 @@ class MedicationIntake with MedicationIntakeMappable {
   final Decimal? deadSpace; // μL
   final int? scheduleId;
   bool get isTaken => takenDateTime != null;
+  @MappableField(hook: JsonStringHook())
   final Molecule molecule;
   final AdministrationRoute administrationRoute;
   final Ester? ester;
-  final int? supplyItemId;
+  final int? medicationSupplyItemId;
+  @MappableField(hook: JsonStringHook())
+  final List<int> genericSupplyItemIds;
   final String? notes;
   @MappableField(hook: JsonStringHook())
   final List<Placement> placements;
@@ -54,7 +56,8 @@ class MedicationIntake with MedicationIntakeMappable {
     required this.molecule,
     required this.administrationRoute,
     this.ester,
-    this.supplyItemId,
+    this.medicationSupplyItemId,
+    this.genericSupplyItemIds = const [],
     this.notes,
     this.placements = const [],
   }) : id = id ?? DateTime.now().millisecondsSinceEpoch {

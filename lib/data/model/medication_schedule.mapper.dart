@@ -16,13 +16,13 @@ class MedicationScheduleMapper extends ClassMapperBase<MedicationSchedule> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = MedicationScheduleMapper._());
       MapperContainer.globals.useAll([
-        MoleculeJsonMapper(),
         AdministrationRouteNameMapper(),
         EsterNameMapper(),
         DecimalStringMapper(),
         DateStringMapper(),
       ]);
       SchedulingStrategyMapper.ensureInitialized();
+      MoleculeMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -59,6 +59,7 @@ class MedicationScheduleMapper extends ClassMapperBase<MedicationSchedule> {
   static const Field<MedicationSchedule, Molecule> _f$molecule = Field(
     'molecule',
     _$molecule,
+    hook: JsonStringHook(),
   );
   static AdministrationRoute _$administrationRoute(MedicationSchedule v) =>
       v.administrationRoute;
@@ -162,6 +163,7 @@ abstract class MedicationScheduleCopyWith<$R, $In extends MedicationSchedule,
     $Out> implements ClassCopyWith<$R, $In, $Out> {
   SchedulingStrategyCopyWith<$R, SchedulingStrategy, SchedulingStrategy>
       get scheduling;
+  MoleculeCopyWith<$R, Molecule, Molecule> get molecule;
   $R call({
     int? id,
     String? name,
@@ -189,6 +191,9 @@ class _MedicationScheduleCopyWithImpl<$R, $Out>
   SchedulingStrategyCopyWith<$R, SchedulingStrategy, SchedulingStrategy>
       get scheduling =>
           $value.scheduling.copyWith.$chain((v) => call(scheduling: v));
+  @override
+  MoleculeCopyWith<$R, Molecule, Molecule> get molecule =>
+      $value.molecule.copyWith.$chain((v) => call(molecule: v));
   @override
   $R call({
     Object? id = $none,

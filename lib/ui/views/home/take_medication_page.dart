@@ -79,7 +79,9 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
             takenDose: _takenDose,
             scheduledTime: widget.scheduledTime,
             takenDateTime: _takenDate.toUtc(),
-            supplyItem: _selectedSupplyItem,
+            medicationItem: _selectedSupplyItem is MedicationSupplyItem
+                ? _selectedSupplyItem as MedicationSupplyItem
+                : null,
             schedule: widget.schedule,
             placements: _selectedPlacements,
             deadSpace: _deadSpace,

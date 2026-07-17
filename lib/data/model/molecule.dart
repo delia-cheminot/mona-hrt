@@ -1,4 +1,11 @@
-class Molecule {
+import 'package:dart_mappable/dart_mappable.dart';
+
+part 'molecule.mapper.dart';
+
+@MappableClass(
+  generateMethods: GenerateMethods.all,
+)
+class Molecule with MoleculeMappable {
   final String name;
   final String unit;
 
@@ -7,29 +14,7 @@ class Molecule {
     required this.unit,
   });
 
-  factory Molecule.fromJson(Map<String, dynamic> json) {
-    return Molecule(
-      name: json['name'],
-      unit: json['unit'],
-    );
-  }
-
   String get normalizedName => name.trim().toLowerCase();
-
-  Map<String, dynamic> toJson() => {
-        'name': name,
-        'unit': unit,
-      };
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Molecule &&
-          runtimeType == other.runtimeType &&
-          name == other.name;
-
-  @override
-  int get hashCode => name.hashCode;
 }
 
 class KnownMolecules {

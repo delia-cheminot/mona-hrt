@@ -27,10 +27,12 @@ const String createMedicationIntakesTable = '''
       molecule TEXT NOT NULL,
       administrationRoute TEXT NOT NULL,
       ester TEXT,
-      supplyItemId INTEGER,
+      medicationSupplyItemId INTEGER,
+      genericSupplyItemIds TEXT NOT NULL,
       notes TEXT,
       placements TEXT NOT NULL,
-      FOREIGN KEY (supplyItemId) REFERENCES supply_items(id) ON DELETE SET NULL
+      FOREIGN KEY (medicationSupplyItemId) REFERENCES supply_items(id) ON DELETE SET NULL,
+      FOREIGN KEY (scheduleId) REFERENCES medication_schedules(id) ON DELETE SET NULL
     )
     ''';
 
