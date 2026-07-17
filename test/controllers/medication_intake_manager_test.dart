@@ -96,7 +96,7 @@ void main() {
             () async {
           // Arrange
           final schedule = aMedicationSchedule();
-          final supplyItem = aMedicationSupplyItem();
+          final medicationItem = aMedicationSupplyItem();
 
           // Act
           try {
@@ -104,7 +104,7 @@ void main() {
               takenDose: Decimal.parse('2'),
               takenDateTime: localDate,
               schedule: schedule,
-              supplyItem: supplyItem,
+              medicationItem: medicationItem,
             );
           } on ArgumentError {/* swallowed */}
 
@@ -118,13 +118,13 @@ void main() {
         final dose = Decimal.parse('3');
         final takenDate = DateTime.utc(2025, 9, 14, 12, 0);
         final notes = 'yummy';
-        final supplyItemId = 99;
+        final medicationItemId = 99;
         final scheduleId = 42;
 
         setUp(() async {
           // Arrange
-          final supplyItem = aMedicationSupplyItem(
-            id: supplyItemId,
+          final medicationItem = aMedicationSupplyItem(
+            id: medicationItemId,
             administrationRoute: AdministrationRoute.injection,
             ester: Ester.enanthate,
           );
@@ -143,7 +143,7 @@ void main() {
           await manager.takeMedication(
             takenDose: dose,
             takenDateTime: takenDate,
-            supplyItem: supplyItem,
+            medicationItem: medicationItem,
             schedule: schedule,
             placements: [aPlacement(preset: PlacementPreset.leftThigh)],
             notes: notes,
@@ -197,9 +197,9 @@ void main() {
           expect(addedIntake.ester, Ester.enanthate);
         });
 
-        test('sets supplyItemId from the supplyItem', () {
+        test('sets medicationSupplyItemId from the medicationItem', () {
           // Assert
-          expect(addedIntake.supplyItemId, supplyItemId);
+          expect(addedIntake.medicationSupplyItemId, medicationItemId);
         });
 
         test('sets notes on the intake', () {
@@ -208,7 +208,7 @@ void main() {
         });
       });
 
-      group('null supplyItem', () {
+      group('no supply items', () {
         late MedicationIntake addedIntake;
 
         setUp(() async {
@@ -224,14 +224,18 @@ void main() {
           await manager.takeMedication(
             takenDose: Decimal.parse('2'),
             takenDateTime: date,
-            supplyItem: null,
             schedule: schedule,
           );
         });
 
-        test('sets supplyItemId on the intake to null', () {
+        test('sets medicationSupplyItemId on the intake to null', () {
           // Assert
-          expect(addedIntake.supplyItemId, isNull);
+          expect(addedIntake.medicationSupplyItemId, isNull);
+        });
+
+        test('sets genericSupplyItemIds on the intake to empty', () {
+          // Assert
+          expect(addedIntake.genericSupplyItemIds, isEmpty);
         });
 
         test('does not call the supply provider', () {
@@ -240,13 +244,15 @@ void main() {
         });
       });
 
-      group('GenericSupply', () {
+      group('generic items', () {
         late MedicationIntake addedIntake;
-        late GenericSupply updatedSupplyItem;
-        final supplyItem = aGenericSupply(id: 7, amount: 5);
+        final updatedItems = <GenericSupply>[];
+        final syringe = aGenericSupply(id: 7, amount: 5);
+        final needle = aGenericSupply(id: 8, amount: 3);
 
         setUp(() async {
           // Arrange
+          updatedItems.clear();
           final schedule = aMedicationSchedule(
             administrationRoute: AdministrationRoute.injection,
           );
@@ -256,27 +262,32 @@ void main() {
             addedIntake = inv.positionalArguments.first as MedicationIntake;
           });
           when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
-            updatedSupplyItem = inv.positionalArguments.first as GenericSupply;
+            updatedItems.add(inv.positionalArguments.first as GenericSupply);
           });
 
           // Act
           await manager.takeMedication(
             takenDose: Decimal.parse('2'),
             takenDateTime: date,
-            supplyItem: supplyItem,
+            genericItems: [syringe, needle],
             schedule: schedule,
-            deadSpace: Decimal.parse('100'),
           );
         });
 
-        test('decrements amount by 1', () {
+        test('decrements each generic amount by 1', () {
           // Assert
-          expect(updatedSupplyItem.amount, supplyItem.amount - 1);
+          expect(
+            updatedItems,
+            unorderedMatches([
+              _generic(id: syringe.id, amount: syringe.amount - 1),
+              _generic(id: needle.id, amount: needle.amount - 1),
+            ]),
+          );
         });
 
-        test('sets supplyItemId on the intake', () {
+        test('sets genericSupplyItemIds on the intake', () {
           // Assert
-          expect(addedIntake.supplyItemId, supplyItem.id);
+          expect(addedIntake.genericSupplyItemIds, [syringe.id, needle.id]);
         });
       });
 
@@ -304,7 +315,7 @@ void main() {
             await manager.takeMedication(
               takenDose: dose,
               takenDateTime: date,
-              supplyItem: supplyItem,
+              medicationItem: supplyItem,
               schedule: schedule,
             );
           });
@@ -345,7 +356,7 @@ void main() {
             await manager.takeMedication(
               takenDose: dose,
               takenDateTime: date,
-              supplyItem: supplyItem,
+              medicationItem: supplyItem,
               schedule: schedule,
               deadSpace: deadSpace,
             );
@@ -394,7 +405,7 @@ void main() {
             await manager.takeMedication(
               takenDose: dose,
               takenDateTime: date,
-              supplyItem: supplyItem,
+              medicationItem: supplyItem,
               schedule: schedule,
               deadSpace: Decimal.zero,
             );
@@ -436,7 +447,7 @@ void main() {
             await manager.takeMedication(
               takenDose: dose,
               takenDateTime: date,
-              supplyItem: supplyItem,
+              medicationItem: supplyItem,
               schedule: schedule,
               wastedAmount: wastedAmount,
             );
@@ -467,7 +478,7 @@ void main() {
 
     group('deleteIntake', () {
       group('when supply lookup returns null', () {
-        final intake = aMedicationIntake(supplyItemId: 10);
+        final intake = aMedicationIntake(medicationSupplyItemId: 10);
 
         setUp(() async {
           // Act
@@ -486,25 +497,35 @@ void main() {
       });
 
       group('GenericSupply', () {
-        late GenericSupply updatedSupplyItem;
-        final supplyItem = aGenericSupply(id: 7, amount: 5);
-        final intake = aMedicationIntake(supplyItemId: supplyItem.id);
+        final updatedItems = <GenericSupply>[];
+        final syringe = aGenericSupply(id: 7, amount: 5);
+        final needle = aGenericSupply(id: 8, amount: 3);
+        final intake = aMedicationIntake(
+          genericSupplyItemIds: [syringe.id, needle.id],
+        );
 
         setUp(() async {
           // Arrange
-          when(mockSupplyItemProvider.getItemById(supplyItem.id))
-              .thenReturn(supplyItem);
+          updatedItems.clear();
+          when(mockSupplyItemProvider.getItemsByIds([syringe.id, needle.id]))
+              .thenReturn([syringe, needle]);
           when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
-            updatedSupplyItem = inv.positionalArguments.first as GenericSupply;
+            updatedItems.add(inv.positionalArguments.first as GenericSupply);
           });
 
           // Act
           await manager.deleteIntake(intake);
         });
 
-        test('increments amount by 1', () {
+        test('increments each generic amount by 1', () {
           // Assert
-          expect(updatedSupplyItem.amount, supplyItem.amount + 1);
+          expect(
+            updatedItems,
+            unorderedMatches([
+              _generic(id: syringe.id, amount: syringe.amount + 1),
+              _generic(id: needle.id, amount: needle.amount + 1),
+            ]),
+          );
         });
 
         test('deletes the intake on the provider', () {
@@ -520,8 +541,8 @@ void main() {
             usedDose: Decimal.parse('5'),
           );
           final dose = Decimal.parse('2');
-          final intake =
-              aMedicationIntake(supplyItemId: supplyItem.id, dose: dose);
+          final intake = aMedicationIntake(
+              medicationSupplyItemId: supplyItem.id, dose: dose);
 
           setUp(() async {
             // Arrange
@@ -554,7 +575,7 @@ void main() {
             usedDose: Decimal.parse('1'),
           );
           final intake = aMedicationIntake(
-            supplyItemId: supplyItem.id,
+            medicationSupplyItemId: supplyItem.id,
             dose: Decimal.parse('5'),
           );
 
@@ -583,7 +604,7 @@ void main() {
             usedDose: Decimal.parse('5'),
           );
           final intake = aMedicationIntake(
-            supplyItemId: supplyItem.id,
+            medicationSupplyItemId: supplyItem.id,
             dose: Decimal.zero,
           );
 
@@ -619,7 +640,7 @@ void main() {
           final wastedAmount = Decimal.parse('0.5');
           final expectedRollback = Decimal.parse('7'); // 2 + 5
           final intake = aMedicationIntake(
-            supplyItemId: supplyItem.id,
+            medicationSupplyItemId: supplyItem.id,
             dose: dose,
             wastedAmount: wastedAmount,
           );
@@ -659,7 +680,7 @@ void main() {
           final deadSpace = Decimal.parse('100');
           final expectedRollback = Decimal.parse('3'); // 2 + 1
           final intake = aMedicationIntake(
-            supplyItemId: supplyItem.id,
+            medicationSupplyItemId: supplyItem.id,
             dose: dose,
             deadSpace: deadSpace,
           );
@@ -701,7 +722,7 @@ void main() {
           final deadSpace = Decimal.parse('100');
           final expectedRollback = Decimal.parse('8'); // 2 + 5 + 1
           final intake = aMedicationIntake(
-            supplyItemId: supplyItem.id,
+            medicationSupplyItemId: supplyItem.id,
             dose: dose,
             wastedAmount: wastedAmount,
             deadSpace: deadSpace,
@@ -740,7 +761,7 @@ void main() {
         final intake = aMedicationIntake(
           id: 1,
           dose: Decimal.parse('2'),
-          supplyItemId: null,
+          medicationSupplyItemId: null,
           wastedAmount: null,
           deadSpace: null,
         );
@@ -764,7 +785,7 @@ void main() {
           takenDateTime: takenDate,
           takenTimeZone: newTimezone,
           placements: [aCustomPlacement('belly')],
-          supplyItem: null,
+          medicationItem: null,
           notes: newNotes,
         );
 
@@ -781,14 +802,17 @@ void main() {
               .having((i) => i.placements, 'placements',
                   [aCustomPlacement('belly')])
               .having((i) => i.notes, 'notes', newNotes)
-              .having((i) => i.supplyItemId, 'supplyItemId', isNull),
+              .having((i) => i.medicationSupplyItemId, 'medicationSupplyItemId',
+                  isNull),
         );
       });
 
       group('supply transitions', () {
         Future<List<SupplyItem>> capture({
-          SupplyItem? previous,
-          SupplyItem? next,
+          MedicationSupplyItem? previousMedication,
+          MedicationSupplyItem? nextMedication,
+          List<GenericSupply> previousGenerics = const [],
+          List<GenericSupply> nextGenerics = const [],
           Decimal? previousDose,
           Decimal? previousWasted,
           Decimal? previousDeadSpace,
@@ -797,15 +821,24 @@ void main() {
           Decimal? newDeadSpace,
         }) async {
           final intake = aMedicationIntake(
-            supplyItemId: previous?.id,
+            medicationSupplyItemId: previousMedication?.id,
+            genericSupplyItemIds:
+                previousGenerics.map((generic) => generic.id).toList(),
             dose: previousDose ?? Decimal.zero,
             wastedAmount: previousWasted,
             deadSpace: previousDeadSpace,
           );
-          if (previous != null) {
-            when(mockSupplyItemProvider.getItemById(previous.id))
-                .thenReturn(previous);
+          if (previousMedication != null) {
+            when(mockSupplyItemProvider.getItemById(previousMedication.id))
+                .thenReturn(previousMedication);
           }
+          final nextGenericIds = nextGenerics.map((generic) => generic.id);
+          final removedGenerics = previousGenerics
+              .where((generic) => !nextGenericIds.contains(generic.id))
+              .toList();
+          when(mockSupplyItemProvider
+                  .getItemsByIds(removedGenerics.map((g) => g.id).toList()))
+              .thenReturn(removedGenerics);
           final updates = <SupplyItem>[];
           when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
             updates.add(inv.positionalArguments.first as SupplyItem);
@@ -818,251 +851,265 @@ void main() {
             deadSpace: newDeadSpace,
             takenDateTime: takenDate,
             takenTimeZone: 'Etc/UTC',
-            supplyItem: next,
+            medicationItem: nextMedication,
+            genericItems: nextGenerics,
           );
           return updates;
         }
 
-        test('no-op when previous and new are both null', () async {
+        test('no-op when there is no medication and no generics', () async {
           expect(await capture(), isEmpty);
         });
 
-        test('no-op when previous and new are the same GenericSupply',
-            () async {
-          final item = aGenericSupply(amount: 5);
-          expect(await capture(previous: item, next: item), isEmpty);
+        group('generics', () {
+          test('no-op when the generic list is unchanged', () async {
+            final item = aGenericSupply(amount: 5);
+            expect(
+              await capture(
+                previousGenerics: [item],
+                nextGenerics: [item],
+              ),
+              isEmpty,
+            );
+          });
+
+          test('added generic: decrements it', () async {
+            final added = aGenericSupply(amount: 5);
+            expect(
+              await capture(nextGenerics: [added]),
+              [_generic(id: added.id, amount: 4)],
+            );
+          });
+
+          test('removed generic: increments it', () async {
+            final removed = aGenericSupply(amount: 5);
+            expect(
+              await capture(previousGenerics: [removed]),
+              [_generic(id: removed.id, amount: 6)],
+            );
+          });
+
+          test('swapped generic: puts back the removed, uses the added',
+              () async {
+            final removed = aGenericSupply(amount: 5);
+            final added = aGenericSupply(amount: 2);
+            expect(
+              await capture(
+                previousGenerics: [removed],
+                nextGenerics: [added],
+              ),
+              unorderedMatches([
+                _generic(id: removed.id, amount: 6),
+                _generic(id: added.id, amount: 1),
+              ]),
+            );
+          });
+
+          test('keeps one generic while adding another', () async {
+            final kept = aGenericSupply(amount: 5);
+            final added = aGenericSupply(amount: 2);
+            expect(
+              await capture(
+                previousGenerics: [kept],
+                nextGenerics: [kept, added],
+              ),
+              [_generic(id: added.id, amount: 1)],
+            );
+          });
         });
 
-        test('null -> GenericSupply: decrements the new one', () async {
-          final next = aGenericSupply(amount: 5);
-          expect(
-            await capture(next: next),
-            [_generic(id: next.id, amount: 4)],
-          );
-        });
+        group('medication', () {
+          test(
+              'null -> MedicationSupplyItem: increases usedDose by'
+              ' takenDose + (concentration x wastedAmount)', () async {
+            final next = aMedicationSupplyItem(
+              usedDose: Decimal.parse('1'),
+              concentration: Decimal.parse('10'),
+            );
+            // 1 + 2 + 0.5 x 10 = 8.
+            expect(
+              await capture(
+                nextMedication: next,
+                newDose: Decimal.parse('2'),
+                newWasted: Decimal.parse('0.5'),
+              ),
+              [_medication(id: next.id, usedDose: '8')],
+            );
+          });
 
-        test('GenericSupply -> null: increments the previous one', () async {
-          final previous = aGenericSupply(amount: 5);
-          expect(
-            await capture(previous: previous),
-            [_generic(id: previous.id, amount: 6)],
-          );
-        });
+          test(
+              'null -> MedicationSupplyItem with deadSpace: increases usedDose'
+              ' by takenDose + (concentration x wastedAmount) + (concentration x deadSpace x 0.001)',
+              () async {
+            // Arrange
+            final next = aMedicationSupplyItem(
+              usedDose: Decimal.parse('1'),
+              concentration: Decimal.parse('10'),
+            );
 
-        test('different GenericSupplies: puts back previous, uses new',
-            () async {
-          final previous = aGenericSupply(amount: 5);
-          final next = aGenericSupply(amount: 2);
-          expect(
-            await capture(previous: previous, next: next),
-            unorderedMatches([
-              _generic(id: previous.id, amount: 6),
-              _generic(id: next.id, amount: 1),
-            ]),
-          );
-        });
-
-        test(
-            'null -> MedicationSupplyItem: increases usedDose by'
-            ' takenDose + (concentration x wastedAmount)', () async {
-          final next = aMedicationSupplyItem(
-            usedDose: Decimal.parse('1'),
-            concentration: Decimal.parse('10'),
-          );
-          // 1 + 2 + 0.5 x 10 = 8.
-          expect(
-            await capture(
-              next: next,
+            // Act
+            // 1 + 2 + 0.5 x 10 + 100 x 0.001 x 10 = 9.
+            final updates = await capture(
+              nextMedication: next,
               newDose: Decimal.parse('2'),
               newWasted: Decimal.parse('0.5'),
-            ),
-            [_medication(id: next.id, usedDose: '8')],
-          );
-        });
+              newDeadSpace: Decimal.parse('100'),
+            );
 
-        test(
-            'null -> MedicationSupplyItem with deadSpace: increases usedDose by'
-            ' takenDose + (concentration x wastedAmount) + (concentration x deadSpace x 0.001)',
-            () async {
-          // Arrange
-          final next = aMedicationSupplyItem(
-            usedDose: Decimal.parse('1'),
-            concentration: Decimal.parse('10'),
-          );
+            // Assert
+            expect(updates, [_medication(id: next.id, usedDose: '9')]);
+          });
 
-          // Act
-          // 1 + 2 + 0.5 x 10 + 100 x 0.001 x 10 = 9.
-          final updates = await capture(
-            next: next,
-            newDose: Decimal.parse('2'),
-            newWasted: Decimal.parse('0.5'),
-            newDeadSpace: Decimal.parse('100'),
-          );
+          test(
+              'MedicationSupplyItem -> null: rolls back usedDose by the previous'
+              ' used dose', () async {
+            final previous = aMedicationSupplyItem(
+              usedDose: Decimal.parse('10'),
+              concentration: Decimal.parse('10'),
+            );
+            // 10 - (2 + 0.5 x 10) = 3.
+            expect(
+              await capture(
+                previousMedication: previous,
+                previousDose: Decimal.parse('2'),
+                previousWasted: Decimal.parse('0.5'),
+              ),
+              [_medication(id: previous.id, usedDose: '3')],
+            );
+          });
 
-          // Assert
-          expect(updates, [_medication(id: next.id, usedDose: '9')]);
-        });
+          test(
+              'MedicationSupplyItem with deadSpace -> null: rolls back usedDose'
+              ' by the previous used dose including deadSpace', () async {
+            // Arrange
+            final previous = aMedicationSupplyItem(
+              usedDose: Decimal.parse('10'),
+              concentration: Decimal.parse('10'),
+            );
 
-        test(
-            'MedicationSupplyItem -> null: rolls back usedDose by the previous'
-            ' used dose', () async {
-          final previous = aMedicationSupplyItem(
-            usedDose: Decimal.parse('10'),
-            concentration: Decimal.parse('10'),
-          );
-          // 10 - (2 + 0.5 x 10) = 3.
-          expect(
-            await capture(
-              previous: previous,
+            // Act
+            // 10 - (2 + 0.5 x 10 + 100 x 0.001 x 10) = 2.
+            final updates = await capture(
+              previousMedication: previous,
               previousDose: Decimal.parse('2'),
               previousWasted: Decimal.parse('0.5'),
-            ),
-            [_medication(id: previous.id, usedDose: '3')],
-          );
-        });
+              previousDeadSpace: Decimal.parse('100'),
+            );
 
-        test(
-            'MedicationSupplyItem with deadSpace -> null: rolls back usedDose by'
-            ' the previous used dose including deadSpace', () async {
-          // Arrange
-          final previous = aMedicationSupplyItem(
-            usedDose: Decimal.parse('10'),
-            concentration: Decimal.parse('10'),
-          );
+            // Assert
+            expect(updates, [_medication(id: previous.id, usedDose: '2')]);
+          });
 
-          // Act
-          // 10 - (2 + 0.5 x 10 + 100 x 0.001 x 10) = 2.
-          final updates = await capture(
-            previous: previous,
-            previousDose: Decimal.parse('2'),
-            previousWasted: Decimal.parse('0.5'),
-            previousDeadSpace: Decimal.parse('100'),
-          );
+          test(
+              'same MedicationSupplyItem: adjusts usedDose by the delta between'
+              ' old and new used dose', () async {
+            final item = aMedicationSupplyItem(
+              usedDose: Decimal.parse('10'),
+              concentration: Decimal.parse('10'),
+            );
+            // old: 2 + 0.5 x 10 = 7; new: 3 + 0.2 x 10 = 5; 10 + (5 - 7) = 8.
+            expect(
+              await capture(
+                previousMedication: item,
+                nextMedication: item,
+                previousDose: Decimal.parse('2'),
+                previousWasted: Decimal.parse('0.5'),
+                newDose: Decimal.parse('3'),
+                newWasted: Decimal.parse('0.2'),
+              ),
+              [_medication(id: item.id, usedDose: '8')],
+            );
+          });
 
-          // Assert
-          expect(updates, [_medication(id: previous.id, usedDose: '2')]);
-        });
+          test(
+              'same MedicationSupplyItem with changed deadSpace: adjusts'
+              ' usedDose by the delta including deadSpace', () async {
+            // Arrange
+            final item = aMedicationSupplyItem(
+              totalDose: Decimal.parse('100'),
+              usedDose: Decimal.parse('20'),
+              concentration: Decimal.parse('10'),
+            );
 
-        test(
-            'same MedicationSupplyItem: adjusts usedDose by the delta between'
-            ' old and new used dose', () async {
-          final item = aMedicationSupplyItem(
-            usedDose: Decimal.parse('10'),
-            concentration: Decimal.parse('10'),
-          );
-          // old: 2 + 0.5 x 10 = 7; new: 3 + 0.2 x 10 = 5; 10 + (5 - 7) = 8.
-          expect(
-            await capture(
-              previous: item,
-              next: item,
+            // Act
+            // old: 2 + 0.5 x 10 + 100 x 0.001 x 10 = 8
+            // new: 3 + 0.2 x 10 + 50 x 0.001 x 10 = 5.5
+            // 20 + (5.5 - 8) = 17.5
+            final updates = await capture(
+              previousMedication: item,
+              nextMedication: item,
               previousDose: Decimal.parse('2'),
               previousWasted: Decimal.parse('0.5'),
+              previousDeadSpace: Decimal.parse('100'),
               newDose: Decimal.parse('3'),
               newWasted: Decimal.parse('0.2'),
-            ),
-            [_medication(id: item.id, usedDose: '8')],
-          );
+              newDeadSpace: Decimal.parse('50'),
+            );
+
+            // Assert
+            expect(updates, [_medication(id: item.id, usedDose: '17.5')]);
+          });
+
+          test(
+              'different MedicationSupplyItems: rolls back previous and uses new',
+              () async {
+            final previous = aMedicationSupplyItem(
+              usedDose: Decimal.parse('10'),
+              concentration: Decimal.parse('10'),
+            );
+            final next = aMedicationSupplyItem(
+              usedDose: Decimal.parse('4'),
+              concentration: Decimal.parse('10'),
+            );
+            // previous: 10 - (2 + 5) = 3; new: 4 + (3 + 2) = 9.
+            expect(
+              await capture(
+                previousMedication: previous,
+                nextMedication: next,
+                previousDose: Decimal.parse('2'),
+                previousWasted: Decimal.parse('0.5'),
+                newDose: Decimal.parse('3'),
+                newWasted: Decimal.parse('0.2'),
+              ),
+              unorderedMatches([
+                _medication(id: previous.id, usedDose: '3'),
+                _medication(id: next.id, usedDose: '9'),
+              ]),
+            );
+          });
         });
 
         test(
-            'same MedicationSupplyItem with changed deadSpace: adjusts usedDose'
-            ' by the delta including deadSpace', () async {
-          // Arrange
-          final item = aMedicationSupplyItem(
-            totalDose: Decimal.parse('100'),
-            usedDose: Decimal.parse('20'),
-            concentration: Decimal.parse('10'),
-          );
-
-          // Act
-          // old: 2 + 0.5 x 10 + 100 x 0.001 x 10 = 8
-          // new: 3 + 0.2 x 10 + 50 x 0.001 x 10 = 5.5
-          // 20 + (5.5 - 8) = 17.5
-          final updates = await capture(
-            previous: item,
-            next: item,
-            previousDose: Decimal.parse('2'),
-            previousWasted: Decimal.parse('0.5'),
-            previousDeadSpace: Decimal.parse('100'),
-            newDose: Decimal.parse('3'),
-            newWasted: Decimal.parse('0.2'),
-            newDeadSpace: Decimal.parse('50'),
-          );
-
-          // Assert
-          expect(updates, [_medication(id: item.id, usedDose: '17.5')]);
-        });
-
-        test(
-            'different MedicationSupplyItems: rolls back previous and uses new',
-            () async {
-          final previous = aMedicationSupplyItem(
+            'medication and generics change together: rolls back the old'
+            ' medication, uses the new one, and swaps the generic', () async {
+          final previousMedication = aMedicationSupplyItem(
             usedDose: Decimal.parse('10'),
             concentration: Decimal.parse('10'),
           );
-          final next = aMedicationSupplyItem(
+          final nextMedication = aMedicationSupplyItem(
             usedDose: Decimal.parse('4'),
             concentration: Decimal.parse('10'),
           );
-          // previous: 10 - (2 + 5) = 3; new: 4 + (3 + 2) = 9.
+          final removedGeneric = aGenericSupply(amount: 5);
+          final addedGeneric = aGenericSupply(amount: 2);
+          // previous medication: 10 - (2 + 0.5 x 10) = 3.
+          // next medication: 4 + (3 + 0.2 x 10) = 9.
           expect(
             await capture(
-              previous: previous,
-              next: next,
+              previousMedication: previousMedication,
+              nextMedication: nextMedication,
+              previousGenerics: [removedGeneric],
+              nextGenerics: [addedGeneric],
               previousDose: Decimal.parse('2'),
               previousWasted: Decimal.parse('0.5'),
               newDose: Decimal.parse('3'),
               newWasted: Decimal.parse('0.2'),
             ),
             unorderedMatches([
-              _medication(id: previous.id, usedDose: '3'),
-              _medication(id: next.id, usedDose: '9'),
-            ]),
-          );
-        });
-
-        test(
-            'GenericSupply -> MedicationSupplyItem: puts back the generic and'
-            ' uses dose on the new item', () async {
-          final previous = aGenericSupply(amount: 5);
-          final next = aMedicationSupplyItem(
-            usedDose: Decimal.parse('4'),
-            concentration: Decimal.parse('10'),
-          );
-          // 4 + (3 + 0.2 x 10) = 9.
-          expect(
-            await capture(
-              previous: previous,
-              next: next,
-              newDose: Decimal.parse('3'),
-              newWasted: Decimal.parse('0.2'),
-            ),
-            unorderedMatches([
-              _generic(id: previous.id, amount: 6),
-              _medication(id: next.id, usedDose: '9'),
-            ]),
-          );
-        });
-
-        test(
-            'MedicationSupplyItem -> GenericSupply: rolls back the medication'
-            ' and uses the new generic', () async {
-          final previous = aMedicationSupplyItem(
-            usedDose: Decimal.parse('10'),
-            concentration: Decimal.parse('10'),
-          );
-          final next = aGenericSupply(amount: 5);
-          // 10 - (2 + 0.5 x 10) = 3.
-          expect(
-            await capture(
-              previous: previous,
-              next: next,
-              previousDose: Decimal.parse('2'),
-              previousWasted: Decimal.parse('0.5'),
-            ),
-            unorderedMatches([
-              _medication(id: previous.id, usedDose: '3'),
-              _generic(id: next.id, amount: 4),
+              _medication(id: previousMedication.id, usedDose: '3'),
+              _medication(id: nextMedication.id, usedDose: '9'),
+              _generic(id: removedGeneric.id, amount: 6),
+              _generic(id: addedGeneric.id, amount: 1),
             ]),
           );
         });

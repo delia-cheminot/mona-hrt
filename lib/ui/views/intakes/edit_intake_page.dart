@@ -92,7 +92,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
       takenDateTime: _takenDate.toUtc(),
       takenTimeZone: timezoneIdentifier,
       placements: _selectedPlacements,
-      supplyItem: newItem,
+      medicationItem: newItem is MedicationSupplyItem ? newItem : null,
       notes: notes,
     );
 
@@ -212,8 +212,8 @@ class _EditIntakePageState extends State<EditIntakePage> {
         }
 
         if (!isLoading && !_hasInitializedSupplyItem) {
-          _selectedSupplyItem =
-              supplyItemProvider.getItemById(widget.intake.supplyItemId);
+          _selectedSupplyItem = supplyItemProvider
+              .getItemById(widget.intake.medicationSupplyItemId);
           _hasInitializedSupplyItem = true;
         }
 

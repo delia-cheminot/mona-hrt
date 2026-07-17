@@ -7,7 +7,6 @@ import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/placement.dart';
-import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/services/preferences_service.dart';
 import '../data/model/medication_intake.dart';
@@ -27,7 +26,8 @@ class MedicationIntakeManager {
     required Decimal takenDose,
     TimeOfDay? scheduledTime,
     required DateTime takenDateTime,
-    SupplyItem? supplyItem,
+    MedicationSupplyItem? medicationItem,
+    List<GenericSupply> genericItems = const [],
     required MedicationSchedule schedule,
     Decimal? deadSpace, //in μL
     String? notes,
@@ -50,7 +50,8 @@ class MedicationIntakeManager {
       molecule: schedule.molecule,
       administrationRoute: schedule.administrationRoute,
       ester: schedule.ester,
-      supplyItemId: supplyItem?.id,
+      medicationSupplyItemId: medicationItem?.id,
+      genericSupplyItemIds: genericItems.map((item) => item.id).toList(),
       notes: notes,
       wastedAmount: wastedAmount,
       deadSpace: deadSpace,
@@ -59,43 +60,40 @@ class MedicationIntakeManager {
 
     final itemManager = SupplyItemManager(_supplyItemProvider);
 
-    switch (supplyItem) {
-      case null:
-        return;
-      case GenericSupply _:
-        await itemManager.use(supplyItem);
-        return;
-      case MedicationSupplyItem _:
-        if (deadSpace != null && deadSpace > Decimal.zero) {
-          takenDose +=
-              (supplyItem).getDose(deadSpace * microlitersToMilliliters);
-        }
-        if (wastedAmount != null && wastedAmount > Decimal.zero) {
-          takenDose += (supplyItem).getDose(wastedAmount);
-        }
-        await itemManager.useDose(supplyItem, takenDose);
+    for (final generic in genericItems) {
+      await itemManager.use(generic);
+    }
+
+    if (medicationItem != null) {
+      if (deadSpace != null && deadSpace > Decimal.zero) {
+        takenDose +=
+            medicationItem.getDose(deadSpace * microlitersToMilliliters);
+      }
+      if (wastedAmount != null && wastedAmount > Decimal.zero) {
+        takenDose += medicationItem.getDose(wastedAmount);
+      }
+      await itemManager.useDose(medicationItem, takenDose);
     }
   }
 
   Future<void> deleteIntake(MedicationIntake intake) async {
     await _medicationIntakeProvider.deleteIntake(intake);
 
-    final SupplyItem? item =
-        _supplyItemProvider.getItemById(intake.supplyItemId);
     final itemManager = SupplyItemManager(_supplyItemProvider);
 
-    switch (item) {
-      case null:
-        return;
-      case GenericSupply _:
-        await itemManager.putBack(item);
-        return;
-      case MedicationSupplyItem _:
-        final wastedDose = item.getDose(intake.wastedAmount ?? Decimal.zero);
-        final deadSpaceDose = item.getDose(
-            (intake.deadSpace ?? Decimal.zero) * microlitersToMilliliters);
-        await itemManager.useDose(
-            item, -(intake.takenDose + wastedDose + deadSpaceDose));
+    for (final generic in _genericItemsByIds(intake.genericSupplyItemIds)) {
+      await itemManager.putBack(generic);
+    }
+
+    final medicationItem = _supplyItemProvider
+        .getItemById(intake.medicationSupplyItemId) as MedicationSupplyItem?;
+    if (medicationItem != null) {
+      final wastedDose =
+          medicationItem.getDose(intake.wastedAmount ?? Decimal.zero);
+      final deadSpaceDose = medicationItem.getDose(
+          (intake.deadSpace ?? Decimal.zero) * microlitersToMilliliters);
+      await itemManager.useDose(
+          medicationItem, -(intake.takenDose + wastedDose + deadSpaceDose));
     }
   }
 
@@ -106,7 +104,8 @@ class MedicationIntakeManager {
     Decimal? deadSpace,
     required DateTime takenDateTime,
     required String takenTimeZone,
-    SupplyItem? supplyItem,
+    MedicationSupplyItem? medicationItem,
+    List<GenericSupply> genericItems = const [],
     String? notes,
     List<Placement> placements = const [],
   }) async {
@@ -114,23 +113,23 @@ class MedicationIntakeManager {
       throw ArgumentError('takenDateTime must be in UTC');
     }
 
-    final previousItem = _supplyItemProvider.getItemById(intake.supplyItemId);
     final itemManager = SupplyItemManager(_supplyItemProvider);
-    final bool sameItem = previousItem == supplyItem;
 
-    if (!sameItem) {
-      if (previousItem is GenericSupply) {
-        await itemManager.putBack(previousItem);
-      }
-      if (supplyItem is GenericSupply) {
-        await itemManager.use(supplyItem);
-      }
+    final previousGenericIds = intake.genericSupplyItemIds.toSet();
+    final newGenericIds = genericItems.map((item) => item.id).toSet();
+
+    for (final generic in _genericItemsByIds(
+        previousGenericIds.difference(newGenericIds).toList())) {
+      await itemManager.putBack(generic);
+    }
+    for (final generic in genericItems
+        .where((item) => !previousGenericIds.contains(item.id))) {
+      await itemManager.use(generic);
     }
 
-    final previousMedication =
-        previousItem is MedicationSupplyItem ? previousItem : null;
-    final newMedication =
-        supplyItem is MedicationSupplyItem ? supplyItem : null;
+    final previousMedication = _supplyItemProvider
+        .getItemById(intake.medicationSupplyItemId) as MedicationSupplyItem?;
+    final newMedication = medicationItem;
 
     final previousUsedDose = previousMedication == null
         ? Decimal.zero
@@ -158,7 +157,8 @@ class MedicationIntakeManager {
       takenDose: takenDose,
       wastedAmount: wastedAmount,
       deadSpace: deadSpace,
-      supplyItemId: supplyItem?.id,
+      medicationSupplyItemId: medicationItem?.id,
+      genericSupplyItemIds: genericItems.map((item) => item.id).toList(),
       notes: notes,
       placements: placements,
     ));
@@ -192,4 +192,9 @@ class MedicationIntakeManager {
 
   Placement? suggestNextPlacement({required int scheduleId}) =>
       getOrderedPlacements(scheduleId: scheduleId).firstOrNull;
+
+  List<GenericSupply> _genericItemsByIds(List<int> ids) => _supplyItemProvider
+      .getItemsByIds(ids)
+      .whereType<GenericSupply>()
+      .toList();
 }

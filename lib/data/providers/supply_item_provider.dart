@@ -50,6 +50,9 @@ class SupplyItemProvider extends ChangeNotifier {
     }
   }
 
+  List<SupplyItem> getItemsByIds(List<int> ids) =>
+      ids.map(getItemById).whereType<SupplyItem>().toList();
+
   SupplyItemProvider({Repository<SupplyItem>? repository})
       : repository = repository ?? defaultRepository {
     _init();
