@@ -324,8 +324,8 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'days'
   String get days => 'days';
 
-  /// en: 'Day of month'
-  String get dayOfMonth => 'Day of month';
+  /// en: 'Day of the month'
+  String get dayOfMonth => 'Day of the month';
 
   /// en: 'months'
   String get months => 'months';
@@ -1017,7 +1017,7 @@ extension on Translations {
       'newSchedule' => 'New schedule',
       'every' => 'Every',
       'days' => 'days',
-      'dayOfMonth' => 'Day of month',
+      'dayOfMonth' => 'Day of the month',
       'months' => 'months',
       'startDate' => 'Start date',
       'pickATime' => 'Pick a time',
