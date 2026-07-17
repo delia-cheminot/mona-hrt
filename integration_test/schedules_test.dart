@@ -16,6 +16,9 @@ const _newScheduleNext = ValueKey('newScheduleNext');
 const _newScheduleSave = ValueKey('newScheduleSave');
 const _newScheduleEvery = ValueKey('newScheduleEvery');
 const _scheduleTypeInterval = ValueKey('scheduleTypeInterval');
+const _scheduleTypeMonthly = ValueKey('scheduleTypeMonthly');
+const _newScheduleDayOfMonth = ValueKey('newScheduleDayOfMonth');
+const _newScheduleEveryMonths = ValueKey('newScheduleEveryMonths');
 const _addNotificationTile = ValueKey('addNotificationTile');
 const _editScheduleInfoTile = ValueKey('editScheduleInfoTile');
 const _editScheduleName = ValueKey('editScheduleName');
@@ -72,6 +75,23 @@ void main() {
     // provider.add() is fire-and-forget; wait for the list to rebuild.
     await $('Interval Estradiol').waitUntilVisible();
     expect($('Interval Estradiol'), findsOneWidget);
+  });
+
+  patrolTest('creates a monthly schedule', ($) async {
+    await $.launchApp();
+    await $.openSchedules();
+
+    await $(Icons.add).tap(); // FAB: "Add a schedule"
+    await _fillMainInfoAndNext($, name: 'Monthly Estradiol');
+
+    await $(_scheduleTypeMonthly).tap();
+    await $(_newScheduleDayOfMonth).enterText('21');
+    await $(_newScheduleEveryMonths).enterText('3');
+    await $(_newScheduleSave).tap();
+
+    // provider.add() is fire-and-forget; wait for the list to rebuild.
+    await $('Monthly Estradiol').waitUntilVisible();
+    expect($('Monthly Estradiol'), findsOneWidget);
   });
 
   patrolTest('creates a daily schedule', ($) async {

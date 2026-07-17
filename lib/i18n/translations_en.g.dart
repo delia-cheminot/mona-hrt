@@ -108,6 +108,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Weekly'
   String get scheduleFrequencyWeekly => 'Weekly';
 
+  /// en: 'Monthly'
+  String get scheduleFrequencyMonthly => 'Monthly';
+
   /// en: 'A new update is available!'
   String get newUpdateAvailable => 'A new update is available!';
 
@@ -320,6 +323,12 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
   /// en: 'days'
   String get days => 'days';
+
+  /// en: 'Day of the month'
+  String get dayOfMonth => 'Day of the month';
+
+  /// en: 'months'
+  String get months => 'months';
 
   /// en: 'Start date'
   String get startDate => 'Start date';
@@ -748,6 +757,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Must be a positive number'
   String get mustBePositiveNumber => 'Must be a positive number';
 
+  /// en: 'Must be between 1 and 28'
+  String get mustBeBetween1And28 => 'Must be between 1 and 28';
+
   /// en: 'Invalid total amount'
   String get invalidTotalAmount => 'Invalid total amount';
 
@@ -773,6 +785,15 @@ class Translations with BaseTranslations<AppLocale, Translations> {
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         other: 'Every ${count} days',
+      );
+
+  /// en: '(one) {Day {day}, every month} (other) {Day {day}, every {count} months}'
+  String scheduleFrequencyOnDayEveryNMonths(
+          {required num count, required Object day}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: 'Day ${day}, every month',
+        other: 'Day ${day}, every ${count} months',
       );
 
   /// en: '(other) {{count} created}'
@@ -913,6 +934,7 @@ extension on Translations {
       'scheduleFrequencyDaily' => 'Every day',
       'scheduleFrequencyInterval' => 'Interval',
       'scheduleFrequencyWeekly' => 'Weekly',
+      'scheduleFrequencyMonthly' => 'Monthly',
       'newUpdateAvailable' => 'A new update is available!',
       'goToSettings' => 'Go to Settings',
       'settingsTitle' => 'Settings',
@@ -995,6 +1017,8 @@ extension on Translations {
       'newSchedule' => 'New schedule',
       'every' => 'Every',
       'days' => 'days',
+      'dayOfMonth' => 'Day of the month',
+      'months' => 'months',
       'startDate' => 'Start date',
       'pickATime' => 'Pick a time',
       'addIntakeTime' => 'Add a time',
@@ -1141,6 +1165,7 @@ extension on Translations {
         'Base the next-site suggestion on this schedule\'s history only.',
       'requiredField' => 'Required field',
       'mustBePositiveNumber' => 'Must be a positive number',
+      'mustBeBetween1And28' => 'Must be between 1 and 28',
       'invalidTotalAmount' => 'Invalid total amount',
       'cannotExceedTotalCapacity' => 'Cannot exceed total capacity',
       'daysAgoCount' => ({required num count}) =>
@@ -1157,6 +1182,13 @@ extension on Translations {
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
             count,
             other: 'Every ${count} days',
+          ),
+      'scheduleFrequencyOnDayEveryNMonths' => (
+              {required num count, required Object day}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: 'Day ${day}, every month',
+            other: 'Day ${day}, every ${count} months',
           ),
       'schedulesCreated' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(

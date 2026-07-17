@@ -18,6 +18,7 @@ class SchedulingStrategyMapper extends ClassMapperBase<SchedulingStrategy> {
       IntervalDaysScheduleMapper.ensureInitialized();
       DailyScheduleMapper.ensureInitialized();
       WeeklyScheduleMapper.ensureInitialized();
+      MonthlyScheduleMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -542,4 +543,180 @@ class _WeeklyScheduleCopyWithImpl<$R, $Out>
     Then<$Out2, $R2> t,
   ) =>
       _WeeklyScheduleCopyWithImpl<$R2, $Out2>($value, $cast, t);
+}
+
+class MonthlyScheduleMapper extends SubClassMapperBase<MonthlySchedule> {
+  MonthlyScheduleMapper._();
+
+  static MonthlyScheduleMapper? _instance;
+  static MonthlyScheduleMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = MonthlyScheduleMapper._());
+      SchedulingStrategyMapper.ensureInitialized().addSubMapper(_instance!);
+      MapperContainer.globals.useAll([TimeOfDayMapper()]);
+    }
+    return _instance!;
+  }
+
+  @override
+  final String id = 'MonthlySchedule';
+
+  static int _$dayOfMonth(MonthlySchedule v) => v.dayOfMonth;
+  static const Field<MonthlySchedule, int> _f$dayOfMonth = Field(
+    'dayOfMonth',
+    _$dayOfMonth,
+  );
+  static int _$intervalMonths(MonthlySchedule v) => v.intervalMonths;
+  static const Field<MonthlySchedule, int> _f$intervalMonths = Field(
+    'intervalMonths',
+    _$intervalMonths,
+    opt: true,
+    def: 1,
+  );
+  static List<TimeOfDay> _$notificationTimes(MonthlySchedule v) =>
+      v.notificationTimes;
+  static const Field<MonthlySchedule, List<TimeOfDay>> _f$notificationTimes =
+      Field('notificationTimes', _$notificationTimes, opt: true, def: const []);
+
+  @override
+  final MappableFields<MonthlySchedule> fields = const {
+    #dayOfMonth: _f$dayOfMonth,
+    #intervalMonths: _f$intervalMonths,
+    #notificationTimes: _f$notificationTimes,
+  };
+
+  @override
+  final String discriminatorKey = 'type';
+  @override
+  final dynamic discriminatorValue = 'monthly';
+  @override
+  late final ClassMapperBase superMapper =
+      SchedulingStrategyMapper.ensureInitialized();
+
+  static MonthlySchedule _instantiate(DecodingData data) {
+    return MonthlySchedule(
+      dayOfMonth: data.dec(_f$dayOfMonth),
+      intervalMonths: data.dec(_f$intervalMonths),
+      notificationTimes: data.dec(_f$notificationTimes),
+    );
+  }
+
+  @override
+  final Function instantiate = _instantiate;
+
+  static MonthlySchedule fromMap(Map<String, dynamic> map) {
+    return ensureInitialized().decodeMap<MonthlySchedule>(map);
+  }
+
+  static MonthlySchedule fromJson(String json) {
+    return ensureInitialized().decodeJson<MonthlySchedule>(json);
+  }
+}
+
+mixin MonthlyScheduleMappable {
+  String toJson() {
+    return MonthlyScheduleMapper.ensureInitialized()
+        .encodeJson<MonthlySchedule>(this as MonthlySchedule);
+  }
+
+  Map<String, dynamic> toMap() {
+    return MonthlyScheduleMapper.ensureInitialized().encodeMap<MonthlySchedule>(
+      this as MonthlySchedule,
+    );
+  }
+
+  MonthlyScheduleCopyWith<MonthlySchedule, MonthlySchedule, MonthlySchedule>
+      get copyWith =>
+          _MonthlyScheduleCopyWithImpl<MonthlySchedule, MonthlySchedule>(
+            this as MonthlySchedule,
+            $identity,
+            $identity,
+          );
+  @override
+  String toString() {
+    return MonthlyScheduleMapper.ensureInitialized().stringifyValue(
+      this as MonthlySchedule,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return MonthlyScheduleMapper.ensureInitialized().equalsValue(
+      this as MonthlySchedule,
+      other,
+    );
+  }
+
+  @override
+  int get hashCode {
+    return MonthlyScheduleMapper.ensureInitialized().hashValue(
+      this as MonthlySchedule,
+    );
+  }
+}
+
+extension MonthlyScheduleValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, MonthlySchedule, $Out> {
+  MonthlyScheduleCopyWith<$R, MonthlySchedule, $Out> get $asMonthlySchedule =>
+      $base.as((v, t, t2) => _MonthlyScheduleCopyWithImpl<$R, $Out>(v, t, t2));
+}
+
+abstract class MonthlyScheduleCopyWith<$R, $In extends MonthlySchedule, $Out>
+    implements SchedulingStrategyCopyWith<$R, $In, $Out> {
+  ListCopyWith<$R, TimeOfDay, ObjectCopyWith<$R, TimeOfDay, TimeOfDay>>
+      get notificationTimes;
+  @override
+  $R call({
+    int? dayOfMonth,
+    int? intervalMonths,
+    List<TimeOfDay>? notificationTimes,
+  });
+  MonthlyScheduleCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
+    Then<$Out2, $R2> t,
+  );
+}
+
+class _MonthlyScheduleCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, MonthlySchedule, $Out>
+    implements MonthlyScheduleCopyWith<$R, MonthlySchedule, $Out> {
+  _MonthlyScheduleCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<MonthlySchedule> $mapper =
+      MonthlyScheduleMapper.ensureInitialized();
+  @override
+  ListCopyWith<$R, TimeOfDay, ObjectCopyWith<$R, TimeOfDay, TimeOfDay>>
+      get notificationTimes => ListCopyWith(
+            $value.notificationTimes,
+            (v, t) => ObjectCopyWith(v, $identity, t),
+            (v) => call(notificationTimes: v),
+          );
+  @override
+  $R call({
+    int? dayOfMonth,
+    int? intervalMonths,
+    List<TimeOfDay>? notificationTimes,
+  }) =>
+      $apply(
+        FieldCopyWithData({
+          if (dayOfMonth != null) #dayOfMonth: dayOfMonth,
+          if (intervalMonths != null) #intervalMonths: intervalMonths,
+          if (notificationTimes != null) #notificationTimes: notificationTimes,
+        }),
+      );
+  @override
+  MonthlySchedule $make(CopyWithData data) => MonthlySchedule(
+        dayOfMonth: data.get(#dayOfMonth, or: $value.dayOfMonth),
+        intervalMonths: data.get(#intervalMonths, or: $value.intervalMonths),
+        notificationTimes: data.get(
+          #notificationTimes,
+          or: $value.notificationTimes,
+        ),
+      );
+
+  @override
+  MonthlyScheduleCopyWith<$R2, MonthlySchedule, $Out2> $chain<$R2, $Out2>(
+    Then<$Out2, $R2> t,
+  ) =>
+      _MonthlyScheduleCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

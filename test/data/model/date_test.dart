@@ -433,6 +433,52 @@ void main() {
       });
     });
 
+    group('addMonths', () {
+      test('adds months within the same year', () {
+        // Arrange
+        final date = Date(year: 2026, month: 3, day: 21);
+
+        // Act
+        final result = date.addMonths(3);
+
+        // Assert
+        expect(result, Date(year: 2026, month: 6, day: 21));
+      });
+
+      test('rolls over into the next year', () {
+        // Arrange
+        final date = Date(year: 2026, month: 11, day: 21);
+
+        // Act
+        final result = date.addMonths(3);
+
+        // Assert
+        expect(result, Date(year: 2027, month: 2, day: 21));
+      });
+
+      test('subtracts months with a negative argument', () {
+        // Arrange
+        final date = Date(year: 2026, month: 1, day: 21);
+
+        // Act
+        final result = date.addMonths(-2);
+
+        // Assert
+        expect(result, Date(year: 2025, month: 11, day: 21));
+      });
+
+      test('preserves the day of month', () {
+        // Arrange
+        final date = Date(year: 2026, month: 1, day: 28);
+
+        // Act
+        final result = date.addMonths(1);
+
+        // Assert
+        expect(result.day, 28);
+      });
+    });
+
     group('export', () {
       test('toDateTime returns a DateTime at noon of the same day', () {
         // Arrange

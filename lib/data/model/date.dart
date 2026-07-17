@@ -63,6 +63,9 @@ class Date {
     return Date.fromUtc(value.subtract(duration));
   }
 
+  Date addMonths(int months) =>
+      Date(year: year, month: month + months, day: day);
+
   DateTime toUtcDateTime() => value;
 
   DateTime toDateTime() => DateTime(year, month, day, 12, 0);
