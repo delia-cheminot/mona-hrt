@@ -106,7 +106,8 @@ void main() {
         'placements': '[]',
         'molecule': '{"name":"estradiol","unit":"mg"}',
         'administrationRoute': 'oral',
-        'supplyItemId': supplyItemId,
+        'medicationSupplyItemId': supplyItemId,
+        'genericSupplyItemIds': '[]',
       });
 
       final allIntakes = await db.query(
@@ -124,13 +125,13 @@ void main() {
           containsPair('takenDose', '2.5'),
           containsPair('takenDateTime', null),
           containsPair('placements', '[]'),
-          containsPair('supplyItemId', supplyItemId),
+          containsPair('medicationSupplyItemId', supplyItemId),
         ),
       );
     });
 
     test(
-        "inserting a supplyItemId that doesn't exist in medication_intakes does not succeed",
+        "inserting a medicationSupplyItemId that doesn't exist in medication_intakes does not succeed",
         () async {
       final supplyItemId = -67;
 
@@ -141,7 +142,8 @@ void main() {
                 'placements': '[]',
                 'molecule': '{"name":"estradiol","unit":"mg"}',
                 'administrationRoute': 'oral',
-                'supplyItemId': supplyItemId,
+                'medicationSupplyItemId': supplyItemId,
+                'genericSupplyItemIds': '[]',
               }),
           throwsA(
             predicate((e) =>
@@ -151,7 +153,7 @@ void main() {
     });
 
     test(
-        "deleting a supplyItem sets the field supplyItemId in medication_intakes NULL",
+        "deleting a supplyItem sets the field medicationSupplyItemId in medication_intakes NULL",
         () async {
       final supplyItemId = await db.insert('supply_items', {
         'type': 'medication',
@@ -169,7 +171,8 @@ void main() {
         'placements': '[]',
         'molecule': '{"name":"estradiol","unit":"mg"}',
         'administrationRoute': 'oral',
-        'supplyItemId': supplyItemId,
+        'medicationSupplyItemId': supplyItemId,
+        'genericSupplyItemIds': '[]',
       });
 
       await db
@@ -181,7 +184,7 @@ void main() {
 
       expect(
         intake,
-        containsPair('supplyItemId', null),
+        containsPair('medicationSupplyItemId', null),
       );
     });
 
@@ -200,6 +203,7 @@ void main() {
                 'molecule': '{"name":"estradiol","unit":"mg"}',
                 'administrationRoute': 'oral',
                 'scheduleId': scheduleId,
+                'genericSupplyItemIds': '[]',
               }),
           throwsA(
             predicate((e) =>
@@ -229,6 +233,7 @@ void main() {
         'molecule': '{"name":"estradiol","unit":"mg"}',
         'administrationRoute': 'oral',
         'scheduleId': scheduleId,
+        'genericSupplyItemIds': '[]',
       });
 
       // Act

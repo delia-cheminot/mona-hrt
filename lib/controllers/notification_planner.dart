@@ -21,6 +21,8 @@ class NotificationPlanner {
                 _intervalPlans(schedule, scheduling, daysAhead),
               DailySchedule scheduling => _dailyPlans(schedule, scheduling),
               WeeklySchedule scheduling => _weeklyPlans(schedule, scheduling),
+              MonthlySchedule scheduling =>
+                _monthlyPlans(schedule, scheduling, daysAhead),
             },
       ];
 
@@ -37,6 +39,8 @@ class NotificationPlanner {
         case WeeklySchedule scheduling:
           reserved += scheduling.daysOfWeek.length *
               scheduling.notificationTimes.length;
+        case MonthlySchedule scheduling:
+          perOccurrence += scheduling.notificationTimes.length;
       }
     }
 
@@ -55,6 +59,31 @@ class NotificationPlanner {
         .getLastIntakeLocalDateForSchedule(schedule.id);
     final takenToday = lastTaken != null && !lastTaken.isBefore(Date.today());
     final dates = scheduling.getNextDates(schedule.startDate, days);
+
+    final plans = <PlannedNotification>[];
+    for (final date in dates) {
+      if (date.isToday && takenToday) continue;
+
+      for (final time in scheduling.notificationTimes) {
+        final dateTime = date.toDateTimeAt(time);
+        if (!dateTime.isAfter(now)) continue;
+        plans.add(PlannedOccurrence(schedule, dateTime: dateTime));
+      }
+    }
+
+    return plans;
+  }
+
+  List<PlannedNotification> _monthlyPlans(
+    MedicationSchedule schedule,
+    MonthlySchedule scheduling,
+    int count,
+  ) {
+    final now = clock.now();
+    final lastTaken = _medicationIntakeProvider
+        .getLastIntakeLocalDateForSchedule(schedule.id);
+    final takenToday = lastTaken != null && !lastTaken.isBefore(Date.today());
+    final dates = scheduling.getNextDates(schedule.startDate, count);
 
     final plans = <PlannedNotification>[];
     for (final date in dates) {

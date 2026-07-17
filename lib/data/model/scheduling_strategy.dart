@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:mona/data/model/custom_mappers.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_intake.dart';
+import 'package:mona/i18n/translations.g.dart';
+import 'package:mona/util/string_parsing.dart';
 import 'package:mona/util/validators.dart';
 
 part 'scheduling_strategy.mapper.dart';
@@ -308,4 +310,107 @@ class WeeklySchedule extends SchedulingStrategy with WeeklyScheduleMappable {
   }
 
   static String? validateDaysOfWeek(List<int> value) => requiredList(value);
+}
+
+@MappableClass(
+  discriminatorValue: 'monthly',
+  includeCustomMappers: [TimeOfDayMapper()],
+)
+class MonthlySchedule extends SchedulingStrategy with MonthlyScheduleMappable {
+  final int dayOfMonth;
+  final int intervalMonths;
+  final List<TimeOfDay> notificationTimes;
+
+  const MonthlySchedule({
+    required this.dayOfMonth,
+    this.intervalMonths = 1,
+    this.notificationTimes = const [],
+  });
+
+  Date _firstOccurrence(Date startDate) {
+    final candidate =
+        Date(year: startDate.year, month: startDate.month, day: dayOfMonth);
+    return candidate.isBefore(startDate) ? candidate.addMonths(1) : candidate;
+  }
+
+  @override
+  Date nextDate(Date startDate) {
+    final today = Date.today();
+    Date occurrence = _firstOccurrence(startDate);
+    while (occurrence.isBefore(today)) {
+      occurrence = occurrence.addMonths(intervalMonths);
+    }
+    return occurrence;
+  }
+
+  @override
+  Date? previousDate(Date startDate) {
+    final first = _firstOccurrence(startDate);
+    final previous = nextDate(startDate).addMonths(-intervalMonths);
+    return previous.isBefore(first) ? null : previous;
+  }
+
+  List<Date> getNextDates(Date startDate, int count) {
+    if (count < 0) {
+      throw ArgumentError('Count must be a positive integer');
+    }
+    if (count == 0) {
+      return [];
+    }
+
+    final dates = <Date>[];
+    Date next = nextDate(startDate);
+    for (int i = 0; i < count; i++) {
+      dates.add(next);
+      next = next.addMonths(intervalMonths);
+    }
+    return dates;
+  }
+
+  @override
+  bool get isNotifiable => notificationTimes.isNotEmpty;
+
+  bool _isScheduledForToday(Date startDate) => nextDate(startDate).isToday;
+
+  bool _isLate(Date startDate, Date? lastTakenDate) {
+    final prev = previousDate(startDate);
+    if (prev == null) return false;
+    return lastTakenDate == null || lastTakenDate.isBefore(prev);
+  }
+
+  bool _lastTakenLate(Date startDate, Date? lastTakenDate) {
+    final prev = previousDate(startDate);
+    if (lastTakenDate == null || prev == null) return false;
+    return lastTakenDate.isAfter(prev);
+  }
+
+  bool _isTakenTodayOrLater(Date? lastTakenDate) {
+    if (lastTakenDate == null) return false;
+    return lastTakenDate.isToday || lastTakenDate.isAfterToday;
+  }
+
+  ScheduleStatus statusFor({
+    required Date startDate,
+    Date? lastTaken,
+  }) {
+    if (_isScheduledForToday(startDate)) {
+      if (_isTakenTodayOrLater(lastTaken)) return ScheduleStatus.taken;
+      if (_isLate(startDate, lastTaken)) return ScheduleStatus.todayOverdue;
+      if (_lastTakenLate(startDate, lastTaken)) {
+        return ScheduleStatus.todayEarly;
+      }
+      return ScheduleStatus.today;
+    }
+
+    if (_isLate(startDate, lastTaken)) return ScheduleStatus.overdue;
+
+    return ScheduleStatus.upcoming;
+  }
+
+  static String? validateDayOfMonth(String? value) =>
+      requiredPositiveInt(value) ??
+      (value!.toInt > 28 ? t.mustBeBetween1And28 : null);
+
+  static String? validateIntervalMonths(String? value) =>
+      requiredPositiveInt(value);
 }

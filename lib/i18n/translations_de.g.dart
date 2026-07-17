@@ -505,6 +505,7 @@ class TranslationsDe extends Translations
   String scheduleFrequencyEveryNDays({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
         count,
+        one: 'Jeden Tag',
         other: 'Alle ${count} Tage',
       );
   @override
@@ -858,6 +859,7 @@ extension on TranslationsDe {
       'scheduleFrequencyEveryNDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
             count,
+            one: 'Jeden Tag',
             other: 'Alle ${count} Tage',
           ),
       'schedulesCreated' => ({required num count}) =>

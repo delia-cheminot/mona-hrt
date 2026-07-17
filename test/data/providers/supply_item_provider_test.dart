@@ -257,6 +257,59 @@ void main() {
       });
     });
 
+    group('getItemsByIds', () {
+      test('returns the items matching the given ids', () async {
+        // Arrange
+        await repo.insert(defaultMedicationItem(id: 1));
+        await repo.insert(defaultGenericItem(id: 2));
+        await repo.insert(defaultGenericItem(id: 3));
+        await provider.fetchItems();
+
+        // Act
+        final result = provider.getItemsByIds([1, 3]);
+
+        // Assert
+        expect(result.map((i) => i.id).toList(), [1, 3]);
+      });
+
+      test('preserves the order of the given ids', () async {
+        // Arrange
+        await repo.insert(defaultGenericItem(id: 1));
+        await repo.insert(defaultGenericItem(id: 2));
+        await provider.fetchItems();
+
+        // Act
+        final result = provider.getItemsByIds([2, 1]);
+
+        // Assert
+        expect(result.map((i) => i.id).toList(), [2, 1]);
+      });
+
+      test('skips ids that no longer exist', () async {
+        // Arrange
+        await repo.insert(defaultGenericItem(id: 1));
+        await provider.fetchItems();
+
+        // Act
+        final result = provider.getItemsByIds([1, 999]);
+
+        // Assert
+        expect(result.map((i) => i.id).toList(), [1]);
+      });
+
+      test('returns an empty list when given no ids', () async {
+        // Arrange
+        await repo.insert(defaultGenericItem(id: 1));
+        await provider.fetchItems();
+
+        // Act
+        final result = provider.getItemsByIds([]);
+
+        // Assert
+        expect(result, isEmpty);
+      });
+    });
+
     group('add', () {
       test('inserts the new item into items', () async {
         // Arrange

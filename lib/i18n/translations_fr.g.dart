@@ -93,6 +93,8 @@ class TranslationsFr extends Translations
   @override
   String get scheduleFrequencyWeekly => 'Hebdomadaire';
   @override
+  String get scheduleFrequencyMonthly => 'Mensuel';
+  @override
   String get newUpdateAvailable => 'Une nouvelle mise à jour est disponible !';
   @override
   String get goToSettings => 'Aller aux paramètres';
@@ -246,6 +248,10 @@ class TranslationsFr extends Translations
   String get every => 'Tous les';
   @override
   String get days => 'jours';
+  @override
+  String get dayOfMonth => 'Jour du mois';
+  @override
+  String get months => 'mois';
   @override
   String get startDate => 'Date de début';
   @override
@@ -537,6 +543,8 @@ class TranslationsFr extends Translations
   @override
   String get mustBePositiveNumber => 'Doit être un nombre positif';
   @override
+  String get mustBeBetween1And28 => 'Doit être entre 1 et 28';
+  @override
   String get invalidTotalAmount => 'Montant total invalide';
   @override
   String get cannotExceedTotalCapacity =>
@@ -564,6 +572,15 @@ class TranslationsFr extends Translations
         one: 'Tous les ${count} jours',
         many: 'Tous les ${count} de jours',
         other: 'Tous les ${count} jours',
+      );
+  @override
+  String scheduleFrequencyOnDayEveryNMonths(
+          {required num count, required Object day}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+        count,
+        one: 'Le ${day} de chaque mois',
+        many: 'Le ${day}, tous les ${count} de mois',
+        other: 'Le ${day}, tous les ${count} mois',
       );
   @override
   String schedulesCreated({required num count}) =>
@@ -706,6 +723,7 @@ extension on TranslationsFr {
       'scheduleFrequencyDaily' => 'Tous les jours',
       'scheduleFrequencyInterval' => 'Intervalle',
       'scheduleFrequencyWeekly' => 'Hebdomadaire',
+      'scheduleFrequencyMonthly' => 'Mensuel',
       'newUpdateAvailable' => 'Une nouvelle mise à jour est disponible !',
       'goToSettings' => 'Aller aux paramètres',
       'settingsTitle' => 'Paramètres',
@@ -794,6 +812,8 @@ extension on TranslationsFr {
       'newSchedule' => 'Nouveau planning',
       'every' => 'Tous les',
       'days' => 'jours',
+      'dayOfMonth' => 'Jour du mois',
+      'months' => 'mois',
       'startDate' => 'Date de début',
       'pickATime' => 'Choisir une heure',
       'addIntakeTime' => 'Ajouter une heure',
@@ -944,6 +964,7 @@ extension on TranslationsFr {
         'Base la suggestion du site suivant sur ce planning uniquement.',
       'requiredField' => 'Champ obligatoire',
       'mustBePositiveNumber' => 'Doit être un nombre positif',
+      'mustBeBetween1And28' => 'Doit être entre 1 et 28',
       'invalidTotalAmount' => 'Montant total invalide',
       'cannotExceedTotalCapacity' => 'Ne peut pas dépasser la capacité totale',
       'daysAgoCount' => ({required num count}) =>
@@ -966,6 +987,14 @@ extension on TranslationsFr {
             one: 'Tous les ${count} jours',
             many: 'Tous les ${count} de jours',
             other: 'Tous les ${count} jours',
+          ),
+      'scheduleFrequencyOnDayEveryNMonths' => (
+              {required num count, required Object day}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+            count,
+            one: 'Le ${day} de chaque mois',
+            many: 'Le ${day}, tous les ${count} de mois',
+            other: 'Le ${day}, tous les ${count} mois',
           ),
       'schedulesCreated' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(

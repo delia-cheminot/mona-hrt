@@ -1101,5 +1101,322 @@ void main() {
         });
       });
     });
+
+    group('MonthlySchedule.nextDate', () {
+      test(
+          'startDate > today, day not yet passed -> first occurrence in start month',
+          () {
+        withFixedClock(() {
+          // Arrange
+          final start = Date(year: 2026, month: 7, day: 1);
+          final s = MonthlySchedule(dayOfMonth: 21, intervalMonths: 3);
+
+          // Act
+          final next = s.nextDate(start);
+
+          // Assert
+          expect(next, Date(year: 2026, month: 7, day: 21));
+        });
+      });
+
+      test('startDate day already passed -> first occurrence is next month',
+          () {
+        withFixedClock(() {
+          // Arrange
+          final start = Date(year: 2026, month: 6, day: 25);
+          final s = MonthlySchedule(dayOfMonth: 21, intervalMonths: 3);
+
+          // Act
+          final next = s.nextDate(start);
+
+          // Assert
+          expect(next, Date(year: 2026, month: 7, day: 21));
+        });
+      });
+
+      test(
+          'startDate in the past -> walks forward by intervalMonths past today',
+          () {
+        withFixedClock(() {
+          // testNow = 2026-06-01. First occurrence 2026-03-21, every 3 months.
+          // Arrange
+          final start = Date(year: 2026, month: 3, day: 21);
+          final s = MonthlySchedule(dayOfMonth: 21, intervalMonths: 3);
+
+          // Act
+          final next = s.nextDate(start);
+
+          // Assert
+          expect(next, Date(year: 2026, month: 6, day: 21));
+        });
+      });
+
+      test('today is exactly a scheduled date -> returns today', () {
+        withFixedClock(at: DateTime(2026, 6, 21, 12, 0), () {
+          // Arrange
+          final start = Date(year: 2026, month: 3, day: 21);
+          final s = MonthlySchedule(dayOfMonth: 21, intervalMonths: 3);
+
+          // Act
+          final next = s.nextDate(start);
+
+          // Assert
+          expect(next, Date(year: 2026, month: 6, day: 21));
+        });
+      });
+
+      test('year rollover -> next occurrence crosses into the next year', () {
+        withFixedClock(at: DateTime(2026, 12, 20, 12, 0), () {
+          // Arrange
+          final start = Date(year: 2026, month: 11, day: 21);
+          final s = MonthlySchedule(dayOfMonth: 21, intervalMonths: 3);
+
+          // Act
+          final next = s.nextDate(start);
+
+          // Assert
+          expect(next, Date(year: 2027, month: 2, day: 21));
+        });
+      });
+    });
+
+    group('MonthlySchedule.previousDate', () {
+      test('startDate >= today -> returns null', () {
+        withFixedClock(() {
+          // Arrange
+          final start = Date(year: 2026, month: 7, day: 21);
+          final s = MonthlySchedule(dayOfMonth: 21, intervalMonths: 3);
+
+          // Act
+          final previous = s.previousDate(start);
+
+          // Assert
+          expect(previous, isNull);
+        });
+      });
+
+      test('startDate in the past -> most recent occurrence before today', () {
+        withFixedClock(() {
+          // testNow = 2026-06-01. Occurrences: Mar 21, Jun 21, ...
+          // Arrange
+          final start = Date(year: 2026, month: 3, day: 21);
+          final s = MonthlySchedule(dayOfMonth: 21, intervalMonths: 3);
+
+          // Act
+          final previous = s.previousDate(start);
+
+          // Assert
+          expect(previous, Date(year: 2026, month: 3, day: 21));
+        });
+      });
+    });
+
+    group('MonthlySchedule consistency between previous and next', () {
+      test('previous is one interval before next', () {
+        withFixedClock(() {
+          // testNow = 2026-06-01. Occurrences: Mar 21, Jun 21, Sep 21, ...
+          // Arrange
+          final start = Date(year: 2026, month: 3, day: 21);
+          final s = MonthlySchedule(dayOfMonth: 21, intervalMonths: 3);
+
+          // Act
+          final next = s.nextDate(start);
+          final previous = s.previousDate(start);
+
+          // Assert
+          expect([
+            next,
+            previous
+          ], [
+            Date(year: 2026, month: 6, day: 21),
+            Date(year: 2026, month: 3, day: 21)
+          ]);
+        });
+      });
+    });
+
+    group('MonthlySchedule.getNextDates', () {
+      test('count 0 -> empty', () {
+        withFixedClock(() {
+          // Arrange
+          final s = MonthlySchedule(dayOfMonth: 21, intervalMonths: 3);
+
+          // Act
+          final dates = s.getNextDates(Date(year: 2026, month: 3, day: 21), 0);
+
+          // Assert
+          expect(dates, isEmpty);
+        });
+      });
+
+      test('negative count -> throws ArgumentError', () {
+        withFixedClock(() {
+          // Arrange
+          final s = MonthlySchedule(dayOfMonth: 21, intervalMonths: 3);
+
+          // Act & Assert
+          expect(
+            () => s.getNextDates(Date(year: 2026, month: 3, day: 21), -1),
+            throwsArgumentError,
+          );
+        });
+      });
+
+      test(
+          'returns count dates spaced intervalMonths apart, starting at nextDate',
+          () {
+        withFixedClock(() {
+          // Arrange
+          final start = Date(year: 2026, month: 3, day: 21);
+          final s = MonthlySchedule(dayOfMonth: 21, intervalMonths: 3);
+
+          // Act
+          final dates = s.getNextDates(start, 3);
+
+          // Assert
+          expect(dates, [
+            Date(year: 2026, month: 6, day: 21),
+            Date(year: 2026, month: 9, day: 21),
+            Date(year: 2026, month: 12, day: 21),
+          ]);
+        });
+      });
+    });
+
+    group('MonthlySchedule.statusFor', () {
+      MonthlySchedule scheduledForToday() => MonthlySchedule(dayOfMonth: 21);
+      Date scheduledForTodayStart() => Date(year: 2026, month: 4, day: 21);
+
+      test('scheduled today, taken today -> taken', () {
+        withFixedClock(at: DateTime(2026, 6, 21, 12, 0), () {
+          // Arrange
+          final s = scheduledForToday();
+
+          // Act
+          final status = s.statusFor(
+              startDate: scheduledForTodayStart(), lastTaken: Date.today());
+
+          // Assert
+          expect(status, ScheduleStatus.taken);
+        });
+      });
+
+      test('scheduled today, never taken -> todayOverdue', () {
+        withFixedClock(at: DateTime(2026, 6, 21, 12, 0), () {
+          // Arrange
+          final s = scheduledForToday();
+
+          // Act
+          final status = s.statusFor(startDate: scheduledForTodayStart());
+
+          // Assert
+          expect(status, ScheduleStatus.todayOverdue);
+        });
+      });
+
+      test(
+          'scheduled today, last intake between previous and today -> todayEarly',
+          () {
+        withFixedClock(at: DateTime(2026, 6, 21, 12, 0), () {
+          // Arrange
+          final s = scheduledForToday();
+          final start = scheduledForTodayStart();
+          final lastTaken = s.previousDate(start)!.add(const Duration(days: 1));
+
+          // Act
+          final status = s.statusFor(startDate: start, lastTaken: lastTaken);
+
+          // Assert
+          expect(status, ScheduleStatus.todayEarly);
+        });
+      });
+
+      test(
+          'scheduled today, last intake equals previous scheduled date -> today',
+          () {
+        withFixedClock(at: DateTime(2026, 6, 21, 12, 0), () {
+          // Arrange
+          final s = scheduledForToday();
+          final start = scheduledForTodayStart();
+
+          // Act
+          final status =
+              s.statusFor(startDate: start, lastTaken: s.previousDate(start));
+
+          // Assert
+          expect(status, ScheduleStatus.today);
+        });
+      });
+
+      test('not scheduled today, overdue -> overdue', () {
+        withFixedClock(() {
+          // testNow = 2026-06-01, not the 21st. First occ 2026-03-21.
+          // Arrange
+          final s = MonthlySchedule(dayOfMonth: 21);
+          final start = Date(year: 2026, month: 3, day: 21);
+
+          // Act
+          final status = s.statusFor(startDate: start);
+
+          // Assert
+          expect(status, ScheduleStatus.overdue);
+        });
+      });
+
+      test('not scheduled today, start in the future -> upcoming', () {
+        withFixedClock(() {
+          // Arrange
+          final s = MonthlySchedule(dayOfMonth: 21);
+
+          // Act
+          final status =
+              s.statusFor(startDate: Date(year: 2026, month: 8, day: 21));
+
+          // Assert
+          expect(status, ScheduleStatus.upcoming);
+        });
+      });
+    });
+
+    group('MonthlySchedule.isNotifiable', () {
+      test('no notification times -> not notifiable', () {
+        // Arrange
+        final s = MonthlySchedule(dayOfMonth: 21);
+
+        // Act & Assert
+        expect(s.isNotifiable, isFalse);
+      });
+
+      test('has notification times -> notifiable', () {
+        // Arrange
+        final s =
+            MonthlySchedule(dayOfMonth: 21, notificationTimes: const [morning]);
+
+        // Act & Assert
+        expect(s.isNotifiable, isTrue);
+      });
+    });
+
+    group('MonthlySchedule validators', () {
+      test('day of month within 1..28 is valid', () {
+        // Act & Assert
+        expect(MonthlySchedule.validateDayOfMonth('21'), isNull);
+      });
+
+      test('day of month above 28 is invalid', () {
+        // Act & Assert
+        expect(MonthlySchedule.validateDayOfMonth('31'), isNotNull);
+      });
+
+      test('day of month of 0 is invalid', () {
+        // Act & Assert
+        expect(MonthlySchedule.validateDayOfMonth('0'), isNotNull);
+      });
+
+      test('interval months must be positive', () {
+        // Act & Assert
+        expect(MonthlySchedule.validateIntervalMonths('0'), isNotNull);
+      });
+    });
   });
 }

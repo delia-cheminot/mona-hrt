@@ -48,10 +48,11 @@ MedicationSchedule aMedicationSchedule({
   );
 }
 
-SchedulingStrategy aSchedulingStrategy() => switch (Random().nextInt(3)) {
+SchedulingStrategy aSchedulingStrategy() => switch (Random().nextInt(4)) {
       0 => anIntervalStrategy(),
       1 => aDailyStrategy(),
       2 => aWeeklyStrategy(),
+      3 => aMonthlyStrategy(),
       _ => throw StateError('unreachable'),
     };
 
@@ -79,6 +80,17 @@ WeeklySchedule aWeeklyStrategy({
       notificationTimes: notificationTimes,
     );
 
+MonthlySchedule aMonthlyStrategy({
+  int dayOfMonth = 21,
+  int intervalMonths = 1,
+  List<TimeOfDay> notificationTimes = const [],
+}) =>
+    MonthlySchedule(
+      dayOfMonth: dayOfMonth,
+      intervalMonths: intervalMonths,
+      notificationTimes: notificationTimes,
+    );
+
 Placement aPlacement({PlacementPreset preset = PlacementPreset.left}) =>
     PresetPlacement(preset);
 
@@ -89,7 +101,8 @@ MedicationIntake aMedicationIntake({
   int? id,
   int? scheduleId,
   Decimal? dose,
-  int? supplyItemId,
+  int? medicationSupplyItemId,
+  List<int> genericSupplyItemIds = const [],
   Decimal? wastedAmount,
   Decimal? deadSpace,
   AdministrationRoute administrationRoute = AdministrationRoute.oral,
@@ -107,7 +120,8 @@ MedicationIntake aMedicationIntake({
       molecule: KnownMolecules.estradiol,
       administrationRoute: administrationRoute,
       scheduledTime: time,
-      supplyItemId: supplyItemId,
+      medicationSupplyItemId: medicationSupplyItemId,
+      genericSupplyItemIds: genericSupplyItemIds,
       wastedAmount: wastedAmount,
       deadSpace: deadSpace,
       ester: ester,
