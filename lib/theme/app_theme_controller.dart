@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/theme/custom_theme_schemes.dart';
+import 'package:mona/theme/default_color_schemes.dart';
 
 class AppThemeProvider extends ChangeNotifier {
   AppThemeProvider(this._prefs) {
@@ -50,14 +51,9 @@ class AppThemeProvider extends ChangeNotifier {
     );
   }
 
-  static const _fallbackSeedArgb = 0xFF4B1570;
-
   ColorScheme _fallbackScheme(Brightness brightness) {
-    return CustomThemeSchemes.schemeFor(
-      seedArgb: _fallbackSeedArgb,
-      variant: DynamicSchemeVariant.vibrant,
-      contrastLevel: 0.0,
-      brightness: brightness,
-    );
+    return brightness == Brightness.dark
+        ? DefaultColorSchemes.dark
+        : DefaultColorSchemes.light;
   }
 }
