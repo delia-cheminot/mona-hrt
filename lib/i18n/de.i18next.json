@@ -130,7 +130,6 @@
   "editItem": "Eintrag bearbeiten",
   "usedAmount": "Verwendete Menge",
   "deleteItem": "{{name}} löschen?",
-  "remaining_one": "",
   "remaining_other": "{{count}} {{unit}} verbleibend",
   "supplyType": "Typ",
   "syringe": "Spritzen",
