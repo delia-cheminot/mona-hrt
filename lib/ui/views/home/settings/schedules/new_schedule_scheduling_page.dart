@@ -218,32 +218,35 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   }
 
   Widget _typeToggle() {
-    return M3EToggleButtonGroup(
-      type: M3EButtonGroupType.standard,
-      size: M3EButtonSize.md,
-      selectedIndex: _type.index,
-      onSelectedIndexChanged: (index) {
-        if (index == null) return;
-        setState(() {
-          _type = _ScheduleType.values[index];
-        });
-      },
-      actions: [
-        M3EToggleButtonGroupAction(label: Text(t.scheduleFrequencyDaily)),
-        M3EToggleButtonGroupAction(
-          label: Text(
-            t.scheduleFrequencyInterval,
-            key: const ValueKey('scheduleTypeInterval'),
+    return Center(
+      child: M3EToggleButtonGroup(
+        type: M3EButtonGroupType.connected,
+        size: M3EButtonSize.sm,
+        haptic: M3EHapticFeedback.light,
+        selectedIndex: _type.index,
+        onSelectedIndexChanged: (index) {
+          if (index == null) return;
+          setState(() {
+            _type = _ScheduleType.values[index];
+          });
+        },
+        actions: [
+          M3EToggleButtonGroupAction(label: Text(t.scheduleFrequencyDaily)),
+          M3EToggleButtonGroupAction(
+            label: Text(
+              t.scheduleFrequencyInterval,
+              key: const ValueKey('scheduleTypeInterval'),
+            ),
           ),
-        ),
-        M3EToggleButtonGroupAction(label: Text(t.scheduleFrequencyWeekly)),
-        M3EToggleButtonGroupAction(
-          label: Text(
-            t.scheduleFrequencyMonthly,
-            key: const ValueKey('scheduleTypeMonthly'),
+          M3EToggleButtonGroupAction(label: Text(t.scheduleFrequencyWeekly)),
+          M3EToggleButtonGroupAction(
+            label: Text(
+              t.scheduleFrequencyMonthly,
+              key: const ValueKey('scheduleTypeMonthly'),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
