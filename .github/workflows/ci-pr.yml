@@ -2,8 +2,52 @@ name: CI - pull request
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
 
 jobs:
+  release_preflight:
+    name: Release preflight
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'release')
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Validate release PR title and body
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          if ! [[ "$PR_TITLE" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)\+([0-9]+)$ ]]; then
+            echo "::error::PR title must be exactly 'v<X>.<Y>.<Z>+<BUILD>' (e.g. 'v1.9.0+7'). Got: '$PR_TITLE'"
+            exit 1
+          fi
+          VERSION="${BASH_REMATCH[1]}"
+          BUILD="${BASH_REMATCH[2]}"
+
+          CURRENT_BUILD=$(grep -m1 '^version:' pubspec.yaml | sed 's/.*+//')
+          if ! [[ "$CURRENT_BUILD" =~ ^[0-9]+$ ]]; then
+            echo "::error::Could not parse current build number from pubspec.yaml (got: '$CURRENT_BUILD')"
+            exit 1
+          fi
+          if (( BUILD <= CURRENT_BUILD )); then
+            echo "::error::Build number ${BUILD} must be greater than current pubspec build ${CURRENT_BUILD}."
+            exit 1
+          fi
+
+          if [[ -z "$(printf %s "$PR_BODY" | tr -d '[:space:]')" ]]; then
+            echo "::error::Release notes (PR body) are empty."
+            exit 1
+          fi
+          SIZE=$(printf '%s\n' "$PR_BODY" | wc -c)
+          if (( SIZE > 500 )); then
+            echo "::error::Release notes are ${SIZE} bytes (>500). IzzyOnDroid would truncate — please shorten the PR body."
+            exit 1
+          fi
+
+          echo "✅ Release PR looks good: v${VERSION}+${BUILD} (current build ${CURRENT_BUILD}), body ${SIZE} bytes."
+          
   format:
     name: Format
     runs-on: ubuntu-latest
