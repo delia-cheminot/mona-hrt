@@ -48,6 +48,16 @@ class Date {
   int differenceInDays(Date other) =>
       value.difference(other.value).inDays.abs();
 
+  int differenceInMonths(Date other) {
+    final (earlier, later) = isBefore(other) ? (this, other) : (other, this);
+    var months =
+        (later.year - earlier.year) * 12 + (later.month - earlier.month);
+    if (later.day < earlier.day) months -= 1;
+    return months;
+  }
+
+  int differenceInYears(Date other) => differenceInMonths(other) ~/ 12;
+
   bool isSameDayAs(Date other) =>
       value.year == other.value.year &&
       value.month == other.value.month &&
