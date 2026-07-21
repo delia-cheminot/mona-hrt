@@ -81,9 +81,9 @@
   "startDate": "วันที่เรื่ม",
   "pickATime": "เลือกเวลา",
   "addIntakeTime": "เพื่มเวลา",
-  "editScheduleInfo": "แก้ไขข้อมูลตารางเวลา",
+  "editScheduleInfo": "แก้ไขข้อมูลยา",
   "scheduling": "การจัดเวลา",
-  "editSchedule": "แก้ไขตารางเวลา",
+  "editSchedule": "แก้ไขข้อมูลยา",
   "deleteSchedule": "ลบ {{name}}?",
   "addNotification": "เพื่มการแจ้งเตือน",
   "empty_intakes": "ยาที่ทานแล้วจะมาอยู่ที่นี่",
@@ -241,5 +241,10 @@
   "noInjectionSitesYet": "ยังไม่มีตำแหน่ง",
   "noInjectionAddOneToGetStarted": "โปรดเพื่มตำแหน่ง",
   "placementSuggestionPerScheduleTitle": "แนะนำตำแหน่งฉีดโดยแยกตาราง",
-  "placementSuggestionPerScheduleDescription": "แนะนำตำแหน่งฉีดถัดไปตามประวัติการฉีดของตารางเวลานั้นๆเท่านั้น"
+  "placementSuggestionPerScheduleDescription": "แนะนำตำแหน่งฉีดถัดไปตามประวัติการฉีดของตารางเวลานั้นๆเท่านั้น",
+  "scheduleFrequencyMonthly": "ทุกเดือน",
+  "scheduleFrequencyOnDayEveryNMonths_other": "วันที่ {{day}} ทุกๆ {{count}} เดือน",
+  "dayOfMonth": "วันที่",
+  "months": "เดือน",
+  "mustBeBetween1And28": "ระหว่างวันที่ 1 ถึง 28 เท่านั้น"
 }
