@@ -490,6 +490,8 @@ class TranslationsRu extends Translations
   String scheduleFrequencyEveryNDays({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
         count,
+        one: 'Каждые ${count} дней',
+        few: 'Каждые ${count} дней',
         many: 'Каждые ${count} дней',
         other: 'Каждые ${count} дней',
       );
@@ -497,6 +499,8 @@ class TranslationsRu extends Translations
   String schedulesCreated({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
         count,
+        one: '${count} создано',
+        few: '${count} создано',
         many: '${count} создано',
         other: '${count} создано',
       );
@@ -504,6 +508,8 @@ class TranslationsRu extends Translations
   String remaining({required num count, required Object unit}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
         count,
+        one: '${count} ${unit} осталось',
+        few: '${count} ${unit} осталось',
         many: '${count} ${unit} осталось',
         other: '${count} ${unit} осталось',
       );
@@ -556,6 +562,8 @@ class TranslationsRu extends Translations
   String administrationRouteUnitMl({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
         count,
+        one: 'мл',
+        few: 'мл',
         many: 'мл',
         other: 'мл',
       );
@@ -861,18 +869,24 @@ extension on TranslationsRu {
       'scheduleFrequencyEveryNDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
             count,
+            one: 'Каждые ${count} дней',
+            few: 'Каждые ${count} дней',
             many: 'Каждые ${count} дней',
             other: 'Каждые ${count} дней',
           ),
       'schedulesCreated' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
             count,
+            one: '${count} создано',
+            few: '${count} создано',
             many: '${count} создано',
             other: '${count} создано',
           ),
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
             count,
+            one: '${count} ${unit} осталось',
+            few: '${count} ${unit} осталось',
             many: '${count} ${unit} осталось',
             other: '${count} ${unit} осталось',
           ),
@@ -919,6 +933,8 @@ extension on TranslationsRu {
       'administrationRouteUnitMl' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
             count,
+            one: 'мл',
+            few: 'мл',
             many: 'мл',
             other: 'мл',
           ),

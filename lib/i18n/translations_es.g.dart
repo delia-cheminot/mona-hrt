@@ -478,18 +478,21 @@ class TranslationsEs extends Translations
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
         count,
+        one: 'hace ${count} días',
         other: 'hace ${count} días',
       );
   @override
   String inDaysCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
         count,
+        one: 'en ${count} días',
         other: 'en ${count} días',
       );
   @override
   String scheduleFrequencyEveryNDays({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
         count,
+        one: 'Cada ${count} días',
         other: 'Cada ${count} días',
       );
   @override
@@ -503,6 +506,7 @@ class TranslationsEs extends Translations
   String remaining({required num count, required Object unit}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
         count,
+        one: '${count} ${unit} restantes',
         other: '${count} ${unit} restantes',
       );
   @override
@@ -826,16 +830,19 @@ extension on TranslationsEs {
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
             count,
+            one: 'hace ${count} días',
             other: 'hace ${count} días',
           ),
       'inDaysCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
             count,
+            one: 'en ${count} días',
             other: 'en ${count} días',
           ),
       'scheduleFrequencyEveryNDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
             count,
+            one: 'Cada ${count} días',
             other: 'Cada ${count} días',
           ),
       'schedulesCreated' => ({required num count}) =>
@@ -847,6 +854,7 @@ extension on TranslationsEs {
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('es'))(
             count,
+            one: '${count} ${unit} restantes',
             other: '${count} ${unit} restantes',
           ),
       'syringeRemaining' => ({required num count}) =>
