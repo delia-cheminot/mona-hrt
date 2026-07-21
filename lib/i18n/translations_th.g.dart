@@ -222,11 +222,11 @@ class TranslationsTh extends Translations
   @override
   String get addIntakeTime => 'เพื่มเวลา';
   @override
-  String get editScheduleInfo => 'แก้ไขข้อมูลตารางเวลา';
+  String get editScheduleInfo => 'แก้ไขข้อมูลยา';
   @override
   String get scheduling => 'การจัดเวลา';
   @override
-  String get editSchedule => 'แก้ไขตารางเวลา';
+  String get editSchedule => 'แก้ไขข้อมูลยา';
   @override
   String deleteSchedule({required Object name}) => 'ลบ ${name}?';
   @override
@@ -527,6 +527,14 @@ class TranslationsTh extends Translations
   String get placementSuggestionPerScheduleDescription =>
       'แนะนำตำแหน่งฉีดถัดไปตามประวัติการฉีดของตารางเวลานั้นๆเท่านั้น';
   @override
+  String get scheduleFrequencyMonthly => 'ทุกเดือน';
+  @override
+  String get dayOfMonth => 'วันที่';
+  @override
+  String get months => 'เดือน';
+  @override
+  String get mustBeBetween1And28 => 'ระหว่างวันที่ 1 ถึง 28 เท่านั้น';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
         count,
@@ -628,6 +636,13 @@ class TranslationsTh extends Translations
         count,
         other: 'สเปรย์',
       );
+  @override
+  String scheduleFrequencyOnDayEveryNMonths(
+          {required num count, required Object day}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+        count,
+        other: 'วันที่ ${day} ทุกๆ ${count} เดือน',
+      );
 }
 
 /// The flat map containing all translations for locale <th>.
@@ -728,9 +743,9 @@ extension on TranslationsTh {
       'startDate' => 'วันที่เรื่ม',
       'pickATime' => 'เลือกเวลา',
       'addIntakeTime' => 'เพื่มเวลา',
-      'editScheduleInfo' => 'แก้ไขข้อมูลตารางเวลา',
+      'editScheduleInfo' => 'แก้ไขข้อมูลยา',
       'scheduling' => 'การจัดเวลา',
-      'editSchedule' => 'แก้ไขตารางเวลา',
+      'editSchedule' => 'แก้ไขข้อมูลยา',
       'deleteSchedule' => ({required Object name}) => 'ลบ ${name}?',
       'addNotification' => 'เพื่มการแจ้งเตือน',
       'empty_intakes' => 'ยาที่ทานแล้วจะมาอยู่ที่นี่',
@@ -884,6 +899,10 @@ extension on TranslationsTh {
       'placementSuggestionPerScheduleTitle' => 'แนะนำตำแหน่งฉีดโดยแยกตาราง',
       'placementSuggestionPerScheduleDescription' =>
         'แนะนำตำแหน่งฉีดถัดไปตามประวัติการฉีดของตารางเวลานั้นๆเท่านั้น',
+      'scheduleFrequencyMonthly' => 'ทุกเดือน',
+      'dayOfMonth' => 'วันที่',
+      'months' => 'เดือน',
+      'mustBeBetween1And28' => 'ระหว่างวันที่ 1 ถึง 28 เท่านั้น',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
             count,
@@ -968,6 +987,12 @@ extension on TranslationsTh {
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
             count,
             other: 'สเปรย์',
+          ),
+      'scheduleFrequencyOnDayEveryNMonths' => (
+              {required num count, required Object day}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+            count,
+            other: 'วันที่ ${day} ทุกๆ ${count} เดือน',
           ),
       _ => null,
     };
