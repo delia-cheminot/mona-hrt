@@ -258,13 +258,6 @@ class _SettingsPageState extends State<SettingsPage>
                   MaterialPageRoute<void>(builder: (context) => UnitsPage()));
             },
           ),
-          SwitchListTile(
-            title: Text(t.intakeCounter),
-            subtitle: Text(t.intakeCounterDescription),
-            value: preferencesService.intakeCounterEnabled,
-            onChanged: (value) =>
-                preferencesService.setIntakeCounterEnabled(value),
-          ),
           const Divider(),
           //
           // ==== General ====
@@ -302,6 +295,13 @@ class _SettingsPageState extends State<SettingsPage>
                     builder: (context) => const ThemePage()),
               );
             },
+          ),
+          SwitchListTile(
+            title: Text(t.intakeCounter),
+            subtitle: Text(t.intakeCounterDescription),
+            value: preferencesService.intakeCounterEnabled,
+            onChanged: (value) =>
+                preferencesService.setIntakeCounterEnabled(value),
           ),
           if (Platform.isAndroid && !isStoreDistribution) ...[
             const Divider(),
