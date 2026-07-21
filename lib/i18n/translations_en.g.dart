@@ -357,6 +357,13 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Taken intakes will appear here'
   String get empty_intakes => 'Taken intakes will appear here';
 
+  /// en: 'Intake counter'
+  String get intakeCounter => 'Intake counter';
+
+  /// en: 'Show how long you've been on HRT and your total intakes'
+  String get intakeCounterDescription =>
+      'Show how long you\'ve been on HRT and your total intakes';
+
   /// en: 'Choose a schedule'
   String get chooseSchedule => 'Choose a schedule';
 
@@ -803,6 +810,46 @@ class Translations with BaseTranslations<AppLocale, Translations> {
         other: '${count} created',
       );
 
+  /// en: '(one) {On HRT for 1 day} (other) {On HRT for {count} days}'
+  String onHrtForDays({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: 'On HRT for 1 day',
+        other: 'On HRT for ${count} days',
+      );
+
+  /// en: '(one) {On HRT for 1 week} (other) {On HRT for {count} weeks}'
+  String onHrtForWeeks({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: 'On HRT for 1 week',
+        other: 'On HRT for ${count} weeks',
+      );
+
+  /// en: '(one) {On HRT for 1 month} (other) {On HRT for {count} months}'
+  String onHrtForMonths({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: 'On HRT for 1 month',
+        other: 'On HRT for ${count} months',
+      );
+
+  /// en: '(one) {On HRT for 1 year} (other) {On HRT for {count} years}'
+  String onHrtForYears({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: 'On HRT for 1 year',
+        other: 'On HRT for ${count} years',
+      );
+
+  /// en: '(one) {1 intake logged} (other) {{count} intakes logged}'
+  String intakesLoggedCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+        count,
+        one: '1 intake logged',
+        other: '${count} intakes logged',
+      );
+
   /// en: '(other) {{count} {unit} remaining}'
   String remaining({required num count, required Object unit}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
@@ -1028,6 +1075,9 @@ extension on Translations {
       'deleteSchedule' => ({required Object name}) => 'Delete ${name}?',
       'addNotification' => 'Add a notification',
       'empty_intakes' => 'Taken intakes will appear here',
+      'intakeCounter' => 'Intake counter',
+      'intakeCounterDescription' =>
+        'Show how long you\'ve been on HRT and your total intakes',
       'chooseSchedule' => 'Choose a schedule',
       'addSchedulesFirst' => 'Add schedules first.',
       'editIntake' => 'Edit intake',
@@ -1194,6 +1244,36 @@ extension on Translations {
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
             count,
             other: '${count} created',
+          ),
+      'onHrtForDays' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: 'On HRT for 1 day',
+            other: 'On HRT for ${count} days',
+          ),
+      'onHrtForWeeks' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: 'On HRT for 1 week',
+            other: 'On HRT for ${count} weeks',
+          ),
+      'onHrtForMonths' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: 'On HRT for 1 month',
+            other: 'On HRT for ${count} months',
+          ),
+      'onHrtForYears' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: 'On HRT for 1 year',
+            other: 'On HRT for ${count} years',
+          ),
+      'intakesLoggedCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
+            count,
+            one: '1 intake logged',
+            other: '${count} intakes logged',
           ),
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
