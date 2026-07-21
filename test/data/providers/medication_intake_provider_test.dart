@@ -754,5 +754,46 @@ void main() {
         expect(span, isNull);
       });
     });
+
+    group('firstTakenLocalDate', () {
+      test('returns null when there are no taken intakes', () async {
+        // Arrange
+        await provider.fetchIntakes();
+        await provider.deleteIntakeFromId(1);
+
+        // Act
+        final result = provider.firstTakenLocalDate;
+
+        // Assert
+        expect(result, isNull);
+      });
+
+      test('returns the local date of the earliest taken intake', () async {
+        // Arrange
+        repo.insert(MedicationIntake(
+          id: 100,
+          takenDose: Decimal.parse('1.0'),
+          takenDateTime: DateTime.utc(2025, 1, 5, 8, 0),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.gel,
+        ));
+        repo.insert(MedicationIntake(
+          id: 101,
+          takenDose: Decimal.parse('1.0'),
+          takenDateTime: DateTime.utc(2025, 3, 20, 8, 0),
+          takenTimeZone: 'Etc/UTC',
+          molecule: KnownMolecules.estradiol,
+          administrationRoute: AdministrationRoute.gel,
+        ));
+        await provider.fetchIntakes();
+
+        // Act
+        final result = provider.firstTakenLocalDate;
+
+        // Assert
+        expect(result, Date(year: 2025, month: 1, day: 5));
+      });
+    });
   });
 }
