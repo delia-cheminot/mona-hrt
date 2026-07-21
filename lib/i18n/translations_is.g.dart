@@ -545,35 +545,30 @@ class TranslationsIs extends Translations
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
         count,
-        one: '',
         other: '${count} fyrir dögum',
       );
   @override
   String inDaysCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
         count,
-        one: '',
         other: 'á ${count} dagar',
       );
   @override
   String scheduleFrequencyEveryNDays({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
         count,
-        one: '',
         other: 'Á ${count} daga fresti',
       );
   @override
   String schedulesCreated({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
         count,
-        one: '',
         other: '${count} skapiði',
       );
   @override
   String remaining({required num count, required Object unit}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
         count,
-        one: '',
         other: '${count} ${unit} eftir',
       );
   @override
@@ -938,31 +933,26 @@ extension on TranslationsIs {
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
             count,
-            one: '',
             other: '${count} fyrir dögum',
           ),
       'inDaysCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
             count,
-            one: '',
             other: 'á ${count} dagar',
           ),
       'scheduleFrequencyEveryNDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
             count,
-            one: '',
             other: 'Á ${count} daga fresti',
           ),
       'schedulesCreated' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
             count,
-            one: '',
             other: '${count} skapiði',
           ),
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
             count,
-            one: '',
             other: '${count} ${unit} eftir',
           ),
       'syringeRemaining' => ({required num count}) =>
