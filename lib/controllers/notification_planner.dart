@@ -108,6 +108,7 @@ class NotificationPlanner {
     final start = schedule.startDate.isAfterToday ? schedule.startDate : today;
     final takenDateTimesToday = _medicationIntakeProvider
         .getTakenIntakesForScheduleOn(schedule.id, today)
+        .where((intake) => intake.scheduledTime != null)
         .map((intake) => Date.today().toDateTimeAt(intake.scheduledTime!))
         .toSet();
 
