@@ -19,6 +19,7 @@ const _settingsInjectionSitesTile = ValueKey('settingsInjectionSitesTile');
 const _addInjectionSiteTile = ValueKey('addInjectionSiteTile');
 const _customSiteField = ValueKey('customSiteField');
 const _confirmAddSite = ValueKey('confirmAddSite');
+const _intakesList = ValueKey('intakesList');
 
 const _emptyIntakes = 'Taken intakes will appear here';
 const _addSchedulesFirst = 'Add schedules first.';
@@ -65,9 +66,9 @@ void main() {
 
     // takeMedication() is fire-and-forget; wait for the list to rebuild. The
     // recorded intake replaces the empty state with a ListTile.
-    await $(ListTile).waitUntilVisible();
+    await $(_intakesList).$(ListTile).waitUntilVisible();
     expect($(_emptyIntakes), findsNothing);
-    expect($(ListTile), findsWidgets);
+    expect($(_intakesList).$(ListTile), findsWidgets);
   });
 
   patrolTest('edits an intake and persists notes', ($) async {
@@ -75,15 +76,15 @@ void main() {
     await _seedSchedule($, name: 'Estradiol');
     await $.openIntakes();
     await _recordIntake($, scheduleName: 'Estradiol');
-    await $(ListTile).waitUntilVisible();
+    await $(_intakesList).$(ListTile).waitUntilVisible();
 
-    await $(ListTile).tap(); // -> EditIntakePage
+    await $(_intakesList).$(ListTile).tap(); // -> EditIntakePage
     await $(_editIntake).waitUntilVisible();
     await $(_editIntakeNotes).enterText('Felt fine');
     await $(_editIntakeSave).tap(); // pops back to the intakes list
 
-    await $(ListTile).waitUntilVisible();
-    await $(ListTile).tap();
+    await $(_intakesList).$(ListTile).waitUntilVisible();
+    await $(_intakesList).$(ListTile).tap();
     await $('Felt fine').waitUntilVisible();
     expect($('Felt fine'), findsOneWidget);
   });
@@ -112,7 +113,7 @@ void main() {
     await $(FilterChip).containing(site).tap(); // pick the site
     await $(_takeIntakeSubmit).tap();
 
-    await $(ListTile).waitUntilVisible(); // intake summary
+    await $(_intakesList).$(ListTile).waitUntilVisible(); // intake summary
     expect($(find.textContaining(site)), findsWidgets);
   });
 
@@ -121,9 +122,9 @@ void main() {
     await _seedSchedule($, name: 'Estradiol');
     await $.openIntakes();
     await _recordIntake($, scheduleName: 'Estradiol');
-    await $(ListTile).waitUntilVisible();
+    await $(_intakesList).$(ListTile).waitUntilVisible();
 
-    await $(ListTile).tap(); // -> EditIntakePage
+    await $(_intakesList).$(ListTile).tap(); // -> EditIntakePage
     await $(_editIntake).waitUntilVisible();
 
     await $(_editIntakeDelete)

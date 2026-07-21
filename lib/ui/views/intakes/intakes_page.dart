@@ -41,6 +41,7 @@ class IntakesPage extends StatelessWidget {
               ),
               Expanded(
                 child: ListView.builder(
+                  key: const ValueKey('intakesList'),
                   itemCount: intakes.length,
                   itemBuilder: (context, index) {
                     return _buildIntakeTile(
