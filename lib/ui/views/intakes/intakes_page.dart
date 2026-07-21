@@ -6,27 +6,49 @@ import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/helpers/medication_intake_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
+import 'package:mona/services/preferences_service.dart';
+import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/intakes/edit_intake_page.dart';
+import 'package:mona/ui/views/intakes/intake_counter_card.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
+import 'package:mona/util/hrt_duration.dart';
 import 'package:provider/provider.dart';
 
 class IntakesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final preferencesService = context.watch<PreferencesService>();
+
     return Consumer<MedicationIntakeProvider>(
       builder: (context, medicationIntakeProvider, child) {
+        final firstDate = medicationIntakeProvider.firstTakenLocalDate;
+        final intakes = medicationIntakeProvider.takenIntakesSortedDesc;
+
         return MainPageWrapper(
           isLoading: medicationIntakeProvider.isLoading,
           isEmpty: medicationIntakeProvider.takenIntakes.isEmpty,
           emptyMessage: t.empty_intakes,
-          child: ListView.builder(
-            itemCount: medicationIntakeProvider.takenIntakes.length,
-            itemBuilder: (context, index) {
-              MedicationIntake intake =
-                  medicationIntakeProvider.takenIntakesSortedDesc[index];
-              return _buildIntakeTile(
-                  context, intake, medicationIntakeProvider);
-            },
+          child: Column(
+            children: [
+              Padding(
+                padding: pagePadding,
+                child: IntakeCounterCard(
+                  enabled: preferencesService.intakeCounterEnabled,
+                  duration:
+                      firstDate == null ? null : hrtDurationSince(firstDate),
+                  intakeCount: medicationIntakeProvider.takenIntakes.length,
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: intakes.length,
+                  itemBuilder: (context, index) {
+                    return _buildIntakeTile(
+                        context, intakes[index], medicationIntakeProvider);
+                  },
+                ),
+              ),
+            ],
           ),
         );
       },
