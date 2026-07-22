@@ -26,7 +26,13 @@ class IntakeCounterCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 8),
       children: [
         ListTile(
-          leading: const CircleAvatar(child: Icon(Symbols.calendar_month)),
+          leading: CircleAvatar(
+            backgroundColor: theme.colorScheme.tertiaryContainer,
+            child: Icon(
+              Symbols.calendar_month,
+              color: theme.colorScheme.onTertiaryContainer,
+            ),
+          ),
           title: Text(_durationText(duration!),
               style: theme.textTheme.titleMedium),
           subtitle: Text(t.intakesLoggedCount(count: intakeCount)),
