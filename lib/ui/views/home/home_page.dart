@@ -83,10 +83,10 @@ class _NoIntakesDueCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 4),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: theme.colorScheme.tertiaryContainer,
+          backgroundColor: theme.colorScheme.tertiary,
           child: Icon(
             Symbols.check,
-            color: theme.colorScheme.onTertiaryContainer,
+            color: theme.colorScheme.onTertiary,
           ),
         ),
         title: Text(t.allDone, style: theme.textTheme.titleMedium),

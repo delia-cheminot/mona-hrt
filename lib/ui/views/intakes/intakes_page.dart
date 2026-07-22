@@ -49,8 +49,7 @@ class IntakesPage extends StatelessWidget {
                 key: const ValueKey('intakesList'),
                 margin: pagePadding,
                 padding: EdgeInsets.zero,
-                gap: 0,
-                color: Theme.of(context).colorScheme.surface,
+                color: Theme.of(context).colorScheme.surfaceContainerLow,
                 itemCount: intakes.length,
                 itemBuilder: (context, index) {
                   return _buildIntakeTile(
@@ -76,10 +75,8 @@ class IntakesPage extends StatelessWidget {
     return ListTile(
       title: Text(dateText),
       subtitle: Text(intake.localizedSummary),
-      leading: CircleAvatar(
-        child: Icon(
-          intake.administrationRoute.icon,
-        ),
+      leading: Icon(
+        intake.administrationRoute.icon,
       ),
       trailing: intake.notes != null ? Icon(Symbols.notes) : null,
       onTap: () {

@@ -27,10 +27,10 @@ class IntakeCounterCard extends StatelessWidget {
       children: [
         ListTile(
           leading: CircleAvatar(
-            backgroundColor: theme.colorScheme.tertiaryContainer,
+            backgroundColor: theme.colorScheme.tertiary,
             child: Icon(
               Symbols.calendar_month,
-              color: theme.colorScheme.onTertiaryContainer,
+              color: theme.colorScheme.onTertiary,
             ),
           ),
           title: Text(_durationText(duration!),
