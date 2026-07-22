@@ -65,11 +65,7 @@ class ChooseScheduleTile extends StatelessWidget {
           contentPadding: const EdgeInsets.symmetric(
               horizontal: borderPadding, vertical: 8.0),
           leading: CircleAvatar(
-            backgroundColor: theme.colorScheme.primary,
-            child: Icon(
-              schedule.administrationRoute.icon,
-              color: theme.colorScheme.onPrimary,
-            ),
+            child: Icon(schedule.administrationRoute.icon),
           ),
           title: Text(
             schedule.name,
