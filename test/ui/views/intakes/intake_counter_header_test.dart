@@ -46,7 +46,7 @@ void main() {
     )));
 
     // Act
-    final found = find.byType(Card);
+    final found = find.byType(ListTile);
 
     // Assert
     expect(found, findsNothing);
@@ -61,7 +61,7 @@ void main() {
     )));
 
     // Act
-    final found = find.byType(Card);
+    final found = find.byType(ListTile);
 
     // Assert
     expect(found, findsNothing);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/util/hrt_duration.dart';
@@ -20,14 +21,17 @@ class IntakeCounterCard extends StatelessWidget {
     if (!enabled || duration == null) return const SizedBox.shrink();
 
     final theme = Theme.of(context);
-    return Card.filled(
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      child: ListTile(
-        leading: const CircleAvatar(child: Icon(Symbols.calendar_month)),
-        title:
-            Text(_durationText(duration!), style: theme.textTheme.titleMedium),
-        subtitle: Text(t.intakesLoggedCount(count: intakeCount)),
-      ),
+    return M3ECardColumn(
+      padding: EdgeInsets.zero,
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      children: [
+        ListTile(
+          leading: const CircleAvatar(child: Icon(Symbols.calendar_month)),
+          title: Text(_durationText(duration!),
+              style: theme.textTheme.titleMedium),
+          subtitle: Text(t.intakesLoggedCount(count: intakeCount)),
+        ),
+      ],
     );
   }
 
