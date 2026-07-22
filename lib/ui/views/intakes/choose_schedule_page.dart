@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:m3e_core/m3e_core.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/i18n/helpers/administration_route_l10n.dart';
 import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
-import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/home/take_medication_page.dart';
 import 'package:provider/provider.dart';
 
@@ -13,23 +13,32 @@ class ChooseSchedulePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final MedicationScheduleProvider medicationScheduleProvider =
         context.read<MedicationScheduleProvider>();
+    final schedules = medicationScheduleProvider.schedules;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(t.chooseSchedule),
       ),
       body: SafeArea(
-        child: medicationScheduleProvider.schedules.isEmpty
+        child: schedules.isEmpty
             ? Center(
                 child: Text(t.addSchedulesFirst),
               )
-            : ListView.builder(
-                padding: pagePadding,
-                itemCount: medicationScheduleProvider.schedules.length,
-                itemBuilder: (context, index) {
-                  return ChooseScheduleTile(
-                      schedule: medicationScheduleProvider.schedules[index]);
+            : M3ECardList.builder(
+                listPadding: EdgeInsets.symmetric(horizontal: 8.0),
+                padding: EdgeInsets.zero,
+                itemCount: schedules.length,
+                onTap: (index) {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute<void>(
+                      fullscreenDialog: true,
+                      builder: (context) =>
+                          TakeMedicationPage(schedules[index]),
+                    ),
+                  );
                 },
+                itemBuilder: (context, index) =>
+                    ChooseScheduleTile(schedule: schedules[index]),
               ),
       ),
     );
@@ -50,32 +59,17 @@ class ChooseScheduleTile extends StatelessWidget {
         "${schedule.molecule.localizedNameWithEster(schedule.ester)} • "
         "${schedule.administrationRoute.localizedName}";
 
-    return Card.filled(
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: () {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute<void>(
-              fullscreenDialog: true,
-              builder: (context) => TakeMedicationPage(schedule),
-            ),
-          );
-        },
-        child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(
-              horizontal: borderPadding, vertical: 8.0),
-          leading: CircleAvatar(
-            child: Icon(schedule.administrationRoute.icon),
-          ),
-          title: Text(
-            schedule.name,
-            style: theme.textTheme.titleMedium,
-          ),
-          subtitle: Text(
-            subtitle,
-            style: theme.textTheme.bodyMedium,
-          ),
-        ),
+    return ListTile(
+      leading: CircleAvatar(
+        child: Icon(schedule.administrationRoute.icon),
+      ),
+      title: Text(
+        schedule.name,
+        style: theme.textTheme.titleMedium,
+      ),
+      subtitle: Text(
+        subtitle,
+        style: theme.textTheme.bodyMedium,
       ),
     );
   }
