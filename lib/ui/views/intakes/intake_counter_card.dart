@@ -24,7 +24,6 @@ class IntakeCounterCard extends StatelessWidget {
     return M3ECardColumn(
       padding: EdgeInsets.zero,
       margin: const EdgeInsets.symmetric(vertical: 8),
-      color: theme.colorScheme.surfaceContainerHigh,
       children: [
         ListTile(
           leading: CircleAvatar(
