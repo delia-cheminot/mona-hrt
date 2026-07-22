@@ -471,6 +471,8 @@ class TranslationsSk extends Translations
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
         count,
+        one: 'Pred ${count} dňami',
+        few: 'Pred ${count} dňami',
         other: 'Pred ${count} dňami',
       );
   @override
@@ -547,6 +549,7 @@ class TranslationsSk extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
         count,
         one: 'ml',
+        few: 'ml',
         other: 'ml',
       );
   @override
@@ -829,6 +832,8 @@ extension on TranslationsSk {
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
             count,
+            one: 'Pred ${count} dňami',
+            few: 'Pred ${count} dňami',
             other: 'Pred ${count} dňami',
           ),
       'inDaysCount' => ({required num count}) =>
@@ -895,6 +900,7 @@ extension on TranslationsSk {
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
             count,
             one: 'ml',
+            few: 'ml',
             other: 'ml',
           ),
       'administrationRouteUnitPill' => ({required num count}) =>
