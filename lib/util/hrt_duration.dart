@@ -22,9 +22,8 @@ class HrtDuration {
   String toString() => 'HrtDuration($unit, $value)';
 }
 
-const int _weeksThresholdDays = 14;
+const int _weeksThresholdDays = 7;
 const int _monthsThresholdDays = 90;
-const int _yearsThresholdDays = 365;
 
 HrtDuration hrtDurationSince(Date start) {
   final now = Date.today();
@@ -38,9 +37,10 @@ HrtDuration hrtDurationSince(Date start) {
     return HrtDuration(HrtDurationUnit.weeks, days ~/ 7);
   }
 
-  if (days < _yearsThresholdDays) {
+  final years = start.differenceInYears(now);
+  if (years < 1) {
     return HrtDuration(HrtDurationUnit.months, start.differenceInMonths(now));
   }
 
-  return HrtDuration(HrtDurationUnit.years, start.differenceInYears(now));
+  return HrtDuration(HrtDurationUnit.years, years);
 }

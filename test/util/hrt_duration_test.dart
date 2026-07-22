@@ -14,13 +14,25 @@ void main() {
         expected: HrtDuration(HrtDurationUnit.days, 1),
       ),
       (
-        description: '13 days stays in days',
+        description: '6 days stays in days',
         start: Date(year: 2026, month: 6, day: 1),
-        today: Date(year: 2026, month: 6, day: 14),
-        expected: HrtDuration(HrtDurationUnit.days, 13),
+        today: Date(year: 2026, month: 6, day: 7),
+        expected: HrtDuration(HrtDurationUnit.days, 6),
       ),
       (
-        description: '14 days switches to weeks',
+        description: '7 days switches to 1 week',
+        start: Date(year: 2026, month: 6, day: 1),
+        today: Date(year: 2026, month: 6, day: 8),
+        expected: HrtDuration(HrtDurationUnit.weeks, 1),
+      ),
+      (
+        description: '13 days is still 1 week',
+        start: Date(year: 2026, month: 6, day: 1),
+        today: Date(year: 2026, month: 6, day: 14),
+        expected: HrtDuration(HrtDurationUnit.weeks, 1),
+      ),
+      (
+        description: '14 days switches to 2 weeks',
         start: Date(year: 2026, month: 6, day: 1),
         today: Date(year: 2026, month: 6, day: 15),
         expected: HrtDuration(HrtDurationUnit.weeks, 2),
@@ -50,9 +62,21 @@ void main() {
         expected: HrtDuration(HrtDurationUnit.months, 11),
       ),
       (
-        description: '365 days switches to years',
+        description: 'one calendar year switches to years',
         start: Date(year: 2025, month: 1, day: 1),
         today: Date(year: 2026, month: 1, day: 1),
+        expected: HrtDuration(HrtDurationUnit.years, 1),
+      ),
+      (
+        description: '365 days that cross a leap day stay in months',
+        start: Date(year: 2024, month: 1, day: 1),
+        today: Date(year: 2024, month: 12, day: 31),
+        expected: HrtDuration(HrtDurationUnit.months, 11),
+      ),
+      (
+        description: 'leap year anniversary reads as 1 year',
+        start: Date(year: 2024, month: 1, day: 1),
+        today: Date(year: 2025, month: 1, day: 1),
         expected: HrtDuration(HrtDurationUnit.years, 1),
       ),
     ];
