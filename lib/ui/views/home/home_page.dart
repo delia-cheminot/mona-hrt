@@ -81,12 +81,12 @@ class _NoIntakesDueCard extends StatelessWidget {
 
     return Card.filled(
       margin: const EdgeInsets.symmetric(vertical: 4),
-      color: theme.colorScheme.surfaceContainerHigh,
+      color: theme.colorScheme.surfaceContainer,
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor: theme.colorScheme.tertiaryContainer,
           child: Icon(
-            Symbols.check,
+            Symbols.check_circle_rounded,
             color: theme.colorScheme.onTertiaryContainer,
           ),
         ),

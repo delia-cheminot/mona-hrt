@@ -66,10 +66,12 @@ class _MainPageState extends State<MainPage> {
           children: [
             for (final tab in tabs)
               Scaffold(
+                backgroundColor: tab.backgroundColor,
                 appBar: AppBar(
                   title: Text(tab.title),
                   centerTitle: true,
                   actions: tab.buildActions?.call(context),
+                  backgroundColor: tab.backgroundColor,
                 ),
                 body: SafeArea(child: tab.page),
               ),

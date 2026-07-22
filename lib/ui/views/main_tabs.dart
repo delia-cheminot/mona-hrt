@@ -35,6 +35,7 @@ List<MainTabConfig> getMainTabs(BuildContext context) {
       icon: Icons.event_outlined,
       selectedIcon: Icons.event_rounded,
       navKey: const ValueKey('navTabIntakes'),
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
       buildFab: (context) => FloatingActionButton(
         tooltip: t.takeAnIntake,
         onPressed: () {

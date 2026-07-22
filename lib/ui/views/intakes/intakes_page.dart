@@ -49,7 +49,7 @@ class IntakesPage extends StatelessWidget {
                 key: const ValueKey('intakesList'),
                 margin: pagePadding,
                 padding: EdgeInsets.zero,
-                color: Theme.of(context).colorScheme.surfaceContainerLow,
+                color: Theme.of(context).colorScheme.surfaceContainerLowest,
                 itemCount: intakes.length,
                 itemBuilder: (context, index) {
                   return _buildIntakeTile(
@@ -57,7 +57,7 @@ class IntakesPage extends StatelessWidget {
                 },
               ),
               SliverToBoxAdapter(
-                child: SizedBox(height: 8),
+                child: SizedBox(height: borderPadding),
               ),
             ],
           ),
