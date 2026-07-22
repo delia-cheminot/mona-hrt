@@ -8,7 +8,6 @@ import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/helpers/medication_intake_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
-import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/intakes/edit_intake_page.dart';
 import 'package:mona/ui/views/intakes/intake_counter_card.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
@@ -43,7 +42,7 @@ class IntakesPage extends StatelessWidget {
                 ),
               ),
               SliverToBoxAdapter(
-                child: SizedBox(height: 16),
+                child: SizedBox(height: 8),
               ),
               SliverM3ECardList(
                 key: const ValueKey('intakesList'),
