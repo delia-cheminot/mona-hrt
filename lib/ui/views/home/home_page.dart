@@ -86,7 +86,7 @@ class _NoIntakesDueCard extends StatelessWidget {
         leading: CircleAvatar(
           backgroundColor: theme.colorScheme.tertiaryContainer,
           child: Icon(
-            Symbols.check_circle_rounded,
+            Symbols.check,
             color: theme.colorScheme.onTertiaryContainer,
           ),
         ),
