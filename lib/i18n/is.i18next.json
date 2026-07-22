@@ -253,5 +253,11 @@
   "requiredField": "Skylda reitur",
   "mustBePositiveNumber": "Verður að vera jákvæð tala",
   "invalidTotalAmount": "Ógild heildarupphæð",
-  "cannotExceedTotalCapacity": "Ekki er hægt að fara yfir heildargetu"
+  "cannotExceedTotalCapacity": "Ekki er hægt að fara yfir heildargetu",
+  "scheduleFrequencyMonthly": "Mánuðurlega",
+  "scheduleFrequencyOnDayEveryNMonths_one": "Dagur {{day}}, í hverjum mánuði",
+  "scheduleFrequencyOnDayEveryNMonths_other": "Dagur {{day}}, á {{count}} mánaða fresti",
+  "dayOfMonth": "Dag mánaðarins",
+  "months": "mánuðir",
+  "mustBeBetween1And28": "Verður að vera á milli 1 og 28"
 }

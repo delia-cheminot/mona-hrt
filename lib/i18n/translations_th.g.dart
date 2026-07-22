@@ -222,11 +222,11 @@ class TranslationsTh extends Translations
   @override
   String get addIntakeTime => 'เพื่มเวลา';
   @override
-  String get editScheduleInfo => 'แก้ไขข้อมูลตารางเวลา';
+  String get editScheduleInfo => 'แก้ไขข้อมูลยา';
   @override
   String get scheduling => 'การจัดเวลา';
   @override
-  String get editSchedule => 'แก้ไขตารางเวลา';
+  String get editSchedule => 'แก้ไขข้อมูลยา';
   @override
   String deleteSchedule({required Object name}) => 'ลบ ${name}?';
   @override
@@ -473,6 +473,68 @@ class TranslationsTh extends Translations
   @override
   String get cannotExceedTotalCapacity => 'จำนวนเกินรวมไม่ได้';
   @override
+  String get medicalSettings => 'การใช้ยา';
+  @override
+  String get theme => 'ธีม';
+  @override
+  String get themeCustomizeColors => 'ปรับแต่งสีสัน';
+  @override
+  String get customThemeEnabled => 'ไม่ใช้ธีมของระบบ';
+  @override
+  String get themeGenerate => 'สุ่มธีมสีใหม่';
+  @override
+  String get themeVariant => 'ธีมสี';
+  @override
+  String get themeContrast => 'ระดับการตัดสี';
+  @override
+  String get themeContrastStandard => 'ปกติ';
+  @override
+  String get themeContrastMedium => 'ปานกลาง';
+  @override
+  String get themeContrastHigh => 'สูง';
+  @override
+  String get placementLeftThigh => 'ต้นขาด้านซ้าย';
+  @override
+  String get placementRightThigh => 'ต้นขาด้านขวา';
+  @override
+  String get placementLeftArm => 'แขนด้านซ้าย';
+  @override
+  String get placementRightArm => 'แขนด้านขวา';
+  @override
+  String get placementLeftButtock => 'แก้มก้นฝั่งซ้าย';
+  @override
+  String get placementRightButtock => 'แก้มก้นฝั่งขวา';
+  @override
+  String get placementLeftAbdomen => 'ช่องท้องด้านซ้าย';
+  @override
+  String get placementRightAbdomen => 'ช่องท้องด้านขวา';
+  @override
+  String get injectionSites => 'ตำแหน่งฉีดยา';
+  @override
+  String get injectionSitesDescription => 'จัดการตำแหน่งฉีดยาต่างๆ';
+  @override
+  String get addInjectionSite => 'เพื่มตำแหน่ง';
+  @override
+  String get customSiteLabel => 'กำหนดตำแหน่งเอง';
+  @override
+  String get noInjectionSitesYet => 'ยังไม่มีตำแหน่ง';
+  @override
+  String get noInjectionAddOneToGetStarted => 'โปรดเพื่มตำแหน่ง';
+  @override
+  String get placementSuggestionPerScheduleTitle =>
+      'แนะนำตำแหน่งฉีดโดยแยกตาราง';
+  @override
+  String get placementSuggestionPerScheduleDescription =>
+      'แนะนำตำแหน่งฉีดถัดไปตามประวัติการฉีดของตารางเวลานั้นๆเท่านั้น';
+  @override
+  String get scheduleFrequencyMonthly => 'ทุกเดือน';
+  @override
+  String get dayOfMonth => 'วันที่';
+  @override
+  String get months => 'เดือน';
+  @override
+  String get mustBeBetween1And28 => 'ระหว่างวันที่ 1 ถึง 28 เท่านั้น';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
         count,
@@ -536,50 +598,50 @@ class TranslationsTh extends Translations
   String administrationRouteUnitMl({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
         count,
-        one: 'มิลลิลิตร',
         other: 'มิลลิลิตร',
       );
   @override
   String administrationRouteUnitPill({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
         count,
-        one: 'เม็ด',
         other: 'เม็ด',
       );
   @override
   String administrationRouteUnitPatch({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
         count,
-        one: 'แผ่น',
         other: 'แผ่น',
       );
   @override
   String administrationRouteUnitPump({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
         count,
-        one: 'ปั้ม',
         other: 'ปั้ม',
       );
   @override
   String administrationRouteUnitImplant({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
         count,
-        one: 'ฝัง ที่',
         other: 'ฝัง ที่',
       );
   @override
   String administrationRouteUnitSuppository({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
         count,
-        one: 'ยาเหน็บ เม็ด',
         other: 'ยาเหน็บ เม็ด',
       );
   @override
   String administrationRouteUnitSpray({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
         count,
-        one: 'สเปรย์',
         other: 'สเปรย์',
+      );
+  @override
+  String scheduleFrequencyOnDayEveryNMonths(
+          {required num count, required Object day}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+        count,
+        other: 'วันที่ ${day} ทุกๆ ${count} เดือน',
       );
 }
 
@@ -681,9 +743,9 @@ extension on TranslationsTh {
       'startDate' => 'วันที่เรื่ม',
       'pickATime' => 'เลือกเวลา',
       'addIntakeTime' => 'เพื่มเวลา',
-      'editScheduleInfo' => 'แก้ไขข้อมูลตารางเวลา',
+      'editScheduleInfo' => 'แก้ไขข้อมูลยา',
       'scheduling' => 'การจัดเวลา',
-      'editSchedule' => 'แก้ไขตารางเวลา',
+      'editSchedule' => 'แก้ไขข้อมูลยา',
       'deleteSchedule' => ({required Object name}) => 'ลบ ${name}?',
       'addNotification' => 'เพื่มการแจ้งเตือน',
       'empty_intakes' => 'ยาที่ทานแล้วจะมาอยู่ที่นี่',
@@ -810,6 +872,37 @@ extension on TranslationsTh {
       'mustBePositiveNumber' => 'ต้องเป็นตัวเลขมากกว่า 0',
       'invalidTotalAmount' => 'จำนวนรวมผิดรูปแบบ',
       'cannotExceedTotalCapacity' => 'จำนวนเกินรวมไม่ได้',
+      'medicalSettings' => 'การใช้ยา',
+      'theme' => 'ธีม',
+      'themeCustomizeColors' => 'ปรับแต่งสีสัน',
+      'customThemeEnabled' => 'ไม่ใช้ธีมของระบบ',
+      'themeGenerate' => 'สุ่มธีมสีใหม่',
+      'themeVariant' => 'ธีมสี',
+      'themeContrast' => 'ระดับการตัดสี',
+      'themeContrastStandard' => 'ปกติ',
+      'themeContrastMedium' => 'ปานกลาง',
+      'themeContrastHigh' => 'สูง',
+      'placementLeftThigh' => 'ต้นขาด้านซ้าย',
+      'placementRightThigh' => 'ต้นขาด้านขวา',
+      'placementLeftArm' => 'แขนด้านซ้าย',
+      'placementRightArm' => 'แขนด้านขวา',
+      'placementLeftButtock' => 'แก้มก้นฝั่งซ้าย',
+      'placementRightButtock' => 'แก้มก้นฝั่งขวา',
+      'placementLeftAbdomen' => 'ช่องท้องด้านซ้าย',
+      'placementRightAbdomen' => 'ช่องท้องด้านขวา',
+      'injectionSites' => 'ตำแหน่งฉีดยา',
+      'injectionSitesDescription' => 'จัดการตำแหน่งฉีดยาต่างๆ',
+      'addInjectionSite' => 'เพื่มตำแหน่ง',
+      'customSiteLabel' => 'กำหนดตำแหน่งเอง',
+      'noInjectionSitesYet' => 'ยังไม่มีตำแหน่ง',
+      'noInjectionAddOneToGetStarted' => 'โปรดเพื่มตำแหน่ง',
+      'placementSuggestionPerScheduleTitle' => 'แนะนำตำแหน่งฉีดโดยแยกตาราง',
+      'placementSuggestionPerScheduleDescription' =>
+        'แนะนำตำแหน่งฉีดถัดไปตามประวัติการฉีดของตารางเวลานั้นๆเท่านั้น',
+      'scheduleFrequencyMonthly' => 'ทุกเดือน',
+      'dayOfMonth' => 'วันที่',
+      'months' => 'เดือน',
+      'mustBeBetween1And28' => 'ระหว่างวันที่ 1 ถึง 28 เท่านั้น',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
             count,
@@ -863,44 +956,43 @@ extension on TranslationsTh {
       'administrationRouteUnitMl' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
             count,
-            one: 'มิลลิลิตร',
             other: 'มิลลิลิตร',
           ),
       'administrationRouteUnitPill' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
             count,
-            one: 'เม็ด',
             other: 'เม็ด',
           ),
       'administrationRouteUnitPatch' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
             count,
-            one: 'แผ่น',
             other: 'แผ่น',
           ),
       'administrationRouteUnitPump' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
             count,
-            one: 'ปั้ม',
             other: 'ปั้ม',
           ),
       'administrationRouteUnitImplant' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
             count,
-            one: 'ฝัง ที่',
             other: 'ฝัง ที่',
           ),
       'administrationRouteUnitSuppository' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
             count,
-            one: 'ยาเหน็บ เม็ด',
             other: 'ยาเหน็บ เม็ด',
           ),
       'administrationRouteUnitSpray' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
             count,
-            one: 'สเปรย์',
             other: 'สเปรย์',
+          ),
+      'scheduleFrequencyOnDayEveryNMonths' => (
+              {required num count, required Object day}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+            count,
+            other: 'วันที่ ${day} ทุกๆ ${count} เดือน',
           ),
       _ => null,
     };
