@@ -534,33 +534,46 @@ class TranslationsIs extends Translations
   String get cannotExceedTotalCapacity =>
       'Ekki er hægt að fara yfir heildargetu';
   @override
+  String get scheduleFrequencyMonthly => 'Mánuðurlega';
+  @override
+  String get dayOfMonth => 'Dag mánaðarins';
+  @override
+  String get months => 'mánuðir';
+  @override
+  String get mustBeBetween1And28 => 'Verður að vera á milli 1 og 28';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
         count,
+        one: '${count} fyrir dögum',
         other: '${count} fyrir dögum',
       );
   @override
   String inDaysCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
         count,
+        one: 'á ${count} dagar',
         other: 'á ${count} dagar',
       );
   @override
   String scheduleFrequencyEveryNDays({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
         count,
+        one: 'Á ${count} daga fresti',
         other: 'Á ${count} daga fresti',
       );
   @override
   String schedulesCreated({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
         count,
+        one: '${count} skapiði',
         other: '${count} skapiði',
       );
   @override
   String remaining({required num count, required Object unit}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
         count,
+        one: '${count} ${unit} eftir',
         other: '${count} ${unit} eftir',
       );
   @override
@@ -646,6 +659,14 @@ class TranslationsIs extends Translations
         count,
         one: 'úði',
         other: 'úðar',
+      );
+  @override
+  String scheduleFrequencyOnDayEveryNMonths(
+          {required num count, required Object day}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
+        count,
+        one: 'Dagur ${day}, í hverjum mánuði',
+        other: 'Dagur ${day}, á ${count} mánaða fresti',
       );
 }
 
@@ -910,29 +931,38 @@ extension on TranslationsIs {
       'mustBePositiveNumber' => 'Verður að vera jákvæð tala',
       'invalidTotalAmount' => 'Ógild heildarupphæð',
       'cannotExceedTotalCapacity' => 'Ekki er hægt að fara yfir heildargetu',
+      'scheduleFrequencyMonthly' => 'Mánuðurlega',
+      'dayOfMonth' => 'Dag mánaðarins',
+      'months' => 'mánuðir',
+      'mustBeBetween1And28' => 'Verður að vera á milli 1 og 28',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
             count,
+            one: '${count} fyrir dögum',
             other: '${count} fyrir dögum',
           ),
       'inDaysCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
             count,
+            one: 'á ${count} dagar',
             other: 'á ${count} dagar',
           ),
       'scheduleFrequencyEveryNDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
             count,
+            one: 'Á ${count} daga fresti',
             other: 'Á ${count} daga fresti',
           ),
       'schedulesCreated' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
             count,
+            one: '${count} skapiði',
             other: '${count} skapiði',
           ),
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
             count,
+            one: '${count} ${unit} eftir',
             other: '${count} ${unit} eftir',
           ),
       'syringeRemaining' => ({required num count}) =>
@@ -1006,6 +1036,13 @@ extension on TranslationsIs {
             count,
             one: 'úði',
             other: 'úðar',
+          ),
+      'scheduleFrequencyOnDayEveryNMonths' => (
+              {required num count, required Object day}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
+            count,
+            one: 'Dagur ${day}, í hverjum mánuði',
+            other: 'Dagur ${day}, á ${count} mánaða fresti',
           ),
       _ => null,
     };

@@ -302,6 +302,29 @@ void main() {
       });
     });
 
+    test('a manually-logged intake (null scheduledTime) still plans the slot',
+        () {
+      withFixedClock(() {
+        // Arrange
+        withSchedules([
+          aMedicationSchedule(
+            scheduling: aDailyStrategy(intakeTimes: const [afternoon]),
+          )
+        ]);
+        when(intakesProvider.getTakenIntakesForScheduleOn(any, Date.today()))
+            .thenReturn([aMedicationIntake(time: null)]);
+
+        // Act
+        final plan = planner
+            .planNotifications(daysAhead: 30)
+            .cast<PlannedRepeating>()
+            .single;
+
+        // Assert
+        expect(plan.firstFire, Date.today().toDateTimeAt(afternoon));
+      });
+    });
+
     test('taken intake for a different slot does not advance this slot', () {
       withFixedClock(() {
         // Arrange

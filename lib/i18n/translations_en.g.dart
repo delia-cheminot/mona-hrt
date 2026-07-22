@@ -772,24 +772,27 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Cannot exceed total capacity'
   String get cannotExceedTotalCapacity => 'Cannot exceed total capacity';
 
-  /// en: '(other) {{count} days ago}'
+  /// en: '(one) {{count} day ago} (other) {{count} days ago}'
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
+        one: '${count} day ago',
         other: '${count} days ago',
       );
 
-  /// en: '(other) {in {count} days}'
+  /// en: '(one) {in {count} day} (other) {in {count} days}'
   String inDaysCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
+        one: 'in ${count} day',
         other: 'in ${count} days',
       );
 
-  /// en: '(other) {Every {count} days}'
+  /// en: '(one) {Every day} (other) {Every {count} days}'
   String scheduleFrequencyEveryNDays({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
+        one: 'Every day',
         other: 'Every ${count} days',
       );
 
@@ -802,10 +805,11 @@ class Translations with BaseTranslations<AppLocale, Translations> {
         other: 'Day ${day}, every ${count} months',
       );
 
-  /// en: '(other) {{count} created}'
+  /// en: '(one) {{count} created} (other) {{count} created}'
   String schedulesCreated({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
+        one: '${count} created',
         other: '${count} created',
       );
 
@@ -849,10 +853,11 @@ class Translations with BaseTranslations<AppLocale, Translations> {
         other: '${count} intakes logged',
       );
 
-  /// en: '(other) {{count} {unit} remaining}'
+  /// en: '(one) {{count} {unit} remaining} (other) {{count} {unit} remaining}'
   String remaining({required num count, required Object unit}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
+        one: '${count} ${unit} remaining',
         other: '${count} ${unit} remaining',
       );
 
@@ -1220,16 +1225,19 @@ extension on Translations {
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
             count,
+            one: '${count} day ago',
             other: '${count} days ago',
           ),
       'inDaysCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
             count,
+            one: 'in ${count} day',
             other: 'in ${count} days',
           ),
       'scheduleFrequencyEveryNDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
             count,
+            one: 'Every day',
             other: 'Every ${count} days',
           ),
       'scheduleFrequencyOnDayEveryNMonths' => (
@@ -1242,6 +1250,7 @@ extension on Translations {
       'schedulesCreated' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
             count,
+            one: '${count} created',
             other: '${count} created',
           ),
       'onHrtForDays' => ({required num count}) =>
@@ -1277,6 +1286,7 @@ extension on Translations {
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
             count,
+            one: '${count} ${unit} remaining',
             other: '${count} ${unit} remaining',
           ),
       'syringeRemaining' => ({required num count}) =>
