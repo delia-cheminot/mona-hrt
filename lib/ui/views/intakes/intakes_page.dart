@@ -28,26 +28,26 @@ class IntakesPage extends StatelessWidget {
           isLoading: medicationIntakeProvider.isLoading,
           isEmpty: medicationIntakeProvider.takenIntakes.isEmpty,
           emptyMessage: t.empty_intakes,
-          child: Column(
-            children: [
-              Padding(
-                padding: pagePadding,
-                child: IntakeCounterCard(
-                  enabled: preferencesService.intakeCounterEnabled,
-                  duration:
-                      firstDate == null ? null : hrtDurationSince(firstDate),
-                  intakeCount: medicationIntakeProvider.takenIntakes.length,
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: pagePadding,
+                  child: IntakeCounterCard(
+                    enabled: preferencesService.intakeCounterEnabled,
+                    duration:
+                        firstDate == null ? null : hrtDurationSince(firstDate),
+                    intakeCount: medicationIntakeProvider.takenIntakes.length,
+                  ),
                 ),
               ),
-              Expanded(
-                child: ListView.builder(
-                  key: const ValueKey('intakesList'),
-                  itemCount: intakes.length,
-                  itemBuilder: (context, index) {
-                    return _buildIntakeTile(
-                        context, intakes[index], medicationIntakeProvider);
-                  },
-                ),
+              SliverList.builder(
+                key: const ValueKey('intakesList'),
+                itemCount: intakes.length,
+                itemBuilder: (context, index) {
+                  return _buildIntakeTile(
+                      context, intakes[index], medicationIntakeProvider);
+                },
               ),
             ],
           ),
