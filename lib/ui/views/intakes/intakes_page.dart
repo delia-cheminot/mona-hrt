@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
@@ -32,7 +33,7 @@ class IntakesPage extends StatelessWidget {
             slivers: [
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: pagePadding,
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
                   child: IntakeCounterCard(
                     enabled: preferencesService.intakeCounterEnabled,
                     duration:
@@ -41,13 +42,23 @@ class IntakesPage extends StatelessWidget {
                   ),
                 ),
               ),
-              SliverList.builder(
+              SliverToBoxAdapter(
+                child: SizedBox(height: 16),
+              ),
+              SliverM3ECardList(
                 key: const ValueKey('intakesList'),
+                margin: EdgeInsets.symmetric(horizontal: 8.0),
+                padding: EdgeInsets.zero,
+                gap: 0,
+                color: Theme.of(context).colorScheme.surface,
                 itemCount: intakes.length,
                 itemBuilder: (context, index) {
                   return _buildIntakeTile(
                       context, intakes[index], medicationIntakeProvider);
                 },
+              ),
+              SliverToBoxAdapter(
+                child: SizedBox(height: 8),
               ),
             ],
           ),
