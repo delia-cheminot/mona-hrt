@@ -479,6 +479,84 @@ void main() {
       });
     });
 
+    group('differenceInMonths', () {
+      final cases = [
+        (
+          description: 'identical dates are 0 months apart',
+          a: Date(year: 2025, month: 1, day: 1),
+          b: Date(year: 2025, month: 1, day: 1),
+          expected: 0,
+        ),
+        (
+          description: 'counts whole months within a year',
+          a: Date(year: 2025, month: 1, day: 1),
+          b: Date(year: 2025, month: 12, day: 15),
+          expected: 11,
+        ),
+        (
+          description: 'does not count a partial final month',
+          a: Date(year: 2025, month: 1, day: 31),
+          b: Date(year: 2025, month: 5, day: 30),
+          expected: 3,
+        ),
+        (
+          description: 'is unsigned regardless of argument order',
+          a: Date(year: 2025, month: 12, day: 15),
+          b: Date(year: 2025, month: 1, day: 1),
+          expected: 11,
+        ),
+        (
+          description: 'counts across a year boundary',
+          a: Date(year: 2025, month: 1, day: 1),
+          b: Date(year: 2026, month: 1, day: 1),
+          expected: 12,
+        ),
+      ];
+
+      for (final c in cases) {
+        test(c.description, () {
+          // Act
+          final result = c.a.differenceInMonths(c.b);
+
+          // Assert
+          expect(result, c.expected);
+        });
+      }
+    });
+
+    group('differenceInYears', () {
+      final cases = [
+        (
+          description: 'less than a year is 0',
+          a: Date(year: 2025, month: 1, day: 1),
+          b: Date(year: 2025, month: 12, day: 31),
+          expected: 0,
+        ),
+        (
+          description: 'exactly one year is 1',
+          a: Date(year: 2025, month: 1, day: 1),
+          b: Date(year: 2026, month: 1, day: 1),
+          expected: 1,
+        ),
+        (
+          description: 'partial final year does not count',
+          a: Date(year: 2025, month: 6, day: 1),
+          b: Date(year: 2027, month: 5, day: 1),
+          expected: 1,
+        ),
+      ];
+
+      for (final c in cases) {
+        test(c.description, () {
+          // Act
+          final result = c.a.differenceInYears(c.b);
+
+          // Assert
+          expect(result, c.expected);
+        });
+      }
+    });
+
     group('export', () {
       test('toDateTime returns a DateTime at noon of the same day', () {
         // Arrange

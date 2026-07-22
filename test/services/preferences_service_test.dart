@@ -251,5 +251,31 @@ void main() {
         expect(reloaded, isTrue);
       });
     });
+
+    group('intakeCounterEnabled', () {
+      test('defaults to true when not set', () async {
+        // Arrange
+        final service = await PreferencesService.init();
+
+        // Act
+        final enabled = service.intakeCounterEnabled;
+
+        // Assert
+        expect(enabled, PreferencesService.defaultIntakeCounterEnabled);
+      });
+
+      test('round-trips the saved value and notifies listeners', () async {
+        // Arrange
+        final service = await PreferencesService.init();
+        var listenerNotified = false;
+        service.addListener(() => listenerNotified = true);
+
+        // Act
+        await service.setIntakeCounterEnabled(false);
+
+        // Assert
+        expect([service.intakeCounterEnabled, listenerNotified], [false, true]);
+      });
+    });
   });
 }
