@@ -214,21 +214,21 @@ class IntakeTileViewModel {
 
     if (status == ScheduleStatus.taken) {
       return CircleAvatar(
-        backgroundColor: theme.colorScheme.tertiary,
+        backgroundColor: theme.colorScheme.tertiaryContainer,
         child: Icon(
           Symbols.check,
-          color: theme.colorScheme.onTertiary,
+          color: theme.colorScheme.onTertiaryContainer,
         ),
       );
     }
 
     if (status == ScheduleStatus.upcoming) {
       return CircleAvatar(
-        backgroundColor: theme.colorScheme.secondary,
+        backgroundColor: theme.colorScheme.secondaryContainer,
         child: Text(
           daysUntilIntake.toString(),
           style: TextStyle(
-            color: theme.colorScheme.onSecondary,
+            color: theme.colorScheme.onSecondaryContainer,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -241,12 +241,6 @@ class IntakeTileViewModel {
         ? schedule.administrationRoute.icon
         : Symbols.schedule;
 
-    return CircleAvatar(
-      backgroundColor: theme.colorScheme.primary,
-      child: Icon(
-        icon,
-        color: theme.colorScheme.onPrimary,
-      ),
-    );
+    return CircleAvatar(child: Icon(icon));
   }
 }
