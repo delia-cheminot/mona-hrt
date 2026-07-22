@@ -5,6 +5,7 @@ import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/i18n/helpers/administration_route_l10n.dart';
 import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
+import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/home/take_medication_page.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +26,7 @@ class ChooseSchedulePage extends StatelessWidget {
                 child: Text(t.addSchedulesFirst),
               )
             : M3ECardList.builder(
-                listPadding: EdgeInsets.symmetric(horizontal: 8.0),
+                listPadding: pagePadding,
                 padding: EdgeInsets.zero,
                 itemCount: schedules.length,
                 onTap: (index) {

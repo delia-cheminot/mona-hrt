@@ -42,8 +42,8 @@ class IntakeTile extends StatelessWidget {
 
     return Card.filled(
       color: viewModel.isActive
-          ? theme.colorScheme.surfaceContainerHighest
-          : theme.colorScheme.surfaceContainer,
+          ? theme.colorScheme.surfaceContainerHigh
+          : theme.colorScheme.surfaceContainerLow,
       clipBehavior: Clip.antiAlias,
       margin: const EdgeInsets.symmetric(vertical: 4),
       child: InkWell(
@@ -214,21 +214,21 @@ class IntakeTileViewModel {
 
     if (status == ScheduleStatus.taken) {
       return CircleAvatar(
-        backgroundColor: theme.colorScheme.tertiary,
+        backgroundColor: theme.colorScheme.tertiaryContainer,
         child: Icon(
           Symbols.check,
-          color: theme.colorScheme.onTertiary,
+          color: theme.colorScheme.onTertiaryContainer,
         ),
       );
     }
 
     if (status == ScheduleStatus.upcoming) {
       return CircleAvatar(
-        backgroundColor: theme.colorScheme.secondary,
+        backgroundColor: theme.colorScheme.secondaryContainer,
         child: Text(
           daysUntilIntake.toString(),
           style: TextStyle(
-            color: theme.colorScheme.onSecondary,
+            color: theme.colorScheme.onSecondaryContainer,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -242,10 +242,10 @@ class IntakeTileViewModel {
         : Symbols.schedule;
 
     return CircleAvatar(
-      backgroundColor: theme.colorScheme.primary,
+      backgroundColor: theme.colorScheme.primaryContainer,
       child: Icon(
         icon,
-        color: theme.colorScheme.onPrimary,
+        color: theme.colorScheme.onPrimaryContainer,
       ),
     );
   }
