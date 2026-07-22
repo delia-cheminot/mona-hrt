@@ -260,7 +260,7 @@
   "placementLeftAbdomen": "Left abdomen",
   "placementRightAbdomen": "Right abdomen",
   "injectionSites": "Injection sites",
-  "injectionSitesDescription": "Manage the sites you rotate between.",
+  "injectionSitesDescription": "Manage the sites you rotate between",
   "addInjectionSite": "Add site",
   "customSiteLabel": "Custom site name",
   "noInjectionSitesYet": "No sites yet",

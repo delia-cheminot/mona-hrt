@@ -734,9 +734,8 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Injection sites'
   String get injectionSites => 'Injection sites';
 
-  /// en: 'Manage the sites you rotate between.'
-  String get injectionSitesDescription =>
-      'Manage the sites you rotate between.';
+  /// en: 'Manage the sites you rotate between'
+  String get injectionSitesDescription => 'Manage the sites you rotate between';
 
   /// en: 'Add site'
   String get addInjectionSite => 'Add site';
@@ -1205,7 +1204,7 @@ extension on Translations {
       'placementLeftAbdomen' => 'Left abdomen',
       'placementRightAbdomen' => 'Right abdomen',
       'injectionSites' => 'Injection sites',
-      'injectionSitesDescription' => 'Manage the sites you rotate between.',
+      'injectionSitesDescription' => 'Manage the sites you rotate between',
       'addInjectionSite' => 'Add site',
       'customSiteLabel' => 'Custom site name',
       'noInjectionSitesYet' => 'No sites yet',
