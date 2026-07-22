@@ -18,6 +18,7 @@ List<MainTabConfig> getMainTabs(BuildContext context) {
       page: const HomePage(),
       icon: Icons.home_outlined,
       selectedIcon: Icons.home,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       buildActions: (context) => [
         IconButton(
           icon: const Icon(Icons.settings),
@@ -35,7 +36,7 @@ List<MainTabConfig> getMainTabs(BuildContext context) {
       icon: Icons.event_outlined,
       selectedIcon: Icons.event_rounded,
       navKey: const ValueKey('navTabIntakes'),
-      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       buildFab: (context) => FloatingActionButton(
         tooltip: t.takeAnIntake,
         onPressed: () {

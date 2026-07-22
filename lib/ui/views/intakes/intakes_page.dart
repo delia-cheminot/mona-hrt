@@ -49,7 +49,7 @@ class IntakesPage extends StatelessWidget {
                 key: const ValueKey('intakesList'),
                 margin: pagePadding,
                 padding: EdgeInsets.zero,
-                color: Theme.of(context).colorScheme.surfaceContainerLowest,
+                color: Theme.of(context).colorScheme.surface,
                 itemCount: intakes.length,
                 itemBuilder: (context, index) {
                   return _buildIntakeTile(
