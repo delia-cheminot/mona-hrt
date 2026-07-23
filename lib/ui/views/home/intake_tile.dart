@@ -40,65 +40,56 @@ class IntakeTile extends StatelessWidget {
       context: context,
     );
 
-    return Card.filled(
-      color: viewModel.isActive
-          ? theme.colorScheme.surfaceContainerHighest
-          : theme.colorScheme.surfaceContainer,
-      clipBehavior: Clip.antiAlias,
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      child: InkWell(
-        onTap: () {
-          final intake = occurrence.intake;
-          Navigator.of(context).push(
-            MaterialPageRoute<void>(
-              fullscreenDialog: true,
-              builder: (context) => intake != null
-                  ? EditIntakePage(intake)
-                  : TakeMedicationPage(
-                      schedule,
-                      scheduledTime: occurrence.time,
-                    ),
-            ),
-          );
-        },
-        child: ListTile(
-          leading: viewModel.tileIcon,
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (viewModel.scheduledText != null)
-                Text(
-                  viewModel.scheduledText!,
-                  style: theme.textTheme.labelMedium,
-                ),
-              Text(
-                schedule.name,
-                style: theme.textTheme.titleMedium,
-              ),
-            ],
-          ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (status != ScheduleStatus.upcoming) Text(viewModel.intakeInfo),
-              if (viewModel.warningText != null)
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      WidgetSpan(
-                        child: Icon(
-                          Icons.error_outline,
-                          size: 16,
-                        ),
-                      ),
-                      const TextSpan(text: " "),
-                      TextSpan(text: viewModel.warningText!),
-                    ],
+    return ListTile(
+      onTap: () {
+        final intake = occurrence.intake;
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            fullscreenDialog: true,
+            builder: (context) => intake != null
+                ? EditIntakePage(intake)
+                : TakeMedicationPage(
+                    schedule,
+                    scheduledTime: occurrence.time,
                   ),
-                )
-            ],
           ),
-        ),
+        );
+      },
+      leading: viewModel.tileIcon,
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (viewModel.scheduledText != null)
+            Text(
+              viewModel.scheduledText!,
+              style: theme.textTheme.labelMedium,
+            ),
+          Text(
+            schedule.name,
+            style: theme.textTheme.titleMedium,
+          ),
+        ],
+      ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (status != ScheduleStatus.upcoming) Text(viewModel.intakeInfo),
+          if (viewModel.warningText != null)
+            Text.rich(
+              TextSpan(
+                children: [
+                  WidgetSpan(
+                    child: Icon(
+                      Icons.error_outline,
+                      size: 16,
+                    ),
+                  ),
+                  const TextSpan(text: " "),
+                  TextSpan(text: viewModel.warningText!),
+                ],
+              ),
+            )
+        ],
       ),
     );
   }
@@ -214,21 +205,21 @@ class IntakeTileViewModel {
 
     if (status == ScheduleStatus.taken) {
       return CircleAvatar(
-        backgroundColor: theme.colorScheme.tertiary,
+        backgroundColor: theme.colorScheme.tertiaryContainer,
         child: Icon(
           Symbols.check,
-          color: theme.colorScheme.onTertiary,
+          color: theme.colorScheme.onTertiaryContainer,
         ),
       );
     }
 
     if (status == ScheduleStatus.upcoming) {
       return CircleAvatar(
-        backgroundColor: theme.colorScheme.secondary,
+        backgroundColor: theme.colorScheme.secondaryContainer,
         child: Text(
           daysUntilIntake.toString(),
           style: TextStyle(
-            color: theme.colorScheme.onSecondary,
+            color: theme.colorScheme.onSecondaryContainer,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -242,10 +233,10 @@ class IntakeTileViewModel {
         : Symbols.schedule;
 
     return CircleAvatar(
-      backgroundColor: theme.colorScheme.primary,
+      backgroundColor: theme.colorScheme.primaryContainer,
       child: Icon(
         icon,
-        color: theme.colorScheme.onPrimary,
+        color: theme.colorScheme.onPrimaryContainer,
       ),
     );
   }

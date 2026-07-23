@@ -7,6 +7,7 @@ class MainTabConfig {
   final IconData selectedIcon;
   final List<Widget> Function(BuildContext context)? buildActions;
   final FloatingActionButton? Function(BuildContext context)? buildFab;
+  final Color? backgroundColor;
 
   /// Key applied to the [BottomNavigationBarItem] corresponding to this tab
   /// so e2e tests can target it without depending on its (localized) label.
@@ -20,5 +21,6 @@ class MainTabConfig {
     this.buildActions,
     this.buildFab,
     this.navKey,
+    this.backgroundColor,
   });
 }

@@ -486,6 +486,8 @@ class TranslationsUk extends Translations
   String scheduleFrequencyEveryNDays({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
         count,
+        one: 'Кожні ${count} днів',
+        few: 'Кожні ${count} днів',
         many: 'Кожні ${count} днів',
         other: 'Кожні ${count} днів',
       );
@@ -502,6 +504,8 @@ class TranslationsUk extends Translations
   String remaining({required num count, required Object unit}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
         count,
+        one: '${count} ${unit} залишилось',
+        few: '${count} ${unit} залишилось',
         many: '${count} ${unit} залишилось',
         other: '${count} ${unit} залишилось',
       );
@@ -555,6 +559,7 @@ class TranslationsUk extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
         count,
         one: 'ml',
+        few: 'ml',
         many: 'ml',
         other: 'ml',
       );
@@ -858,6 +863,8 @@ extension on TranslationsUk {
       'scheduleFrequencyEveryNDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
             count,
+            one: 'Кожні ${count} днів',
+            few: 'Кожні ${count} днів',
             many: 'Кожні ${count} днів',
             other: 'Кожні ${count} днів',
           ),
@@ -872,6 +879,8 @@ extension on TranslationsUk {
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
             count,
+            one: '${count} ${unit} залишилось',
+            few: '${count} ${unit} залишилось',
             many: '${count} ${unit} залишилось',
             other: '${count} ${unit} залишилось',
           ),
@@ -919,6 +928,7 @@ extension on TranslationsUk {
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
             count,
             one: 'ml',
+            few: 'ml',
             many: 'ml',
             other: 'ml',
           ),
