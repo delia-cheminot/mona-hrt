@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD033 MD041 -->
 
 <p align="center">
-    <img alt="Mona" title="Mona" src="https://raw.githubusercontent.com/delia-cheminot/mona-hrt/refs/heads/main/assets/readme/mona_banner.png" width="450">
+    <img alt="Mona" title="Mona" src="https://raw.githubusercontent.com/mona-hrt/mona/refs/heads/main/assets/readme/mona_banner.png" width="450">
 </p>
 
 <p align="center">
@@ -13,10 +13,10 @@
   <a href="https://apps.apple.com/app/mona-hrt-journal/id6757274628">
     <img alt="Download on the App Store" title="Download on the App Store" src="https://i.imgur.com/GZIiReo.png" height="45">
   </a>
-  <a href="https://stikstore.app/altdirect/?url=https://raw.githubusercontent.com/delia-cheminot/mona-hrt/refs/heads/main/ios_source.json&r=sidestore" target="_blank">
+  <a href="https://stikstore.app/altdirect/?url=https://raw.githubusercontent.com/mona-hrt/mona/refs/heads/main/ios_source.json&r=sidestore" target="_blank">
     <img alt="Add Source to SideStore" title="Add Source to SideStore" src="https://sidestore.io/assets/badges/add-source-to-sidestore.png" height="45">
   </a>
-  <a href="https://github.com/delia-cheminot/mona-hrt/releases/latest/download/mona.ipa" target="_blank">
+  <a href="https://github.com/mona-hrt/mona/releases/latest/download/mona.ipa" target="_blank">
     <img alt="Download .ipa" title="Download .ipa" src="https://raw.githubusercontent.com/StikStore/altdirect/refs/heads/main/assets/png/Download_Blue.png" height="45">
   </a>
 </div>
@@ -24,7 +24,7 @@
   <a href="https://play.google.com/store/apps/details?id=com.deliacheminot.mona">
     <img alt="Get it on Google Play" title="Get it on Google Play" src="https://i.imgur.com/CQBpKeT.png" height="45">
   </a>
-  <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22com.deliacheminot.mona%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2Fdelia-cheminot%2Fmona-hrt%22%2C%22author%22%3A%22delia-cheminot%22%2C%22name%22%3A%22Mona%22%2C%22preferredApkIndex%22%3A0%2C%22additionalSettings%22%3A%22%7B%5C%22includePrereleases%5C%22%3Afalse%2C%5C%22fallbackToOlderReleases%5C%22%3Atrue%2C%5C%22filterReleaseTitlesByRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22filterReleaseNotesByRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22verifyLatestTag%5C%22%3Atrue%2C%5C%22sortMethodChoice%5C%22%3A%5C%22date%5C%22%2C%5C%22useLatestAssetDateAsReleaseDate%5C%22%3Afalse%2C%5C%22releaseTitleAsVersion%5C%22%3Afalse%2C%5C%22trackOnly%5C%22%3Afalse%2C%5C%22versionExtractionRegEx%5C%22%3A%5C%22v(.*)%5C%22%2C%5C%22matchGroupToUse%5C%22%3A%5C%22%241%5C%22%2C%5C%22versionDetection%5C%22%3Atrue%2C%5C%22releaseDateAsVersion%5C%22%3Afalse%2C%5C%22useVersionCodeAsOSVersion%5C%22%3Afalse%2C%5C%22apkFilterRegEx%5C%22%3A%5C%22mona%5C%22%2C%5C%22invertAPKFilter%5C%22%3Afalse%2C%5C%22autoApkFilterByArch%5C%22%3Atrue%2C%5C%22appName%5C%22%3A%5C%22Mona%20-%20HRT%20journal%5C%22%2C%5C%22appAuthor%5C%22%3A%5C%22Délia%20Cheminot%5C%22%2C%5C%22shizukuPretendToBeGooglePlay%5C%22%3Atrue%2C%5C%22allowInsecure%5C%22%3Afalse%2C%5C%22exemptFromBackgroundUpdates%5C%22%3Afalse%2C%5C%22skipUpdateNotifications%5C%22%3Afalse%2C%5C%22about%5C%22%3A%5C%22Your%20hormonal%20journal%20%5C%22%2C%5C%22refreshBeforeDownload%5C%22%3Afalse%2C%5C%22includeZips%5C%22%3Afalse%2C%5C%22zippedApkFilterRegEx%5C%22%3A%5C%22%5C%22%7D%22%2C%22overrideSource%22%3A%22GitHub%22%7D">
+  <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22com.deliacheminot.mona%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2Fmona-hrt%2Fmona%22%2C%22author%22%3A%22mona-hrt%22%2C%22name%22%3A%22Mona%22%2C%22preferredApkIndex%22%3A0%2C%22additionalSettings%22%3A%22%7B%5C%22includePrereleases%5C%22%3Afalse%2C%5C%22fallbackToOlderReleases%5C%22%3Atrue%2C%5C%22filterReleaseTitlesByRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22filterReleaseNotesByRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22verifyLatestTag%5C%22%3Atrue%2C%5C%22sortMethodChoice%5C%22%3A%5C%22date%5C%22%2C%5C%22useLatestAssetDateAsReleaseDate%5C%22%3Afalse%2C%5C%22releaseTitleAsVersion%5C%22%3Afalse%2C%5C%22trackOnly%5C%22%3Afalse%2C%5C%22versionExtractionRegEx%5C%22%3A%5C%22v(.*)%5C%22%2C%5C%22matchGroupToUse%5C%22%3A%5C%22%241%5C%22%2C%5C%22versionDetection%5C%22%3Atrue%2C%5C%22releaseDateAsVersion%5C%22%3Afalse%2C%5C%22useVersionCodeAsOSVersion%5C%22%3Afalse%2C%5C%22apkFilterRegEx%5C%22%3A%5C%22mona%5C%22%2C%5C%22invertAPKFilter%5C%22%3Afalse%2C%5C%22autoApkFilterByArch%5C%22%3Atrue%2C%5C%22appName%5C%22%3A%5C%22Mona%20-%20HRT%20journal%5C%22%2C%5C%22appAuthor%5C%22%3A%5C%22Délia%20Cheminot%5C%22%2C%5C%22shizukuPretendToBeGooglePlay%5C%22%3Atrue%2C%5C%22allowInsecure%5C%22%3Afalse%2C%5C%22exemptFromBackgroundUpdates%5C%22%3Afalse%2C%5C%22skipUpdateNotifications%5C%22%3Afalse%2C%5C%22about%5C%22%3A%5C%22Your%20hormonal%20journal%20%5C%22%2C%5C%22refreshBeforeDownload%5C%22%3Afalse%2C%5C%22includeZips%5C%22%3Afalse%2C%5C%22zippedApkFilterRegEx%5C%22%3A%5C%22%5C%22%7D%22%2C%22overrideSource%22%3A%22GitHub%22%7D">
     <img alt="Get it on Obtainium" title="Get it on Obtainium" src="https://raw.githubusercontent.com/ImranR98/Obtainium/c31f65b0e46d5ab011ece7f82aada2660047cf2f/assets/graphics/badge_obtainium.png" height="45">
   </a>
 
@@ -36,7 +36,7 @@
     <img alt="Get it on F-Droid" title="Get it on F-Droid" src="https://i.imgur.com/0ZZqMHa.png" height="45">
   </a>
   -->
-  <a href="https://github.com/delia-cheminot/mona-hrt/releases/latest/">
+  <a href="https://github.com/mona-hrt/mona/releases/latest/">
     <img alt="Get it on GitHub" title="Get it on GitHub" src="https://i.imgur.com/ycJAwkq.png" height="45">
   </a>
 </div>
@@ -107,7 +107,7 @@ Mona is translated using [Weblate](https://hosted.weblate.org/projects/mona/), a
   <br>
 </p>
 
-  <h3 align="center"><a href="https://github.com/delia-cheminot/mona-hrt/graphs/contributors">Contributors</a></h3>
+  <h3 align="center"><a href="https://github.com/mona-hrt/mona/graphs/contributors">Contributors</a></h3>
 
 <p align="center">
   <br>
