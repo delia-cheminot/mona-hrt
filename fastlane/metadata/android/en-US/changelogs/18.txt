@@ -1,0 +1,9 @@
+New:
+
+- See how long you've been on HRT from the intakes page
+- Updated UI for Home and Intakes
+- New languages : Dutch, Galician, Korean
+
+Bug fix:
+
+- Corrects a crash in notification regeneration after manual intakes were logged
