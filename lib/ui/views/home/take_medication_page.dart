@@ -300,8 +300,8 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
                   suffixText: t.microliters,
                   errorText: _deadSpaceError,
                   regexFormatter: RegexPatterns.floatNumber),
+              FormSpacer(),
             ],
-            FormSpacer(),
             FormTextField(
               controller: _notesController,
               label: t.notes,

@@ -24,6 +24,10 @@ class MedicationIntakeProvider extends ChangeNotifier {
 
   List<MedicationIntake> get takenIntakesSortedDesc => _takenIntakesSortedDesc;
 
+  Date? get firstTakenLocalDate => _takenIntakesSortedDesc.isEmpty
+      ? null
+      : _takenIntakesSortedDesc.last.takenLocalDate;
+
   List<MedicationIntake> get takenIntakes =>
       _intakes.where((intake) => intake.isTaken).toList();
 

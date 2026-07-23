@@ -296,6 +296,13 @@ class _SettingsPageState extends State<SettingsPage>
               );
             },
           ),
+          SwitchListTile(
+            title: Text(t.intakeCounter),
+            subtitle: Text(t.intakeCounterDescription),
+            value: preferencesService.intakeCounterEnabled,
+            onChanged: (value) =>
+                preferencesService.setIntakeCounterEnabled(value),
+          ),
           if (Platform.isAndroid && !isStoreDistribution) ...[
             const Divider(),
             Padding(

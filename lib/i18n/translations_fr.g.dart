@@ -271,6 +271,11 @@ class TranslationsFr extends Translations
   @override
   String get empty_intakes => 'Les prises enregistrées apparaîtront ici';
   @override
+  String get intakeCounter => 'Compteur de prises';
+  @override
+  String get intakeCounterDescription =>
+      'Affiche depuis combien de temps vous êtes sous THS et votre nombre total de prises';
+  @override
   String get chooseSchedule => 'Choisir un planning';
   @override
   String get addSchedulesFirst => 'Ajoutez d\'abord des plannings.';
@@ -523,7 +528,7 @@ class TranslationsFr extends Translations
   @override
   String get injectionSites => 'Sites d\'injection';
   @override
-  String get injectionSitesDescription => 'Gérez votre rotation de sites.';
+  String get injectionSitesDescription => 'Gérez votre rotation de sites';
   @override
   String get addInjectionSite => 'Ajouter un site';
   @override
@@ -589,6 +594,41 @@ class TranslationsFr extends Translations
         one: '${count} créé',
         many: '${count} créés',
         other: '${count} créés',
+      );
+  @override
+  String onHrtForDays({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+        count,
+        one: '1 jour sous THS',
+        other: '${count} jours sous THS',
+      );
+  @override
+  String onHrtForWeeks({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+        count,
+        one: '1 semaine sous THS',
+        other: '${count} semaines sous THS',
+      );
+  @override
+  String onHrtForMonths({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+        count,
+        one: '1 mois sous THS',
+        other: '${count} mois sous THS',
+      );
+  @override
+  String onHrtForYears({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+        count,
+        one: '1 an sous THS',
+        other: '${count} ans sous THS',
+      );
+  @override
+  String intakesLoggedCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+        count,
+        one: '1 prise enregistrée',
+        other: '${count} prises enregistrées',
       );
   @override
   String remaining({required num count, required Object unit}) =>
@@ -823,6 +863,9 @@ extension on TranslationsFr {
       'deleteSchedule' => ({required Object name}) => 'Supprimer ${name} ?',
       'addNotification' => 'Ajouter une notification',
       'empty_intakes' => 'Les prises enregistrées apparaîtront ici',
+      'intakeCounter' => 'Compteur de prises',
+      'intakeCounterDescription' =>
+        'Affiche depuis combien de temps vous êtes sous THS et votre nombre total de prises',
       'chooseSchedule' => 'Choisir un planning',
       'addSchedulesFirst' => 'Ajoutez d\'abord des plannings.',
       'editIntake' => 'Modifier la prise',
@@ -953,7 +996,7 @@ extension on TranslationsFr {
       'placementLeftAbdomen' => 'Abdomen (gauche)',
       'placementRightAbdomen' => 'Abdomen (droite)',
       'injectionSites' => 'Sites d\'injection',
-      'injectionSitesDescription' => 'Gérez votre rotation de sites.',
+      'injectionSitesDescription' => 'Gérez votre rotation de sites',
       'addInjectionSite' => 'Ajouter un site',
       'customSiteLabel' => 'Nom de site personnalisé',
       'noInjectionSitesYet' => 'Aucun site',
@@ -1002,6 +1045,36 @@ extension on TranslationsFr {
             one: '${count} créé',
             many: '${count} créés',
             other: '${count} créés',
+          ),
+      'onHrtForDays' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+            count,
+            one: '1 jour sous THS',
+            other: '${count} jours sous THS',
+          ),
+      'onHrtForWeeks' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+            count,
+            one: '1 semaine sous THS',
+            other: '${count} semaines sous THS',
+          ),
+      'onHrtForMonths' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+            count,
+            one: '1 mois sous THS',
+            other: '${count} mois sous THS',
+          ),
+      'onHrtForYears' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+            count,
+            one: '1 an sous THS',
+            other: '${count} ans sous THS',
+          ),
+      'intakesLoggedCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
+            count,
+            one: '1 prise enregistrée',
+            other: '${count} prises enregistrées',
           ),
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
