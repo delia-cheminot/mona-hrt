@@ -40,63 +40,56 @@ class IntakeTile extends StatelessWidget {
       context: context,
     );
 
-    return Card.filled(
-      color: theme.colorScheme.surface,
-      clipBehavior: Clip.antiAlias,
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      child: InkWell(
-        onTap: () {
-          final intake = occurrence.intake;
-          Navigator.of(context).push(
-            MaterialPageRoute<void>(
-              fullscreenDialog: true,
-              builder: (context) => intake != null
-                  ? EditIntakePage(intake)
-                  : TakeMedicationPage(
-                      schedule,
-                      scheduledTime: occurrence.time,
-                    ),
-            ),
-          );
-        },
-        child: ListTile(
-          leading: viewModel.tileIcon,
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (viewModel.scheduledText != null)
-                Text(
-                  viewModel.scheduledText!,
-                  style: theme.textTheme.labelMedium,
-                ),
-              Text(
-                schedule.name,
-                style: theme.textTheme.titleMedium,
-              ),
-            ],
-          ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (status != ScheduleStatus.upcoming) Text(viewModel.intakeInfo),
-              if (viewModel.warningText != null)
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      WidgetSpan(
-                        child: Icon(
-                          Icons.error_outline,
-                          size: 16,
-                        ),
-                      ),
-                      const TextSpan(text: " "),
-                      TextSpan(text: viewModel.warningText!),
-                    ],
+    return ListTile(
+      onTap: () {
+        final intake = occurrence.intake;
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            fullscreenDialog: true,
+            builder: (context) => intake != null
+                ? EditIntakePage(intake)
+                : TakeMedicationPage(
+                    schedule,
+                    scheduledTime: occurrence.time,
                   ),
-                )
-            ],
           ),
-        ),
+        );
+      },
+      leading: viewModel.tileIcon,
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (viewModel.scheduledText != null)
+            Text(
+              viewModel.scheduledText!,
+              style: theme.textTheme.labelMedium,
+            ),
+          Text(
+            schedule.name,
+            style: theme.textTheme.titleMedium,
+          ),
+        ],
+      ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (status != ScheduleStatus.upcoming) Text(viewModel.intakeInfo),
+          if (viewModel.warningText != null)
+            Text.rich(
+              TextSpan(
+                children: [
+                  WidgetSpan(
+                    child: Icon(
+                      Icons.error_outline,
+                      size: 16,
+                    ),
+                  ),
+                  const TextSpan(text: " "),
+                  TextSpan(text: viewModel.warningText!),
+                ],
+              ),
+            )
+        ],
       ),
     );
   }
