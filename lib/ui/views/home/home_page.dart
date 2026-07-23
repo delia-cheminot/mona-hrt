@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/controllers/slots_builder.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/scheduled_occurrence.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
@@ -39,10 +41,10 @@ class HomePage extends StatelessWidget {
               if (occurrences.today.isEmpty)
                 _NoIntakesDueCard()
               else
-                ...occurrences.today.map(IntakeTile.new),
+                _IntakeCardList(occurrences.today),
               if (occurrences.upcoming.isNotEmpty) ...[
                 _SectionTitle(t.upcoming),
-                ...occurrences.upcoming.map(IntakeTile.new),
+                _IntakeCardList(occurrences.upcoming),
               ],
               const SizedBox(height: borderPadding),
             ],
@@ -74,25 +76,44 @@ class _SectionTitle extends StatelessWidget {
   }
 }
 
+class _IntakeCardList extends StatelessWidget {
+  const _IntakeCardList(this.occurrences);
+
+  final List<IntakeSlot> occurrences;
+
+  @override
+  Widget build(BuildContext context) {
+    return M3ECardColumn(
+      padding: EdgeInsets.zero,
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      color: Theme.of(context).colorScheme.surface,
+      children: occurrences.map(IntakeTile.new).toList(),
+    );
+  }
+}
+
 class _NoIntakesDueCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Card.filled(
+    return M3ECardColumn(
+      padding: EdgeInsets.zero,
       margin: const EdgeInsets.symmetric(vertical: 4),
       color: theme.colorScheme.surface,
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: theme.colorScheme.tertiaryContainer,
-          child: Icon(
-            Symbols.check,
-            color: theme.colorScheme.onTertiaryContainer,
+      children: [
+        ListTile(
+          leading: CircleAvatar(
+            backgroundColor: theme.colorScheme.tertiaryContainer,
+            child: Icon(
+              Symbols.check,
+              color: theme.colorScheme.onTertiaryContainer,
+            ),
           ),
+          title: Text(t.allDone, style: theme.textTheme.titleMedium),
+          subtitle: Text(t.noIntakesDue),
         ),
-        title: Text(t.allDone, style: theme.textTheme.titleMedium),
-        subtitle: Text(t.noIntakesDue),
-      ),
+      ],
     );
   }
 }
