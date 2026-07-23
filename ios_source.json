@@ -31,12 +31,21 @@
         "https://i.imgur.com/vuSqW2l.png",
         "https://i.imgur.com/5cjzlB0.png"
       ],
-      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.14.1/mona-1.14.1.ipa",
-      "size": 12276483,
-      "version": "1.14.1",
-      "versionDate": "2026-07-15T00:00:00Z",
-      "versionDescription": "New:\n\n- New language: icelandic\n\nFixes:\n\n- Minor UI fixes",
+      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.16.0/mona-1.16.0.ipa",
+      "size": 12377361,
+      "version": "1.16.0",
+      "versionDate": "2026-07-23T15:06:27Z",
+      "versionDescription": "New:\r\n\r\n- See how long you've been on HRT from the intakes page\r\n- Updated UI for Home and Intakes\r\n- New languages : Dutch, Galician, Korean\r\n\r\nBug fix:\r\n\r\n- Corrects a crash in notification regeneration after manual intakes were logged",
       "versions": [
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.16.0/mona-1.16.0.ipa",
+          "size": 12377361,
+          "version": "1.16.0",
+          "buildVersion": "18",
+          "date": "2026-07-23T15:06:27Z",
+          "localizedDescription": "New:\r\n\r\n- See how long you've been on HRT from the intakes page\r\n- Updated UI for Home and Intakes\r\n- New languages : Dutch, Galician, Korean\r\n\r\nBug fix:\r\n\r\n- Corrects a crash in notification regeneration after manual intakes were logged",
+          "minOSVersion": "13.0"
+        },
         {
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.14.1/mona-1.14.1.ipa",
           "size": 12276483,
