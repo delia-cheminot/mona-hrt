@@ -124,7 +124,7 @@
   "intakeCounter": "Compteur de prises",
   "intakeCounterDescription": "Affiche depuis combien de temps vous êtes sous THS et votre nombre total de prises",
   "startOfDay": "Début de la journée",
-  "startOfDayDescription": "Les heures avant ce moment comptent pour la veille",
+  "startOfDayDescription": "Les heures avant {{time}} comptent pour la veille",
   "chooseSchedule": "Choisir un planning",
   "addSchedulesFirst": "Ajoutez d'abord des plannings.",
   "editIntake": "Modifier la prise",

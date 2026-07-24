@@ -278,8 +278,8 @@ class TranslationsFr extends Translations
   @override
   String get startOfDay => 'Début de la journée';
   @override
-  String get startOfDayDescription =>
-      'Les heures avant ce moment comptent pour la veille';
+  String startOfDayDescription({required Object time}) =>
+      'Les heures avant ${time} comptent pour la veille';
   @override
   String get chooseSchedule => 'Choisir un planning';
   @override
@@ -872,8 +872,8 @@ extension on TranslationsFr {
       'intakeCounterDescription' =>
         'Affiche depuis combien de temps vous êtes sous THS et votre nombre total de prises',
       'startOfDay' => 'Début de la journée',
-      'startOfDayDescription' =>
-        'Les heures avant ce moment comptent pour la veille',
+      'startOfDayDescription' => ({required Object time}) =>
+          'Les heures avant ${time} comptent pour la veille',
       'chooseSchedule' => 'Choisir un planning',
       'addSchedulesFirst' => 'Ajoutez d\'abord des plannings.',
       'editIntake' => 'Modifier la prise',

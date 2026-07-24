@@ -258,6 +258,25 @@ class _SettingsPageState extends State<SettingsPage>
                   MaterialPageRoute<void>(builder: (context) => UnitsPage()));
             },
           ),
+          ListTile(
+            key: const ValueKey('settingsStartOfDayTile'),
+            title: Text(t.startOfDay),
+            subtitle: Text(
+              t.startOfDayDescription(
+                time: preferencesService.logicalDayStart.format(context),
+              ),
+            ),
+            trailing: const Icon(Icons.access_time_rounded),
+            onTap: () async {
+              final picked = await showTimePicker(
+                context: context,
+                initialTime: preferencesService.logicalDayStart,
+              );
+              if (picked != null) {
+                await preferencesService.setLogicalDayStart(picked);
+              }
+            },
+          ),
           const Divider(),
           //
           // ==== General ====
