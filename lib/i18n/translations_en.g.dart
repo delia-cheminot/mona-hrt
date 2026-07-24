@@ -364,6 +364,13 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   String get intakeCounterDescription =>
       'Show how long you\'ve been on HRT and your total intakes';
 
+  /// en: 'Start of day'
+  String get startOfDay => 'Start of day';
+
+  /// en: 'Times before this count toward the previous day'
+  String get startOfDayDescription =>
+      'Times before this count toward the previous day';
+
   /// en: 'Choose a schedule'
   String get chooseSchedule => 'Choose a schedule';
 
@@ -1082,6 +1089,9 @@ extension on Translations {
       'intakeCounter' => 'Intake counter',
       'intakeCounterDescription' =>
         'Show how long you\'ve been on HRT and your total intakes',
+      'startOfDay' => 'Start of day',
+      'startOfDayDescription' =>
+        'Times before this count toward the previous day',
       'chooseSchedule' => 'Choose a schedule',
       'addSchedulesFirst' => 'Add schedules first.',
       'editIntake' => 'Edit intake',

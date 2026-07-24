@@ -118,6 +118,8 @@
   "intakesLoggedCount_other": "{{count}} intakes logged",
   "intakeCounter": "Intake counter",
   "intakeCounterDescription": "Show how long you've been on HRT and your total intakes",
+  "startOfDay": "Start of day",
+  "startOfDayDescription": "Times before this count toward the previous day",
   "chooseSchedule": "Choose a schedule",
   "addSchedulesFirst": "Add schedules first.",
   "editIntake": "Edit intake",
