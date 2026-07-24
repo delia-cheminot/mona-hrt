@@ -1,4 +1,5 @@
 import 'package:clock/clock.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
@@ -128,6 +129,60 @@ void main() {
 
         // Assert
         expect(date.value, DateTime.utc(2025, 12, 31));
+      });
+    });
+
+    group('Date.fromDateTime with a custom start-of-day (4:30am)', () {
+      setUp(() => logicalDayStartMinutes = 270);
+      tearDown(() => logicalDayStartMinutes = 240);
+
+      test('4:29am belongs to the previous day', () {
+        // Arrange
+        final input = DateTime(2026, 3, 30, 4, 29);
+
+        // Act
+        final date = Date.fromDateTime(input);
+
+        // Assert
+        expect(date.value, DateTime.utc(2026, 3, 29));
+      });
+
+      test('4:30am belongs to the current day', () {
+        // Arrange
+        final input = DateTime(2026, 3, 30, 4, 30);
+
+        // Act
+        final date = Date.fromDateTime(input);
+
+        // Assert
+        expect(date.value, DateTime.utc(2026, 3, 30));
+      });
+    });
+
+    group('toDateTimeAt with a custom start-of-day (4:30am)', () {
+      setUp(() => logicalDayStartMinutes = 270);
+      tearDown(() => logicalDayStartMinutes = 240);
+
+      test('a time before the start rolls to the next calendar day', () {
+        // Arrange
+        final date = Date(year: 2026, month: 3, day: 30);
+
+        // Act
+        final result = date.toDateTimeAt(const TimeOfDay(hour: 4, minute: 29));
+
+        // Assert
+        expect(result, DateTime(2026, 3, 31, 4, 29));
+      });
+
+      test('a time at the start stays on the same calendar day', () {
+        // Arrange
+        final date = Date(year: 2026, month: 3, day: 30);
+
+        // Act
+        final result = date.toDateTimeAt(const TimeOfDay(hour: 4, minute: 30));
+
+        // Assert
+        expect(result, DateTime(2026, 3, 30, 4, 30));
       });
     });
 
