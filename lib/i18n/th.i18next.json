@@ -126,7 +126,7 @@
   "editItem": "แก้ไขสต็อก",
   "usedAmount": "ปริมาณที่ใช้ไป",
   "deleteItem": "ลบ {{name}}?",
-  "remaining_other": "เหลือ {{count}} {{unit}}",
+  "remaining_other": "เหลืออยู่ {{count}} {{unit}}",
   "allItemsFilter": "ทั้งหมด",
   "medicationItemsFilter": "ยา",
   "genericItemsFilter": "ของใช้",
