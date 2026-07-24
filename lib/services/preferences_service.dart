@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/units.dart';
@@ -17,10 +18,12 @@ class PreferencesService extends ChangeNotifier {
   static const _placementSuggestionPerScheduleKey =
       'placement_suggestion_per_schedule';
   static const _intakeCounterEnabledKey = 'intake_counter_enabled';
+  static const _logicalDayStartMinutesKey = 'logical_day_start_minutes';
 
   static const bool defaultNotificationsEnabled = false;
   static const bool defaultAutoCheckUpdates = false;
   static const bool defaultIntakeCounterEnabled = true;
+  static const int defaultLogicalDayStartMinutes = 240;
   static const List<Placement> defaultPlacementsList = [
     PresetPlacement(PlacementPreset.left),
     PresetPlacement(PlacementPreset.right),
@@ -182,6 +185,22 @@ class PreferencesService extends ChangeNotifier {
 
   Future<void> setIntakeCounterEnabled(bool isEnabled) async {
     await _prefs.setBool(_intakeCounterEnabledKey, isEnabled);
+    notifyListeners();
+  }
+
+  int get logicalDayStartMinutesRaw =>
+      _prefs.getInt(_logicalDayStartMinutesKey) ??
+      defaultLogicalDayStartMinutes;
+
+  TimeOfDay get logicalDayStart {
+    final minutes = logicalDayStartMinutesRaw;
+    return TimeOfDay(hour: minutes ~/ 60, minute: minutes % 60);
+  }
+
+  Future<void> setLogicalDayStart(TimeOfDay time) async {
+    final minutes = time.hour * 60 + time.minute;
+    await _prefs.setInt(_logicalDayStartMinutesKey, minutes);
+    logicalDayStartMinutes = minutes; // keep the Date global in sync
     notifyListeners();
   }
 
