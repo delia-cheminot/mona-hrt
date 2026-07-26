@@ -81,10 +81,8 @@ class Date {
   DateTime toDateTime() => DateTime(year, month, day, 12, 0);
 
   DateTime toDateTimeAt(TimeOfDay time) {
-    Duration dayDifference =
-        (time.hour * 60 + time.minute) < logicalDayStartMinutes
-            ? const Duration(days: 1)
-            : Duration.zero;
+    final int difference = _logicalDayDifference(time.hour, time.minute);
+    Duration dayDifference = Duration(days: difference);
     return DateTime(year, month, day, time.hour, time.minute)
         .add(dayDifference);
   }
@@ -109,9 +107,12 @@ class Date {
   // Applies the start-of-day rule: times before [logicalDayStartMinutes]
   // (minutes since midnight) belong to the previous day.
   static DateTime _logicalDay(DateTime input) {
-    final dayDifference =
-        (input.hour * 60 + input.minute) < logicalDayStartMinutes ? 1 : 0;
+    final dayDifference = _logicalDayDifference(input.hour, input.minute);
     return DateTime.utc(input.year, input.month, input.day - dayDifference);
+  }
+
+  static int _logicalDayDifference(int hours, int minutes) {
+    return (hours * 60 + minutes) < logicalDayStartMinutes ? 1 : 0;
   }
   // coverage:ignore-end
 }

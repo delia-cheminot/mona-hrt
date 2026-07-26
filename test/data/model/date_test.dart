@@ -66,13 +66,14 @@ void main() {
     group('Date.fromDateTime', () {
       test('3:59am belongs to the previous day', () {
         // Arrange
-        final input = DateTime(2026, 3, 30, 3, 59);
+        final input = DateTime(2026, 4, 1, 3, 59);
 
         // Act
         final date = Date.fromDateTime(input);
 
         // Assert
-        expect(date.value, DateTime.utc(2026, 3, 29));
+        expect(date.value, DateTime.utc(2026, 3, 31));
+        print('Input: $input, Date: ${date.value}');
       });
 
       test('4:00am belongs to the current day', () {
