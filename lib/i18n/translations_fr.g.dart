@@ -276,6 +276,11 @@ class TranslationsFr extends Translations
   String get intakeCounterDescription =>
       'Affiche depuis combien de temps vous êtes sous THS et votre nombre total de prises';
   @override
+  String get startOfDay => 'Début de la journée';
+  @override
+  String startOfDayDescription({required Object time}) =>
+      'Les heures avant ${time} comptent pour la veille';
+  @override
   String get chooseSchedule => 'Choisir un planning';
   @override
   String get addSchedulesFirst => 'Ajoutez d\'abord des plannings.';
@@ -866,6 +871,9 @@ extension on TranslationsFr {
       'intakeCounter' => 'Compteur de prises',
       'intakeCounterDescription' =>
         'Affiche depuis combien de temps vous êtes sous THS et votre nombre total de prises',
+      'startOfDay' => 'Début de la journée',
+      'startOfDayDescription' => ({required Object time}) =>
+          'Les heures avant ${time} comptent pour la veille',
       'chooseSchedule' => 'Choisir un planning',
       'addSchedulesFirst' => 'Ajoutez d\'abord des plannings.',
       'editIntake' => 'Modifier la prise',
