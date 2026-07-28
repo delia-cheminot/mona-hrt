@@ -29,8 +29,9 @@ class SupplyItemManager {
 
   /// Uses one unit of the [GenericSupply] and updates the database.
   Future<void> use(GenericSupply item) async {
+    final updatedAmount = item.amount - 1 < 0 ? 0 : item.amount - 1;
     await _supplyItemProvider.updateItem(item.copyWith(
-      amount: item.amount - 1,
+      amount: updatedAmount,
     ));
   }
 
