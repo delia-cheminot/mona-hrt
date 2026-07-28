@@ -193,6 +193,28 @@ class MedicationIntakeManager {
   Placement? suggestNextPlacement({required int scheduleId}) =>
       getOrderedPlacements(scheduleId: scheduleId).firstOrNull;
 
+  MedicationSupplyItem? suggestMedicationItem({
+    required MedicationSchedule schedule,
+  }) {
+    final lastIntake =
+        _medicationIntakeProvider.getLastTakenIntakeForSchedule(schedule.id);
+    final previous =
+        _supplyItemProvider.getItemById(lastIntake?.medicationSupplyItemId);
+
+    if (previous is MedicationSupplyItem &&
+        previous.molecule == schedule.molecule &&
+        previous.administrationRoute == schedule.administrationRoute &&
+        previous.ester == schedule.ester) {
+      return previous;
+    }
+
+    return _supplyItemProvider.getMostUsedItemForMedication(
+      schedule.molecule,
+      schedule.administrationRoute,
+      schedule.ester,
+    );
+  }
+
   List<GenericSupply> _genericItemsByIds(List<int> ids) => _supplyItemProvider
       .getItemsByIds(ids)
       .whereType<GenericSupply>()

@@ -1261,6 +1261,134 @@ void main() {
         expect(suggestion, isNull);
       });
     });
+
+    group('suggestMedicationItem', () {
+      test('suggests the previous intake vial when it still matches', () {
+        // Arrange
+        final schedule = aMedicationSchedule(
+          id: 42,
+          administrationRoute: AdministrationRoute.injection,
+          ester: Ester.enanthate,
+        );
+        final vial = aMedicationSupplyItem(
+          id: 7,
+          administrationRoute: AdministrationRoute.injection,
+          ester: Ester.enanthate,
+        );
+        when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
+            .thenReturn(aMedicationIntake(medicationSupplyItemId: 7));
+        when(mockSupplyItemProvider.getItemById(7)).thenReturn(vial);
+
+        // Act
+        final suggestion = manager.suggestMedicationItem(schedule: schedule);
+
+        // Assert
+        expect(suggestion, vial);
+      });
+
+      test('suggests the previous intake vial even when it is empty', () {
+        // Arrange
+        final schedule = aMedicationSchedule(id: 42);
+        final emptyVial = aMedicationSupplyItem(
+          id: 7,
+          totalDose: Decimal.parse('10'),
+          usedDose: Decimal.parse('10'),
+        );
+        when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
+            .thenReturn(aMedicationIntake(medicationSupplyItemId: 7));
+        when(mockSupplyItemProvider.getItemById(7)).thenReturn(emptyVial);
+
+        // Act
+        final suggestion = manager.suggestMedicationItem(schedule: schedule);
+
+        // Assert
+        expect(suggestion, emptyVial);
+      });
+
+      test('falls back to most-used when previous vial no longer matches', () {
+        // Arrange
+        final schedule = aMedicationSchedule(
+          id: 42,
+          administrationRoute: AdministrationRoute.injection,
+          ester: Ester.enanthate,
+        );
+        final mismatchedVial = aMedicationSupplyItem(
+          id: 7,
+          administrationRoute: AdministrationRoute.oral,
+        );
+        final fallback = aMedicationSupplyItem(
+          id: 8,
+          administrationRoute: AdministrationRoute.injection,
+          ester: Ester.enanthate,
+        );
+        when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
+            .thenReturn(aMedicationIntake(medicationSupplyItemId: 7));
+        when(mockSupplyItemProvider.getItemById(7))
+            .thenReturn(mismatchedVial);
+        when(mockSupplyItemProvider.getMostUsedItemForMedication(
+                KnownMolecules.estradiol,
+                AdministrationRoute.injection,
+                Ester.enanthate))
+            .thenReturn(fallback);
+
+        // Act
+        final suggestion = manager.suggestMedicationItem(schedule: schedule);
+
+        // Assert
+        expect(suggestion, fallback);
+      });
+
+      test('falls back to most-used when the previous vial was deleted', () {
+        // Arrange
+        final schedule = aMedicationSchedule(id: 42);
+        final fallback = aMedicationSupplyItem(id: 8);
+        when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
+            .thenReturn(aMedicationIntake(medicationSupplyItemId: 7));
+        when(mockSupplyItemProvider.getItemById(7)).thenReturn(null);
+        when(mockSupplyItemProvider.getMostUsedItemForMedication(
+                any, any, any))
+            .thenReturn(fallback);
+
+        // Act
+        final suggestion = manager.suggestMedicationItem(schedule: schedule);
+
+        // Assert
+        expect(suggestion, fallback);
+      });
+
+      test('falls back to most-used when there is no history', () {
+        // Arrange
+        final schedule = aMedicationSchedule(id: 42);
+        final fallback = aMedicationSupplyItem(id: 8);
+        when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
+            .thenReturn(null);
+        when(mockSupplyItemProvider.getMostUsedItemForMedication(
+                any, any, any))
+            .thenReturn(fallback);
+
+        // Act
+        final suggestion = manager.suggestMedicationItem(schedule: schedule);
+
+        // Assert
+        expect(suggestion, fallback);
+      });
+
+      test('returns null when nothing matches', () {
+        // Arrange
+        final schedule = aMedicationSchedule(id: 42);
+        when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
+            .thenReturn(null);
+        when(mockSupplyItemProvider.getMostUsedItemForMedication(
+                any, any, any))
+            .thenReturn(null);
+
+        // Act
+        final suggestion = manager.suggestMedicationItem(schedule: schedule);
+
+        // Assert
+        expect(suggestion, isNull);
+      });
+    });
   });
 }
 
