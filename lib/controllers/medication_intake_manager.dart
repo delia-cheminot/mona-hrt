@@ -215,6 +215,15 @@ class MedicationIntakeManager {
     );
   }
 
+  List<GenericSupply> suggestGenericItems({
+    required MedicationSchedule schedule,
+  }) {
+    final lastIntake =
+        _medicationIntakeProvider.getLastTakenIntakeForSchedule(schedule.id);
+    if (lastIntake == null) return const [];
+    return _genericItemsByIds(lastIntake.genericSupplyItemIds);
+  }
+
   List<GenericSupply> _genericItemsByIds(List<int> ids) => _supplyItemProvider
       .getItemsByIds(ids)
       .whereType<GenericSupply>()
