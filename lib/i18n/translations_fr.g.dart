@@ -299,6 +299,10 @@ class TranslationsFr extends Translations
   @override
   String get supplyItem => 'Consommable';
   @override
+  String get chooseMedication => 'Choisir un médicament';
+  @override
+  String get noMedication => 'Aucun médicament';
+  @override
   String get injectionSide => 'Côté';
   @override
   String get deleteIntake => 'Supprimer cette prise ?';
@@ -371,7 +375,7 @@ class TranslationsFr extends Translations
   @override
   String get medicationItemsFilter => 'Médicaments';
   @override
-  String get genericItemsFilter => 'Matériel';
+  String get genericItems => 'Matériel';
   @override
   String get medicationItemType => 'Médicament';
   @override
@@ -883,6 +887,8 @@ extension on TranslationsFr {
       'wastedAmount' => 'Quantité perdue',
       'none' => 'Aucun',
       'supplyItem' => 'Consommable',
+      'chooseMedication' => 'Choisir un médicament',
+      'noMedication' => 'Aucun médicament',
       'injectionSide' => 'Côté',
       'deleteIntake' => 'Supprimer cette prise ?',
       'takeMedication' => ({required Object scheduleName}) =>
@@ -922,7 +928,7 @@ extension on TranslationsFr {
       'deleteItem' => ({required Object name}) => 'Supprimer ${name} ?',
       'allItemsFilter' => 'Tout',
       'medicationItemsFilter' => 'Médicaments',
-      'genericItemsFilter' => 'Matériel',
+      'genericItems' => 'Matériel',
       'medicationItemType' => 'Médicament',
       'genericItemType' => 'Matériel',
       'supplyType' => 'Type',
