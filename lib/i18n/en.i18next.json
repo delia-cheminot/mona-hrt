@@ -42,6 +42,8 @@
   "selectLanguage": "Select Language",
   "enableNotifications": "Enable notifications",
   "enableNotificationsDescription": "Send reminders",
+  "anchorToLastIntake": "Recalculate based on last intake",
+  "anchorToLastIntakeDescription": "Schedules the next intake a full interval after you last took it",
   "notificationsDisabledTitle": "Notifications are disabled",
   "clickToOpenSettings": "Click to open settings",
   "exactRemindersDisabled": "Exact reminder times are disabled",

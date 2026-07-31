@@ -150,6 +150,13 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Send reminders'
   String get enableNotificationsDescription => 'Send reminders';
 
+  /// en: 'Recalculate based on last intake'
+  String get anchorToLastIntake => 'Recalculate based on last intake';
+
+  /// en: 'Schedules the next intake a full interval after you last took it'
+  String get anchorToLastIntakeDescription =>
+      'Schedules the next intake a full interval after you last took it';
+
   /// en: 'Notifications are disabled'
   String get notificationsDisabledTitle => 'Notifications are disabled';
 
@@ -1006,6 +1013,9 @@ extension on Translations {
       'selectLanguage' => 'Select Language',
       'enableNotifications' => 'Enable notifications',
       'enableNotificationsDescription' => 'Send reminders',
+      'anchorToLastIntake' => 'Recalculate based on last intake',
+      'anchorToLastIntakeDescription' =>
+        'Schedules the next intake a full interval after you last took it',
       'notificationsDisabledTitle' => 'Notifications are disabled',
       'clickToOpenSettings' => 'Click to open settings',
       'exactRemindersDisabled' => 'Exact reminder times are disabled',
