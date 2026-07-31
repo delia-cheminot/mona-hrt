@@ -600,6 +600,14 @@ void main() {
         // Act & Assert
         expect(() => s.getNextDates(Date.today(), 3), returnsNormally);
       });
+
+      test('rejects a non-positive interval', () {
+        // Arrange
+        dynamicScheduleFactory() => DynamicIntervalSchedule(intervalDays: 0);
+
+        // Act & Assert
+        expect(dynamicScheduleFactory, throwsA(isA<AssertionError>()));
+      });
     });
 
     group('DynamicIntervalSchedule.statusFor', () {
@@ -664,6 +672,20 @@ void main() {
 
         // Assert
         expect(status, ScheduleStatus.upcoming);
+      });
+
+      test(
+          'never taken, startDate in the past and a dose has passed -> overdue',
+          () {
+        // Arrange
+        final s = DynamicIntervalSchedule(intervalDays: 5);
+        final start = Date.today().subtract(const Duration(days: 12));
+
+        // Act
+        final status = s.statusFor(startDate: start);
+
+        // Assert
+        expect(status, ScheduleStatus.overdue);
       });
 
       test('never returns todayEarly', () {
