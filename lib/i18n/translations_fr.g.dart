@@ -121,6 +121,11 @@ class TranslationsFr extends Translations
   @override
   String get enableNotificationsDescription => 'Envoyer des rappels';
   @override
+  String get anchorToLastIntake => 'Recalculer à chaque prise';
+  @override
+  String get anchorToLastIntakeDescription =>
+      'Programme la prochaine prise un intervalle après votre dernière prise';
+  @override
   String get notificationsDisabledTitle => 'Les notifications sont désactivées';
   @override
   String get clickToOpenSettings => 'Cliquez pour ouvrir les paramètres';
@@ -782,6 +787,9 @@ extension on TranslationsFr {
       'selectLanguage' => 'Sélectionner la langue',
       'enableNotifications' => 'Activer les notifications',
       'enableNotificationsDescription' => 'Envoyer des rappels',
+      'anchorToLastIntake' => 'Recalculer à chaque prise',
+      'anchorToLastIntakeDescription' =>
+        'Programme la prochaine prise un intervalle après votre dernière prise',
       'notificationsDisabledTitle' => 'Les notifications sont désactivées',
       'clickToOpenSettings' => 'Cliquez pour ouvrir les paramètres',
       'exactRemindersDisabled' =>

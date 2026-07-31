@@ -58,7 +58,7 @@ class TranslationsTh extends Translations
   @override
   String get nav_home => 'Mona';
   @override
-  String get nav_intakes => 'การทาน';
+  String get nav_intakes => 'การเทคฮอร์โมน';
   @override
   String get nav_levels => 'ระดับ';
   @override
@@ -238,7 +238,7 @@ class TranslationsTh extends Translations
   @override
   String get addSchedulesFirst => 'เพื่มตารางเวลาก่อน';
   @override
-  String get editIntake => 'แก้ไขการทาน';
+  String get editIntake => 'แก้ไขการเทคฮอร์โมน';
   @override
   String get date => 'วันที่';
   @override
@@ -261,7 +261,7 @@ class TranslationsTh extends Translations
   @override
   String get takeIntake => 'ทานโดสยา';
   @override
-  String get intakeRecorded => 'บันทึกการทานยาแล้ว';
+  String get intakeRecorded => 'บันทึกการเทคฮอร์โมนแล้ว';
   @override
   String get needleDeadSpace => 'ปริมาณเว้นเปล่าในเข็ม';
   @override
@@ -535,6 +535,11 @@ class TranslationsTh extends Translations
   @override
   String get mustBeBetween1And28 => 'ระหว่างวันที่ 1 ถึง 28 เท่านั้น';
   @override
+  String get intakeCounter => 'ตัวนับการเทคฮอร์โมน';
+  @override
+  String get intakeCounterDescription =>
+      'แสดงว่าคุณเทคฮอร์โมนมานานขนาดใหนและเทคกี่ครั้ง';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
         count,
@@ -562,7 +567,7 @@ class TranslationsTh extends Translations
   String remaining({required num count, required Object unit}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
         count,
-        other: 'เหลือ ${count} ${unit}',
+        other: 'เหลืออยู่ ${count} ${unit}',
       );
   @override
   String syringeRemaining({required num count}) =>
@@ -643,6 +648,36 @@ class TranslationsTh extends Translations
         count,
         other: 'วันที่ ${day} ทุกๆ ${count} เดือน',
       );
+  @override
+  String onHrtForDays({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+        count,
+        other: 'เทคฮอร์โมนมาแล้ว ${count} วัน',
+      );
+  @override
+  String onHrtForWeeks({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+        count,
+        other: 'เทคฮอร์โมนมาแล้ว ${count} สัปดาห์',
+      );
+  @override
+  String onHrtForMonths({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+        count,
+        other: 'เทคฮอร์โมนมาแล้ว ${count} เดือน',
+      );
+  @override
+  String onHrtForYears({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+        count,
+        other: 'เทคฮอร์โมนมาแล้ว ${count} ปี',
+      );
+  @override
+  String intakesLoggedCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+        count,
+        other: 'บันทึกไปแล้ว ${count} ครั้ง',
+      );
 }
 
 /// The flat map containing all translations for locale <th>.
@@ -655,7 +690,7 @@ extension on TranslationsTh {
     return switch (path) {
       'appTitle' => 'Mona',
       'nav_home' => 'Mona',
-      'nav_intakes' => 'การทาน',
+      'nav_intakes' => 'การเทคฮอร์โมน',
       'nav_levels' => 'ระดับ',
       'nav_supplies' => 'สต็อก',
       'takeAnIntake' => 'ทานยา',
@@ -751,7 +786,7 @@ extension on TranslationsTh {
       'empty_intakes' => 'ยาที่ทานแล้วจะมาอยู่ที่นี่',
       'chooseSchedule' => 'เลือกตารางเวลา',
       'addSchedulesFirst' => 'เพื่มตารางเวลาก่อน',
-      'editIntake' => 'แก้ไขการทาน',
+      'editIntake' => 'แก้ไขการเทคฮอร์โมน',
       'date' => 'วันที่',
       'amount' => 'ปริมาณ',
       'takenAmount' => 'ปริมาณ',
@@ -763,7 +798,7 @@ extension on TranslationsTh {
       'takeMedication' => ({required Object scheduleName}) =>
           'ทาน ${scheduleName}',
       'takeIntake' => 'ทานโดสยา',
-      'intakeRecorded' => 'บันทึกการทานยาแล้ว',
+      'intakeRecorded' => 'บันทึกการเทคฮอร์โมนแล้ว',
       'needleDeadSpace' => 'ปริมาณเว้นเปล่าในเข็ม',
       'notes' => 'บันทึก',
       'microliters' => 'ไมโครลิตร',
@@ -903,6 +938,9 @@ extension on TranslationsTh {
       'dayOfMonth' => 'วันที่',
       'months' => 'เดือน',
       'mustBeBetween1And28' => 'ระหว่างวันที่ 1 ถึง 28 เท่านั้น',
+      'intakeCounter' => 'ตัวนับการเทคฮอร์โมน',
+      'intakeCounterDescription' =>
+        'แสดงว่าคุณเทคฮอร์โมนมานานขนาดใหนและเทคกี่ครั้ง',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
             count,
@@ -926,7 +964,7 @@ extension on TranslationsTh {
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
             count,
-            other: 'เหลือ ${count} ${unit}',
+            other: 'เหลืออยู่ ${count} ${unit}',
           ),
       'syringeRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
@@ -993,6 +1031,31 @@ extension on TranslationsTh {
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
             count,
             other: 'วันที่ ${day} ทุกๆ ${count} เดือน',
+          ),
+      'onHrtForDays' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+            count,
+            other: 'เทคฮอร์โมนมาแล้ว ${count} วัน',
+          ),
+      'onHrtForWeeks' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+            count,
+            other: 'เทคฮอร์โมนมาแล้ว ${count} สัปดาห์',
+          ),
+      'onHrtForMonths' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+            count,
+            other: 'เทคฮอร์โมนมาแล้ว ${count} เดือน',
+          ),
+      'onHrtForYears' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+            count,
+            other: 'เทคฮอร์โมนมาแล้ว ${count} ปี',
+          ),
+      'intakesLoggedCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(
+            count,
+            other: 'บันทึกไปแล้ว ${count} ครั้ง',
           ),
       _ => null,
     };

@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/intake_slot.dart';
 import 'package:mona/data/model/medication_schedule.dart';
-import 'package:mona/data/model/scheduled_occurrence.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
@@ -20,6 +20,8 @@ class SlotsBuilder {
       switch (schedule.scheduling) {
         case IntervalDaysSchedule scheduling:
           slots.add(_interval(schedule, scheduling));
+        case DynamicIntervalSchedule scheduling:
+          slots.add(_dynamicInterval(schedule, scheduling));
         case DailySchedule scheduling:
           slots.addAll(_daily(schedule, scheduling));
         case WeeklySchedule scheduling:
@@ -48,6 +50,30 @@ class SlotsBuilder {
     return IntakeSlot(
       schedule: schedule,
       status: status,
+      date: status == ScheduleStatus.overdue
+          ? scheduling.previousDate(schedule.startDate)!
+          : scheduling.nextDate(schedule.startDate),
+      intake: status == ScheduleStatus.taken ? lastIntake : null,
+    );
+  }
+
+  IntakeSlot _dynamicInterval(
+    MedicationSchedule schedule,
+    DynamicIntervalSchedule scheduling,
+  ) {
+    final lastTaken = _medicationIntakeProvider
+        .getLastIntakeLocalDateForSchedule(schedule.id);
+    final lastIntake =
+        _medicationIntakeProvider.getLastTakenIntakeForSchedule(schedule.id);
+
+    final status = scheduling.statusFor(
+      startDate: schedule.startDate,
+      lastTaken: lastTaken,
+    );
+    return IntakeSlot(
+      schedule: schedule,
+      status: status,
+      date: scheduling.intakeDate(schedule.startDate, lastTaken),
       intake: status == ScheduleStatus.taken ? lastIntake : null,
     );
   }
@@ -68,6 +94,9 @@ class SlotsBuilder {
     return IntakeSlot(
       schedule: schedule,
       status: status,
+      date: status == ScheduleStatus.overdue
+          ? scheduling.previousDate(schedule.startDate)!
+          : scheduling.nextDate(schedule.startDate),
       intake: status == ScheduleStatus.taken ? lastIntake : null,
     );
   }
@@ -92,6 +121,7 @@ class SlotsBuilder {
               startDate: schedule.startDate,
               matchedIntake: match,
             ),
+            date: scheduling.nextDate(schedule.startDate),
             intake: match,
           );
         }(),
@@ -115,6 +145,9 @@ class SlotsBuilder {
     return IntakeSlot(
       schedule: schedule,
       status: status,
+      date: status == ScheduleStatus.overdue
+          ? scheduling.previousDate(schedule.startDate)!
+          : scheduling.nextDate(schedule.startDate),
       intake: status == ScheduleStatus.taken ? lastIntake : null,
     );
   }

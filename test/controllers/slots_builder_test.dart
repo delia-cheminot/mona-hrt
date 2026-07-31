@@ -67,6 +67,101 @@ void main() {
     });
   });
 
+  group('intakeSlots - DynamicIntervalSchedule', () {
+    test('missed dose -> overdue status', () {
+      // Arrange
+      final start = Date.today().subtract(const Duration(days: 30));
+      withSchedules([
+        aMedicationSchedule(
+          scheduling: aDynamicIntervalStrategy(intervalDays: 5),
+          startDate: start,
+        )
+      ]);
+      when(intakes.getLastIntakeLocalDateForSchedule(any))
+          .thenReturn(Date.today().subtract(const Duration(days: 6)));
+
+      // Act
+      final slot = slotsBuilder.intakeSlots().single;
+
+      // Assert
+      expect(slot.status, ScheduleStatus.overdue);
+    });
+
+    test('missed dose -> date is the past due date', () {
+      // Arrange
+      final start = Date.today().subtract(const Duration(days: 30));
+      withSchedules([
+        aMedicationSchedule(
+          scheduling: aDynamicIntervalStrategy(intervalDays: 5),
+          startDate: start,
+        )
+      ]);
+      when(intakes.getLastIntakeLocalDateForSchedule(any))
+          .thenReturn(Date.today().subtract(const Duration(days: 6)));
+
+      // Act
+      final slot = slotsBuilder.intakeSlots().single;
+
+      // Assert
+      expect(slot.date, Date.today().subtract(const Duration(days: 1)));
+    });
+
+    test('taken recently -> date is lastTaken + interval', () {
+      // Arrange
+      final start = Date.today().subtract(const Duration(days: 30));
+      withSchedules([
+        aMedicationSchedule(
+          scheduling: aDynamicIntervalStrategy(intervalDays: 5),
+          startDate: start,
+        )
+      ]);
+      when(intakes.getLastIntakeLocalDateForSchedule(any))
+          .thenReturn(Date.today());
+
+      // Act
+      final slot = slotsBuilder.intakeSlots().single;
+
+      // Assert
+      expect(slot.date, Date.today().add(const Duration(days: 5)));
+    });
+
+    test('never taken, startDate in the past -> date is the startDate', () {
+      // Arrange
+      final start = Date.today().subtract(const Duration(days: 1));
+      withSchedules([
+        aMedicationSchedule(
+          scheduling: aDynamicIntervalStrategy(intervalDays: 4),
+          startDate: start,
+        )
+      ]);
+      when(intakes.getLastIntakeLocalDateForSchedule(any)).thenReturn(null);
+
+      // Act
+      final slot = slotsBuilder.intakeSlots().single;
+
+      // Assert
+      expect(slot.date, start);
+    });
+
+    test('never taken, startDate in the future -> date is the startDate', () {
+      // Arrange
+      final start = Date.today().add(const Duration(days: 3));
+      withSchedules([
+        aMedicationSchedule(
+          scheduling: aDynamicIntervalStrategy(intervalDays: 5),
+          startDate: start,
+        )
+      ]);
+      when(intakes.getLastIntakeLocalDateForSchedule(any)).thenReturn(null);
+
+      // Act
+      final slot = slotsBuilder.intakeSlots().single;
+
+      // Assert
+      expect(slot.date, start);
+    });
+  });
+
   group('intakeSlots - DailySchedule', () {
     test('emits one slot per intakeTime', () {
       // Arrange

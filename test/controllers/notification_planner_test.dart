@@ -112,6 +112,94 @@ void main() {
     });
   });
 
+  group('planNotifications - DynamicIntervalSchedule', () {
+    test('no notification times -> no plans', () {
+      withFixedClock(() {
+        // Arrange
+        withSchedules([
+          aMedicationSchedule(
+              scheduling: aDynamicIntervalStrategy(notificationTimes: const []))
+        ]);
+
+        // Act
+        final plans = planner.planNotifications(daysAhead: 30);
+
+        // Assert
+        expect(plans, isEmpty);
+      });
+    });
+
+    test('schedules only the next dose anchored to the last intake', () {
+      withFixedClock(() {
+        // Arrange
+        withSchedules([
+          aMedicationSchedule(
+            scheduling: aDynamicIntervalStrategy(
+              intervalDays: 5,
+              notificationTimes: const [afternoon],
+            ),
+          )
+        ]);
+        when(intakesProvider.getLastIntakeLocalDateForSchedule(any))
+            .thenReturn(Date.today());
+
+        // Act
+        final plans =
+            planner.planNotifications(daysAhead: 30).cast<PlannedOccurrence>();
+
+        // Assert
+        expect(plans.single.dateTime,
+            Date.today().add(const Duration(days: 5)).toDateTimeAt(afternoon));
+      });
+    });
+
+    test('overdue anchor schedules nothing', () {
+      withFixedClock(() {
+        // Arrange
+        withSchedules([
+          aMedicationSchedule(
+            scheduling: aDynamicIntervalStrategy(
+              intervalDays: 5,
+              notificationTimes: const [afternoon],
+            ),
+          )
+        ]);
+        when(intakesProvider.getLastIntakeLocalDateForSchedule(any))
+            .thenReturn(Date.today().subtract(const Duration(days: 20)));
+
+        // Act
+        final plans = planner.planNotifications(daysAhead: 30);
+
+        // Assert
+        expect(plans, isEmpty);
+      });
+    });
+
+    test('null lastTaken anchors on the startDate', () {
+      withFixedClock(() {
+        // Arrange
+        withSchedules([
+          aMedicationSchedule(
+            scheduling: aDynamicIntervalStrategy(
+              intervalDays: 5,
+              notificationTimes: const [afternoon],
+            ),
+            startDate: Date.today(),
+          )
+        ]);
+        when(intakesProvider.getLastIntakeLocalDateForSchedule(any))
+            .thenReturn(null);
+
+        // Act
+        final plans =
+            planner.planNotifications(daysAhead: 30).cast<PlannedOccurrence>();
+
+        // Assert
+        expect(plans.single.dateTime, Date.today().toDateTimeAt(afternoon));
+      });
+    });
+  });
+
   group('planNotifications - MonthlySchedule', () {
     test('empty notificationTimes -> no plans', () {
       withFixedClock(() {
@@ -445,6 +533,24 @@ void main() {
 
       // Assert
       expect(daysAhead, 64);
+    });
+
+    test('dynamic interval schedules reserve one slot per notification time',
+        () {
+      // Arrange
+      withSchedules([
+        aMedicationSchedule(
+            scheduling: anIntervalStrategy(notificationTimes: const [morning])),
+        aMedicationSchedule(
+            scheduling: aDynamicIntervalStrategy(
+                notificationTimes: const [morning, afternoon])),
+      ]);
+
+      // Act
+      final daysAhead = planner.daysAhead(maxScheduled: 64);
+
+      // Assert
+      expect(daysAhead, 62); // 64 - 2
     });
 
     test('weekly schedules reserve daysOfWeek x notificationTimes slots', () {
