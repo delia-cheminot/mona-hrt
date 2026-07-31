@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/intake_slot.dart';
 import 'package:mona/data/model/medication_schedule.dart';
-import 'package:mona/data/model/scheduled_occurrence.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
@@ -50,6 +50,8 @@ class SlotsBuilder {
     return IntakeSlot(
       schedule: schedule,
       status: status,
+      nextDate: scheduling.nextDate(schedule.startDate),
+      previousDate: scheduling.previousDate(schedule.startDate),
       intake: status == ScheduleStatus.taken ? lastIntake : null,
     );
   }
@@ -70,6 +72,10 @@ class SlotsBuilder {
     return IntakeSlot(
       schedule: schedule,
       status: status,
+      nextDate:
+          scheduling.nextDateFrom(schedule.startDate, lastTaken: lastTaken),
+      previousDate:
+          scheduling.previousDateFrom(schedule.startDate, lastTaken: lastTaken),
       intake: status == ScheduleStatus.taken ? lastIntake : null,
     );
   }
@@ -90,6 +96,8 @@ class SlotsBuilder {
     return IntakeSlot(
       schedule: schedule,
       status: status,
+      nextDate: scheduling.nextDate(schedule.startDate),
+      previousDate: scheduling.previousDate(schedule.startDate),
       intake: status == ScheduleStatus.taken ? lastIntake : null,
     );
   }
@@ -114,6 +122,7 @@ class SlotsBuilder {
               startDate: schedule.startDate,
               matchedIntake: match,
             ),
+            nextDate: scheduling.nextDate(schedule.startDate),
             intake: match,
           );
         }(),
@@ -137,6 +146,8 @@ class SlotsBuilder {
     return IntakeSlot(
       schedule: schedule,
       status: status,
+      nextDate: scheduling.nextDate(schedule.startDate),
+      previousDate: scheduling.previousDate(schedule.startDate),
       intake: status == ScheduleStatus.taken ? lastIntake : null,
     );
   }

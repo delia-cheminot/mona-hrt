@@ -67,6 +67,65 @@ void main() {
     });
   });
 
+  group('intakeSlots - DynamicIntervalSchedule', () {
+    test('missed dose -> overdue status', () {
+      // Arrange
+      final start = Date.today().subtract(const Duration(days: 30));
+      withSchedules([
+        aMedicationSchedule(
+          scheduling: aDynamicIntervalStrategy(intervalDays: 5),
+          startDate: start,
+        )
+      ]);
+      when(intakes.getLastIntakeLocalDateForSchedule(any))
+          .thenReturn(Date.today().subtract(const Duration(days: 6)));
+
+      // Act
+      final slot = slotsBuilder.intakeSlots().single;
+
+      // Assert
+      expect(slot.status, ScheduleStatus.overdue);
+    });
+
+    test('missed dose -> previousDate is the past due date', () {
+      // Arrange
+      final start = Date.today().subtract(const Duration(days: 30));
+      withSchedules([
+        aMedicationSchedule(
+          scheduling: aDynamicIntervalStrategy(intervalDays: 5),
+          startDate: start,
+        )
+      ]);
+      when(intakes.getLastIntakeLocalDateForSchedule(any))
+          .thenReturn(Date.today().subtract(const Duration(days: 6)));
+
+      // Act
+      final slot = slotsBuilder.intakeSlots().single;
+
+      // Assert
+      expect(slot.previousDate, Date.today().subtract(const Duration(days: 1)));
+    });
+
+    test('taken recently -> nextDate is lastTaken + interval', () {
+      // Arrange
+      final start = Date.today().subtract(const Duration(days: 30));
+      withSchedules([
+        aMedicationSchedule(
+          scheduling: aDynamicIntervalStrategy(intervalDays: 5),
+          startDate: start,
+        )
+      ]);
+      when(intakes.getLastIntakeLocalDateForSchedule(any))
+          .thenReturn(Date.today());
+
+      // Act
+      final slot = slotsBuilder.intakeSlots().single;
+
+      // Assert
+      expect(slot.nextDate, Date.today().add(const Duration(days: 5)));
+    });
+  });
+
   group('intakeSlots - DailySchedule', () {
     test('emits one slot per intakeTime', () {
       // Arrange

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
@@ -9,10 +10,14 @@ class IntakeSlot {
   final TimeOfDay? time;
   final ScheduleStatus status;
   final MedicationIntake? intake;
+  final Date nextDate;
+  final Date? previousDate;
 
   const IntakeSlot({
     required this.schedule,
     required this.status,
+    required this.nextDate,
+    this.previousDate,
     this.time,
     this.intake,
   });

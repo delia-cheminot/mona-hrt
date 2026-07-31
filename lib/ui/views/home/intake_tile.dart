@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/intake_slot.dart';
 import 'package:mona/data/model/medication_schedule.dart';
-import 'package:mona/data/model/scheduled_occurrence.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
@@ -33,6 +33,8 @@ class IntakeTile extends StatelessWidget {
       schedule: schedule,
       status: status,
       slotTime: occurrence.time,
+      nextDate: occurrence.nextDate,
+      previousDate: occurrence.previousDate,
       intakeProvider: medicationIntakeProvider,
       supplyProvider: supplyItemProvider,
       now: now,
@@ -100,6 +102,8 @@ class IntakeTileViewModel {
       {required this.schedule,
       required this.status,
       required this.slotTime,
+      required this.nextDate,
+      required this.previousDate,
       required this.intakeProvider,
       required this.supplyProvider,
       required this.now,
@@ -109,6 +113,8 @@ class IntakeTileViewModel {
   final MedicationSchedule schedule;
   final ScheduleStatus status;
   final TimeOfDay? slotTime;
+  final Date nextDate;
+  final Date? previousDate;
   final MedicationIntakeProvider intakeProvider;
   final SupplyItemProvider supplyProvider;
   final DateTime now;
@@ -117,19 +123,14 @@ class IntakeTileViewModel {
 
   bool get _isDailySlot => slotTime != null;
 
-  Date get nextScheduled => schedule.scheduling.nextDate(schedule.startDate);
-
-  Date? get lastScheduled =>
-      schedule.scheduling.previousDate(schedule.startDate);
-
   Date? get lastTaken =>
       intakeProvider.getLastIntakeLocalDateForSchedule(schedule.id);
 
-  int get daysUntilIntake => nextScheduled.daysAwayFromToday;
+  int get daysUntilIntake => nextDate.daysAwayFromToday;
 
   int? get daysSinceLastTaken => lastTaken?.daysAwayFromToday;
 
-  int? get daysSinceLastScheduled => lastScheduled?.daysAwayFromToday;
+  int? get daysSinceLastScheduled => previousDate?.daysAwayFromToday;
 
   String get intakeInfo {
     if (status == ScheduleStatus.taken) {
@@ -148,7 +149,7 @@ class IntakeTileViewModel {
 
   String? get scheduledText {
     if (status == ScheduleStatus.upcoming) {
-      final formatted = nextScheduled.format(DateFormat.MMMMd(languageTag));
+      final formatted = nextDate.format(DateFormat.MMMMd(languageTag));
       return "$formatted - ${_inDays(daysUntilIntake)}";
     }
 
@@ -164,7 +165,7 @@ class IntakeTileViewModel {
         return null;
 
       case ScheduleStatus.overdue:
-        final formatted = lastScheduled!.format(DateFormat.MMMMd(languageTag));
+        final formatted = previousDate!.format(DateFormat.MMMMd(languageTag));
         return "$formatted - ${_daysAgo(daysSinceLastScheduled!)}";
 
       case _:

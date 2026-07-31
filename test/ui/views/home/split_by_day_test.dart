@@ -2,9 +2,10 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/intake_slot.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
-import 'package:mona/data/model/scheduled_occurrence.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/ui/views/home/split_by_day.dart';
 
@@ -33,6 +34,7 @@ IntakeSlot occurrence({
             administrationRoute: AdministrationRoute.oral,
           ),
       status: status,
+      nextDate: Date.today(),
       time: time,
     );
 
