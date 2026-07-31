@@ -123,11 +123,9 @@ class IntakeTileViewModel {
   Date? get lastTaken =>
       intakeProvider.getLastIntakeLocalDateForSchedule(schedule.id);
 
-  int get daysUntilIntake => date.daysAwayFromToday;
+  int get dateDifference => date.daysAwayFromToday;
 
   int? get daysSinceLastTaken => lastTaken?.daysAwayFromToday;
-
-  int get daysSinceLastScheduled => date.daysAwayFromToday;
 
   String get intakeInfo {
     if (status == ScheduleStatus.taken) {
@@ -147,7 +145,7 @@ class IntakeTileViewModel {
   String? get scheduledText {
     if (status == ScheduleStatus.upcoming) {
       final formatted = date.format(DateFormat.MMMMd(languageTag));
-      return "$formatted - ${_inDays(daysUntilIntake)}";
+      return "$formatted - ${_inDays(dateDifference)}";
     }
 
     if (_isDailySlot) {
@@ -163,7 +161,7 @@ class IntakeTileViewModel {
 
       case ScheduleStatus.overdue:
         final formatted = date.format(DateFormat.MMMMd(languageTag));
-        return "$formatted - ${_daysAgo(daysSinceLastScheduled)}";
+        return "$formatted - ${_daysAgo(dateDifference)}";
 
       case _:
         return null;
@@ -215,7 +213,7 @@ class IntakeTileViewModel {
       return CircleAvatar(
         backgroundColor: theme.colorScheme.secondaryContainer,
         child: Text(
-          daysUntilIntake.toString(),
+          dateDifference.toString(),
           style: TextStyle(
             color: theme.colorScheme.onSecondaryContainer,
             fontWeight: FontWeight.bold,
