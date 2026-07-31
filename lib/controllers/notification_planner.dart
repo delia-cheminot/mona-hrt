@@ -19,7 +19,8 @@ class NotificationPlanner {
             ...switch (schedule.scheduling) {
               IntervalDaysSchedule scheduling =>
                 _intervalPlans(schedule, scheduling, daysAhead),
-              DynamicIntervalSchedule _ => const <PlannedNotification>[],
+              DynamicIntervalSchedule scheduling =>
+                _dynamicIntervalPlans(schedule, scheduling, daysAhead),
               DailySchedule scheduling => _dailyPlans(schedule, scheduling),
               WeeklySchedule scheduling => _weeklyPlans(schedule, scheduling),
               MonthlySchedule scheduling =>
@@ -67,6 +68,32 @@ class NotificationPlanner {
     for (final date in dates) {
       if (date.isToday && takenToday) continue;
 
+      for (final time in scheduling.notificationTimes) {
+        final dateTime = date.toDateTimeAt(time);
+        if (!dateTime.isAfter(now)) continue;
+        plans.add(PlannedOccurrence(schedule, dateTime: dateTime));
+      }
+    }
+
+    return plans;
+  }
+
+  List<PlannedNotification> _dynamicIntervalPlans(
+    MedicationSchedule schedule,
+    DynamicIntervalSchedule scheduling,
+    int days,
+  ) {
+    final now = clock.now();
+    final lastTaken = _medicationIntakeProvider
+        .getLastIntakeLocalDateForSchedule(schedule.id);
+    final dates = scheduling.getNextDates(
+      schedule.startDate,
+      days,
+      lastTaken: lastTaken,
+    );
+
+    final plans = <PlannedNotification>[];
+    for (final date in dates) {
       for (final time in scheduling.notificationTimes) {
         final dateTime = date.toDateTimeAt(time);
         if (!dateTime.isAfter(now)) continue;

@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -108,6 +109,91 @@ void main() {
 
         // Assert
         expect(plans, isEmpty);
+      });
+    });
+  });
+
+  group('planNotifications - DynamicIntervalSchedule', () {
+    test('no notification times -> no plans', () {
+      withFixedClock(() {
+        // Arrange
+        withSchedules([
+          aMedicationSchedule(
+              scheduling: aDynamicIntervalStrategy(notificationTimes: const []))
+        ]);
+
+        // Act
+        final plans = planner.planNotifications(daysAhead: 30);
+
+        // Assert
+        expect(plans, isEmpty);
+      });
+    });
+
+    test('projects future occurrences anchored to the last intake', () {
+      withFixedClock(() {
+        // Arrange
+        withSchedules([
+          aMedicationSchedule(
+            scheduling: aDynamicIntervalStrategy(
+              intervalDays: 5,
+              notificationTimes: const [afternoon],
+            ),
+          )
+        ]);
+        when(intakesProvider.getLastIntakeLocalDateForSchedule(any))
+            .thenReturn(Date.today());
+
+        // Act
+        final plans =
+            planner.planNotifications(daysAhead: 3).cast<PlannedOccurrence>();
+
+        // Assert
+        expect(plans.first.dateTime,
+            Date.today().add(const Duration(days: 5)).toDateTimeAt(afternoon));
+      });
+    });
+
+    test('overdue anchor does not schedule a past occurrence', () {
+      withFixedClock(() {
+        // Arrange
+        withSchedules([
+          aMedicationSchedule(
+            scheduling: aDynamicIntervalStrategy(
+              intervalDays: 5,
+              notificationTimes: const [afternoon],
+            ),
+          )
+        ]);
+        when(intakesProvider.getLastIntakeLocalDateForSchedule(any))
+            .thenReturn(Date.today().subtract(const Duration(days: 20)));
+
+        // Act
+        final plans =
+            planner.planNotifications(daysAhead: 1).cast<PlannedOccurrence>();
+
+        // Assert
+        expect(plans.every((p) => p.dateTime.isAfter(clock.now())), isTrue);
+      });
+    });
+
+    test('null lastTaken falls back to the startDate grid', () {
+      withFixedClock(() {
+        // Arrange
+        withSchedules([
+          aMedicationSchedule(
+            scheduling: aDynamicIntervalStrategy(
+              intervalDays: 5,
+              notificationTimes: const [afternoon],
+            ),
+            startDate: Date.today(),
+          )
+        ]);
+        when(intakesProvider.getLastIntakeLocalDateForSchedule(any))
+            .thenReturn(null);
+
+        // Act & Assert
+        expect(() => planner.planNotifications(daysAhead: 3), returnsNormally);
       });
     });
   });
