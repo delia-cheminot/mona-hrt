@@ -175,7 +175,7 @@ void main() {
       });
     });
 
-    test('null lastTaken falls back to the startDate grid', () {
+    test('null lastTaken anchors on the startDate', () {
       withFixedClock(() {
         // Arrange
         withSchedules([

@@ -124,6 +124,43 @@ void main() {
       // Assert
       expect(slot.nextDate, Date.today().add(const Duration(days: 5)));
     });
+
+    test('never taken, startDate in the past -> previousDate is the startDate',
+        () {
+      // Arrange
+      final start = Date.today().subtract(const Duration(days: 1));
+      withSchedules([
+        aMedicationSchedule(
+          scheduling: aDynamicIntervalStrategy(intervalDays: 4),
+          startDate: start,
+        )
+      ]);
+      when(intakes.getLastIntakeLocalDateForSchedule(any)).thenReturn(null);
+
+      // Act
+      final slot = slotsBuilder.intakeSlots().single;
+
+      // Assert
+      expect(slot.previousDate, start);
+    });
+
+    test('never taken, startDate in the future -> previousDate is null', () {
+      // Arrange
+      final start = Date.today().add(const Duration(days: 3));
+      withSchedules([
+        aMedicationSchedule(
+          scheduling: aDynamicIntervalStrategy(intervalDays: 5),
+          startDate: start,
+        )
+      ]);
+      when(intakes.getLastIntakeLocalDateForSchedule(any)).thenReturn(null);
+
+      // Act
+      final slot = slotsBuilder.intakeSlots().single;
+
+      // Assert
+      expect(slot.previousDate, isNull);
+    });
   });
 
   group('intakeSlots - DailySchedule', () {

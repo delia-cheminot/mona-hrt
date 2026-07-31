@@ -22,14 +22,6 @@ enum ScheduleStatus {
 sealed class SchedulingStrategy with SchedulingStrategyMappable {
   const SchedulingStrategy();
 
-  /// Returns the next scheduled intake date on or after today, relative to
-  /// [startDate].
-  Date nextDate(Date startDate);
-
-  /// Returns the most recent scheduled intake date strictly before today,
-  /// relative to [startDate], or null if no such date exists.
-  Date? previousDate(Date startDate);
-
   bool get isNotifiable;
 }
 
@@ -52,7 +44,6 @@ class IntervalDaysSchedule extends SchedulingStrategy
   /// - If the [startDate] is in the future or today, returns [startDate].
   /// - If today falls exactly on a scheduled injection date, returns today.
   /// - Otherwise, returns the next scheduled date after today.
-  @override
   Date nextDate(Date startDate) {
     if (!startDate.isBeforeToday) {
       return startDate;
@@ -74,7 +65,6 @@ class IntervalDaysSchedule extends SchedulingStrategy
   /// - If today falls exactly on a scheduled injection date, returns the
   ///   scheduled date before today.
   /// - Otherwise, returns the last scheduled date before today.
-  @override
   Date? previousDate(Date startDate) {
     if (!startDate.isBeforeToday) {
       return null;
@@ -174,33 +164,10 @@ class DynamicIntervalSchedule extends SchedulingStrategy
     this.notificationTimes = const [],
   }) : assert(intervalDays > 0, 'intervalDays must be positive');
 
-  /// The next dose date, measured from the last intake.
-  ///
-  /// - Before any dose ([lastTaken] == null): behaves like an interval schedule
-  /// - After a dose on `T` ([lastTaken] == `T`): the next dose is
-  ///   `T + intervalDays`. May be in the past when the dose is overdue.
-  Date nextDateFrom(Date startDate, {Date? lastTaken}) {
-    if (lastTaken == null) {
-      return IntervalDaysSchedule(intervalDays: intervalDays)
-          .nextDate(startDate);
-    }
+  Date intakeDate(Date startDate, {Date? lastTaken}) {
+    if (lastTaken == null) return startDate;
     return lastTaken.add(Duration(days: intervalDays));
   }
-
-  /// The missed dose date when overdue, otherwise null.
-  ///
-  /// Returns [nextDateFrom] when it is strictly before today (the dose that is
-  /// now overdue), or null when nothing is overdue.
-  Date? previousDateFrom(Date startDate, {Date? lastTaken}) {
-    final next = nextDateFrom(startDate, lastTaken: lastTaken);
-    return next.isBeforeToday ? next : null;
-  }
-
-  @override
-  Date nextDate(Date startDate) => nextDateFrom(startDate);
-
-  @override
-  Date? previousDate(Date startDate) => previousDateFrom(startDate);
 
   @override
   bool get isNotifiable => notificationTimes.isNotEmpty;
@@ -213,15 +180,9 @@ class DynamicIntervalSchedule extends SchedulingStrategy
       return ScheduleStatus.taken;
     }
 
-    final next = nextDateFrom(startDate, lastTaken: lastTaken);
-    if (next.isToday) return ScheduleStatus.today;
-    if (next.isBeforeToday) return ScheduleStatus.overdue;
-
-    if (lastTaken == null) {
-      final missed = IntervalDaysSchedule(intervalDays: intervalDays)
-          .previousDate(startDate);
-      if (missed != null) return ScheduleStatus.overdue;
-    }
+    final anchor = intakeDate(startDate, lastTaken: lastTaken);
+    if (anchor.isToday) return ScheduleStatus.today;
+    if (anchor.isBeforeToday) return ScheduleStatus.overdue;
 
     return ScheduleStatus.upcoming;
   }
@@ -248,14 +209,12 @@ class DailySchedule extends SchedulingStrategy with DailyScheduleMappable {
   /// - If the [startDate] is in the future, returns [startDate].
   /// - Otherwise, returns today (a daily schedule fires every day once it
   ///   has started).
-  @override
   Date nextDate(Date startDate) {
     if (startDate.isAfterToday) return startDate;
     return Date.today();
   }
 
   /// A daily schedule has no meaningful "previous" intake date.
-  @override
   Date? previousDate(Date startDate) => null;
 
   ScheduleStatus statusFor({
@@ -293,7 +252,6 @@ class WeeklySchedule extends SchedulingStrategy with WeeklyScheduleMappable {
   /// - If [startDate] is in the future or today, search starts from
   ///   [startDate] (the schedule has not begun before then).
   /// - Otherwise, search starts from today.
-  @override
   Date nextDate(Date startDate) {
     Date candidate = startDate.isAfterToday ? startDate : Date.today();
     for (int i = 0; i < 7; i++) {
@@ -321,7 +279,6 @@ class WeeklySchedule extends SchedulingStrategy with WeeklyScheduleMappable {
   ///
   /// Returns null if [startDate] is today or in the future, or if no scheduled
   /// weekday exists in the window `[startDate, today)`.
-  @override
   Date? previousDate(Date startDate) {
     if (!startDate.isBeforeToday) {
       return null;
@@ -403,7 +360,6 @@ class MonthlySchedule extends SchedulingStrategy with MonthlyScheduleMappable {
     return candidate.isBefore(startDate) ? candidate.addMonths(1) : candidate;
   }
 
-  @override
   Date nextDate(Date startDate) {
     final today = Date.today();
     Date occurrence = _firstOccurrence(startDate);
@@ -413,7 +369,6 @@ class MonthlySchedule extends SchedulingStrategy with MonthlyScheduleMappable {
     return occurrence;
   }
 
-  @override
   Date? previousDate(Date startDate) {
     final first = _firstOccurrence(startDate);
     final previous = nextDate(startDate).addMonths(-intervalMonths);

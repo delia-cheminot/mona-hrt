@@ -450,28 +450,40 @@ void main() {
       });
     });
 
-    group('DynamicIntervalSchedule.nextDateFrom', () {
-      test('never taken, startDate today -> returns startDate (today)', () {
+    group('DynamicIntervalSchedule.intakeDate', () {
+      test('never taken, startDate today -> the startDate (today)', () {
         // Arrange
         final s = DynamicIntervalSchedule(intervalDays: 5);
 
         // Act
-        final next = s.nextDateFrom(Date.today());
+        final date = s.intakeDate(Date.today());
 
         // Assert
-        expect(next, Date.today());
+        expect(date, Date.today());
       });
 
-      test('never taken, startDate in past -> next interval grid date', () {
+      test('never taken, startDate in the past -> the startDate', () {
         // Arrange
         final start = Date.today().subtract(const Duration(days: 4));
         final s = DynamicIntervalSchedule(intervalDays: 5);
 
         // Act
-        final next = s.nextDateFrom(start);
+        final date = s.intakeDate(start);
 
         // Assert
-        expect(next, Date.today().add(const Duration(days: 1)));
+        expect(date, start);
+      });
+
+      test('never taken, startDate in the future -> the startDate', () {
+        // Arrange
+        final start = Date.today().add(const Duration(days: 3));
+        final s = DynamicIntervalSchedule(intervalDays: 5);
+
+        // Act
+        final date = s.intakeDate(start);
+
+        // Assert
+        expect(date, start);
       });
 
       test('taken -> lastTaken + intervalDays', () {
@@ -480,60 +492,22 @@ void main() {
         final lastTaken = Date.today().subtract(const Duration(days: 4));
 
         // Act
-        final next = s.nextDateFrom(Date.today(), lastTaken: lastTaken);
+        final date = s.intakeDate(Date.today(), lastTaken: lastTaken);
 
         // Assert
-        expect(next, Date.today().add(const Duration(days: 1)));
+        expect(date, Date.today().add(const Duration(days: 1)));
       });
 
-      test('taken late -> re-anchors a full interval from the late take', () {
+      test('taken today -> a full interval from the take', () {
         // Arrange
         final s = DynamicIntervalSchedule(intervalDays: 5);
         final lastTaken = Date.today();
 
         // Act
-        final next = s.nextDateFrom(Date.today(), lastTaken: lastTaken);
+        final date = s.intakeDate(Date.today(), lastTaken: lastTaken);
 
         // Assert
-        expect(next, Date.today().add(const Duration(days: 5)));
-      });
-    });
-
-    group('DynamicIntervalSchedule.previousDateFrom', () {
-      test('next dose in the future -> null', () {
-        // Arrange
-        final s = DynamicIntervalSchedule(intervalDays: 5);
-        final lastTaken = Date.today();
-
-        // Act
-        final previous = s.previousDateFrom(Date.today(), lastTaken: lastTaken);
-
-        // Assert
-        expect(previous, isNull);
-      });
-
-      test('next dose today -> null', () {
-        // Arrange
-        final s = DynamicIntervalSchedule(intervalDays: 5);
-        final lastTaken = Date.today().subtract(const Duration(days: 5));
-
-        // Act
-        final previous = s.previousDateFrom(Date.today(), lastTaken: lastTaken);
-
-        // Assert
-        expect(previous, isNull);
-      });
-
-      test('missed dose -> the past due date', () {
-        // Arrange
-        final s = DynamicIntervalSchedule(intervalDays: 5);
-        final lastTaken = Date.today().subtract(const Duration(days: 6));
-
-        // Act
-        final previous = s.previousDateFrom(Date.today(), lastTaken: lastTaken);
-
-        // Assert
-        expect(previous, Date.today().subtract(const Duration(days: 1)));
+        expect(date, Date.today().add(const Duration(days: 5)));
       });
     });
 
@@ -611,9 +585,7 @@ void main() {
         expect(status, ScheduleStatus.upcoming);
       });
 
-      test(
-          'never taken, startDate in the past and a dose has passed -> overdue',
-          () {
+      test('never taken, startDate in the past -> overdue', () {
         // Arrange
         final s = DynamicIntervalSchedule(intervalDays: 5);
         final start = Date.today().subtract(const Duration(days: 12));

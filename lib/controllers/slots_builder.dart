@@ -69,13 +69,13 @@ class SlotsBuilder {
       startDate: schedule.startDate,
       lastTaken: lastTaken,
     );
+    final anchor =
+        scheduling.intakeDate(schedule.startDate, lastTaken: lastTaken);
     return IntakeSlot(
       schedule: schedule,
       status: status,
-      nextDate:
-          scheduling.nextDateFrom(schedule.startDate, lastTaken: lastTaken),
-      previousDate:
-          scheduling.previousDateFrom(schedule.startDate, lastTaken: lastTaken),
+      nextDate: anchor,
+      previousDate: anchor.isBeforeToday ? anchor : null,
       intake: status == ScheduleStatus.taken ? lastIntake : null,
     );
   }
