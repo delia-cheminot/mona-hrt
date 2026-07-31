@@ -20,6 +20,8 @@ class SlotsBuilder {
       switch (schedule.scheduling) {
         case IntervalDaysSchedule scheduling:
           slots.add(_interval(schedule, scheduling));
+        case DynamicIntervalSchedule scheduling:
+          slots.add(_dynamicInterval(schedule, scheduling));
         case DailySchedule scheduling:
           slots.addAll(_daily(schedule, scheduling));
         case WeeklySchedule scheduling:
@@ -35,6 +37,26 @@ class SlotsBuilder {
   IntakeSlot _interval(
     MedicationSchedule schedule,
     IntervalDaysSchedule scheduling,
+  ) {
+    final lastTaken = _medicationIntakeProvider
+        .getLastIntakeLocalDateForSchedule(schedule.id);
+    final lastIntake =
+        _medicationIntakeProvider.getLastTakenIntakeForSchedule(schedule.id);
+
+    final status = scheduling.statusFor(
+      startDate: schedule.startDate,
+      lastTaken: lastTaken,
+    );
+    return IntakeSlot(
+      schedule: schedule,
+      status: status,
+      intake: status == ScheduleStatus.taken ? lastIntake : null,
+    );
+  }
+
+  IntakeSlot _dynamicInterval(
+    MedicationSchedule schedule,
+    DynamicIntervalSchedule scheduling,
   ) {
     final lastTaken = _medicationIntakeProvider
         .getLastIntakeLocalDateForSchedule(schedule.id);

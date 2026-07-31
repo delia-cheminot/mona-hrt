@@ -161,6 +161,92 @@ class IntervalDaysSchedule extends SchedulingStrategy
 }
 
 @MappableClass(
+  discriminatorValue: 'dynamicInterval',
+  includeCustomMappers: [TimeOfDayMapper()],
+)
+class DynamicIntervalSchedule extends SchedulingStrategy
+    with DynamicIntervalScheduleMappable {
+  final int intervalDays;
+  final List<TimeOfDay> notificationTimes;
+
+  const DynamicIntervalSchedule({
+    required this.intervalDays,
+    this.notificationTimes = const [],
+  });
+
+  /// The next dose date, measured from the last intake.
+  ///
+  /// - Before any dose ([lastTaken] == null): behaves like an interval schedule
+  /// - After a dose on `T` ([lastTaken] == `T`): the next dose is
+  ///   `T + intervalDays`. May be in the past when the dose is overdue.
+  Date nextDateFrom(Date startDate, {Date? lastTaken}) {
+    if (lastTaken == null) {
+      return IntervalDaysSchedule(intervalDays: intervalDays)
+          .nextDate(startDate);
+    }
+    return lastTaken.add(Duration(days: intervalDays));
+  }
+
+  /// The missed dose date when overdue, otherwise null.
+  ///
+  /// Returns [nextDateFrom] when it is strictly before today (the dose that is
+  /// now overdue), or null when nothing is overdue.
+  Date? previousDateFrom(Date startDate, {Date? lastTaken}) {
+    final next = nextDateFrom(startDate, lastTaken: lastTaken);
+    return next.isBeforeToday ? next : null;
+  }
+
+  @override
+  Date nextDate(Date startDate) => nextDateFrom(startDate);
+
+  @override
+  Date? previousDate(Date startDate) => previousDateFrom(startDate);
+
+  /// A rolling forward grid of future dose dates for notification planning,
+  /// starting at the next dose on-or-after today and stepping by [intervalDays].
+  List<Date> getNextDates(Date startDate, int count, {Date? lastTaken}) {
+    if (count < 0) {
+      throw ArgumentError('Count must be a positive integer');
+    }
+    if (count == 0) {
+      return [];
+    }
+
+    Date next = nextDateFrom(startDate, lastTaken: lastTaken);
+    while (next.isBeforeToday) {
+      next = next.add(Duration(days: intervalDays));
+    }
+
+    final dates = <Date>[];
+    for (int i = 0; i < count; i++) {
+      dates.add(next);
+      next = next.add(Duration(days: intervalDays));
+    }
+    return dates;
+  }
+
+  @override
+  bool get isNotifiable => notificationTimes.isNotEmpty;
+
+  ScheduleStatus statusFor({
+    required Date startDate,
+    Date? lastTaken,
+  }) {
+    if (lastTaken != null && (lastTaken.isToday || lastTaken.isAfterToday)) {
+      return ScheduleStatus.taken;
+    }
+
+    final next = nextDateFrom(startDate, lastTaken: lastTaken);
+    if (next.isToday) return ScheduleStatus.today;
+    if (next.isBeforeToday) return ScheduleStatus.overdue;
+    return ScheduleStatus.upcoming;
+  }
+
+  static String? validateIntervalDays(String? value) =>
+      requiredPositiveInt(value);
+}
+
+@MappableClass(
   discriminatorValue: 'daily',
   includeCustomMappers: [TimeOfDayMapper()],
 )

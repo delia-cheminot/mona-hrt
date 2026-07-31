@@ -19,6 +19,7 @@ class NotificationPlanner {
             ...switch (schedule.scheduling) {
               IntervalDaysSchedule scheduling =>
                 _intervalPlans(schedule, scheduling, daysAhead),
+              DynamicIntervalSchedule _ => const <PlannedNotification>[],
               DailySchedule scheduling => _dailyPlans(schedule, scheduling),
               WeeklySchedule scheduling => _weeklyPlans(schedule, scheduling),
               MonthlySchedule scheduling =>
@@ -33,6 +34,8 @@ class NotificationPlanner {
     for (final schedule in _medicationScheduleProvider.schedules) {
       switch (schedule.scheduling) {
         case IntervalDaysSchedule scheduling:
+          perOccurrence += scheduling.notificationTimes.length;
+        case DynamicIntervalSchedule scheduling:
           perOccurrence += scheduling.notificationTimes.length;
         case DailySchedule scheduling:
           if (scheduling.notify) reserved += scheduling.intakeTimes.length;

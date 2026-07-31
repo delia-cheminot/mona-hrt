@@ -158,6 +158,13 @@ class _EditScheduleSchedulingPageState
         _type = _ScheduleType.intervalDays;
         _intervalDaysController.text = intervalDays.toString();
         _intakeOrNotificationTimes.addAll(notificationTimes);
+      case DynamicIntervalSchedule(
+          :final intervalDays,
+          :final notificationTimes
+        ):
+        _type = _ScheduleType.intervalDays;
+        _intervalDaysController.text = intervalDays.toString();
+        _intakeOrNotificationTimes.addAll(notificationTimes);
       case DailySchedule(:final intakeTimes, :final notify):
         _type = _ScheduleType.daily;
         _intakeOrNotificationTimes.addAll(intakeTimes);
