@@ -537,70 +537,7 @@ void main() {
       });
     });
 
-    group('DynamicIntervalSchedule.getNextDates', () {
-      test('never taken -> matches the interval grid start', () {
-        // Arrange
-        final start = Date.today().subtract(const Duration(days: 4));
-        final s = DynamicIntervalSchedule(intervalDays: 5);
-
-        // Act
-        final dates = s.getNextDates(start, 2);
-
-        // Assert
-        expect(dates.first, Date.today().add(const Duration(days: 1)));
-      });
-
-      test('overdue anchor -> first date is advanced onto today or later', () {
-        // Arrange
-        final s = DynamicIntervalSchedule(intervalDays: 5);
-        final lastTaken = Date.today().subtract(const Duration(days: 6));
-
-        // Act
-        final dates = s.getNextDates(Date.today(), 1, lastTaken: lastTaken);
-
-        // Assert
-        expect(dates.first.isBeforeToday, isFalse);
-      });
-
-      test('returns exactly count dates spaced by intervalDays', () {
-        // Arrange
-        final s = DynamicIntervalSchedule(intervalDays: 5);
-        final lastTaken = Date.today();
-
-        // Act
-        final dates = s.getNextDates(Date.today(), 3, lastTaken: lastTaken);
-
-        // Assert
-        expect(dates[2].differenceInDays(dates[1]), 5);
-      });
-
-      test('count = 0 -> empty list', () {
-        // Arrange
-        final s = DynamicIntervalSchedule(intervalDays: 5);
-
-        // Act
-        final dates = s.getNextDates(Date.today(), 0);
-
-        // Assert
-        expect(dates, isEmpty);
-      });
-
-      test('count < 0 -> throws ArgumentError', () {
-        // Arrange
-        final s = DynamicIntervalSchedule(intervalDays: 5);
-
-        // Act & Assert
-        expect(() => s.getNextDates(Date.today(), -1), throwsArgumentError);
-      });
-
-      test('null lastTaken does not throw', () {
-        // Arrange
-        final s = DynamicIntervalSchedule(intervalDays: 5);
-
-        // Act & Assert
-        expect(() => s.getNextDates(Date.today(), 3), returnsNormally);
-      });
-
+    group('DynamicIntervalSchedule constructor', () {
       test('rejects a non-positive interval', () {
         // Arrange
         dynamicScheduleFactory() => DynamicIntervalSchedule(intervalDays: 0);

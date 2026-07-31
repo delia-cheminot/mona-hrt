@@ -202,29 +202,6 @@ class DynamicIntervalSchedule extends SchedulingStrategy
   @override
   Date? previousDate(Date startDate) => previousDateFrom(startDate);
 
-  /// A rolling forward grid of future dose dates for notification planning,
-  /// starting at the next dose on-or-after today and stepping by [intervalDays].
-  List<Date> getNextDates(Date startDate, int count, {Date? lastTaken}) {
-    if (count < 0) {
-      throw ArgumentError('Count must be a positive integer');
-    }
-    if (count == 0) {
-      return [];
-    }
-
-    Date next = nextDateFrom(startDate, lastTaken: lastTaken);
-    while (intervalDays > 0 && next.isBeforeToday) {
-      next = next.add(Duration(days: intervalDays));
-    }
-
-    final dates = <Date>[];
-    for (int i = 0; i < count; i++) {
-      dates.add(next);
-      next = next.add(Duration(days: intervalDays));
-    }
-    return dates;
-  }
-
   @override
   bool get isNotifiable => notificationTimes.isNotEmpty;
 

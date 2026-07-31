@@ -20,7 +20,7 @@ class NotificationPlanner {
               IntervalDaysSchedule scheduling =>
                 _intervalPlans(schedule, scheduling, daysAhead),
               DynamicIntervalSchedule scheduling =>
-                _dynamicIntervalPlans(schedule, scheduling, daysAhead),
+                _dynamicIntervalPlans(schedule, scheduling),
               DailySchedule scheduling => _dailyPlans(schedule, scheduling),
               WeeklySchedule scheduling => _weeklyPlans(schedule, scheduling),
               MonthlySchedule scheduling =>
@@ -37,7 +37,7 @@ class NotificationPlanner {
         case IntervalDaysSchedule scheduling:
           perOccurrence += scheduling.notificationTimes.length;
         case DynamicIntervalSchedule scheduling:
-          perOccurrence += scheduling.notificationTimes.length;
+          reserved += scheduling.notificationTimes.length;
         case DailySchedule scheduling:
           if (scheduling.notify) reserved += scheduling.intakeTimes.length;
         case WeeklySchedule scheduling:
@@ -81,24 +81,18 @@ class NotificationPlanner {
   List<PlannedNotification> _dynamicIntervalPlans(
     MedicationSchedule schedule,
     DynamicIntervalSchedule scheduling,
-    int days,
   ) {
     final now = clock.now();
     final lastTaken = _medicationIntakeProvider
         .getLastIntakeLocalDateForSchedule(schedule.id);
-    final dates = scheduling.getNextDates(
-      schedule.startDate,
-      days,
-      lastTaken: lastTaken,
-    );
+    final date =
+        scheduling.nextDateFrom(schedule.startDate, lastTaken: lastTaken);
 
     final plans = <PlannedNotification>[];
-    for (final date in dates) {
-      for (final time in scheduling.notificationTimes) {
-        final dateTime = date.toDateTimeAt(time);
-        if (!dateTime.isAfter(now)) continue;
-        plans.add(PlannedOccurrence(schedule, dateTime: dateTime));
-      }
+    for (final time in scheduling.notificationTimes) {
+      final dateTime = date.toDateTimeAt(time);
+      if (!dateTime.isAfter(now)) continue;
+      plans.add(PlannedOccurrence(schedule, dateTime: dateTime));
     }
 
     return plans;

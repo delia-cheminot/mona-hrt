@@ -129,7 +129,7 @@ void main() {
       });
     });
 
-    test('projects future occurrences anchored to the last intake', () {
+    test('schedules only the next dose anchored to the last intake', () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -145,15 +145,15 @@ void main() {
 
         // Act
         final plans =
-            planner.planNotifications(daysAhead: 3).cast<PlannedOccurrence>();
+            planner.planNotifications(daysAhead: 30).cast<PlannedOccurrence>();
 
         // Assert
-        expect(plans.first.dateTime,
+        expect(plans.single.dateTime,
             Date.today().add(const Duration(days: 5)).toDateTimeAt(afternoon));
       });
     });
 
-    test('overdue anchor does not schedule a past occurrence', () {
+    test('overdue anchor schedules nothing', () {
       withFixedClock(() {
         // Arrange
         withSchedules([
@@ -168,11 +168,10 @@ void main() {
             .thenReturn(Date.today().subtract(const Duration(days: 20)));
 
         // Act
-        final plans =
-            planner.planNotifications(daysAhead: 1).cast<PlannedOccurrence>();
+        final plans = planner.planNotifications(daysAhead: 30);
 
         // Assert
-        expect(plans.first.dateTime, Date.today().toDateTimeAt(afternoon));
+        expect(plans, isEmpty);
       });
     });
 
@@ -193,10 +192,10 @@ void main() {
 
         // Act
         final plans =
-            planner.planNotifications(daysAhead: 3).cast<PlannedOccurrence>();
+            planner.planNotifications(daysAhead: 30).cast<PlannedOccurrence>();
 
         // Assert
-        expect(plans.first.dateTime, Date.today().toDateTimeAt(afternoon));
+        expect(plans.single.dateTime, Date.today().toDateTimeAt(afternoon));
       });
     });
   });
@@ -534,6 +533,24 @@ void main() {
 
       // Assert
       expect(daysAhead, 64);
+    });
+
+    test('dynamic interval schedules reserve one slot per notification time',
+        () {
+      // Arrange
+      withSchedules([
+        aMedicationSchedule(
+            scheduling: anIntervalStrategy(notificationTimes: const [morning])),
+        aMedicationSchedule(
+            scheduling: aDynamicIntervalStrategy(
+                notificationTimes: const [morning, afternoon])),
+      ]);
+
+      // Act
+      final daysAhead = planner.daysAhead(maxScheduled: 64);
+
+      // Assert
+      expect(daysAhead, 62); // 64 - 2
     });
 
     test('weekly schedules reserve daysOfWeek x notificationTimes slots', () {
