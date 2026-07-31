@@ -1,4 +1,3 @@
-import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -173,7 +172,7 @@ void main() {
             planner.planNotifications(daysAhead: 1).cast<PlannedOccurrence>();
 
         // Assert
-        expect(plans.every((p) => p.dateTime.isAfter(clock.now())), isTrue);
+        expect(plans.first.dateTime, Date.today().toDateTimeAt(afternoon));
       });
     });
 
@@ -192,8 +191,12 @@ void main() {
         when(intakesProvider.getLastIntakeLocalDateForSchedule(any))
             .thenReturn(null);
 
-        // Act & Assert
-        expect(() => planner.planNotifications(daysAhead: 3), returnsNormally);
+        // Act
+        final plans =
+            planner.planNotifications(daysAhead: 3).cast<PlannedOccurrence>();
+
+        // Assert
+        expect(plans.first.dateTime, Date.today().toDateTimeAt(afternoon));
       });
     });
   });
