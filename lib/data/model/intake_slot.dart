@@ -10,14 +10,12 @@ class IntakeSlot {
   final TimeOfDay? time;
   final ScheduleStatus status;
   final MedicationIntake? intake;
-  final Date nextDate;
-  final Date? previousDate;
+  final Date date;
 
   const IntakeSlot({
     required this.schedule,
     required this.status,
-    required this.nextDate,
-    this.previousDate,
+    required this.date,
     this.time,
     this.intake,
   });

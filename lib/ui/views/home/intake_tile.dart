@@ -15,12 +15,12 @@ import 'package:mona/ui/views/intakes/edit_intake_page.dart';
 import 'package:provider/provider.dart';
 
 class IntakeTile extends StatelessWidget {
-  const IntakeTile(this.occurrence, {super.key});
+  const IntakeTile(this.slot, {super.key});
 
-  final IntakeSlot occurrence;
+  final IntakeSlot slot;
 
-  MedicationSchedule get schedule => occurrence.schedule;
-  ScheduleStatus get status => occurrence.status;
+  MedicationSchedule get schedule => slot.schedule;
+  ScheduleStatus get status => slot.status;
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +32,8 @@ class IntakeTile extends StatelessWidget {
     final viewModel = IntakeTileViewModel(
       schedule: schedule,
       status: status,
-      slotTime: occurrence.time,
-      nextDate: occurrence.nextDate,
-      previousDate: occurrence.previousDate,
+      slotTime: slot.time,
+      date: slot.date,
       intakeProvider: medicationIntakeProvider,
       supplyProvider: supplyItemProvider,
       now: now,
@@ -44,7 +43,7 @@ class IntakeTile extends StatelessWidget {
 
     return ListTile(
       onTap: () {
-        final intake = occurrence.intake;
+        final intake = slot.intake;
         Navigator.of(context).push(
           MaterialPageRoute<void>(
             fullscreenDialog: true,
@@ -52,7 +51,7 @@ class IntakeTile extends StatelessWidget {
                 ? EditIntakePage(intake)
                 : TakeMedicationPage(
                     schedule,
-                    scheduledTime: occurrence.time,
+                    scheduledTime: slot.time,
                   ),
           ),
         );
@@ -102,8 +101,7 @@ class IntakeTileViewModel {
       {required this.schedule,
       required this.status,
       required this.slotTime,
-      required this.nextDate,
-      required this.previousDate,
+      required this.date,
       required this.intakeProvider,
       required this.supplyProvider,
       required this.now,
@@ -113,8 +111,7 @@ class IntakeTileViewModel {
   final MedicationSchedule schedule;
   final ScheduleStatus status;
   final TimeOfDay? slotTime;
-  final Date nextDate;
-  final Date? previousDate;
+  final Date date;
   final MedicationIntakeProvider intakeProvider;
   final SupplyItemProvider supplyProvider;
   final DateTime now;
@@ -126,11 +123,11 @@ class IntakeTileViewModel {
   Date? get lastTaken =>
       intakeProvider.getLastIntakeLocalDateForSchedule(schedule.id);
 
-  int get daysUntilIntake => nextDate.daysAwayFromToday;
+  int get daysUntilIntake => date.daysAwayFromToday;
 
   int? get daysSinceLastTaken => lastTaken?.daysAwayFromToday;
 
-  int? get daysSinceLastScheduled => previousDate?.daysAwayFromToday;
+  int get daysSinceLastScheduled => date.daysAwayFromToday;
 
   String get intakeInfo {
     if (status == ScheduleStatus.taken) {
@@ -149,7 +146,7 @@ class IntakeTileViewModel {
 
   String? get scheduledText {
     if (status == ScheduleStatus.upcoming) {
-      final formatted = nextDate.format(DateFormat.MMMMd(languageTag));
+      final formatted = date.format(DateFormat.MMMMd(languageTag));
       return "$formatted - ${_inDays(daysUntilIntake)}";
     }
 
@@ -165,8 +162,8 @@ class IntakeTileViewModel {
         return null;
 
       case ScheduleStatus.overdue:
-        final formatted = previousDate!.format(DateFormat.MMMMd(languageTag));
-        return "$formatted - ${_daysAgo(daysSinceLastScheduled!)}";
+        final formatted = date.format(DateFormat.MMMMd(languageTag));
+        return "$formatted - ${_daysAgo(daysSinceLastScheduled)}";
 
       case _:
         return null;

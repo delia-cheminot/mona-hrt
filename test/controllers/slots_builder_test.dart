@@ -87,7 +87,7 @@ void main() {
       expect(slot.status, ScheduleStatus.overdue);
     });
 
-    test('missed dose -> previousDate is the past due date', () {
+    test('missed dose -> date is the past due date', () {
       // Arrange
       final start = Date.today().subtract(const Duration(days: 30));
       withSchedules([
@@ -103,10 +103,10 @@ void main() {
       final slot = slotsBuilder.intakeSlots().single;
 
       // Assert
-      expect(slot.previousDate, Date.today().subtract(const Duration(days: 1)));
+      expect(slot.date, Date.today().subtract(const Duration(days: 1)));
     });
 
-    test('taken recently -> nextDate is lastTaken + interval', () {
+    test('taken recently -> date is lastTaken + interval', () {
       // Arrange
       final start = Date.today().subtract(const Duration(days: 30));
       withSchedules([
@@ -122,11 +122,10 @@ void main() {
       final slot = slotsBuilder.intakeSlots().single;
 
       // Assert
-      expect(slot.nextDate, Date.today().add(const Duration(days: 5)));
+      expect(slot.date, Date.today().add(const Duration(days: 5)));
     });
 
-    test('never taken, startDate in the past -> previousDate is the startDate',
-        () {
+    test('never taken, startDate in the past -> date is the startDate', () {
       // Arrange
       final start = Date.today().subtract(const Duration(days: 1));
       withSchedules([
@@ -141,10 +140,10 @@ void main() {
       final slot = slotsBuilder.intakeSlots().single;
 
       // Assert
-      expect(slot.previousDate, start);
+      expect(slot.date, start);
     });
 
-    test('never taken, startDate in the future -> previousDate is null', () {
+    test('never taken, startDate in the future -> date is the startDate', () {
       // Arrange
       final start = Date.today().add(const Duration(days: 3));
       withSchedules([
@@ -159,7 +158,7 @@ void main() {
       final slot = slotsBuilder.intakeSlots().single;
 
       // Assert
-      expect(slot.previousDate, isNull);
+      expect(slot.date, start);
     });
   });
 

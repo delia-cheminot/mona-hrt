@@ -180,9 +180,9 @@ class DynamicIntervalSchedule extends SchedulingStrategy
       return ScheduleStatus.taken;
     }
 
-    final anchor = intakeDate(startDate, lastTaken: lastTaken);
-    if (anchor.isToday) return ScheduleStatus.today;
-    if (anchor.isBeforeToday) return ScheduleStatus.overdue;
+    final date = intakeDate(startDate, lastTaken: lastTaken);
+    if (date.isToday) return ScheduleStatus.today;
+    if (date.isBeforeToday) return ScheduleStatus.overdue;
 
     return ScheduleStatus.upcoming;
   }

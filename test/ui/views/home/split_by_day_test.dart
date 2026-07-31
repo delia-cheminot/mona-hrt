@@ -34,7 +34,7 @@ IntakeSlot occurrence({
             administrationRoute: AdministrationRoute.oral,
           ),
       status: status,
-      nextDate: Date.today(),
+      date: Date.today(),
       time: time,
     );
 

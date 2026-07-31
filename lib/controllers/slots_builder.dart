@@ -50,8 +50,9 @@ class SlotsBuilder {
     return IntakeSlot(
       schedule: schedule,
       status: status,
-      nextDate: scheduling.nextDate(schedule.startDate),
-      previousDate: scheduling.previousDate(schedule.startDate),
+      date: status == ScheduleStatus.overdue
+          ? scheduling.previousDate(schedule.startDate)!
+          : scheduling.nextDate(schedule.startDate),
       intake: status == ScheduleStatus.taken ? lastIntake : null,
     );
   }
@@ -69,13 +70,10 @@ class SlotsBuilder {
       startDate: schedule.startDate,
       lastTaken: lastTaken,
     );
-    final anchor =
-        scheduling.intakeDate(schedule.startDate, lastTaken: lastTaken);
     return IntakeSlot(
       schedule: schedule,
       status: status,
-      nextDate: anchor,
-      previousDate: anchor.isBeforeToday ? anchor : null,
+      date: scheduling.intakeDate(schedule.startDate, lastTaken: lastTaken),
       intake: status == ScheduleStatus.taken ? lastIntake : null,
     );
   }
@@ -96,8 +94,9 @@ class SlotsBuilder {
     return IntakeSlot(
       schedule: schedule,
       status: status,
-      nextDate: scheduling.nextDate(schedule.startDate),
-      previousDate: scheduling.previousDate(schedule.startDate),
+      date: status == ScheduleStatus.overdue
+          ? scheduling.previousDate(schedule.startDate)!
+          : scheduling.nextDate(schedule.startDate),
       intake: status == ScheduleStatus.taken ? lastIntake : null,
     );
   }
@@ -122,7 +121,7 @@ class SlotsBuilder {
               startDate: schedule.startDate,
               matchedIntake: match,
             ),
-            nextDate: scheduling.nextDate(schedule.startDate),
+            date: scheduling.nextDate(schedule.startDate),
             intake: match,
           );
         }(),
@@ -146,8 +145,9 @@ class SlotsBuilder {
     return IntakeSlot(
       schedule: schedule,
       status: status,
-      nextDate: scheduling.nextDate(schedule.startDate),
-      previousDate: scheduling.previousDate(schedule.startDate),
+      date: status == ScheduleStatus.overdue
+          ? scheduling.previousDate(schedule.startDate)!
+          : scheduling.nextDate(schedule.startDate),
       intake: status == ScheduleStatus.taken ? lastIntake : null,
     );
   }
