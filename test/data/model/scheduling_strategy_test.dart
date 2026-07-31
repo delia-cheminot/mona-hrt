@@ -456,7 +456,7 @@ void main() {
         final s = DynamicIntervalSchedule(intervalDays: 5);
 
         // Act
-        final date = s.intakeDate(Date.today());
+        final date = s.intakeDate(Date.today(), null);
 
         // Assert
         expect(date, Date.today());
@@ -468,7 +468,7 @@ void main() {
         final s = DynamicIntervalSchedule(intervalDays: 5);
 
         // Act
-        final date = s.intakeDate(start);
+        final date = s.intakeDate(start, null);
 
         // Assert
         expect(date, start);
@@ -480,7 +480,7 @@ void main() {
         final s = DynamicIntervalSchedule(intervalDays: 5);
 
         // Act
-        final date = s.intakeDate(start);
+        final date = s.intakeDate(start, null);
 
         // Assert
         expect(date, start);
@@ -492,7 +492,7 @@ void main() {
         final lastTaken = Date.today().subtract(const Duration(days: 4));
 
         // Act
-        final date = s.intakeDate(Date.today(), lastTaken: lastTaken);
+        final date = s.intakeDate(Date.today(), lastTaken);
 
         // Assert
         expect(date, Date.today().add(const Duration(days: 1)));
@@ -504,7 +504,7 @@ void main() {
         final lastTaken = Date.today();
 
         // Act
-        final date = s.intakeDate(Date.today(), lastTaken: lastTaken);
+        final date = s.intakeDate(Date.today(), lastTaken);
 
         // Assert
         expect(date, Date.today().add(const Duration(days: 5)));

@@ -164,7 +164,7 @@ class DynamicIntervalSchedule extends SchedulingStrategy
     this.notificationTimes = const [],
   }) : assert(intervalDays > 0, 'intervalDays must be positive');
 
-  Date intakeDate(Date startDate, {Date? lastTaken}) {
+  Date intakeDate(Date startDate, Date? lastTaken) {
     if (lastTaken == null) return startDate;
     return lastTaken.add(Duration(days: intervalDays));
   }
@@ -180,7 +180,7 @@ class DynamicIntervalSchedule extends SchedulingStrategy
       return ScheduleStatus.taken;
     }
 
-    final date = intakeDate(startDate, lastTaken: lastTaken);
+    final date = intakeDate(startDate, lastTaken);
     if (date.isToday) return ScheduleStatus.today;
     if (date.isBeforeToday) return ScheduleStatus.overdue;
 

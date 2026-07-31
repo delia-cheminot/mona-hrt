@@ -85,8 +85,7 @@ class NotificationPlanner {
     final now = clock.now();
     final lastTaken = _medicationIntakeProvider
         .getLastIntakeLocalDateForSchedule(schedule.id);
-    final date =
-        scheduling.intakeDate(schedule.startDate, lastTaken: lastTaken);
+    final date = scheduling.intakeDate(schedule.startDate, lastTaken);
 
     final plans = <PlannedNotification>[];
     for (final time in scheduling.notificationTimes) {

@@ -73,7 +73,7 @@ class SlotsBuilder {
     return IntakeSlot(
       schedule: schedule,
       status: status,
-      date: scheduling.intakeDate(schedule.startDate, lastTaken: lastTaken),
+      date: scheduling.intakeDate(schedule.startDate, lastTaken),
       intake: status == ScheduleStatus.taken ? lastIntake : null,
     );
   }
