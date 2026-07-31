@@ -172,7 +172,7 @@ class DynamicIntervalSchedule extends SchedulingStrategy
   const DynamicIntervalSchedule({
     required this.intervalDays,
     this.notificationTimes = const [],
-  });
+  }) : assert(intervalDays > 0, 'intervalDays must be positive');
 
   /// The next dose date, measured from the last intake.
   ///
@@ -213,7 +213,7 @@ class DynamicIntervalSchedule extends SchedulingStrategy
     }
 
     Date next = nextDateFrom(startDate, lastTaken: lastTaken);
-    while (next.isBeforeToday) {
+    while (intervalDays > 0 && next.isBeforeToday) {
       next = next.add(Duration(days: intervalDays));
     }
 
@@ -239,6 +239,13 @@ class DynamicIntervalSchedule extends SchedulingStrategy
     final next = nextDateFrom(startDate, lastTaken: lastTaken);
     if (next.isToday) return ScheduleStatus.today;
     if (next.isBeforeToday) return ScheduleStatus.overdue;
+
+    if (lastTaken == null) {
+      final missed = IntervalDaysSchedule(intervalDays: intervalDays)
+          .previousDate(startDate);
+      if (missed != null) return ScheduleStatus.overdue;
+    }
+
     return ScheduleStatus.upcoming;
   }
 
