@@ -36,6 +36,7 @@ class _EditScheduleSchedulingPageState
   late TextEditingController _monthlyIntervalController;
   final List<TimeOfDay> _intakeOrNotificationTimes = [];
   bool _dailyNotify = true;
+  bool _anchorToLastIntake = false;
   final List<int> _weeklyDays = [];
   late Date _startDate;
 
@@ -115,10 +116,15 @@ class _EditScheduleSchedulingPageState
     if (!mounted) return;
 
     final SchedulingStrategy scheduling = switch (_type) {
-      _ScheduleType.intervalDays => IntervalDaysSchedule(
-          intervalDays: _intervalDaysController.text.toInt,
-          notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
-        ),
+      _ScheduleType.intervalDays => _anchorToLastIntake
+          ? DynamicIntervalSchedule(
+              intervalDays: _intervalDaysController.text.toInt,
+              notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
+            )
+          : IntervalDaysSchedule(
+              intervalDays: _intervalDaysController.text.toInt,
+              notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
+            ),
       _ScheduleType.daily => DailySchedule(
           intakeTimes: List.unmodifiable(_intakeOrNotificationTimes),
           notify: _dailyNotify,
@@ -156,6 +162,14 @@ class _EditScheduleSchedulingPageState
     switch (widget.schedule.scheduling) {
       case IntervalDaysSchedule(:final intervalDays, :final notificationTimes):
         _type = _ScheduleType.intervalDays;
+        _intervalDaysController.text = intervalDays.toString();
+        _intakeOrNotificationTimes.addAll(notificationTimes);
+      case DynamicIntervalSchedule(
+          :final intervalDays,
+          :final notificationTimes
+        ):
+        _type = _ScheduleType.intervalDays;
+        _anchorToLastIntake = true;
         _intervalDaysController.text = intervalDays.toString();
         _intakeOrNotificationTimes.addAll(notificationTimes);
       case DailySchedule(:final intakeTimes, :final notify):
@@ -249,7 +263,20 @@ class _EditScheduleSchedulingPageState
         inputType: TextInputType.number,
         regexFormatter: RegexPatterns.intNumber,
       ),
-      FormSpacer(),
+      M3ECardColumn(
+        padding: EdgeInsets.zero,
+        margin: EdgeInsets.symmetric(vertical: 8),
+        children: [
+          SwitchListTile(
+            title: Text(t.anchorToLastIntake),
+            subtitle: Text(t.anchorToLastIntakeDescription),
+            value: _anchorToLastIntake,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            onChanged: (value) => setState(() => _anchorToLastIntake = value),
+          ),
+        ],
+      ),
       TimeListCard(
         times: _intakeOrNotificationTimes,
         rowIcon: Icons.notifications,

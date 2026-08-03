@@ -11,23 +11,24 @@ class LanguagePage extends StatelessWidget {
   const LanguagePage({super.key});
 
   static const Map<String, LanguageNames> languageNames = {
-    'en': (english: 'English', native: 'English'),
-    'fr': (english: 'French', native: 'Français'),
-    'es': (english: 'Spanish', native: 'Español'),
     'de': (english: 'German', native: 'Deutsch'),
-    'nl': (english: 'Dutch', native: 'Nederlands'),
+    'en': (english: 'English', native: 'English'),
+    'en-GB': (english: 'British English', native: 'English (UK)'),
+    'es': (english: 'Spanish', native: 'Español'),
+    'et': (english: 'Estonian', native: 'Eesti'),
+    'fr': (english: 'French', native: 'Français'),
     'gl': (english: 'Galician', native: 'Galego'),
+    'is': (english: 'Icelandic', native: 'Íslenska'),
     'ko': (english: 'Korean', native: '한국어'),
+    'nl': (english: 'Dutch', native: 'Nederlands'),
+    'pl': (english: 'Polish', native: 'Polski'),
     'pt': (english: 'Portuguese', native: 'Português'),
     'pt-BR': (english: 'Brazilian Portuguese', native: 'Português do Brasil'),
-    'sk': (english: 'Slovak', native: 'Slovenský'),
-    'uk': (english: 'Ukrainian', native: 'Українська'),
     'ru': (english: 'Russian', native: 'Русский'),
+    'sk': (english: 'Slovak', native: 'Slovenský'),
     'th': (english: 'Thai', native: 'ภาษาไทย'),
-    'is': (english: 'Icelandic', native: 'Íslenska'),
-    'et': (english: 'Estonian', native: 'Eesti'),
-    'pl': (english: 'Polish', native: 'Polski'),
     'tok': (english: 'Toki Pona', native: 'toki pona'),
+    'uk': (english: 'Ukrainian', native: 'Українська'),
   };
 
   static String? nativeNameOf(String tag) => languageNames[tag]?.native;
@@ -65,21 +66,18 @@ class LanguagePage extends StatelessWidget {
               title: Text(t.languageFollowDevice),
               value: null,
             ),
-            for (final locale in AppLocale.values) _buildTile(locale),
+            for (final tag in languageNames.keys) _buildTile(tag),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildTile(AppLocale locale) {
-    final tag = locale.languageTag;
+  Widget _buildTile(String tag) {
     final names = languageNames[tag];
     return RadioListTile<String?>(
       title: Text(names?.native ?? tag),
-      subtitle: (names != null && locale != AppLocale.en)
-          ? Text(names.english)
-          : null,
+      subtitle: (names != null && tag != 'en') ? Text(names.english) : null,
       value: tag,
     );
   }

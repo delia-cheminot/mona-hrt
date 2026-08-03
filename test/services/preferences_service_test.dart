@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/placement.dart';
 import 'package:mona/services/preferences_service.dart';
@@ -275,6 +277,48 @@ void main() {
 
         // Assert
         expect([service.intakeCounterEnabled, listenerNotified], [false, true]);
+      });
+    });
+
+    group('logicalDayStart', () {
+      tearDown(() => logicalDayStartMinutes = 240);
+
+      test('defaults to 4:00am when not set', () async {
+        // Arrange
+        final service = await PreferencesService.init();
+
+        // Act
+        final start = service.logicalDayStart;
+
+        // Assert
+        expect(start, const TimeOfDay(hour: 4, minute: 0));
+      });
+
+      test('round-trips the saved value and notifies listeners', () async {
+        // Arrange
+        final service = await PreferencesService.init();
+        var listenerNotified = false;
+        service.addListener(() => listenerNotified = true);
+
+        // Act
+        await service.setLogicalDayStart(const TimeOfDay(hour: 6, minute: 30));
+
+        // Assert
+        expect(
+          [service.logicalDayStart, listenerNotified],
+          [const TimeOfDay(hour: 6, minute: 30), true],
+        );
+      });
+
+      test('setLogicalDayStart syncs the Date global', () async {
+        // Arrange
+        final service = await PreferencesService.init();
+
+        // Act
+        await service.setLogicalDayStart(const TimeOfDay(hour: 6, minute: 30));
+
+        // Assert
+        expect(logicalDayStartMinutes, 390);
       });
     });
   });

@@ -10,7 +10,7 @@ bool _isUtcMidnight(DateTime dt) =>
     dt.millisecond == 0 &&
     dt.microsecond == 0;
 
-int logicalDayStartHour = 4;
+int logicalDayStartMinutes = 240;
 
 class Date {
   final DateTime value;
@@ -81,9 +81,8 @@ class Date {
   DateTime toDateTime() => DateTime(year, month, day, 12, 0);
 
   DateTime toDateTimeAt(TimeOfDay time) {
-    Duration dayDifference = (time.hour < logicalDayStartHour)
-        ? const Duration(days: 1)
-        : Duration.zero;
+    final int difference = _logicalDayDifference(time.hour, time.minute);
+    Duration dayDifference = Duration(days: difference);
     return DateTime(year, month, day, time.hour, time.minute)
         .add(dayDifference);
   }
@@ -105,10 +104,15 @@ class Date {
   @override
   int get hashCode => value.hashCode;
 
-  // Applies the 4am rule: times before 4am belong to the previous day.
+  // Applies the start-of-day rule: times before [logicalDayStartMinutes]
+  // (minutes since midnight) belong to the previous day.
   static DateTime _logicalDay(DateTime input) {
-    final dayDifference = input.hour < logicalDayStartHour ? 1 : 0;
+    final dayDifference = _logicalDayDifference(input.hour, input.minute);
     return DateTime.utc(input.year, input.month, input.day - dayDifference);
+  }
+
+  static int _logicalDayDifference(int hours, int minutes) {
+    return (hours * 60 + minutes) < logicalDayStartMinutes ? 1 : 0;
   }
   // coverage:ignore-end
 }

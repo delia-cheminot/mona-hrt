@@ -16,6 +16,7 @@ class SchedulingStrategyMapper extends ClassMapperBase<SchedulingStrategy> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = SchedulingStrategyMapper._());
       IntervalDaysScheduleMapper.ensureInitialized();
+      DynamicIntervalScheduleMapper.ensureInitialized();
       DailyScheduleMapper.ensureInitialized();
       WeeklyScheduleMapper.ensureInitialized();
       MonthlyScheduleMapper.ensureInitialized();
@@ -223,6 +224,172 @@ class _IntervalDaysScheduleCopyWithImpl<$R, $Out>
   IntervalDaysScheduleCopyWith<$R2, IntervalDaysSchedule, $Out2>
       $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
           _IntervalDaysScheduleCopyWithImpl<$R2, $Out2>($value, $cast, t);
+}
+
+class DynamicIntervalScheduleMapper
+    extends SubClassMapperBase<DynamicIntervalSchedule> {
+  DynamicIntervalScheduleMapper._();
+
+  static DynamicIntervalScheduleMapper? _instance;
+  static DynamicIntervalScheduleMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(
+        _instance = DynamicIntervalScheduleMapper._(),
+      );
+      SchedulingStrategyMapper.ensureInitialized().addSubMapper(_instance!);
+      MapperContainer.globals.useAll([TimeOfDayMapper()]);
+    }
+    return _instance!;
+  }
+
+  @override
+  final String id = 'DynamicIntervalSchedule';
+
+  static int _$intervalDays(DynamicIntervalSchedule v) => v.intervalDays;
+  static const Field<DynamicIntervalSchedule, int> _f$intervalDays = Field(
+    'intervalDays',
+    _$intervalDays,
+  );
+  static List<TimeOfDay> _$notificationTimes(DynamicIntervalSchedule v) =>
+      v.notificationTimes;
+  static const Field<DynamicIntervalSchedule, List<TimeOfDay>>
+      _f$notificationTimes = Field(
+    'notificationTimes',
+    _$notificationTimes,
+    opt: true,
+    def: const [],
+  );
+
+  @override
+  final MappableFields<DynamicIntervalSchedule> fields = const {
+    #intervalDays: _f$intervalDays,
+    #notificationTimes: _f$notificationTimes,
+  };
+
+  @override
+  final String discriminatorKey = 'type';
+  @override
+  final dynamic discriminatorValue = 'dynamicInterval';
+  @override
+  late final ClassMapperBase superMapper =
+      SchedulingStrategyMapper.ensureInitialized();
+
+  static DynamicIntervalSchedule _instantiate(DecodingData data) {
+    return DynamicIntervalSchedule(
+      intervalDays: data.dec(_f$intervalDays),
+      notificationTimes: data.dec(_f$notificationTimes),
+    );
+  }
+
+  @override
+  final Function instantiate = _instantiate;
+
+  static DynamicIntervalSchedule fromMap(Map<String, dynamic> map) {
+    return ensureInitialized().decodeMap<DynamicIntervalSchedule>(map);
+  }
+
+  static DynamicIntervalSchedule fromJson(String json) {
+    return ensureInitialized().decodeJson<DynamicIntervalSchedule>(json);
+  }
+}
+
+mixin DynamicIntervalScheduleMappable {
+  String toJson() {
+    return DynamicIntervalScheduleMapper.ensureInitialized()
+        .encodeJson<DynamicIntervalSchedule>(this as DynamicIntervalSchedule);
+  }
+
+  Map<String, dynamic> toMap() {
+    return DynamicIntervalScheduleMapper.ensureInitialized()
+        .encodeMap<DynamicIntervalSchedule>(this as DynamicIntervalSchedule);
+  }
+
+  DynamicIntervalScheduleCopyWith<DynamicIntervalSchedule,
+          DynamicIntervalSchedule, DynamicIntervalSchedule>
+      get copyWith => _DynamicIntervalScheduleCopyWithImpl<
+              DynamicIntervalSchedule, DynamicIntervalSchedule>(
+          this as DynamicIntervalSchedule, $identity, $identity);
+  @override
+  String toString() {
+    return DynamicIntervalScheduleMapper.ensureInitialized().stringifyValue(
+      this as DynamicIntervalSchedule,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return DynamicIntervalScheduleMapper.ensureInitialized().equalsValue(
+      this as DynamicIntervalSchedule,
+      other,
+    );
+  }
+
+  @override
+  int get hashCode {
+    return DynamicIntervalScheduleMapper.ensureInitialized().hashValue(
+      this as DynamicIntervalSchedule,
+    );
+  }
+}
+
+extension DynamicIntervalScheduleValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, DynamicIntervalSchedule, $Out> {
+  DynamicIntervalScheduleCopyWith<$R, DynamicIntervalSchedule, $Out>
+      get $asDynamicIntervalSchedule => $base.as(
+            (v, t, t2) =>
+                _DynamicIntervalScheduleCopyWithImpl<$R, $Out>(v, t, t2),
+          );
+}
+
+abstract class DynamicIntervalScheduleCopyWith<
+    $R,
+    $In extends DynamicIntervalSchedule,
+    $Out> implements SchedulingStrategyCopyWith<$R, $In, $Out> {
+  ListCopyWith<$R, TimeOfDay, ObjectCopyWith<$R, TimeOfDay, TimeOfDay>>
+      get notificationTimes;
+  @override
+  $R call({int? intervalDays, List<TimeOfDay>? notificationTimes});
+  DynamicIntervalScheduleCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
+    Then<$Out2, $R2> t,
+  );
+}
+
+class _DynamicIntervalScheduleCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, DynamicIntervalSchedule, $Out>
+    implements
+        DynamicIntervalScheduleCopyWith<$R, DynamicIntervalSchedule, $Out> {
+  _DynamicIntervalScheduleCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<DynamicIntervalSchedule> $mapper =
+      DynamicIntervalScheduleMapper.ensureInitialized();
+  @override
+  ListCopyWith<$R, TimeOfDay, ObjectCopyWith<$R, TimeOfDay, TimeOfDay>>
+      get notificationTimes => ListCopyWith(
+            $value.notificationTimes,
+            (v, t) => ObjectCopyWith(v, $identity, t),
+            (v) => call(notificationTimes: v),
+          );
+  @override
+  $R call({int? intervalDays, List<TimeOfDay>? notificationTimes}) => $apply(
+        FieldCopyWithData({
+          if (intervalDays != null) #intervalDays: intervalDays,
+          if (notificationTimes != null) #notificationTimes: notificationTimes,
+        }),
+      );
+  @override
+  DynamicIntervalSchedule $make(CopyWithData data) => DynamicIntervalSchedule(
+        intervalDays: data.get(#intervalDays, or: $value.intervalDays),
+        notificationTimes: data.get(
+          #notificationTimes,
+          or: $value.notificationTimes,
+        ),
+      );
+
+  @override
+  DynamicIntervalScheduleCopyWith<$R2, DynamicIntervalSchedule, $Out2>
+      $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
+          _DynamicIntervalScheduleCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
 
 class DailyScheduleMapper extends SubClassMapperBase<DailySchedule> {

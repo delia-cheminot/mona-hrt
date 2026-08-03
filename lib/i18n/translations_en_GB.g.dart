@@ -4,22 +4,17 @@
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
 
-part of 'translations.g.dart';
+import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
+import 'package:slang/generated.dart';
+import 'translations.g.dart';
 
 // Path: <root>
-typedef TranslationsEn = Translations; // ignore: unused_element
-
-class Translations with BaseTranslations<AppLocale, Translations> {
-  /// Returns the current translations of the given [context].
-  ///
-  /// Usage:
-  /// final t = Translations.of(context);
-  static Translations of(BuildContext context) =>
-      InheritedLocaleData.of<AppLocale, Translations>(context).translations;
-
+class TranslationsEnGb extends Translations
+    with BaseTranslations<AppLocale, Translations> {
   /// You can call this constructor and build your own translation instance of this locale.
   /// Constructing via the enum [AppLocale.build] is preferred.
-  Translations(
+  TranslationsEnGb(
       {Map<String, Node>? overrides,
       PluralResolver? cardinalResolver,
       PluralResolver? ordinalResolver,
@@ -28,795 +23,561 @@ class Translations with BaseTranslations<AppLocale, Translations> {
             'Set "translation_overrides: true" in order to enable this feature.'),
         $meta = meta ??
             TranslationMetadata(
-              locale: AppLocale.en,
+              locale: AppLocale.enGb,
               overrides: overrides ?? {},
               cardinalResolver: cardinalResolver,
               ordinalResolver: ordinalResolver,
-            ) {
+            ),
+        super(
+            cardinalResolver: cardinalResolver,
+            ordinalResolver: ordinalResolver) {
+    super.$meta.setFlatMapFunction(
+        $meta.getTranslation); // copy base translations to super.$meta
     $meta.setFlatMapFunction(_flatMapFunction);
   }
 
-  /// Metadata for the translations of <en>.
+  /// Metadata for the translations of <en-GB>.
   @override
   final TranslationMetadata<AppLocale, Translations> $meta;
 
   /// Access flat map
-  dynamic operator [](String key) => $meta.getTranslation(key);
+  @override
+  dynamic operator [](String key) =>
+      $meta.getTranslation(key) ?? super.$meta.getTranslation(key);
 
-  late final Translations _root = this; // ignore: unused_field
+  late final TranslationsEnGb _root = this; // ignore: unused_field
 
-  Translations $copyWith(
+  @override
+  TranslationsEnGb $copyWith(
           {TranslationMetadata<AppLocale, Translations>? meta}) =>
-      Translations(meta: meta ?? this.$meta);
+      TranslationsEnGb(meta: meta ?? this.$meta);
 
   // Translations
-
-  /// en: 'Mona'
+  @override
   String get appTitle => 'Mona';
-
-  /// en: 'Mona'
+  @override
   String get nav_home => 'Mona';
-
-  /// en: 'Intakes'
+  @override
   String get nav_intakes => 'Intakes';
-
-  /// en: 'Levels'
+  @override
   String get nav_levels => 'Levels';
-
-  /// en: 'Supplies'
+  @override
   String get nav_supplies => 'Supplies';
-
-  /// en: 'Take an intake'
+  @override
   String get takeAnIntake => 'Take an intake';
-
-  /// en: 'Add an item'
+  @override
   String get addAnItem => 'Add an item';
-
-  /// en: 'Start by adding a schedule in Settings'
+  @override
   String get empty_home => 'Start by adding a schedule in Settings';
-
-  /// en: 'All done!'
+  @override
   String get allDone => 'All done!';
-
-  /// en: 'No intakes due today'
+  @override
   String get noIntakesDue => 'No intakes due today';
-
-  /// en: 'Upcoming'
+  @override
   String get upcoming => 'Upcoming';
-
-  /// en: 'Taken'
+  @override
   String get taken => 'Taken';
-
-  /// en: 'yesterday'
+  @override
   String get yesterday => 'yesterday';
-
-  /// en: 'tomorrow'
+  @override
   String get tomorrow => 'tomorrow';
-
-  /// en: 'Last taken'
+  @override
   String get lastTaken => 'Last taken';
-
-  /// en: 'Never taken yet'
+  @override
   String get neverTakenYet => 'Never taken yet';
-
-  /// en: 'Every day'
+  @override
   String get scheduleFrequencyDaily => 'Every day';
-
-  /// en: 'Interval'
+  @override
   String get scheduleFrequencyInterval => 'Interval';
-
-  /// en: 'Weekly'
+  @override
   String get scheduleFrequencyWeekly => 'Weekly';
-
-  /// en: 'Monthly'
+  @override
   String get scheduleFrequencyMonthly => 'Monthly';
-
-  /// en: 'A new update is available!'
+  @override
   String get newUpdateAvailable => 'A new update is available!';
-
-  /// en: 'Go to Settings'
+  @override
   String get goToSettings => 'Go to Settings';
-
-  /// en: 'Settings'
+  @override
   String get settingsTitle => 'Settings';
-
-  /// en: 'Notifications'
+  @override
   String get notifications => 'Notifications';
-
-  /// en: 'Schedules & notifications'
+  @override
   String get schedulesAndNotifications => 'Schedules & notifications';
-
-  /// en: 'General'
+  @override
   String get general => 'General';
-
-  /// en: 'Schedules'
+  @override
   String get schedules => 'Schedules';
-
-  /// en: 'No schedules'
+  @override
   String get noSchedules => 'No schedules';
-
-  /// en: 'Language'
+  @override
   String get language => 'Language';
-
-  /// en: 'Follow device language'
+  @override
   String get languageFollowDevice => 'Follow device language';
-
-  /// en: 'Select Language'
+  @override
   String get selectLanguage => 'Select Language';
-
-  /// en: 'Enable notifications'
+  @override
   String get enableNotifications => 'Enable notifications';
-
-  /// en: 'Send reminders'
+  @override
   String get enableNotificationsDescription => 'Send reminders';
-
-  /// en: 'Recalculate based on last intake'
+  @override
   String get anchorToLastIntake => 'Recalculate based on last intake';
-
-  /// en: 'Schedules the next intake a full interval after you last took it'
+  @override
   String get anchorToLastIntakeDescription =>
       'Schedules the next intake a full interval after you last took it';
-
-  /// en: 'Notifications are disabled'
+  @override
   String get notificationsDisabledTitle => 'Notifications are disabled';
-
-  /// en: 'Click to open settings'
+  @override
   String get clickToOpenSettings => 'Click to open settings';
-
-  /// en: 'Exact reminder times are disabled'
+  @override
   String get exactRemindersDisabled => 'Exact reminder times are disabled';
-
-  /// en: 'Reminders may be slightly delayed. Tap to open settings.'
+  @override
   String get remindersDelayed =>
       'Reminders may be slightly delayed. Tap to open settings.';
-
-  /// en: 'Medical settings'
+  @override
   String get medicalSettings => 'Medical settings';
-
-  /// en: 'Theme'
+  @override
   String get theme => 'Theme';
-
-  /// en: 'Customize the app colors'
-  String get themeCustomizeColors => 'Customize the app colors';
-
-  /// en: 'Custom theme'
+  @override
+  String get themeCustomizeColors => 'Customise the app colours';
+  @override
   String get customThemeEnabled => 'Custom theme';
-
-  /// en: 'Generate'
+  @override
   String get themeGenerate => 'Generate';
-
-  /// en: 'Variant'
+  @override
   String get themeVariant => 'Variant';
-
-  /// en: 'Contrast'
+  @override
   String get themeContrast => 'Contrast';
-
-  /// en: 'Standard'
+  @override
   String get themeContrastStandard => 'Standard';
-
-  /// en: 'Medium'
+  @override
   String get themeContrastMedium => 'Medium';
-
-  /// en: 'High'
+  @override
   String get themeContrastHigh => 'High';
-
-  /// en: 'Auto-Update'
+  @override
   String get autoUpdate => 'Auto-Update';
-
-  /// en: 'Automatically check new updates when app is launched'
+  @override
   String get autoUpdateDescription =>
       'Automatically check new updates when app is launched';
-
-  /// en: 'Check for Updates'
+  @override
   String get checkForUpdates => 'Check for Updates';
-
-  /// en: 'Check for the latest version manually\nThis will connect you to Internet\n(No data will be sent)'
+  @override
   String get checkForUpdatesDescription =>
       'Check for the latest version manually\nThis will connect you to Internet\n(No data will be sent)';
-
-  /// en: 'Mona version {version}'
+  @override
   String appVersion({required Object version}) => 'Mona version ${version}';
-
-  /// en: 'Backup saved to: {path}'
+  @override
   String backupSavedTo({required Object path}) => 'Backup saved to: ${path}';
-
-  /// en: 'Failed to export: {error}'
+  @override
   String exportFailed({required Object error}) => 'Failed to export: ${error}';
-
-  /// en: 'Import Data'
+  @override
   String get importDataTitle => 'Import Data';
-
-  /// en: 'Restore data from a JSON backup'
+  @override
   String get importDataSubtitle => 'Restore data from a JSON backup';
-
-  /// en: 'This will overwrite all your current data with the backup. This action cannot be undone. Do you want to continue?'
+  @override
   String get importDataOverwriteWarning =>
       'This will overwrite all your current data with the backup. This action cannot be undone. Do you want to continue?';
-
-  /// en: 'Import'
+  @override
   String get importConfirm => 'Import';
-
-  /// en: 'Import Successful'
+  @override
   String get importSuccessfulTitle => 'Import Successful';
-
-  /// en: 'Please restart the app to apply the restored data.'
+  @override
   String get importRestartRequired =>
       'Please restart the app to apply the restored data.';
-
-  /// en: 'Close App'
+  @override
   String get closeApp => 'Close App';
-
-  /// en: 'Failed to import: {error}'
+  @override
   String importFailed({required Object error}) => 'Failed to import: ${error}';
-
-  /// en: 'Updates'
+  @override
   String get updates => 'Updates';
-
-  /// en: 'Data Management'
+  @override
   String get dataManagement => 'Data Management';
-
-  /// en: 'Export Data'
+  @override
   String get exportDataTitle => 'Export Data';
-
-  /// en: 'Save your data to a JSON file'
+  @override
   String get exportDataSubtitle => 'Save your data to a JSON file';
-
-  /// en: 'Units'
+  @override
   String get units => 'Units';
-
-  /// en: 'No compatible update found for your device.'
+  @override
   String get updateNoCompatibleApk =>
       'No compatible update found for your device.';
-
-  /// en: 'Your app is up to date!'
+  @override
   String get updateAppUpToDate => 'Your app is up to date!';
-
-  /// en: 'Could not check for updates right now.'
+  @override
   String get updateCheckNetworkError =>
       'Could not check for updates right now.';
-
-  /// en: 'Update Available'
+  @override
   String get updateDialogTitle => 'Update Available';
-
-  /// en: 'Version {latest} is available! (Current: {current})\n\nAn update compatible with your device is ready to be installed.'
+  @override
   String updateDialogBody({required Object latest, required Object current}) =>
       'Version ${latest} is available! (Current: ${current})\n\nAn update compatible with your device is ready to be installed.';
-
-  /// en: 'Download & Install'
+  @override
   String get updateDownloadAndInstall => 'Download & Install';
-
-  /// en: 'Permission is required to install updates.'
+  @override
   String get updateInstallPermissionRequired =>
       'Permission is required to install updates.';
-
-  /// en: 'Downloading Update...'
+  @override
   String get updateDownloadingTitle => 'Downloading Update...';
-
-  /// en: 'Failed to open installer: {message}'
+  @override
   String updateFailedOpenInstaller({required Object message}) =>
       'Failed to open installer: ${message}';
-
-  /// en: 'Download failed. Please check your connection.'
+  @override
   String get updateDownloadFailed =>
       'Download failed. Please check your connection.';
-
-  /// en: 'Time to take {scheduleName}'
+  @override
   String notificationMedicationReminderTitle({required Object scheduleName}) =>
       'Time to take ${scheduleName}';
-
-  /// en: 'Scheduled for {date}'
+  @override
   String notificationMedicationReminderBodyDate({required Object date}) =>
       'Scheduled for ${date}';
-
-  /// en: 'Scheduled for {time}'
+  @override
   String notificationMedicationReminderBodyTime({required Object time}) =>
       'Scheduled for ${time}';
-
-  /// en: 'Scheduled for {weekday}'
+  @override
   String notificationMedicationReminderBodyWeekday({required Object weekday}) =>
       'Scheduled for ${weekday}';
-
-  /// en: 'Add a schedule'
+  @override
   String get addSchedule => 'Add a schedule';
-
-  /// en: 'Add a schedule to get started.'
+  @override
   String get addScheduleToGetStarted => 'Add a schedule to get started.';
-
-  /// en: 'New schedule'
+  @override
   String get newSchedule => 'New schedule';
-
-  /// en: 'Every'
+  @override
   String get every => 'Every';
-
-  /// en: 'days'
+  @override
   String get days => 'days';
-
-  /// en: 'Day of the month'
+  @override
   String get dayOfMonth => 'Day of the month';
-
-  /// en: 'months'
+  @override
   String get months => 'months';
-
-  /// en: 'Start date'
+  @override
   String get startDate => 'Start date';
-
-  /// en: 'Pick a time'
+  @override
   String get pickATime => 'Pick a time';
-
-  /// en: 'Add a time'
+  @override
   String get addIntakeTime => 'Add a time';
-
-  /// en: 'Edit schedule info'
+  @override
   String get editScheduleInfo => 'Edit schedule info';
-
-  /// en: 'Scheduling'
+  @override
   String get scheduling => 'Scheduling';
-
-  /// en: 'Edit schedule'
+  @override
   String get editSchedule => 'Edit schedule';
-
-  /// en: 'Delete {name}?'
+  @override
   String deleteSchedule({required Object name}) => 'Delete ${name}?';
-
-  /// en: 'Add a notification'
+  @override
   String get addNotification => 'Add a notification';
-
-  /// en: 'Taken intakes will appear here'
+  @override
   String get empty_intakes => 'Taken intakes will appear here';
-
-  /// en: 'Intake counter'
+  @override
   String get intakeCounter => 'Intake counter';
-
-  /// en: 'Show how long you've been on HRT and your total intakes'
+  @override
   String get intakeCounterDescription =>
       'Show how long you\'ve been on HRT and your total intakes';
-
-  /// en: 'Start of day'
+  @override
   String get startOfDay => 'Start of day';
-
-  /// en: 'Time before {time} counts toward the previous day'
+  @override
   String startOfDayDescription({required Object time}) =>
-      'Time before ${time} counts toward the previous day';
-
-  /// en: 'Choose a schedule'
+      'Time before ${time} counts towards the previous day';
+  @override
   String get chooseSchedule => 'Choose a schedule';
-
-  /// en: 'Add schedules first.'
+  @override
   String get addSchedulesFirst => 'Add schedules first.';
-
-  /// en: 'Edit intake'
+  @override
   String get editIntake => 'Edit intake';
-
-  /// en: 'Date'
+  @override
   String get date => 'Date';
-
-  /// en: 'Amount'
+  @override
   String get amount => 'Amount';
-
-  /// en: 'Taken amount'
+  @override
   String get takenAmount => 'Taken amount';
-
-  /// en: 'Wasted amount'
+  @override
   String get wastedAmount => 'Wasted amount';
-
-  /// en: 'None'
+  @override
   String get none => 'None';
-
-  /// en: 'Supply item'
+  @override
   String get supplyItem => 'Supply item';
-
-  /// en: 'Choose an item'
+  @override
   String get chooseItem => 'Choose an item';
-
-  /// en: 'No items available'
+  @override
   String get noItemsToAdd => 'No items available';
-
-  /// en: 'Injection side'
+  @override
   String get injectionSide => 'Injection side';
-
-  /// en: 'Delete this intake?'
+  @override
   String get deleteIntake => 'Delete this intake?';
-
-  /// en: 'Take {scheduleName}'
+  @override
   String takeMedication({required Object scheduleName}) =>
       'Take ${scheduleName}';
-
-  /// en: 'Take intake'
+  @override
   String get takeIntake => 'Take intake';
-
-  /// en: 'Intake recorded'
+  @override
   String get intakeRecorded => 'Intake recorded';
-
-  /// en: 'Needle dead space'
+  @override
   String get needleDeadSpace => 'Needle dead space';
-
-  /// en: 'Notes'
+  @override
   String get notes => 'Notes';
-
-  /// en: 'μL'
+  @override
   String get microliters => 'μL';
-
-  /// en: 'mL'
+  @override
   String get milliliters => 'mL';
-
-  /// en: 'Estradiol injections will display in this tab'
-  String get empty_levels => 'Estradiol injections will display in this tab';
-
-  /// en: 'Blood Tests'
+  @override
+  String get empty_levels => 'Oestradiol injections will display in this tab';
+  @override
   String get bloodTestsTitle => 'Blood Tests';
-
-  /// en: 'Taken blood tests will appear here. Start by using the Add button!'
+  @override
   String get empty_blood_tests =>
       'Taken blood tests will appear here. Start by using the Add button!';
-
-  /// en: 'Add a blood test'
+  @override
   String get addBloodTest => 'Add a blood test';
-
-  /// en: 'Edit blood test'
+  @override
   String get editBloodTest => 'Edit blood test';
-
-  /// en: 'New blood test'
+  @override
   String get newBloodTest => 'New blood test';
-
-  /// en: 'Delete this blood test?'
+  @override
   String get deleteBloodTest => 'Delete this blood test?';
-
-  /// en: 'Estradiol level'
-  String get estradiolLevelLabel => 'Estradiol level';
-
-  /// en: 'Testosterone level'
+  @override
+  String get estradiolLevelLabel => 'Oestradiol level';
+  @override
   String get testosteroneLevelLabel => 'Testosterone level';
-
-  /// en: 'Test date'
+  @override
   String get bloodTestDateLabel => 'Test date';
-
-  /// en: 'Now {value}'
+  @override
   String chartNowConcentration({required Object value}) => 'Now ${value}';
-
-  /// en: '{date}: {level}'
+  @override
   String chartBloodTestLevelTooltip(
           {required Object date, required Object level}) =>
       '${date}: ${level}';
-
-  /// en: '{date}: {level}'
+  @override
   String chartLevelTooltip({required Object date, required Object level}) =>
       '${date}: ${level}';
-
-  /// en: 'No supplies. Add an item to get started.'
+  @override
   String get empty_supplies => 'No supplies. Add an item to get started.';
-
-  /// en: 'New item'
+  @override
   String get newItem => 'New item';
-
-  /// en: 'Administration route'
+  @override
   String get adminRoute => 'Administration route';
-
-  /// en: 'Total amount'
+  @override
   String get totalAmount => 'Total amount';
-
-  /// en: 'Concentration'
+  @override
   String get concentration => 'Concentration';
-
-  /// en: 'Edit item'
+  @override
   String get editItem => 'Edit item';
-
-  /// en: 'Used amount'
+  @override
   String get usedAmount => 'Used amount';
-
-  /// en: 'Delete {name}?'
+  @override
   String deleteItem({required Object name}) => 'Delete ${name}?';
-
-  /// en: 'All'
+  @override
   String get allItemsFilter => 'All';
-
-  /// en: 'Medication'
+  @override
   String get medicationItemsFilter => 'Medication';
-
-  /// en: 'Consumables'
+  @override
   String get genericItems => 'Consumables';
-
-  /// en: 'Medication'
+  @override
   String get medicationItemType => 'Medication';
-
-  /// en: 'Consumable'
+  @override
   String get genericItemType => 'Consumable';
-
-  /// en: 'Type'
+  @override
   String get supplyType => 'Type';
-
-  /// en: 'Syringes'
+  @override
   String get syringe => 'Syringes';
-
-  /// en: 'Wipes'
+  @override
   String get wipe => 'Wipes';
-
-  /// en: 'Needles'
+  @override
   String get needle => 'Needles';
-
-  /// en: 'Gloves'
+  @override
   String get gloves => 'Gloves';
-
-  /// en: 'Bandages'
+  @override
   String get bandage => 'Bandages';
-
-  /// en: 'Add'
+  @override
   String get add => 'Add';
-
-  /// en: 'Save'
+  @override
   String get save => 'Save';
-
-  /// en: 'Cancel'
+  @override
   String get cancel => 'Cancel';
-
-  /// en: 'Next'
+  @override
   String get next => 'Next';
-
-  /// en: 'Delete'
+  @override
   String get delete => 'Delete';
-
-  /// en: 'Delete this item?'
+  @override
   String get deleteElement => 'Delete this item?';
-
-  /// en: 'This action can't be undone.'
+  @override
   String get irreversibleAction => 'This action can\'t be undone.';
-
-  /// en: 'Name'
+  @override
   String get name => 'Name';
-
-  /// en: 'Molecule'
+  @override
   String get molecule => 'Molecule';
-
-  /// en: 'Ester'
+  @override
   String get ester => 'Ester';
-
-  /// en: 'Estradiol'
-  String get estradiol => 'Estradiol';
-
-  /// en: 'Progesterone'
+  @override
+  String get estradiol => 'Oestradiol';
+  @override
   String get progesterone => 'Progesterone';
-
-  /// en: 'Testosterone'
+  @override
   String get testosterone => 'Testosterone';
-
-  /// en: 'Nandrolone'
+  @override
   String get nandrolone => 'Nandrolone';
-
-  /// en: 'Dihydrotestosterone'
+  @override
   String get dihydrotestosterone => 'Dihydrotestosterone';
-
-  /// en: 'Spironolactone'
+  @override
   String get spironolactone => 'Spironolactone';
-
-  /// en: 'Cyproterone acetate'
+  @override
   String get cyproteroneAcetate => 'Cyproterone acetate';
-
-  /// en: 'Leuprorelin acetate'
+  @override
   String get leuprorelinAcetate => 'Leuprorelin acetate';
-
-  /// en: 'Bicalutamide'
+  @override
   String get bicalutamide => 'Bicalutamide';
-
-  /// en: 'Decapeptyl'
+  @override
   String get decapeptyl => 'Decapeptyl';
-
-  /// en: 'Raloxifene'
+  @override
   String get raloxifene => 'Raloxifene';
-
-  /// en: 'Tamoxifen'
+  @override
   String get tamoxifen => 'Tamoxifen';
-
-  /// en: 'Finasteride'
+  @override
   String get finasteride => 'Finasteride';
-
-  /// en: 'Dutasteride'
+  @override
   String get dutasteride => 'Dutasteride';
-
-  /// en: 'Minoxidil'
+  @override
   String get minoxidil => 'Minoxidil';
-
-  /// en: 'Pioglitazone'
+  @override
   String get pioglitazone => 'Pioglitazone';
-
-  /// en: 'Enanthate'
+  @override
   String get enanthate => 'Enanthate';
-
-  /// en: 'Valerate'
+  @override
   String get valerate => 'Valerate';
-
-  /// en: 'Cypionate'
+  @override
   String get cypionate => 'Cypionate';
-
-  /// en: 'Undecylate'
+  @override
   String get undecylate => 'Undecylate';
-
-  /// en: 'Benzoate'
+  @override
   String get benzoate => 'Benzoate';
-
-  /// en: 'Cypionate suspension'
+  @override
   String get cypionateSuspension => 'Cypionate suspension';
-
-  /// en: 'Estradiol enanthate'
-  String get medicationEstradiolEnanthate => 'Estradiol enanthate';
-
-  /// en: 'Estradiol valerate'
-  String get medicationEstradiolValerate => 'Estradiol valerate';
-
-  /// en: 'Estradiol cypionate'
-  String get medicationEstradiolCypionate => 'Estradiol cypionate';
-
-  /// en: 'Estradiol undecylate'
-  String get medicationEstradiolUndecylate => 'Estradiol undecylate';
-
-  /// en: 'Estradiol benzoate'
-  String get medicationEstradiolBenzoate => 'Estradiol benzoate';
-
-  /// en: 'Estradiol cypionate suspension'
+  @override
+  String get medicationEstradiolEnanthate => 'Oestradiol enanthate';
+  @override
+  String get medicationEstradiolValerate => 'Oestradiol valerate';
+  @override
+  String get medicationEstradiolCypionate => 'Oestradiol cypionate';
+  @override
+  String get medicationEstradiolUndecylate => 'Oestradiol undecylate';
+  @override
+  String get medicationEstradiolBenzoate => 'Oestradiol benzoate';
+  @override
   String get medicationEstradiolCypionateSuspension =>
-      'Estradiol cypionate suspension';
-
-  /// en: 'Testosterone enanthate'
+      'Oestradiol cypionate suspension';
+  @override
   String get medicationTestosteroneEnanthate => 'Testosterone enanthate';
-
-  /// en: 'Testosterone valerate'
+  @override
   String get medicationTestosteroneValerate => 'Testosterone valerate';
-
-  /// en: 'Testosterone cypionate'
+  @override
   String get medicationTestosteroneCypionate => 'Testosterone cypionate';
-
-  /// en: 'Testosterone undecylate'
+  @override
   String get medicationTestosteroneUndecylate => 'Testosterone undecylate';
-
-  /// en: 'Testosterone benzoate'
+  @override
   String get medicationTestosteroneBenzoate => 'Testosterone benzoate';
-
-  /// en: 'Testosterone cypionate suspension'
+  @override
   String get medicationTestosteroneCypionateSuspension =>
       'Testosterone cypionate suspension';
-
-  /// en: 'Injection'
+  @override
   String get injection => 'Injection';
-
-  /// en: 'Oral'
+  @override
   String get oral => 'Oral';
-
-  /// en: 'Sublingual'
+  @override
   String get sublingual => 'Sublingual';
-
-  /// en: 'Patch'
+  @override
   String get patch => 'Patch';
-
-  /// en: 'Gel'
+  @override
   String get gel => 'Gel';
-
-  /// en: 'Implant'
+  @override
   String get implant => 'Implant';
-
-  /// en: 'Suppository'
+  @override
   String get suppository => 'Suppository';
-
-  /// en: 'Transdermal spray'
+  @override
   String get transdermalSpray => 'Transdermal spray';
-
-  /// en: 'Transdermal drops'
+  @override
   String get transdermalDrops => 'Transdermal drops';
-
-  /// en: 'mg'
+  @override
   String get unitMilligram => 'mg';
-
-  /// en: 'pg/mL'
+  @override
   String get unitPgPerMl => 'pg/mL';
-
-  /// en: 'pmol/L'
+  @override
   String get unitPmolPerL => 'pmol/L';
-
-  /// en: 'ng/dL'
+  @override
   String get unitNgPerDl => 'ng/dL';
-
-  /// en: 'nmol/L'
+  @override
   String get unitNmolPerL => 'nmol/L';
-
-  /// en: 'Left'
+  @override
   String get injectionSideLeft => 'Left';
-
-  /// en: 'Right'
+  @override
   String get injectionSideRight => 'Right';
-
-  /// en: 'Left side'
+  @override
   String get placementLeft => 'Left side';
-
-  /// en: 'Right side'
+  @override
   String get placementRight => 'Right side';
-
-  /// en: 'Left thigh'
+  @override
   String get placementLeftThigh => 'Left thigh';
-
-  /// en: 'Right thigh'
+  @override
   String get placementRightThigh => 'Right thigh';
-
-  /// en: 'Left arm'
+  @override
   String get placementLeftArm => 'Left arm';
-
-  /// en: 'Right arm'
+  @override
   String get placementRightArm => 'Right arm';
-
-  /// en: 'Left buttock'
+  @override
   String get placementLeftButtock => 'Left buttock';
-
-  /// en: 'Right buttock'
+  @override
   String get placementRightButtock => 'Right buttock';
-
-  /// en: 'Left abdomen'
+  @override
   String get placementLeftAbdomen => 'Left abdomen';
-
-  /// en: 'Right abdomen'
+  @override
   String get placementRightAbdomen => 'Right abdomen';
-
-  /// en: 'Injection sites'
+  @override
   String get injectionSites => 'Injection sites';
-
-  /// en: 'Manage the sites you rotate between'
+  @override
   String get injectionSitesDescription => 'Manage the sites you rotate between';
-
-  /// en: 'Add site'
+  @override
   String get addInjectionSite => 'Add site';
-
-  /// en: 'Custom site name'
+  @override
   String get customSiteLabel => 'Custom site name';
-
-  /// en: 'No sites yet'
+  @override
   String get noInjectionSitesYet => 'No sites yet';
-
-  /// en: 'Add a site below to get started.'
+  @override
   String get noInjectionAddOneToGetStarted =>
       'Add a site below to get started.';
-
-  /// en: 'Suggest per schedule'
+  @override
   String get placementSuggestionPerScheduleTitle => 'Suggest per schedule';
-
-  /// en: 'Base the next-site suggestion on this schedule's history only.'
+  @override
   String get placementSuggestionPerScheduleDescription =>
       'Base the next-site suggestion on this schedule\'s history only.';
-
-  /// en: 'Required field'
+  @override
   String get requiredField => 'Required field';
-
-  /// en: 'Must be a positive number'
+  @override
   String get mustBePositiveNumber => 'Must be a positive number';
-
-  /// en: 'Must be between 1 and 28'
+  @override
   String get mustBeBetween1And28 => 'Must be between 1 and 28';
-
-  /// en: 'Invalid total amount'
+  @override
   String get invalidTotalAmount => 'Invalid total amount';
-
-  /// en: 'Cannot exceed total capacity'
+  @override
   String get cannotExceedTotalCapacity => 'Cannot exceed total capacity';
-
-  /// en: '(one) {{count} day ago} (other) {{count} days ago}'
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: '${count} day ago',
         other: '${count} days ago',
       );
-
-  /// en: '(one) {in {count} day} (other) {in {count} days}'
+  @override
   String inDaysCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: 'in ${count} day',
         other: 'in ${count} days',
       );
-
-  /// en: '(one) {Every day} (other) {Every {count} days}'
+  @override
   String scheduleFrequencyEveryNDays({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: 'Every day',
         other: 'Every ${count} days',
       );
-
-  /// en: '(one) {Day {day}, every month} (other) {Day {day}, every {count} months}'
+  @override
   String scheduleFrequencyOnDayEveryNMonths(
           {required num count, required Object day}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
@@ -824,152 +585,133 @@ class Translations with BaseTranslations<AppLocale, Translations> {
         one: 'Day ${day}, every month',
         other: 'Day ${day}, every ${count} months',
       );
-
-  /// en: '(one) {{count} created} (other) {{count} created}'
+  @override
   String schedulesCreated({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: '${count} created',
         other: '${count} created',
       );
-
-  /// en: '(one) {On HRT for 1 day} (other) {On HRT for {count} days}'
+  @override
   String onHrtForDays({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: 'On HRT for 1 day',
         other: 'On HRT for ${count} days',
       );
-
-  /// en: '(one) {On HRT for 1 week} (other) {On HRT for {count} weeks}'
+  @override
   String onHrtForWeeks({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: 'On HRT for 1 week',
         other: 'On HRT for ${count} weeks',
       );
-
-  /// en: '(one) {On HRT for 1 month} (other) {On HRT for {count} months}'
+  @override
   String onHrtForMonths({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: 'On HRT for 1 month',
         other: 'On HRT for ${count} months',
       );
-
-  /// en: '(one) {On HRT for 1 year} (other) {On HRT for {count} years}'
+  @override
   String onHrtForYears({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: 'On HRT for 1 year',
         other: 'On HRT for ${count} years',
       );
-
-  /// en: '(one) {1 intake logged} (other) {{count} intakes logged}'
+  @override
   String intakesLoggedCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: '1 intake logged',
         other: '${count} intakes logged',
       );
-
-  /// en: '(one) {{count} {unit} remaining} (other) {{count} {unit} remaining}'
+  @override
   String remaining({required num count, required Object unit}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: '${count} ${unit} remaining',
         other: '${count} ${unit} remaining',
       );
-
-  /// en: '(one) {1 syringe remaining} (other) {{count} syringes remaining}'
+  @override
   String syringeRemaining({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: '1 syringe remaining',
         other: '${count} syringes remaining',
       );
-
-  /// en: '(one) {1 wipe remaining} (other) {{count} wipes remaining}'
+  @override
   String wipeRemaining({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: '1 wipe remaining',
         other: '${count} wipes remaining',
       );
-
-  /// en: '(one) {1 needle remaining} (other) {{count} needles remaining}'
+  @override
   String needleRemaining({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: '1 needle remaining',
         other: '${count} needles remaining',
       );
-
-  /// en: '(one) {1 glove remaining} (other) {{count} gloves remaining}'
+  @override
   String glovesRemaining({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: '1 glove remaining',
         other: '${count} gloves remaining',
       );
-
-  /// en: '(one) {1 bandage remaining} (other) {{count} bandages remaining}'
+  @override
   String bandageRemaining({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: '1 bandage remaining',
         other: '${count} bandages remaining',
       );
-
-  /// en: '(one) {ml} (other) {ml}'
+  @override
   String administrationRouteUnitMl({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: 'ml',
         other: 'ml',
       );
-
-  /// en: '(one) {pill} (other) {pills}'
+  @override
   String administrationRouteUnitPill({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: 'pill',
         other: 'pills',
       );
-
-  /// en: '(one) {patch} (other) {patches}'
+  @override
   String administrationRouteUnitPatch({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: 'patch',
         other: 'patches',
       );
-
-  /// en: '(one) {pump} (other) {pumps}'
+  @override
   String administrationRouteUnitPump({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: 'pump',
         other: 'pumps',
       );
-
-  /// en: '(one) {implant} (other) {implants}'
+  @override
   String administrationRouteUnitImplant({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: 'implant',
         other: 'implants',
       );
-
-  /// en: '(one) {suppository} (other) {suppositories}'
+  @override
   String administrationRouteUnitSuppository({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
         one: 'suppository',
         other: 'suppositories',
       );
-
-  /// en: '(one) {spray} (other) {sprays}'
+  @override
   String administrationRouteUnitSpray({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
@@ -978,12 +720,12 @@ class Translations with BaseTranslations<AppLocale, Translations> {
       );
 }
 
-/// The flat map containing all translations for locale <en>.
+/// The flat map containing all translations for locale <en-GB>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
 /// The Dart AOT compiler has issues with very large switch statements,
 /// so the map is split into smaller functions (512 entries each).
-extension on Translations {
+extension on TranslationsEnGb {
   dynamic _flatMapFunction(String path) {
     return switch (path) {
       'appTitle' => 'Mona',
@@ -1029,7 +771,7 @@ extension on Translations {
         'Reminders may be slightly delayed. Tap to open settings.',
       'medicalSettings' => 'Medical settings',
       'theme' => 'Theme',
-      'themeCustomizeColors' => 'Customize the app colors',
+      'themeCustomizeColors' => 'Customise the app colours',
       'customThemeEnabled' => 'Custom theme',
       'themeGenerate' => 'Generate',
       'themeVariant' => 'Variant',
@@ -1107,7 +849,7 @@ extension on Translations {
         'Show how long you\'ve been on HRT and your total intakes',
       'startOfDay' => 'Start of day',
       'startOfDayDescription' => ({required Object time}) =>
-          'Time before ${time} counts toward the previous day',
+          'Time before ${time} counts towards the previous day',
       'chooseSchedule' => 'Choose a schedule',
       'addSchedulesFirst' => 'Add schedules first.',
       'editIntake' => 'Edit intake',
@@ -1129,7 +871,7 @@ extension on Translations {
       'notes' => 'Notes',
       'microliters' => 'μL',
       'milliliters' => 'mL',
-      'empty_levels' => 'Estradiol injections will display in this tab',
+      'empty_levels' => 'Oestradiol injections will display in this tab',
       'bloodTestsTitle' => 'Blood Tests',
       'empty_blood_tests' =>
         'Taken blood tests will appear here. Start by using the Add button!',
@@ -1137,7 +879,7 @@ extension on Translations {
       'editBloodTest' => 'Edit blood test',
       'newBloodTest' => 'New blood test',
       'deleteBloodTest' => 'Delete this blood test?',
-      'estradiolLevelLabel' => 'Estradiol level',
+      'estradiolLevelLabel' => 'Oestradiol level',
       'testosteroneLevelLabel' => 'Testosterone level',
       'bloodTestDateLabel' => 'Test date',
       'chartNowConcentration' => ({required Object value}) => 'Now ${value}',
@@ -1174,7 +916,7 @@ extension on Translations {
       'name' => 'Name',
       'molecule' => 'Molecule',
       'ester' => 'Ester',
-      'estradiol' => 'Estradiol',
+      'estradiol' => 'Oestradiol',
       'progesterone' => 'Progesterone',
       'testosterone' => 'Testosterone',
       'nandrolone' => 'Nandrolone',
@@ -1196,13 +938,13 @@ extension on Translations {
       'undecylate' => 'Undecylate',
       'benzoate' => 'Benzoate',
       'cypionateSuspension' => 'Cypionate suspension',
-      'medicationEstradiolEnanthate' => 'Estradiol enanthate',
-      'medicationEstradiolValerate' => 'Estradiol valerate',
-      'medicationEstradiolCypionate' => 'Estradiol cypionate',
-      'medicationEstradiolUndecylate' => 'Estradiol undecylate',
-      'medicationEstradiolBenzoate' => 'Estradiol benzoate',
+      'medicationEstradiolEnanthate' => 'Oestradiol enanthate',
+      'medicationEstradiolValerate' => 'Oestradiol valerate',
+      'medicationEstradiolCypionate' => 'Oestradiol cypionate',
+      'medicationEstradiolUndecylate' => 'Oestradiol undecylate',
+      'medicationEstradiolBenzoate' => 'Oestradiol benzoate',
       'medicationEstradiolCypionateSuspension' =>
-        'Estradiol cypionate suspension',
+        'Oestradiol cypionate suspension',
       'medicationTestosteroneEnanthate' => 'Testosterone enanthate',
       'medicationTestosteroneValerate' => 'Testosterone valerate',
       'medicationTestosteroneCypionate' => 'Testosterone cypionate',

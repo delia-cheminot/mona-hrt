@@ -48,11 +48,12 @@ MedicationSchedule aMedicationSchedule({
   );
 }
 
-SchedulingStrategy aSchedulingStrategy() => switch (Random().nextInt(4)) {
+SchedulingStrategy aSchedulingStrategy() => switch (Random().nextInt(5)) {
       0 => anIntervalStrategy(),
       1 => aDailyStrategy(),
       2 => aWeeklyStrategy(),
       3 => aMonthlyStrategy(),
+      4 => aDynamicIntervalStrategy(),
       _ => throw StateError('unreachable'),
     };
 
@@ -61,6 +62,15 @@ IntervalDaysSchedule anIntervalStrategy({
   List<TimeOfDay> notificationTimes = const [],
 }) =>
     IntervalDaysSchedule(
+      intervalDays: intervalDays,
+      notificationTimes: notificationTimes,
+    );
+
+DynamicIntervalSchedule aDynamicIntervalStrategy({
+  int intervalDays = 7,
+  List<TimeOfDay> notificationTimes = const [],
+}) =>
+    DynamicIntervalSchedule(
       intervalDays: intervalDays,
       notificationTimes: notificationTimes,
     );
