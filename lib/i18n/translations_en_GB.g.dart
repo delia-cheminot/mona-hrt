@@ -296,6 +296,10 @@ class TranslationsEnGb extends Translations
   @override
   String get supplyItem => 'Supply item';
   @override
+  String get chooseItem => 'Choose an item';
+  @override
+  String get noItemsToAdd => 'No items available';
+  @override
   String get injectionSide => 'Injection side';
   @override
   String get deleteIntake => 'Delete this intake?';
@@ -365,7 +369,7 @@ class TranslationsEnGb extends Translations
   @override
   String get medicationItemsFilter => 'Medication';
   @override
-  String get genericItemsFilter => 'Consumables';
+  String get genericItems => 'Consumables';
   @override
   String get medicationItemType => 'Medication';
   @override
@@ -855,6 +859,8 @@ extension on TranslationsEnGb {
       'wastedAmount' => 'Wasted amount',
       'none' => 'None',
       'supplyItem' => 'Supply item',
+      'chooseItem' => 'Choose an item',
+      'noItemsToAdd' => 'No items available',
       'injectionSide' => 'Injection side',
       'deleteIntake' => 'Delete this intake?',
       'takeMedication' => ({required Object scheduleName}) =>
@@ -891,7 +897,7 @@ extension on TranslationsEnGb {
       'deleteItem' => ({required Object name}) => 'Delete ${name}?',
       'allItemsFilter' => 'All',
       'medicationItemsFilter' => 'Medication',
-      'genericItemsFilter' => 'Consumables',
+      'genericItems' => 'Consumables',
       'medicationItemType' => 'Medication',
       'genericItemType' => 'Consumable',
       'supplyType' => 'Type',

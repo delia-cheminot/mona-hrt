@@ -346,7 +346,7 @@ class TranslationsIs extends Translations
   @override
   String get medicationItemsFilter => 'Lyfjameðferð';
   @override
-  String get genericItemsFilter => 'Neysluvörur';
+  String get genericItems => 'Neysluvörur';
   @override
   String get medicationItemType => 'Lyfjameðferð';
   @override
@@ -835,7 +835,7 @@ extension on TranslationsIs {
       'deleteItem' => ({required Object name}) => 'Eyddu ${name}?',
       'allItemsFilter' => 'Allt',
       'medicationItemsFilter' => 'Lyfjameðferð',
-      'genericItemsFilter' => 'Neysluvörur',
+      'genericItems' => 'Neysluvörur',
       'medicationItemType' => 'Lyfjameðferð',
       'genericItemType' => 'Neysluvara',
       'supplyType' => 'Tegund',

@@ -129,7 +129,7 @@
   "remaining_other": "เหลืออยู่ {{count}} {{unit}}",
   "allItemsFilter": "ทั้งหมด",
   "medicationItemsFilter": "ยา",
-  "genericItemsFilter": "ของใช้",
+  "genericItems": "ของใช้",
   "medicationItemType": "ยา",
   "genericItemType": "ของใช้",
   "supplyType": "ชนิด",

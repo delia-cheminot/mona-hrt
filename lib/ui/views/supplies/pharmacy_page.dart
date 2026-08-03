@@ -108,7 +108,7 @@ extension _FilterX on _Filter {
   String get label => switch (this) {
         _Filter.all => t.allItemsFilter,
         _Filter.medication => t.medicationItemsFilter,
-        _Filter.generic => t.genericItemsFilter,
+        _Filter.generic => t.genericItems,
       };
 
   List<SupplyItem> items(SupplyItemProvider p) => switch (this) {

@@ -102,9 +102,10 @@ class SupplyItemProvider extends ChangeNotifier {
     await fetchItems();
   }
 
-  Future<void> add(SupplyItem supplyItem) async {
-    await repository.insert(supplyItem);
+  Future<SupplyItem> add(SupplyItem supplyItem) async {
+    final id = await repository.insert(supplyItem);
     await fetchItems();
+    return _items.firstWhere((item) => item.id == id);
   }
 
   Future<void> updateItem(SupplyItem item) async {

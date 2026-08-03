@@ -405,6 +405,12 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Supply item'
   String get supplyItem => 'Supply item';
 
+  /// en: 'Choose an item'
+  String get chooseItem => 'Choose an item';
+
+  /// en: 'No items available'
+  String get noItemsToAdd => 'No items available';
+
   /// en: 'Injection side'
   String get injectionSide => 'Injection side';
 
@@ -507,7 +513,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   String get medicationItemsFilter => 'Medication';
 
   /// en: 'Consumables'
-  String get genericItemsFilter => 'Consumables';
+  String get genericItems => 'Consumables';
 
   /// en: 'Medication'
   String get medicationItemType => 'Medication';
@@ -1111,6 +1117,8 @@ extension on Translations {
       'wastedAmount' => 'Wasted amount',
       'none' => 'None',
       'supplyItem' => 'Supply item',
+      'chooseItem' => 'Choose an item',
+      'noItemsToAdd' => 'No items available',
       'injectionSide' => 'Injection side',
       'deleteIntake' => 'Delete this intake?',
       'takeMedication' => ({required Object scheduleName}) =>
@@ -1147,7 +1155,7 @@ extension on Translations {
       'deleteItem' => ({required Object name}) => 'Delete ${name}?',
       'allItemsFilter' => 'All',
       'medicationItemsFilter' => 'Medication',
-      'genericItemsFilter' => 'Consumables',
+      'genericItems' => 'Consumables',
       'medicationItemType' => 'Medication',
       'genericItemType' => 'Consumable',
       'supplyType' => 'Type',

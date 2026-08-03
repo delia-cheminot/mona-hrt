@@ -144,7 +144,7 @@
   "remaining_other": "{{count}} {{unit}} restantes",
   "allItemsFilter": "Todos",
   "medicationItemsFilter": "Medicación",
-  "genericItemsFilter": "Consumibles",
+  "genericItems": "Consumibles",
   "medicationItemType": "Medicación",
   "genericItemType": "Consumible",
   "supplyType": "Tipo",

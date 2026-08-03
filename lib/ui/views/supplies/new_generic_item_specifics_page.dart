@@ -43,17 +43,19 @@ class _NewGenericItemSpecificsPageState
       ..pop();
   }
 
-  void _addItem() {
+  void _addItem() async {
     final item = GenericSupply(
       name: widget.name,
       amount: _amountController.text.toInt,
       genericSupplyType: _genericSupplyType!,
     );
-    Provider.of<SupplyItemProvider>(context, listen: false).add(item);
+    final created =
+        await Provider.of<SupplyItemProvider>(context, listen: false).add(item);
 
+    if (!mounted) return;
     Navigator.of(context)
       ..pop()
-      ..pop();
+      ..pop(created);
   }
 
   @override

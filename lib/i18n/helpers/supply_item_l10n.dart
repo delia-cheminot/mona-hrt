@@ -26,6 +26,21 @@ extension MedicationSupplyItemL10n on MedicationSupplyItem {
   }
 
   String get localizedSummary {
+    return '${molecule.localizedNameWithEster(ester)} • '
+        '${_localizedConcentration()}\n'
+        '${_localizedRemaining()}';
+  }
+
+  String get localizedConcentrationAndRemaining {
+    return '${_localizedConcentration()} • ${_localizedRemaining()}';
+  }
+
+  String _localizedConcentration() {
+    final routeConcentrationUnit = administrationRoute.localizedUnit(1);
+    return '$concentration ${molecule.localizedUnit}/$routeConcentrationUnit';
+  }
+
+  String _localizedRemaining() {
     final amountRemaining = getAmount(remainingDose);
     final amountRemainingFormatted =
         amountRemaining % Decimal.one == Decimal.zero
@@ -33,12 +48,8 @@ extension MedicationSupplyItemL10n on MedicationSupplyItem {
             : amountRemaining.toDouble();
     final routeUnitRemaining =
         administrationRoute.localizedUnit(amountRemaining.toDouble());
-    final routeConcentrationUnit = administrationRoute.localizedUnit(1);
-    final moleculeUnitLabel = molecule.localizedUnit;
-
-    return '${molecule.localizedNameWithEster(ester)} • '
-        '$concentration $moleculeUnitLabel/$routeConcentrationUnit\n'
-        '${t.remaining(count: amountRemainingFormatted, unit: routeUnitRemaining)}';
+    return t.remaining(
+        count: amountRemainingFormatted, unit: routeUnitRemaining);
   }
 }
 

@@ -482,11 +482,11 @@ class TranslationsDe extends Translations
   @override
   String get medicationItemsFilter => 'Medikamente';
   @override
+  String get genericItems => 'Verbrauchsmaterialien';
+  @override
   String get medicationItemType => 'Medikament';
   @override
   String get genericItemType => 'Verbrauchsmaterial';
-  @override
-  String get genericItemsFilter => 'Verbrauchsmaterialien';
   @override
   String get medicalSettings => 'Medizinische Einstellungen';
   @override
@@ -889,9 +889,9 @@ extension on TranslationsDe {
         'Darf die Gesamtkapazität nicht überschreiten',
       'allItemsFilter' => 'Alle',
       'medicationItemsFilter' => 'Medikamente',
+      'genericItems' => 'Verbrauchsmaterialien',
       'medicationItemType' => 'Medikament',
       'genericItemType' => 'Verbrauchsmaterial',
-      'genericItemsFilter' => 'Verbrauchsmaterialien',
       'medicalSettings' => 'Medizinische Einstellungen',
       'theme' => 'Design',
       'themeVariant' => 'Variante',

@@ -321,7 +321,7 @@ class TranslationsTh extends Translations
   @override
   String get medicationItemsFilter => 'ยา';
   @override
-  String get genericItemsFilter => 'ของใช้';
+  String get genericItems => 'ของใช้';
   @override
   String get medicationItemType => 'ยา';
   @override
@@ -830,7 +830,7 @@ extension on TranslationsTh {
       'deleteItem' => ({required Object name}) => 'ลบ ${name}?',
       'allItemsFilter' => 'ทั้งหมด',
       'medicationItemsFilter' => 'ยา',
-      'genericItemsFilter' => 'ของใช้',
+      'genericItems' => 'ของใช้',
       'medicationItemType' => 'ยา',
       'genericItemType' => 'ของใช้',
       'supplyType' => 'ชนิด',

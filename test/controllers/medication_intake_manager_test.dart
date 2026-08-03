@@ -291,6 +291,37 @@ void main() {
         });
       });
 
+      group('duplicate generic items', () {
+        final updatedItems = <GenericSupply>[];
+        final syringe = aGenericSupply(id: 7, amount: 5);
+
+        setUp(() async {
+          // Arrange
+          updatedItems.clear();
+          final schedule = aMedicationSchedule(
+            administrationRoute: AdministrationRoute.injection,
+          );
+          final date = DateTime.utc(2025, 9, 14, 12, 0);
+
+          when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
+            updatedItems.add(inv.positionalArguments.first as GenericSupply);
+          });
+
+          // Act
+          await manager.takeMedication(
+            takenDose: Decimal.parse('2'),
+            takenDateTime: date,
+            genericItems: [syringe, syringe],
+            schedule: schedule,
+          );
+        });
+
+        test('decrements the generic amount once by the count', () {
+          // Assert
+          expect(updatedItems, [_generic(id: syringe.id, amount: 3)]);
+        });
+      });
+
       group('MedicationSupplyItem', () {
         group('with no deadSpace', () {
           late MedicationSupplyItem updatedSupplyItem;
@@ -531,6 +562,32 @@ void main() {
         test('deletes the intake on the provider', () {
           // Assert
           verify(mockMedicationIntakeProvider.deleteIntake(intake)).called(1);
+        });
+      });
+
+      group('duplicate GenericSupply', () {
+        final updatedItems = <GenericSupply>[];
+        final syringe = aGenericSupply(id: 7, amount: 5);
+        final intake = aMedicationIntake(
+          genericSupplyItemIds: [syringe.id, syringe.id],
+        );
+
+        setUp(() async {
+          // Arrange
+          updatedItems.clear();
+          when(mockSupplyItemProvider.getItemsByIds([syringe.id, syringe.id]))
+              .thenReturn([syringe, syringe]);
+          when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
+            updatedItems.add(inv.positionalArguments.first as GenericSupply);
+          });
+
+          // Act
+          await manager.deleteIntake(intake);
+        });
+
+        test('increments the generic amount once by the count', () {
+          // Assert
+          expect(updatedItems, [_generic(id: syringe.id, amount: 7)]);
         });
       });
 
@@ -916,6 +973,30 @@ void main() {
               [_generic(id: added.id, amount: 1)],
             );
           });
+
+          test('adding a duplicate of a kept generic: decrements once',
+              () async {
+            final generic = aGenericSupply(amount: 5);
+            expect(
+              await capture(
+                previousGenerics: [generic],
+                nextGenerics: [generic, generic],
+              ),
+              [_generic(id: generic.id, amount: 4)],
+            );
+          });
+
+          test('removing a duplicate of a kept generic: increments once',
+              () async {
+            final generic = aGenericSupply(amount: 5);
+            expect(
+              await capture(
+                previousGenerics: [generic, generic],
+                nextGenerics: [generic],
+              ),
+              [_generic(id: generic.id, amount: 6)],
+            );
+          });
         });
 
         group('medication', () {
@@ -1259,6 +1340,193 @@ void main() {
 
         // Assert
         expect(suggestion, isNull);
+      });
+    });
+
+    group('suggestMedicationItem', () {
+      test('suggests the previous intake vial when it still matches', () {
+        // Arrange
+        final schedule = aMedicationSchedule(
+          id: 42,
+          administrationRoute: AdministrationRoute.injection,
+          ester: Ester.enanthate,
+        );
+        final vial = aMedicationSupplyItem(
+          id: 7,
+          administrationRoute: AdministrationRoute.injection,
+          ester: Ester.enanthate,
+        );
+        when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
+            .thenReturn(aMedicationIntake(medicationSupplyItemId: 7));
+        when(mockSupplyItemProvider.getItemById(7)).thenReturn(vial);
+
+        // Act
+        final suggestion = manager.suggestMedicationItem(schedule: schedule);
+
+        // Assert
+        expect(suggestion, vial);
+      });
+
+      test('suggests the previous intake vial even when it is empty', () {
+        // Arrange
+        final schedule = aMedicationSchedule(id: 42);
+        final emptyVial = aMedicationSupplyItem(
+          id: 7,
+          totalDose: Decimal.parse('10'),
+          usedDose: Decimal.parse('10'),
+        );
+        when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
+            .thenReturn(aMedicationIntake(medicationSupplyItemId: 7));
+        when(mockSupplyItemProvider.getItemById(7)).thenReturn(emptyVial);
+
+        // Act
+        final suggestion = manager.suggestMedicationItem(schedule: schedule);
+
+        // Assert
+        expect(suggestion, emptyVial);
+      });
+
+      test('falls back to most-used when previous vial no longer matches', () {
+        // Arrange
+        final schedule = aMedicationSchedule(
+          id: 42,
+          administrationRoute: AdministrationRoute.injection,
+          ester: Ester.enanthate,
+        );
+        final mismatchedVial = aMedicationSupplyItem(
+          id: 7,
+          administrationRoute: AdministrationRoute.oral,
+        );
+        final fallback = aMedicationSupplyItem(
+          id: 8,
+          administrationRoute: AdministrationRoute.injection,
+          ester: Ester.enanthate,
+        );
+        when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
+            .thenReturn(aMedicationIntake(medicationSupplyItemId: 7));
+        when(mockSupplyItemProvider.getItemById(7)).thenReturn(mismatchedVial);
+        when(mockSupplyItemProvider.getMostUsedItemForMedication(
+                KnownMolecules.estradiol,
+                AdministrationRoute.injection,
+                Ester.enanthate))
+            .thenReturn(fallback);
+
+        // Act
+        final suggestion = manager.suggestMedicationItem(schedule: schedule);
+
+        // Assert
+        expect(suggestion, fallback);
+      });
+
+      test('falls back to most-used when the previous vial was deleted', () {
+        // Arrange
+        final schedule = aMedicationSchedule(id: 42);
+        final fallback = aMedicationSupplyItem(id: 8);
+        when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
+            .thenReturn(aMedicationIntake(medicationSupplyItemId: 7));
+        when(mockSupplyItemProvider.getItemById(7)).thenReturn(null);
+        when(mockSupplyItemProvider.getMostUsedItemForMedication(any, any, any))
+            .thenReturn(fallback);
+
+        // Act
+        final suggestion = manager.suggestMedicationItem(schedule: schedule);
+
+        // Assert
+        expect(suggestion, fallback);
+      });
+
+      test('falls back to most-used when there is no history', () {
+        // Arrange
+        final schedule = aMedicationSchedule(id: 42);
+        final fallback = aMedicationSupplyItem(id: 8);
+        when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
+            .thenReturn(null);
+        when(mockSupplyItemProvider.getMostUsedItemForMedication(any, any, any))
+            .thenReturn(fallback);
+
+        // Act
+        final suggestion = manager.suggestMedicationItem(schedule: schedule);
+
+        // Assert
+        expect(suggestion, fallback);
+      });
+
+      test('returns null when nothing matches', () {
+        // Arrange
+        final schedule = aMedicationSchedule(id: 42);
+        when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
+            .thenReturn(null);
+        when(mockSupplyItemProvider.getMostUsedItemForMedication(any, any, any))
+            .thenReturn(null);
+
+        // Act
+        final suggestion = manager.suggestMedicationItem(schedule: schedule);
+
+        // Assert
+        expect(suggestion, isNull);
+      });
+    });
+
+    group('suggestGenericItems', () {
+      test('returns the previous intake generics', () {
+        // Arrange
+        final schedule = aMedicationSchedule(id: 42);
+        final syringe = aGenericSupply(id: 7, amount: 5);
+        final needle = aGenericSupply(id: 8, amount: 3);
+        when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
+            .thenReturn(aMedicationIntake(genericSupplyItemIds: [7, 8]));
+        when(mockSupplyItemProvider.getItemsByIds([7, 8]))
+            .thenReturn([syringe, needle]);
+
+        // Act
+        final suggestion = manager.suggestGenericItems(schedule: schedule);
+
+        // Assert
+        expect(suggestion, [syringe, needle]);
+      });
+
+      test('drops generics that were deleted', () {
+        // Arrange
+        final schedule = aMedicationSchedule(id: 42);
+        final needle = aGenericSupply(id: 8, amount: 3);
+        when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
+            .thenReturn(aMedicationIntake(genericSupplyItemIds: [7, 8]));
+        when(mockSupplyItemProvider.getItemsByIds([7, 8])).thenReturn([needle]);
+
+        // Act
+        final suggestion = manager.suggestGenericItems(schedule: schedule);
+
+        // Assert
+        expect(suggestion, [needle]);
+      });
+
+      test('keeps generics that are out of stock', () {
+        // Arrange
+        final schedule = aMedicationSchedule(id: 42);
+        final emptySyringe = aGenericSupply(id: 7, amount: 0);
+        when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
+            .thenReturn(aMedicationIntake(genericSupplyItemIds: [7]));
+        when(mockSupplyItemProvider.getItemsByIds([7]))
+            .thenReturn([emptySyringe]);
+
+        // Act
+        final suggestion = manager.suggestGenericItems(schedule: schedule);
+
+        // Assert
+        expect(suggestion, [emptySyringe]);
+      });
+
+      test('returns empty when there is no history', () {
+        // Arrange
+        final schedule = aMedicationSchedule(id: 42);
+        when(mockMedicationIntakeProvider.getLastTakenIntakeForSchedule(42))
+            .thenReturn(null);
+
+        // Act
+        final suggestion = manager.suggestGenericItems(schedule: schedule);
+
+        // Assert
+        expect(suggestion, isEmpty);
       });
     });
   });
