@@ -1,0 +1,6 @@
+New:
+
+- The take medication page was updated to let you choose multiple items, so you can track your items more efficiently.
+- Interval schedule now has the option to reschedule based on your last intake, instead of a fixed grid.
+- You can now choose at what time days start.
+- New language: British English
