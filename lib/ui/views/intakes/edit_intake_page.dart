@@ -283,9 +283,9 @@ class _EditIntakePageState extends State<EditIntakePage> {
               genericOptions: supplyItemProvider.genericItems,
               onRemoveMedication: () =>
                   setState(() => _selectedSupplyItem = null),
-              onRemoveGeneric: (generic) => setState(() {
-                _selectedGenerics =
-                    _selectedGenerics.where((g) => g.id != generic.id).toList();
+              onRemoveGenericAt: (index) => setState(() {
+                final list = [..._selectedGenerics]..removeAt(index);
+                _selectedGenerics = list;
               }),
               onAddMedication: (item) =>
                   setState(() => _selectedSupplyItem = item),

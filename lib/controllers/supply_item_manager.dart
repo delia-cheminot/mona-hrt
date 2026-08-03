@@ -27,18 +27,19 @@ class SupplyItemManager {
     ));
   }
 
-  /// Uses one unit of the [GenericSupply] and updates the database.
-  Future<void> use(GenericSupply item) async {
-    final updatedAmount = item.amount - 1 < 0 ? 0 : item.amount - 1;
+  /// Uses [quantity] units of the [GenericSupply] and updates the database.
+  Future<void> use(GenericSupply item, {int quantity = 1}) async {
+    final updatedAmount =
+        item.amount - quantity < 0 ? 0 : item.amount - quantity;
     await _supplyItemProvider.updateItem(item.copyWith(
       amount: updatedAmount,
     ));
   }
 
-  /// Puts back one unit of the [GenericSupply] and updates the database.
-  Future<void> putBack(GenericSupply item) async {
+  /// Puts back [quantity] units of the [GenericSupply] and updates the database.
+  Future<void> putBack(GenericSupply item, {int quantity = 1}) async {
     await _supplyItemProvider.updateItem(item.copyWith(
-      amount: item.amount + 1,
+      amount: item.amount + quantity,
     ));
   }
 

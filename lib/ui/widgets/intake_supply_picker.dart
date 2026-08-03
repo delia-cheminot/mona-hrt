@@ -15,7 +15,7 @@ class IntakeSupplyPicker extends StatelessWidget {
   final List<MedicationSupplyItem> medicationOptions;
   final List<GenericSupply> genericOptions;
   final VoidCallback onRemoveMedication;
-  final ValueChanged<GenericSupply> onRemoveGeneric;
+  final ValueChanged<int> onRemoveGenericAt;
   final ValueChanged<MedicationSupplyItem> onAddMedication;
   final ValueChanged<GenericSupply> onAddGeneric;
 
@@ -26,7 +26,7 @@ class IntakeSupplyPicker extends StatelessWidget {
     required this.medicationOptions,
     required this.genericOptions,
     required this.onRemoveMedication,
-    required this.onRemoveGeneric,
+    required this.onRemoveGenericAt,
     required this.onAddMedication,
     required this.onAddGeneric,
   });
@@ -34,10 +34,7 @@ class IntakeSupplyPicker extends StatelessWidget {
   Future<void> _openAddSheet(BuildContext context) async {
     final addableMedications =
         medicationOptions.where((o) => o.id != medicationItem?.id).toList();
-    final selectedGenericIds = generics.map((g) => g.id).toSet();
-    final addableGenerics = genericOptions
-        .where((o) => !selectedGenericIds.contains(o.id))
-        .toList();
+    final addableGenerics = genericOptions;
 
     final isEmpty = addableMedications.isEmpty && addableGenerics.isEmpty;
 
@@ -129,7 +126,7 @@ class IntakeSupplyPicker extends StatelessWidget {
             onPressed: onRemoveMedication,
           ),
         ),
-      for (final generic in generics)
+      for (final (index, generic) in generics.indexed)
         ListTile(
           leading: CircleAvatar(
             backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
@@ -140,7 +137,7 @@ class IntakeSupplyPicker extends StatelessWidget {
           subtitle: Text(generic.localizedSummary),
           trailing: IconButton(
             icon: const Icon(Icons.close),
-            onPressed: () => onRemoveGeneric(generic),
+            onPressed: () => onRemoveGenericAt(index),
           ),
         ),
       ListTile(

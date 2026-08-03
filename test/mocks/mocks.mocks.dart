@@ -629,20 +629,30 @@ class MockSupplyItemManager extends _i1.Mock implements _i18.SupplyItemManager {
       ) as _i7.Future<void>);
 
   @override
-  _i7.Future<void> use(_i6.GenericSupply? item) => (super.noSuchMethod(
+  _i7.Future<void> use(
+    _i6.GenericSupply? item, {
+    int? quantity = 1,
+  }) =>
+      (super.noSuchMethod(
         Invocation.method(
           #use,
           [item],
+          {#quantity: quantity},
         ),
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
 
   @override
-  _i7.Future<void> putBack(_i6.GenericSupply? item) => (super.noSuchMethod(
+  _i7.Future<void> putBack(
+    _i6.GenericSupply? item, {
+    int? quantity = 1,
+  }) =>
+      (super.noSuchMethod(
         Invocation.method(
           #putBack,
           [item],
+          {#quantity: quantity},
         ),
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
