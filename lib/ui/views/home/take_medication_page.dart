@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mona/controllers/medication_intake_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
@@ -15,11 +16,11 @@ import 'package:mona/i18n/helpers/supply_item_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
-import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_info_text.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/ui/widgets/intake_supply_picker.dart';
 import 'package:mona/ui/widgets/placement_picker.dart';
 import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
@@ -46,6 +47,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
   List<Placement> _orderedPlacements = [];
   bool _hasInitializedSide = false;
   SupplyItem? _selectedSupplyItem;
+  List<GenericSupply> _selectedGenerics = [];
   bool _hasInitializedSupplyItem = false;
   late TextEditingController _deadSpaceController;
   Decimal? _deadSpace;
@@ -146,12 +148,6 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
     }
   }
 
-  void _onSupplyItemChanged(SupplyItem? item) {
-    setState(() {
-      _selectedSupplyItem = item;
-    });
-  }
-
   void _refresh() => setState(() {});
 
   @override
@@ -201,11 +197,12 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
         }
 
         if (!isLoading && !_hasInitializedSupplyItem) {
-          _selectedSupplyItem = supplyItemProvider.getMostUsedItemForMedication(
-            widget.schedule.molecule,
-            widget.schedule.administrationRoute,
-            widget.schedule.ester,
-          );
+          final manager = MedicationIntakeManager(
+              medicationIntakeProvider, supplyItemProvider, preferencesService);
+          _selectedSupplyItem =
+              manager.suggestMedicationItem(schedule: widget.schedule);
+          _selectedGenerics =
+              manager.suggestGenericItems(schedule: widget.schedule);
           _hasInitializedSupplyItem = true;
         }
 
@@ -221,19 +218,6 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
               .cast<SupplyItem?>()
               .firstWhere((item) => item?.id == selectedId, orElse: () => null);
         }
-
-        final supplyItemDropdownItems = [
-          DropdownMenuItem<SupplyItem?>(
-            value: null,
-            child: Text(t.none),
-          ),
-          ...supplyItemOptions.map(
-            (item) => DropdownMenuItem<SupplyItem?>(
-              value: item,
-              child: Text(item.name),
-            ),
-          ),
-        ];
 
         return ModelForm(
           title: t.takeMedication(scheduleName: widget.schedule.name),
@@ -252,7 +236,6 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
               datetime: _takenDate,
               onChanged: _onTakenDateChanged,
             ),
-            FormSpacer(),
             FormTextField(
                 controller: _takenDoseController,
                 label: t.takenAmount,
@@ -268,11 +251,24 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
                   widget.schedule.molecule,
                 ),
               ),
-            FormDropdownField<SupplyItem?>(
-              value: _selectedSupplyItem,
-              items: supplyItemDropdownItems,
-              onChanged: _onSupplyItemChanged,
-              label: t.supplyItem,
+            FormSpacer(),
+            IntakeSupplyPicker(
+              medicationItem: _selectedSupplyItem is MedicationSupplyItem
+                  ? _selectedSupplyItem as MedicationSupplyItem
+                  : null,
+              generics: _selectedGenerics,
+              medicationOptions: supplyItemOptions,
+              genericOptions: supplyItemProvider.genericItems,
+              onRemoveMedication: () =>
+                  setState(() => _selectedSupplyItem = null),
+              onRemoveGeneric: (generic) => setState(() {
+                _selectedGenerics =
+                    _selectedGenerics.where((g) => g.id != generic.id).toList();
+              }),
+              onAddMedication: (item) =>
+                  setState(() => _selectedSupplyItem = item),
+              onAddGeneric: (generic) => setState(
+                  () => _selectedGenerics = [..._selectedGenerics, generic]),
             ),
             FormSpacer(),
             if (isInjection) ...[
