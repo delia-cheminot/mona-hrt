@@ -19,6 +19,8 @@ class NotificationPlanner {
             ...switch (schedule.scheduling) {
               IntervalDaysSchedule scheduling =>
                 _intervalPlans(schedule, scheduling, daysAhead),
+              DynamicIntervalSchedule scheduling =>
+                _dynamicIntervalPlans(schedule, scheduling),
               DailySchedule scheduling => _dailyPlans(schedule, scheduling),
               WeeklySchedule scheduling => _weeklyPlans(schedule, scheduling),
               MonthlySchedule scheduling =>
@@ -34,6 +36,8 @@ class NotificationPlanner {
       switch (schedule.scheduling) {
         case IntervalDaysSchedule scheduling:
           perOccurrence += scheduling.notificationTimes.length;
+        case DynamicIntervalSchedule scheduling:
+          reserved += scheduling.notificationTimes.length;
         case DailySchedule scheduling:
           if (scheduling.notify) reserved += scheduling.intakeTimes.length;
         case WeeklySchedule scheduling:
@@ -69,6 +73,25 @@ class NotificationPlanner {
         if (!dateTime.isAfter(now)) continue;
         plans.add(PlannedOccurrence(schedule, dateTime: dateTime));
       }
+    }
+
+    return plans;
+  }
+
+  List<PlannedNotification> _dynamicIntervalPlans(
+    MedicationSchedule schedule,
+    DynamicIntervalSchedule scheduling,
+  ) {
+    final now = clock.now();
+    final lastTaken = _medicationIntakeProvider
+        .getLastIntakeLocalDateForSchedule(schedule.id);
+    final date = scheduling.intakeDate(schedule.startDate, lastTaken);
+
+    final plans = <PlannedNotification>[];
+    for (final time in scheduling.notificationTimes) {
+      final dateTime = date.toDateTimeAt(time);
+      if (!dateTime.isAfter(now)) continue;
+      plans.add(PlannedOccurrence(schedule, dateTime: dateTime));
     }
 
     return plans;

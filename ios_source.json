@@ -31,12 +31,21 @@
         "https://i.imgur.com/vuSqW2l.png",
         "https://i.imgur.com/5cjzlB0.png"
       ],
-      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.16.0/mona-1.16.0.ipa",
-      "size": 12377361,
-      "version": "1.16.0",
-      "versionDate": "2026-07-23T15:06:27Z",
-      "versionDescription": "New:\r\n\r\n- See how long you've been on HRT from the intakes page\r\n- Updated UI for Home and Intakes\r\n- New languages : Dutch, Galician, Korean\r\n\r\nBug fix:\r\n\r\n- Corrects a crash in notification regeneration after manual intakes were logged",
+      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.17.0/mona-1.17.0.ipa",
+      "size": 12403138,
+      "version": "1.17.0",
+      "versionDate": "2026-08-03T15:22:23Z",
+      "versionDescription": "New:\r\n\r\n- The take medication page was updated to let you choose multiple items, so you can track your items more efficiently.\r\n- Interval schedule now has the option to reschedule based on your last intake, instead of a fixed grid.\r\n- You can now choose at what time days start.\r\n- New language: British English",
       "versions": [
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.17.0/mona-1.17.0.ipa",
+          "size": 12403138,
+          "version": "1.17.0",
+          "buildVersion": "19",
+          "date": "2026-08-03T15:22:23Z",
+          "localizedDescription": "New:\r\n\r\n- The take medication page was updated to let you choose multiple items, so you can track your items more efficiently.\r\n- Interval schedule now has the option to reschedule based on your last intake, instead of a fixed grid.\r\n- You can now choose at what time days start.\r\n- New language: British English",
+          "minOSVersion": "13.0"
+        },
         {
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.16.0/mona-1.16.0.ipa",
           "size": 12377361,

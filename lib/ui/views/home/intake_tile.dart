@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/intake_slot.dart';
 import 'package:mona/data/model/medication_schedule.dart';
-import 'package:mona/data/model/scheduled_occurrence.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
@@ -15,12 +15,12 @@ import 'package:mona/ui/views/intakes/edit_intake_page.dart';
 import 'package:provider/provider.dart';
 
 class IntakeTile extends StatelessWidget {
-  const IntakeTile(this.occurrence, {super.key});
+  const IntakeTile(this.slot, {super.key});
 
-  final IntakeSlot occurrence;
+  final IntakeSlot slot;
 
-  MedicationSchedule get schedule => occurrence.schedule;
-  ScheduleStatus get status => occurrence.status;
+  MedicationSchedule get schedule => slot.schedule;
+  ScheduleStatus get status => slot.status;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,8 @@ class IntakeTile extends StatelessWidget {
     final viewModel = IntakeTileViewModel(
       schedule: schedule,
       status: status,
-      slotTime: occurrence.time,
+      slotTime: slot.time,
+      date: slot.date,
       intakeProvider: medicationIntakeProvider,
       supplyProvider: supplyItemProvider,
       now: now,
@@ -42,7 +43,7 @@ class IntakeTile extends StatelessWidget {
 
     return ListTile(
       onTap: () {
-        final intake = occurrence.intake;
+        final intake = slot.intake;
         Navigator.of(context).push(
           MaterialPageRoute<void>(
             fullscreenDialog: true,
@@ -50,7 +51,7 @@ class IntakeTile extends StatelessWidget {
                 ? EditIntakePage(intake)
                 : TakeMedicationPage(
                     schedule,
-                    scheduledTime: occurrence.time,
+                    scheduledTime: slot.time,
                   ),
           ),
         );
@@ -100,6 +101,7 @@ class IntakeTileViewModel {
       {required this.schedule,
       required this.status,
       required this.slotTime,
+      required this.date,
       required this.intakeProvider,
       required this.supplyProvider,
       required this.now,
@@ -109,6 +111,7 @@ class IntakeTileViewModel {
   final MedicationSchedule schedule;
   final ScheduleStatus status;
   final TimeOfDay? slotTime;
+  final Date date;
   final MedicationIntakeProvider intakeProvider;
   final SupplyItemProvider supplyProvider;
   final DateTime now;
@@ -117,19 +120,12 @@ class IntakeTileViewModel {
 
   bool get _isDailySlot => slotTime != null;
 
-  Date get nextScheduled => schedule.scheduling.nextDate(schedule.startDate);
-
-  Date? get lastScheduled =>
-      schedule.scheduling.previousDate(schedule.startDate);
-
   Date? get lastTaken =>
       intakeProvider.getLastIntakeLocalDateForSchedule(schedule.id);
 
-  int get daysUntilIntake => nextScheduled.daysAwayFromToday;
+  int get dateDifference => date.daysAwayFromToday;
 
   int? get daysSinceLastTaken => lastTaken?.daysAwayFromToday;
-
-  int? get daysSinceLastScheduled => lastScheduled?.daysAwayFromToday;
 
   String get intakeInfo {
     if (status == ScheduleStatus.taken) {
@@ -148,8 +144,8 @@ class IntakeTileViewModel {
 
   String? get scheduledText {
     if (status == ScheduleStatus.upcoming) {
-      final formatted = nextScheduled.format(DateFormat.MMMMd(languageTag));
-      return "$formatted - ${_inDays(daysUntilIntake)}";
+      final formatted = date.format(DateFormat.MMMMd(languageTag));
+      return "$formatted - ${_inDays(dateDifference)}";
     }
 
     if (_isDailySlot) {
@@ -164,8 +160,8 @@ class IntakeTileViewModel {
         return null;
 
       case ScheduleStatus.overdue:
-        final formatted = lastScheduled!.format(DateFormat.MMMMd(languageTag));
-        return "$formatted - ${_daysAgo(daysSinceLastScheduled!)}";
+        final formatted = date.format(DateFormat.MMMMd(languageTag));
+        return "$formatted - ${_daysAgo(dateDifference)}";
 
       case _:
         return null;
@@ -217,7 +213,7 @@ class IntakeTileViewModel {
       return CircleAvatar(
         backgroundColor: theme.colorScheme.secondaryContainer,
         child: Text(
-          daysUntilIntake.toString(),
+          dateDifference.toString(),
           style: TextStyle(
             color: theme.colorScheme.onSecondaryContainer,
             fontWeight: FontWeight.bold,

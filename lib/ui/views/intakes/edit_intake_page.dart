@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:mona/controllers/medication_intake_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/placement.dart';
@@ -15,11 +16,11 @@ import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
 import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
-import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_info_text.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/ui/widgets/intake_supply_picker.dart';
 import 'package:mona/ui/widgets/placement_picker.dart';
 import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
@@ -46,6 +47,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
   List<Placement> _selectedPlacements = [];
   bool _hasInitializedSide = false;
   SupplyItem? _selectedSupplyItem;
+  List<GenericSupply> _selectedGenerics = [];
   bool _hasInitializedSupplyItem = false;
   late TextEditingController _notesController;
 
@@ -68,7 +70,6 @@ class _EditIntakePageState extends State<EditIntakePage> {
     SupplyItemProvider supplyItemProvider,
     PreferencesService preferencesService,
     MedicationIntake intake,
-    SupplyItem? newItem,
   ) async {
     if (!_isFormValid) return;
     if (!mounted) return;
@@ -92,7 +93,10 @@ class _EditIntakePageState extends State<EditIntakePage> {
       takenDateTime: _takenDate.toUtc(),
       takenTimeZone: timezoneIdentifier,
       placements: _selectedPlacements,
-      medicationItem: newItem is MedicationSupplyItem ? newItem : null,
+      medicationItem: _selectedSupplyItem is MedicationSupplyItem
+          ? _selectedSupplyItem as MedicationSupplyItem
+          : null,
+      genericItems: _selectedGenerics,
       notes: notes,
     );
 
@@ -162,12 +166,6 @@ class _EditIntakePageState extends State<EditIntakePage> {
     }
   }
 
-  void _onSupplyItemChanged(SupplyItem? item) {
-    setState(() {
-      _selectedSupplyItem = item;
-    });
-  }
-
   void _refresh() => setState(() {});
 
   Future<bool?> confirmDeleteIntake(BuildContext context) {
@@ -214,6 +212,10 @@ class _EditIntakePageState extends State<EditIntakePage> {
         if (!isLoading && !_hasInitializedSupplyItem) {
           _selectedSupplyItem = supplyItemProvider
               .getItemById(widget.intake.medicationSupplyItemId);
+          _selectedGenerics = supplyItemProvider
+              .getItemsByIds(widget.intake.genericSupplyItemIds)
+              .whereType<GenericSupply>()
+              .toList();
           _hasInitializedSupplyItem = true;
         }
 
@@ -222,19 +224,6 @@ class _EditIntakePageState extends State<EditIntakePage> {
           widget.intake.administrationRoute,
           widget.intake.ester,
         );
-
-        final supplyItemDropdownItems = [
-          DropdownMenuItem<MedicationSupplyItem?>(
-            value: null,
-            child: Text(t.none),
-          ),
-          ...supplyItemOptions.map(
-            (item) => DropdownMenuItem<MedicationSupplyItem?>(
-              value: item,
-              child: Text(item.name),
-            ),
-          ),
-        ];
 
         return ModelForm(
           title: t.editIntake,
@@ -249,7 +238,6 @@ class _EditIntakePageState extends State<EditIntakePage> {
                     supplyItemProvider,
                     preferencesService,
                     widget.intake,
-                    _selectedSupplyItem,
                   )
               : () {},
           onDelete: () async {
@@ -285,11 +273,24 @@ class _EditIntakePageState extends State<EditIntakePage> {
                   widget.intake.molecule,
                 ),
               ),
-            FormDropdownField<SupplyItem?>(
-              value: _selectedSupplyItem,
-              items: supplyItemDropdownItems,
-              onChanged: _onSupplyItemChanged,
-              label: t.supplyItem,
+            FormSpacer(),
+            IntakeSupplyPicker(
+              medicationItem: _selectedSupplyItem is MedicationSupplyItem
+                  ? _selectedSupplyItem as MedicationSupplyItem
+                  : null,
+              generics: _selectedGenerics,
+              medicationOptions: supplyItemOptions,
+              genericOptions: supplyItemProvider.genericItems,
+              onRemoveMedication: () =>
+                  setState(() => _selectedSupplyItem = null),
+              onRemoveGenericAt: (index) => setState(() {
+                final list = [..._selectedGenerics]..removeAt(index);
+                _selectedGenerics = list;
+              }),
+              onAddMedication: (item) =>
+                  setState(() => _selectedSupplyItem = item),
+              onAddGeneric: (generic) => setState(
+                  () => _selectedGenerics = [..._selectedGenerics, generic]),
             ),
             FormSpacer(),
             if (_isInjection) ...[

@@ -4,7 +4,7 @@ import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/controllers/slots_builder.dart';
 import 'package:mona/data/model/date.dart';
-import 'package:mona/data/model/scheduled_occurrence.dart';
+import 'package:mona/data/model/intake_slot.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/i18n/build_context_extensions.dart';

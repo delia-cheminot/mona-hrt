@@ -104,7 +104,7 @@ class _NewMedicationItemSpecificsPageState
       ..pop();
   }
 
-  void _addItem() {
+  void _addItem() async {
     final totalAmount = _totalAmountController.text.toDecimal;
     final concentration = _concentrationController.text.toDecimal;
     final totalDose = concentration * totalAmount;
@@ -117,11 +117,13 @@ class _NewMedicationItemSpecificsPageState
       administrationRoute: _administrationRoute!,
       ester: _ester,
     );
-    Provider.of<SupplyItemProvider>(context, listen: false).add(item);
+    final created =
+        await Provider.of<SupplyItemProvider>(context, listen: false).add(item);
 
+    if (!mounted) return;
     Navigator.of(context)
       ..pop()
-      ..pop();
+      ..pop(created);
   }
 
   @override

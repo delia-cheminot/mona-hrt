@@ -60,8 +60,8 @@ class MedicationIntakeManager {
 
     final itemManager = SupplyItemManager(_supplyItemProvider);
 
-    for (final generic in genericItems) {
-      await itemManager.use(generic);
+    for (final group in genericItems.groupListsBy((g) => g.id).values) {
+      await itemManager.use(group.first, quantity: group.length);
     }
 
     if (medicationItem != null) {
@@ -81,8 +81,10 @@ class MedicationIntakeManager {
 
     final itemManager = SupplyItemManager(_supplyItemProvider);
 
-    for (final generic in _genericItemsByIds(intake.genericSupplyItemIds)) {
-      await itemManager.putBack(generic);
+    for (final group in _genericItemsByIds(intake.genericSupplyItemIds)
+        .groupListsBy((g) => g.id)
+        .values) {
+      await itemManager.putBack(group.first, quantity: group.length);
     }
 
     final medicationItem = _supplyItemProvider
@@ -115,16 +117,25 @@ class MedicationIntakeManager {
 
     final itemManager = SupplyItemManager(_supplyItemProvider);
 
-    final previousGenericIds = intake.genericSupplyItemIds.toSet();
-    final newGenericIds = genericItems.map((item) => item.id).toSet();
+    final previousCounts = _countById(intake.genericSupplyItemIds);
+    final newCounts = _countById(genericItems.map((g) => g.id));
 
-    for (final generic in _genericItemsByIds(
-        previousGenericIds.difference(newGenericIds).toList())) {
-      await itemManager.putBack(generic);
-    }
-    for (final generic in genericItems
-        .where((item) => !previousGenericIds.contains(item.id))) {
-      await itemManager.use(generic);
+    final removedIds =
+        previousCounts.keys.where((id) => !newCounts.containsKey(id)).toList();
+    final itemById = {
+      for (final generic in genericItems) generic.id: generic,
+      for (final generic in _genericItemsByIds(removedIds)) generic.id: generic,
+    };
+
+    for (final id in {...previousCounts.keys, ...newCounts.keys}) {
+      final delta = (newCounts[id] ?? 0) - (previousCounts[id] ?? 0);
+      final generic = itemById[id];
+      if (generic == null || delta == 0) continue;
+      if (delta > 0) {
+        await itemManager.use(generic, quantity: delta);
+      } else {
+        await itemManager.putBack(generic, quantity: -delta);
+      }
     }
 
     final previousMedication = _supplyItemProvider
@@ -193,8 +204,47 @@ class MedicationIntakeManager {
   Placement? suggestNextPlacement({required int scheduleId}) =>
       getOrderedPlacements(scheduleId: scheduleId).firstOrNull;
 
+  MedicationSupplyItem? suggestMedicationItem({
+    required MedicationSchedule schedule,
+  }) {
+    final lastIntake =
+        _medicationIntakeProvider.getLastTakenIntakeForSchedule(schedule.id);
+    final previous =
+        _supplyItemProvider.getItemById(lastIntake?.medicationSupplyItemId);
+
+    if (previous is MedicationSupplyItem &&
+        previous.molecule == schedule.molecule &&
+        previous.administrationRoute == schedule.administrationRoute &&
+        previous.ester == schedule.ester) {
+      return previous;
+    }
+
+    return _supplyItemProvider.getMostUsedItemForMedication(
+      schedule.molecule,
+      schedule.administrationRoute,
+      schedule.ester,
+    );
+  }
+
+  List<GenericSupply> suggestGenericItems({
+    required MedicationSchedule schedule,
+  }) {
+    final lastIntake =
+        _medicationIntakeProvider.getLastTakenIntakeForSchedule(schedule.id);
+    if (lastIntake == null) return const [];
+    return _genericItemsByIds(lastIntake.genericSupplyItemIds);
+  }
+
   List<GenericSupply> _genericItemsByIds(List<int> ids) => _supplyItemProvider
       .getItemsByIds(ids)
       .whereType<GenericSupply>()
       .toList();
+
+  Map<int, int> _countById(Iterable<int> ids) {
+    final counts = <int, int>{};
+    for (final id in ids) {
+      counts[id] = (counts[id] ?? 0) + 1;
+    }
+    return counts;
+  }
 }

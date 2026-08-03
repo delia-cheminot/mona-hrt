@@ -121,6 +121,11 @@ class TranslationsFr extends Translations
   @override
   String get enableNotificationsDescription => 'Envoyer des rappels';
   @override
+  String get anchorToLastIntake => 'Recalculer à chaque prise';
+  @override
+  String get anchorToLastIntakeDescription =>
+      'Programme la prochaine prise un intervalle après votre dernière prise';
+  @override
   String get notificationsDisabledTitle => 'Les notifications sont désactivées';
   @override
   String get clickToOpenSettings => 'Cliquez pour ouvrir les paramètres';
@@ -299,6 +304,10 @@ class TranslationsFr extends Translations
   @override
   String get supplyItem => 'Consommable';
   @override
+  String get chooseItem => 'Choisir un consommable';
+  @override
+  String get noItemsToAdd => 'Aucun élément disponible';
+  @override
   String get injectionSide => 'Côté';
   @override
   String get deleteIntake => 'Supprimer cette prise ?';
@@ -371,7 +380,7 @@ class TranslationsFr extends Translations
   @override
   String get medicationItemsFilter => 'Médicaments';
   @override
-  String get genericItemsFilter => 'Matériel';
+  String get genericItems => 'Matériel';
   @override
   String get medicationItemType => 'Médicament';
   @override
@@ -782,6 +791,9 @@ extension on TranslationsFr {
       'selectLanguage' => 'Sélectionner la langue',
       'enableNotifications' => 'Activer les notifications',
       'enableNotificationsDescription' => 'Envoyer des rappels',
+      'anchorToLastIntake' => 'Recalculer à chaque prise',
+      'anchorToLastIntakeDescription' =>
+        'Programme la prochaine prise un intervalle après votre dernière prise',
       'notificationsDisabledTitle' => 'Les notifications sont désactivées',
       'clickToOpenSettings' => 'Cliquez pour ouvrir les paramètres',
       'exactRemindersDisabled' =>
@@ -883,6 +895,8 @@ extension on TranslationsFr {
       'wastedAmount' => 'Quantité perdue',
       'none' => 'Aucun',
       'supplyItem' => 'Consommable',
+      'chooseItem' => 'Choisir un consommable',
+      'noItemsToAdd' => 'Aucun élément disponible',
       'injectionSide' => 'Côté',
       'deleteIntake' => 'Supprimer cette prise ?',
       'takeMedication' => ({required Object scheduleName}) =>
@@ -922,7 +936,7 @@ extension on TranslationsFr {
       'deleteItem' => ({required Object name}) => 'Supprimer ${name} ?',
       'allItemsFilter' => 'Tout',
       'medicationItemsFilter' => 'Médicaments',
-      'genericItemsFilter' => 'Matériel',
+      'genericItems' => 'Matériel',
       'medicationItemType' => 'Médicament',
       'genericItemType' => 'Matériel',
       'supplyType' => 'Type',

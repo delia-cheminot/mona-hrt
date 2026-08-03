@@ -144,7 +144,7 @@
   "remaining_other": "{{count}} {{unit}} eftir",
   "allItemsFilter": "Allt",
   "medicationItemsFilter": "Lyfjameðferð",
-  "genericItemsFilter": "Neysluvörur",
+  "genericItems": "Neysluvörur",
   "medicationItemType": "Lyfjameðferð",
   "genericItemType": "Neysluvara",
   "supplyType": "Tegund",

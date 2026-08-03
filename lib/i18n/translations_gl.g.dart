@@ -349,7 +349,7 @@ class TranslationsGl extends Translations
   @override
   String get medicationItemsFilter => 'Medicación';
   @override
-  String get genericItemsFilter => 'Consumibles';
+  String get genericItems => 'Consumibles';
   @override
   String get medicationItemType => 'Medicación';
   @override
@@ -639,7 +639,7 @@ extension on TranslationsGl {
       'deleteItem' => ({required Object name}) => 'Eliminar ${name}?',
       'allItemsFilter' => 'Todos',
       'medicationItemsFilter' => 'Medicación',
-      'genericItemsFilter' => 'Consumibles',
+      'genericItems' => 'Consumibles',
       'medicationItemType' => 'Medicación',
       'genericItemType' => 'Consumible',
       'supplyType' => 'Tipo',

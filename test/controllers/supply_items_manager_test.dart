@@ -94,6 +94,25 @@ void main() {
         // Assert
         expect(updatedItem.amount, item.amount - 1);
       });
+
+      test('clamps amount at zero when already empty', () async {
+        // Arrange
+        late GenericSupply updatedItem;
+        final item = GenericSupply(
+            id: 9,
+            name: 'Syringe',
+            amount: 0,
+            genericSupplyType: GenericSupplyType.syringe);
+        when(mockSupplyItemProvider.updateItem(any)).thenAnswer((inv) async {
+          updatedItem = inv.positionalArguments.first as GenericSupply;
+        });
+
+        // Act
+        await manager.use(item);
+
+        // Assert
+        expect(updatedItem.amount, 0);
+      });
     });
 
     group('putBack', () {

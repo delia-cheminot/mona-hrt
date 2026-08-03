@@ -48,6 +48,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   late TextEditingController _intervalDaysController;
   final List<TimeOfDay> _intakeOrNotificationTimes = [];
   bool _dailyNotify = true;
+  bool _anchorToLastIntake = false;
   final List<int> _weeklyDays = [];
   late Date _startDate;
   late TextEditingController _monthlyDayController;
@@ -132,10 +133,15 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
     if (!_isFormValid) return;
 
     final SchedulingStrategy scheduling = switch (_type) {
-      _ScheduleType.intervalDays => IntervalDaysSchedule(
-          intervalDays: _intervalDaysController.text.toInt,
-          notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
-        ),
+      _ScheduleType.intervalDays => _anchorToLastIntake
+          ? DynamicIntervalSchedule(
+              intervalDays: _intervalDaysController.text.toInt,
+              notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
+            )
+          : IntervalDaysSchedule(
+              intervalDays: _intervalDaysController.text.toInt,
+              notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
+            ),
       _ScheduleType.daily => DailySchedule(
           intakeTimes: List.unmodifiable(_intakeOrNotificationTimes),
           notify: _dailyNotify,
@@ -261,7 +267,20 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
         inputType: TextInputType.number,
         regexFormatter: RegexPatterns.intNumber,
       ),
-      FormSpacer(),
+      M3ECardColumn(
+        padding: EdgeInsets.zero,
+        margin: EdgeInsets.symmetric(vertical: 8),
+        children: [
+          SwitchListTile(
+            title: Text(t.anchorToLastIntake),
+            subtitle: Text(t.anchorToLastIntakeDescription),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            value: _anchorToLastIntake,
+            onChanged: (value) => setState(() => _anchorToLastIntake = value),
+          ),
+        ],
+      ),
       TimeListCard(
         times: _intakeOrNotificationTimes,
         rowIcon: Icons.notifications,

@@ -1,4 +1,4 @@
-import 'package:mona/data/model/scheduled_occurrence.dart';
+import 'package:mona/data/model/intake_slot.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 
 ({
