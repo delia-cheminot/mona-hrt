@@ -450,6 +450,167 @@ void main() {
       });
     });
 
+    group('DynamicIntervalSchedule.intakeDate', () {
+      test('never taken, startDate today -> the startDate (today)', () {
+        // Arrange
+        final s = DynamicIntervalSchedule(intervalDays: 5);
+
+        // Act
+        final date = s.intakeDate(Date.today(), null);
+
+        // Assert
+        expect(date, Date.today());
+      });
+
+      test('never taken, startDate in the past -> the startDate', () {
+        // Arrange
+        final start = Date.today().subtract(const Duration(days: 4));
+        final s = DynamicIntervalSchedule(intervalDays: 5);
+
+        // Act
+        final date = s.intakeDate(start, null);
+
+        // Assert
+        expect(date, start);
+      });
+
+      test('never taken, startDate in the future -> the startDate', () {
+        // Arrange
+        final start = Date.today().add(const Duration(days: 3));
+        final s = DynamicIntervalSchedule(intervalDays: 5);
+
+        // Act
+        final date = s.intakeDate(start, null);
+
+        // Assert
+        expect(date, start);
+      });
+
+      test('taken -> lastTaken + intervalDays', () {
+        // Arrange
+        final s = DynamicIntervalSchedule(intervalDays: 5);
+        final lastTaken = Date.today().subtract(const Duration(days: 4));
+
+        // Act
+        final date = s.intakeDate(Date.today(), lastTaken);
+
+        // Assert
+        expect(date, Date.today().add(const Duration(days: 1)));
+      });
+
+      test('taken today -> a full interval from the take', () {
+        // Arrange
+        final s = DynamicIntervalSchedule(intervalDays: 5);
+        final lastTaken = Date.today();
+
+        // Act
+        final date = s.intakeDate(Date.today(), lastTaken);
+
+        // Assert
+        expect(date, Date.today().add(const Duration(days: 5)));
+      });
+    });
+
+    group('DynamicIntervalSchedule constructor', () {
+      test('rejects a non-positive interval', () {
+        // Arrange
+        dynamicScheduleFactory() => DynamicIntervalSchedule(intervalDays: 0);
+
+        // Act & Assert
+        expect(dynamicScheduleFactory, throwsA(isA<AssertionError>()));
+      });
+    });
+
+    group('DynamicIntervalSchedule.statusFor', () {
+      test('taken today -> taken', () {
+        // Arrange
+        final s = DynamicIntervalSchedule(intervalDays: 5);
+
+        // Act
+        final status =
+            s.statusFor(startDate: Date.today(), lastTaken: Date.today());
+
+        // Assert
+        expect(status, ScheduleStatus.taken);
+      });
+
+      test('next dose in the future -> upcoming', () {
+        // Arrange
+        final s = DynamicIntervalSchedule(intervalDays: 5);
+        final lastTaken = Date.today().subtract(const Duration(days: 1));
+
+        // Act
+        final status =
+            s.statusFor(startDate: Date.today(), lastTaken: lastTaken);
+
+        // Assert
+        expect(status, ScheduleStatus.upcoming);
+      });
+
+      test('next dose today -> today', () {
+        // Arrange
+        final s = DynamicIntervalSchedule(intervalDays: 5);
+        final lastTaken = Date.today().subtract(const Duration(days: 5));
+
+        // Act
+        final status =
+            s.statusFor(startDate: Date.today(), lastTaken: lastTaken);
+
+        // Assert
+        expect(status, ScheduleStatus.today);
+      });
+
+      test('missed dose -> overdue', () {
+        // Arrange
+        final s = DynamicIntervalSchedule(intervalDays: 5);
+        final lastTaken = Date.today().subtract(const Duration(days: 6));
+
+        // Act
+        final status =
+            s.statusFor(startDate: Date.today(), lastTaken: lastTaken);
+
+        // Assert
+        expect(status, ScheduleStatus.overdue);
+      });
+
+      test('never taken, startDate in future -> upcoming', () {
+        // Arrange
+        final s = DynamicIntervalSchedule(intervalDays: 5);
+
+        // Act
+        final status =
+            s.statusFor(startDate: Date.today().add(const Duration(days: 3)));
+
+        // Assert
+        expect(status, ScheduleStatus.upcoming);
+      });
+
+      test('never taken, startDate in the past -> overdue', () {
+        // Arrange
+        final s = DynamicIntervalSchedule(intervalDays: 5);
+        final start = Date.today().subtract(const Duration(days: 12));
+
+        // Act
+        final status = s.statusFor(startDate: start);
+
+        // Assert
+        expect(status, ScheduleStatus.overdue);
+      });
+
+      test('never returns todayEarly', () {
+        // Arrange
+        final s = DynamicIntervalSchedule(intervalDays: 5);
+        final lastTaken = Date.today().subtract(const Duration(days: 5));
+
+        // Act
+        final status =
+            s.statusFor(startDate: Date.today(), lastTaken: lastTaken);
+
+        // Assert
+        expect(status, isNot(ScheduleStatus.todayEarly));
+      });
+    });
+
     group('DailySchedule.nextDate', () {
       test('startDate > today -> returns startDate', () {
         // Arrange
