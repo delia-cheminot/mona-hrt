@@ -974,7 +974,8 @@ void main() {
             );
           });
 
-          test('adding a duplicate of a kept generic: decrements once', () async {
+          test('adding a duplicate of a kept generic: decrements once',
+              () async {
             final generic = aGenericSupply(amount: 5);
             expect(
               await capture(
