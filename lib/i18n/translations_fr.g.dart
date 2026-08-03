@@ -299,9 +299,7 @@ class TranslationsFr extends Translations
   @override
   String get supplyItem => 'Consommable';
   @override
-  String get chooseMedication => 'Choisir un médicament';
-  @override
-  String get noMedication => 'Aucun médicament';
+  String get chooseItem => 'Choisir un consommable';
   @override
   String get injectionSide => 'Côté';
   @override
@@ -887,8 +885,7 @@ extension on TranslationsFr {
       'wastedAmount' => 'Quantité perdue',
       'none' => 'Aucun',
       'supplyItem' => 'Consommable',
-      'chooseMedication' => 'Choisir un médicament',
-      'noMedication' => 'Aucun médicament',
+      'chooseItem' => 'Choisir un consommable',
       'injectionSide' => 'Côté',
       'deleteIntake' => 'Supprimer cette prise ?',
       'takeMedication' => ({required Object scheduleName}) =>
