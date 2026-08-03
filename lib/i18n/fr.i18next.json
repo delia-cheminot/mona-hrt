@@ -135,6 +135,7 @@
   "none": "Aucun",
   "supplyItem": "Consommable",
   "chooseItem": "Choisir un consommable",
+  "noItemsToAdd": "Aucun élément disponible",
   "injectionSide": "Côté",
   "deleteIntake": "Supprimer cette prise ?",
   "takeMedication": "Prendre {{scheduleName}}",

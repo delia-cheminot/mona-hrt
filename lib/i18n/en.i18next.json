@@ -130,6 +130,7 @@
   "none": "None",
   "supplyItem": "Supply item",
   "chooseItem": "Choose an item",
+  "noItemsToAdd": "No items available",
   "injectionSide": "Injection side",
   "deleteIntake": "Delete this intake?",
   "takeMedication": "Take {{scheduleName}}",

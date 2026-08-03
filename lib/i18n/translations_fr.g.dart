@@ -301,6 +301,8 @@ class TranslationsFr extends Translations
   @override
   String get chooseItem => 'Choisir un consommable';
   @override
+  String get noItemsToAdd => 'Aucun élément disponible';
+  @override
   String get injectionSide => 'Côté';
   @override
   String get deleteIntake => 'Supprimer cette prise ?';
@@ -886,6 +888,7 @@ extension on TranslationsFr {
       'none' => 'Aucun',
       'supplyItem' => 'Consommable',
       'chooseItem' => 'Choisir un consommable',
+      'noItemsToAdd' => 'Aucun élément disponible',
       'injectionSide' => 'Côté',
       'deleteIntake' => 'Supprimer cette prise ?',
       'takeMedication' => ({required Object scheduleName}) =>

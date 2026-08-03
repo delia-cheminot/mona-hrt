@@ -401,6 +401,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Choose an item'
   String get chooseItem => 'Choose an item';
 
+  /// en: 'No items available'
+  String get noItemsToAdd => 'No items available';
+
   /// en: 'Injection side'
   String get injectionSide => 'Injection side';
 
@@ -1105,6 +1108,7 @@ extension on Translations {
       'none' => 'None',
       'supplyItem' => 'Supply item',
       'chooseItem' => 'Choose an item',
+      'noItemsToAdd' => 'No items available',
       'injectionSide' => 'Injection side',
       'deleteIntake' => 'Delete this intake?',
       'takeMedication' => ({required Object scheduleName}) =>
