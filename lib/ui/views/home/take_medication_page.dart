@@ -84,6 +84,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
             medicationItem: _selectedSupplyItem is MedicationSupplyItem
                 ? _selectedSupplyItem as MedicationSupplyItem
                 : null,
+            genericItems: _selectedGenerics,
             schedule: widget.schedule,
             placements: _selectedPlacements,
             deadSpace: _deadSpace,
