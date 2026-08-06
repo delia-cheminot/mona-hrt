@@ -187,15 +187,6 @@ class IntakeTileViewModel {
     }
   }
 
-  bool get isActive =>
-      (status == ScheduleStatus.today && slotTime == null) ||
-      (status == ScheduleStatus.today &&
-          slotTime != null &&
-          !(slotTime!.isAfter(TimeOfDay.now()))) ||
-      status == ScheduleStatus.overdue ||
-      status == ScheduleStatus.todayOverdue ||
-      status == ScheduleStatus.todayEarly;
-
   Widget get tileIcon {
     final theme = Theme.of(context);
 
