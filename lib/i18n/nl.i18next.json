@@ -259,5 +259,16 @@
   "mustBePositiveNumber": "Moet een positief nummer zijn",
   "mustBeBetween1And28": "Moet tussen 1 en 28 zijn",
   "invalidTotalAmount": "Ongeldige totaalhoeveelheid",
-  "cannotExceedTotalCapacity": "Kan niet het totaal overschrijden"
+  "cannotExceedTotalCapacity": "Kan niet het totaal overschrijden",
+  "lastTaken": "Laatst (in)genomen",
+  "neverTakenYet": "Nog niet (in)genomen",
+  "scheduleFrequencyInterval": "Interval",
+  "anchorToLastIntake": "Opnieuw berekenen op basis van de laatste inname",
+  "anchorToLastIntakeDescription": "Plan de volgende inname volgens de ingestelde interval sinds de vorige inname",
+  "notificationMedicationReminderTitle": "Tijd om {{scheduleName}} in te nemen",
+  "empty_intakes": "(In)Genomen innames zullen hier getoond worden",
+  "intakesLoggedCount_one": "1 inname gelogd",
+  "intakesLoggedCount_other": "{{count}} innames gelogd",
+  "intakeCounter": "Inname teller",
+  "intakeCounterDescription": "Laat zien hoe lang je aan HRT zit en je totale innames"
 }
