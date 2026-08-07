@@ -52,9 +52,7 @@ dependencies:
   timezone: ^0.11.0
   flutter_timezone: ^5.0.1
   shared_preferences: ^2.5.4
-  # Pinned: 4.2928.x breaks icon font tree-shaking on Flutter < 3.44
-  # https://github.com/timmaffett/material_symbols_icons/issues/46
-  material_symbols_icons: 4.2906.0
+  material_symbols_icons: ^4.2960.0
   flutter_launcher_icons: ^0.14.4
   permission_handler: ^12.0.1
   collection: ^1.19.1
@@ -72,7 +70,7 @@ dependencies:
   # Drop when Flutter ships spec 2025 natively with material_color_utilities.
   libmonet: ^1.1.2
   dart_mappable: ^4.8.0
-  m3e_core: ^0.1.0
+  m3e_core: ^0.1.5
   slang: ^4.16.0
   slang_flutter: ^4.16.0
 
