@@ -633,10 +633,10 @@ packages:
     dependency: "direct main"
     description:
       name: m3e_core
-      sha256: "4d58abf96efddc8b4d7beb38be7816f3c8f8b01651df29fe1e62f9228c053bfb"
+      sha256: "758ea4f87cc898d66605a9a6218eaa5153d0dbecabfbec5297d71eda36979991"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.0"
+    version: "0.1.5"
   mason_logger:
     dependency: transitive
     description:
@@ -1492,4 +1492,4 @@ packages:
     version: "3.1.3"
 sdks:
   dart: ">=3.11.0 <4.0.0"
-  flutter: ">=3.41.5"
+  flutter: ">=3.44.0"

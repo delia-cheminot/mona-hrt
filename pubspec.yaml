@@ -70,7 +70,7 @@ dependencies:
   # Drop when Flutter ships spec 2025 natively with material_color_utilities.
   libmonet: ^1.1.2
   dart_mappable: ^4.8.0
-  m3e_core: ^0.1.0
+  m3e_core: ^0.1.5
   slang: ^4.16.0
   slang_flutter: ^4.16.0
 

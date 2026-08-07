@@ -5,6 +5,7 @@ import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/controllers/notification_scheduler.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
+import 'package:mona/distribution.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/locale_provider.dart';
 import 'package:mona/i18n/tok_localizations.dart';
@@ -107,9 +108,28 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
           theme: themes.theme,
           darkTheme: themes.darkTheme,
           themeMode: ThemeMode.system,
+          builder: (context, child) =>
+              _BottomInsetClamp(child: child ?? const SizedBox.shrink()),
           home: const MainPage(),
         );
       },
+    );
+  }
+}
+
+class _BottomInsetClamp extends StatelessWidget {
+  final Widget child;
+
+  const _BottomInsetClamp({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    if (!isIosLiquidGlass) return child;
+
+    return MediaQuery.removePadding(
+      context: context,
+      removeBottom: true,
+      child: child,
     );
   }
 }
