@@ -88,18 +88,26 @@ class _MainPageState extends State<MainPage> {
                   });
                 },
               ),
-            NavigationBar(
-              selectedIndex: _selectedIndex,
-              onDestinationSelected: _selectIndex,
-              destinations: [
-                for (final tab in tabs)
-                  NavigationDestination(
-                    key: tab.navKey,
-                    label: tab.title,
-                    icon: Icon(tab.icon),
-                    selectedIcon: Icon(tab.selectedIcon),
-                  ),
-              ],
+            ColoredBox(
+              color: Theme.of(context).colorScheme.surfaceContainer,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  bottom: isIosLiquidGlass ? 8 : 0,
+                ),
+                child: NavigationBar(
+                  selectedIndex: _selectedIndex,
+                  onDestinationSelected: _selectIndex,
+                  destinations: [
+                    for (final tab in tabs)
+                      NavigationDestination(
+                        key: tab.navKey,
+                        label: tab.title,
+                        icon: Icon(tab.icon),
+                        selectedIcon: Icon(tab.selectedIcon),
+                      ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
