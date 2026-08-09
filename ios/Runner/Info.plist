@@ -67,5 +67,7 @@
 
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Used to import and export app data files.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Used to import and export app data files.</string>
 </dict>
 </plist>
