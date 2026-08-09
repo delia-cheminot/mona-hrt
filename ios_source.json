@@ -31,12 +31,21 @@
         "https://i.imgur.com/vuSqW2l.png",
         "https://i.imgur.com/5cjzlB0.png"
       ],
-      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.17.0/mona-1.17.0.ipa",
-      "size": 12403138,
-      "version": "1.17.0",
-      "versionDate": "2026-08-03T15:22:23Z",
-      "versionDescription": "New:\r\n\r\n- The take medication page was updated to let you choose multiple items, so you can track your items more efficiently.\r\n- Interval schedule now has the option to reschedule based on your last intake, instead of a fixed grid.\r\n- You can now choose at what time days start.\r\n- New language: British English",
+      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.17.1/mona-1.17.1.ipa",
+      "size": 11958933,
+      "version": "1.17.1",
+      "versionDate": "2026-08-09T16:45:54Z",
+      "versionDescription": "Fix:\r\n\r\n- Removes bottom margin on iOS 26+",
       "versions": [
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.17.1/mona-1.17.1.ipa",
+          "size": 11958933,
+          "version": "1.17.1",
+          "buildVersion": "20",
+          "date": "2026-08-09T16:45:54Z",
+          "localizedDescription": "Fix:\r\n\r\n- Removes bottom margin on iOS 26+",
+          "minOSVersion": "13.0"
+        },
         {
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.17.0/mona-1.17.0.ipa",
           "size": 12403138,
