@@ -9,6 +9,7 @@ import 'package:mona/distribution.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/locale_provider.dart';
 import 'package:mona/i18n/tok_localizations.dart';
+import 'package:mona/services/hrt_widget_service.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/theme/app_theme_controller.dart';
@@ -28,6 +29,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   late MedicationIntakeProvider _medicationIntakeProvider;
   late PreferencesService _preferencesService;
   late NotificationScheduler _notificationScheduler;
+  late HrtWidgetService _hrtWidgetService;
 
   @override
   void initState() {
@@ -46,10 +48,17 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
             _medicationIntakeProvider, _medicationScheduleProvider),
         _preferencesService,
       );
+      _hrtWidgetService = HrtWidgetService(
+        medicationIntakeProvider: _medicationIntakeProvider,
+        preferencesService: _preferencesService,
+      );
       _medicationScheduleProvider.addListener(_regenerateNotifications);
       _medicationIntakeProvider.addListener(_regenerateNotifications);
       _preferencesService.addListener(_regenerateNotifications);
+      _medicationIntakeProvider.addListener(_updateHomeWidget);
+      _preferencesService.addListener(_updateHomeWidget);
       _regenerateNotifications();
+      _updateHomeWidget();
     });
   }
 
@@ -59,6 +68,8 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
     _medicationScheduleProvider.removeListener(_regenerateNotifications);
     _medicationIntakeProvider.removeListener(_regenerateNotifications);
     _preferencesService.removeListener(_regenerateNotifications);
+    _medicationIntakeProvider.removeListener(_updateHomeWidget);
+    _preferencesService.removeListener(_updateHomeWidget);
     super.dispose();
   }
 
@@ -67,6 +78,10 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
 
     final locale = context.read<LocaleProvider>().locale;
     _notificationScheduler.regenerateAll(locale.intlLanguageTag);
+  }
+
+  void _updateHomeWidget() {
+    _hrtWidgetService.sync();
   }
 
   void _checkTimezoneChange() {

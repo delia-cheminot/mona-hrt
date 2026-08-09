@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ic_launcher_background">#fef2e2</color>
+
+    <!-- HRT progress widget -->
+    <color name="hrt_widget_card_background">#1E2318</color>
+    <color name="hrt_widget_icon_background">#F6DFA0</color>
+    <color name="hrt_widget_icon_foreground">#3A3320</color>
+    <color name="hrt_widget_title_text">#F2F4EA</color>
+    <color name="hrt_widget_subtitle_text">#8D9280</color>
 </resources>

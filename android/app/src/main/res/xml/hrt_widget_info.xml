@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="180dp"
+    android:minHeight="70dp"
+    android:targetCellWidth="4"
+    android:targetCellHeight="1"
+    android:updatePeriodMillis="0"
+    android:initialLayout="@layout/hrt_widget"
+    android:previewLayout="@layout/hrt_widget"
+    android:description="@string/hrt_widget_description"
+    android:widgetCategory="home_screen"
+    android:resizeMode="horizontal|vertical" />

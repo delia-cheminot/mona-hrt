@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hrt_widget_label">HRT progress</string>
+    <string name="hrt_widget_description">Shows how long you\'ve been on HRT and how many intakes you\'ve logged.</string>
+    <string name="hrt_widget_default_title">On HRT for —</string>
+    <string name="hrt_widget_default_subtitle">Open Mona to get started</string>
+</resources>
