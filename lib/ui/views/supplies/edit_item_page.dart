@@ -14,6 +14,7 @@ import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/molecule_dropdown.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
+import 'package:mona/ui/widgets/forms/form_info_text.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
@@ -245,6 +246,12 @@ class _EditItemPageState extends State<EditItemPage> {
           errorText: _concentrationError,
           regexFormatter: RegexPatterns.floatNumber,
         ),
+        if (_administrationRoute.concentrationMeansDosePerUnit)
+          FormInfoText(
+            infoText: t.concentrationPerUnitHint(
+              unit: _administrationRoute.localizedUnit(1),
+            ),
+          ),
       ],
     );
   }

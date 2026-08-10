@@ -74,5 +74,30 @@ void main() {
         expect(hashEquals, false);
       });
     });
+
+    group('concentrationMeansDosePerUnit', () {
+      for (final route in [
+        AdministrationRoute.patch,
+        AdministrationRoute.gel,
+        AdministrationRoute.implant,
+        AdministrationRoute.suppository,
+        AdministrationRoute.transdermalSpray,
+      ]) {
+        test('is true for ${route.name}', () {
+          expect(route.concentrationMeansDosePerUnit, true);
+        });
+      }
+
+      for (final route in [
+        AdministrationRoute.injection,
+        AdministrationRoute.transdermalDrops,
+        AdministrationRoute.oral,
+        AdministrationRoute.sublingual,
+      ]) {
+        test('is false for ${route.name}', () {
+          expect(route.concentrationMeansDosePerUnit, false);
+        });
+      }
+    });
   });
 }

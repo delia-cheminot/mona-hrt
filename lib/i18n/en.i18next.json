@@ -160,6 +160,7 @@
   "adminRoute": "Administration route",
   "totalAmount": "Total amount",
   "concentration": "Concentration",
+  "concentrationPerUnitHint": "This is the dose delivered per {{unit}}, not the product's overall concentration (e.g. a percentage on the box). Check the drug leaflet if you're not sure.",
   "editItem": "Edit item",
   "usedAmount": "Used amount",
   "deleteItem": "Delete {{name}}?",
