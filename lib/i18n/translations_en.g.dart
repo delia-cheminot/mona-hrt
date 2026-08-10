@@ -99,6 +99,12 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Never taken yet'
   String get neverTakenYet => 'Never taken yet';
 
+  /// en: 'Overdue'
+  String get nextDoseOverdueLabel => 'Overdue';
+
+  /// en: 'Due today'
+  String get nextDoseDueTodayLabel => 'Due today';
+
   /// en: 'Every day'
   String get scheduleFrequencyDaily => 'Every day';
 
@@ -1002,6 +1008,8 @@ extension on Translations {
       'tomorrow' => 'tomorrow',
       'lastTaken' => 'Last taken',
       'neverTakenYet' => 'Never taken yet',
+      'nextDoseOverdueLabel' => 'Overdue',
+      'nextDoseDueTodayLabel' => 'Due today',
       'scheduleFrequencyDaily' => 'Every day',
       'scheduleFrequencyInterval' => 'Interval',
       'scheduleFrequencyWeekly' => 'Weekly',

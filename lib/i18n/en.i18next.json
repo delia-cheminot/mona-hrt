@@ -19,6 +19,8 @@
   "tomorrow": "tomorrow",
   "lastTaken": "Last taken",
   "neverTakenYet": "Never taken yet",
+  "nextDoseOverdueLabel": "Overdue",
+  "nextDoseDueTodayLabel": "Due today",
   "scheduleFrequencyDaily": "Every day",
   "scheduleFrequencyEveryNDays_one": "Every day",
   "scheduleFrequencyEveryNDays_other": "Every {{count}} days",
