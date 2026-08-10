@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/recent_intakes_widget_card"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
@@ -23,6 +24,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/recent_intakes_widget_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -40,6 +42,7 @@
             android:gravity="center_vertical">
 
             <ImageView
+                android:id="@+id/recent_intakes_widget_icon_0"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginEnd="8dp"
@@ -91,6 +94,7 @@
             android:gravity="center_vertical">
 
             <ImageView
+                android:id="@+id/recent_intakes_widget_icon_1"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginEnd="8dp"
@@ -142,6 +146,7 @@
             android:gravity="center_vertical">
 
             <ImageView
+                android:id="@+id/recent_intakes_widget_icon_2"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginEnd="8dp"
@@ -193,6 +198,7 @@
             android:gravity="center_vertical">
 
             <ImageView
+                android:id="@+id/recent_intakes_widget_icon_3"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginEnd="8dp"

@@ -14,6 +14,7 @@ import 'package:mona/services/next_dose_widget_service.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/services/recent_intakes_widget_service.dart';
+import 'package:mona/services/widget_theme_service.dart';
 import 'package:mona/theme/app_theme_controller.dart';
 import 'package:provider/provider.dart';
 import 'ui/views/main_page.dart';
@@ -34,6 +35,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   late HrtWidgetService _hrtWidgetService;
   late NextDoseWidgetService _nextDoseWidgetService;
   late RecentIntakesWidgetService _recentIntakesWidgetService;
+  final WidgetThemeService _widgetThemeService = WidgetThemeService();
 
   @override
   void initState() {
@@ -123,6 +125,13 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
               systemLight: lightDynamic,
               systemDark: darkDynamic,
             );
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _widgetThemeService.sync(
+            light: themes.theme.colorScheme,
+            dark: themes.darkTheme.colorScheme,
+          );
+        });
 
         return MaterialApp(
           title: 'Mona',

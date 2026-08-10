@@ -44,16 +44,25 @@ class NextDoseWidgetProvider : HomeWidgetProvider() {
                 subtitle ?: context.getString(R.string.next_dose_widget_default_subtitle)
             )
 
+            // Base drawable resource swap: the only way to distinguish overdue
+            // pre-API 31, where WidgetColors can't retint a shape at runtime.
             val circleDrawable =
                 if (overdue) R.drawable.widget_icon_circle_overdue
                 else R.drawable.hrt_widget_icon_circle
             views.setInt(R.id.next_dose_widget_icon_circle, "setBackgroundResource", circleDrawable)
 
-            val iconColor = context.getColor(
-                if (overdue) R.color.widget_overdue_icon_foreground
-                else R.color.hrt_widget_icon_foreground
+            WidgetColors.applyCard(
+                context, widgetData, views,
+                cardViewId = R.id.next_dose_widget_card,
+                titleViewId = R.id.next_dose_widget_title,
+                subtitleViewId = R.id.next_dose_widget_subtitle,
             )
-            views.setInt(R.id.next_dose_widget_icon, "setColorFilter", iconColor)
+            WidgetColors.applyIcon(
+                context, widgetData, views,
+                circleViewId = R.id.next_dose_widget_icon_circle,
+                glyphViewId = R.id.next_dose_widget_icon,
+                overdue = overdue,
+            )
 
             appWidgetManager.updateAppWidget(widgetId, views)
         }

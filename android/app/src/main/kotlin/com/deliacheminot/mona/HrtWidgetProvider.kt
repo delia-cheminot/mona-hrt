@@ -47,6 +47,18 @@ class HrtWidgetProvider : HomeWidgetProvider() {
                 else context.getString(R.string.hrt_widget_default_subtitle)
             )
 
+            WidgetColors.applyCard(
+                context, widgetData, views,
+                cardViewId = R.id.hrt_widget_card,
+                titleViewId = R.id.hrt_widget_title,
+                subtitleViewId = R.id.hrt_widget_subtitle,
+            )
+            WidgetColors.applyIcon(
+                context, widgetData, views,
+                circleViewId = R.id.hrt_widget_icon_circle,
+                glyphViewId = R.id.hrt_widget_icon,
+            )
+
             appWidgetManager.updateAppWidget(widgetId, views)
         }
     }
