@@ -2,6 +2,7 @@ import 'package:home_widget/home_widget.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
+import 'package:mona/services/widget_provider_names.dart';
 import 'package:mona/util/hrt_duration.dart';
 
 /// Keeps the Android home screen widget in sync with the current
@@ -12,8 +13,6 @@ import 'package:mona/util/hrt_duration.dart';
 /// widget provider only has to display plain text (no duplicated
 /// pluralization / i18n logic on the Kotlin side).
 class HrtWidgetService {
-  static const String _androidWidgetName = 'HrtWidgetProvider';
-
   static const String titleKey = 'hrt_widget_title';
   static const String subtitleKey = 'hrt_widget_subtitle';
   static const String enabledKey = 'hrt_widget_enabled';
@@ -33,7 +32,8 @@ class HrtWidgetService {
     await HomeWidget.saveWidgetData<bool>(enabledKey, enabled);
 
     if (!enabled) {
-      await HomeWidget.updateWidget(androidName: _androidWidgetName);
+      await HomeWidget.updateWidget(
+          qualifiedAndroidName: WidgetProviderNames.hrtWidget);
       return;
     }
 
@@ -47,7 +47,8 @@ class HrtWidgetService {
 
     await HomeWidget.saveWidgetData<String?>(titleKey, title);
     await HomeWidget.saveWidgetData<String?>(subtitleKey, subtitle);
-    await HomeWidget.updateWidget(androidName: _androidWidgetName);
+    await HomeWidget.updateWidget(
+        qualifiedAndroidName: WidgetProviderNames.hrtWidget);
   }
 
   String _durationText(HrtDuration d) => switch (d.unit) {

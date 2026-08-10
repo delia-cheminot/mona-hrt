@@ -4,6 +4,7 @@ import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/helpers/medication_intake_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
+import 'package:mona/services/widget_provider_names.dart';
 
 /// Keeps the Android "Recent injections" home screen widget in sync with the
 /// most recently taken intakes.
@@ -16,7 +17,6 @@ import 'package:mona/i18n/translations.g.dart';
 /// The widget shows a fixed number of rows (no native scrolling), so only
 /// the [rowCount] most recent intakes are pushed.
 class RecentIntakesWidgetService {
-  static const String _androidWidgetName = 'RecentIntakesWidgetProvider';
   static const int rowCount = 4;
 
   static const String countKey = 'recent_intakes_widget_count';
@@ -52,7 +52,8 @@ class RecentIntakesWidgetService {
     // when count is 0 (see RecentIntakesWidgetProvider), same fallback
     // pattern as HrtWidgetService.
     await HomeWidget.saveWidgetData<int>(countKey, count);
-    await HomeWidget.updateWidget(androidName: _androidWidgetName);
+    await HomeWidget.updateWidget(
+        qualifiedAndroidName: WidgetProviderNames.recentIntakesWidget);
   }
 
   String get _languageTag =>

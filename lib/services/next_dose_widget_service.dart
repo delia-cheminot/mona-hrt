@@ -11,6 +11,7 @@ import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/helpers/administration_route_l10n.dart';
 import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
+import 'package:mona/services/widget_provider_names.dart';
 
 /// Keeps the Android "Next dose" home screen widget in sync with whichever
 /// schedule is next due (or overdue).
@@ -20,8 +21,6 @@ import 'package:mona/i18n/translations.g.dart';
 /// the Dart side so the native widget provider only has to display plain
 /// text, mirroring [HrtWidgetService]'s split of responsibilities.
 class NextDoseWidgetService {
-  static const String _androidWidgetName = 'NextDoseWidgetProvider';
-
   static const String titleKey = 'next_dose_widget_title';
   static const String subtitleKey = 'next_dose_widget_subtitle';
   static const String overdueKey = 'next_dose_widget_overdue';
@@ -71,7 +70,8 @@ class NextDoseWidgetService {
     await HomeWidget.saveWidgetData<String>(titleKey, title);
     await HomeWidget.saveWidgetData<String?>(subtitleKey, subtitle);
     await HomeWidget.saveWidgetData<bool>(overdueKey, overdue);
-    await HomeWidget.updateWidget(androidName: _androidWidgetName);
+    await HomeWidget.updateWidget(
+        qualifiedAndroidName: WidgetProviderNames.nextDoseWidget);
   }
 
   /// Picks the single most urgent slot that hasn't been taken yet:
