@@ -19,7 +19,7 @@ class MedicationScheduleProvider extends ChangeNotifier {
   }
 
   MedicationScheduleProvider({Repository<MedicationSchedule>? repository})
-      : repository = repository ?? _defaultRepository {
+      : repository = repository ?? defaultRepository {
     _init();
   }
 
@@ -54,7 +54,7 @@ class MedicationScheduleProvider extends ChangeNotifier {
     await fetchSchedules();
   }
 
-  static final _defaultRepository = Repository<MedicationSchedule>(
+  static final defaultRepository = Repository<MedicationSchedule>(
     tableName: 'medication_schedules',
     toMap: (MedicationSchedule schedule) => schedule.toMap(),
     fromMap: (map) =>

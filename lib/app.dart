@@ -9,6 +9,7 @@ import 'package:mona/distribution.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/locale_provider.dart';
 import 'package:mona/i18n/tok_localizations.dart';
+import 'package:mona/services/notification_action_handler.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/theme/app_theme_controller.dart';
@@ -36,7 +37,10 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
     _lastTimeZone = DateTime.now().timeZoneOffset.toString();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await NotificationService().initialize();
+      await NotificationService().initialize(
+        onDidReceiveBackgroundNotificationResponse:
+            onBackgroundNotificationResponse,
+      );
       if (!mounted) return;
       _medicationScheduleProvider = context.read<MedicationScheduleProvider>();
       _medicationIntakeProvider = context.read<MedicationIntakeProvider>();
@@ -81,6 +85,10 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       _checkTimezoneChange();
+      // Picks up any intake logged by the "Take" notification action (see
+      // notification_action_handler.dart) while the app was backgrounded;
+      // its notifyListeners() also re-triggers _regenerateNotifications.
+      _medicationIntakeProvider.fetchIntakes();
     }
   }
 

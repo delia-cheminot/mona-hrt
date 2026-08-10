@@ -92,6 +92,7 @@
   "notificationMedicationReminderBodyDate": "Scheduled for {{date}}",
   "notificationMedicationReminderBodyTime": "Scheduled for {{time}}",
   "notificationMedicationReminderBodyWeekday": "Scheduled for {{weekday}}",
+  "notificationActionTake": "Take",
   "addSchedule": "Add a schedule",
   "addScheduleToGetStarted": "Add a schedule to get started.",
   "newSchedule": "New schedule",
