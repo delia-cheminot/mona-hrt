@@ -85,6 +85,30 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/recent_intakes_widget_info"/>
         </receiver>
+        <!-- "Status" home screen widget, see StatusWidgetProvider.kt -->
+        <receiver
+            android:name=".StatusWidgetProvider"
+            android:exported="false"
+            android:label="@string/status_widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/status_widget_info"/>
+        </receiver>
+        <!-- "Supplies" home screen widget, see SuppliesWidgetProvider.kt -->
+        <receiver
+            android:name=".SuppliesWidgetProvider"
+            android:exported="false"
+            android:label="@string/supplies_widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/supplies_widget_info"/>
+        </receiver>
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

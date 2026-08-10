@@ -14,4 +14,15 @@
     <string name="recent_intakes_widget_description">Shows your most recently logged intakes.</string>
     <string name="recent_intakes_widget_title">Recent injections</string>
     <string name="recent_intakes_widget_empty">Taken intakes will appear here</string>
+
+    <string name="status_widget_label">Status</string>
+    <string name="status_widget_description">A quick dashboard: HRT duration, next dose, and your most urgent supply.</string>
+    <string name="status_widget_default_duration">On HRT for —</string>
+    <string name="status_widget_default_next_dose">Next dose</string>
+    <string name="status_widget_default_supply">Supplies</string>
+
+    <string name="supplies_widget_label">Supplies</string>
+    <string name="supplies_widget_description">Shows the supply items running lowest.</string>
+    <string name="supplies_widget_title">Supplies</string>
+    <string name="supplies_widget_empty">Tracked supplies will appear here</string>
 </resources>

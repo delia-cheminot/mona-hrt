@@ -5,6 +5,7 @@ import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/controllers/notification_scheduler.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
+import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/distribution.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/locale_provider.dart';
@@ -14,6 +15,8 @@ import 'package:mona/services/next_dose_widget_service.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/services/recent_intakes_widget_service.dart';
+import 'package:mona/services/status_widget_service.dart';
+import 'package:mona/services/supplies_widget_service.dart';
 import 'package:mona/services/widget_theme_service.dart';
 import 'package:mona/theme/app_theme_controller.dart';
 import 'package:provider/provider.dart';
@@ -30,11 +33,14 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   String? _lastTimeZone;
   late MedicationScheduleProvider _medicationScheduleProvider;
   late MedicationIntakeProvider _medicationIntakeProvider;
+  late SupplyItemProvider _supplyItemProvider;
   late PreferencesService _preferencesService;
   late NotificationScheduler _notificationScheduler;
   late HrtWidgetService _hrtWidgetService;
   late NextDoseWidgetService _nextDoseWidgetService;
   late RecentIntakesWidgetService _recentIntakesWidgetService;
+  late StatusWidgetService _statusWidgetService;
+  late SuppliesWidgetService _suppliesWidgetService;
   final WidgetThemeService _widgetThemeService = WidgetThemeService();
 
   @override
@@ -48,6 +54,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
       if (!mounted) return;
       _medicationScheduleProvider = context.read<MedicationScheduleProvider>();
       _medicationIntakeProvider = context.read<MedicationIntakeProvider>();
+      _supplyItemProvider = context.read<SupplyItemProvider>();
       _preferencesService = context.read<PreferencesService>();
       _notificationScheduler = NotificationScheduler(
         NotificationPlanner(
@@ -65,12 +72,21 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
       _recentIntakesWidgetService = RecentIntakesWidgetService(
         medicationIntakeProvider: _medicationIntakeProvider,
       );
+      _statusWidgetService = StatusWidgetService(
+        medicationIntakeProvider: _medicationIntakeProvider,
+        medicationScheduleProvider: _medicationScheduleProvider,
+        supplyItemProvider: _supplyItemProvider,
+      );
+      _suppliesWidgetService = SuppliesWidgetService(
+        supplyItemProvider: _supplyItemProvider,
+      );
       _medicationScheduleProvider.addListener(_regenerateNotifications);
       _medicationIntakeProvider.addListener(_regenerateNotifications);
       _preferencesService.addListener(_regenerateNotifications);
       _medicationIntakeProvider.addListener(_updateHomeWidgets);
       _preferencesService.addListener(_updateHomeWidgets);
       _medicationScheduleProvider.addListener(_updateHomeWidgets);
+      _supplyItemProvider.addListener(_updateHomeWidgets);
       _regenerateNotifications();
       _updateHomeWidgets();
     });
@@ -85,6 +101,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
     _medicationIntakeProvider.removeListener(_updateHomeWidgets);
     _preferencesService.removeListener(_updateHomeWidgets);
     _medicationScheduleProvider.removeListener(_updateHomeWidgets);
+    _supplyItemProvider.removeListener(_updateHomeWidgets);
     super.dispose();
   }
 
@@ -99,6 +116,8 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
     _hrtWidgetService.sync();
     _nextDoseWidgetService.sync();
     _recentIntakesWidgetService.sync();
+    _statusWidgetService.sync();
+    _suppliesWidgetService.sync();
   }
 
   void _checkTimezoneChange() {

@@ -22,8 +22,7 @@ class RecentIntakesWidgetService {
   static const String countKey = 'recent_intakes_widget_count';
 
   static String dateKey(int index) => 'recent_intakes_widget_date_$index';
-  static String summaryKey(int index) =>
-      'recent_intakes_widget_summary_$index';
+  static String summaryKey(int index) => 'recent_intakes_widget_summary_$index';
 
   final MedicationIntakeProvider medicationIntakeProvider;
 

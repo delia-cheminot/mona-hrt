@@ -108,6 +108,34 @@ object WidgetColors {
         )
     }
 
+    /** The resolved icon glyph color: normal, or the app's error color when [warning]. */
+    fun iconColor(
+        context: Context,
+        widgetData: SharedPreferences,
+        warning: Boolean = false,
+    ): Int {
+        val key = if (warning) "widget_overdue_icon_foreground" else "widget_icon_foreground"
+        val fallback =
+            if (warning) R.color.widget_overdue_icon_foreground else R.color.hrt_widget_icon_foreground
+        return color(context, widgetData, key, fallback)
+    }
+
+    /**
+     * Tints a plain (no circle background) icon glyph, e.g. a row marker,
+     * using the app's error color instead when [warning] -- same accent
+     * [applyIcon] uses for an overdue circle, just for icons with no
+     * background of their own.
+     */
+    fun applyIconTint(
+        context: Context,
+        widgetData: SharedPreferences,
+        views: RemoteViews,
+        viewId: Int,
+        warning: Boolean = false,
+    ) {
+        views.setInt(viewId, "setColorFilter", iconColor(context, widgetData, warning))
+    }
+
     /** Tints a plain (non-circle) text/icon color, e.g. an empty-state message. */
     fun applyText(
         context: Context,

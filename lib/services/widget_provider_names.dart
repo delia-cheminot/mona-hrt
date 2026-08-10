@@ -16,10 +16,14 @@ abstract final class WidgetProviderNames {
   static const String nextDoseWidget = '$_package.NextDoseWidgetProvider';
   static const String recentIntakesWidget =
       '$_package.RecentIntakesWidgetProvider';
+  static const String statusWidget = '$_package.StatusWidgetProvider';
+  static const String suppliesWidget = '$_package.SuppliesWidgetProvider';
 
   static const List<String> all = [
     hrtWidget,
     nextDoseWidget,
     recentIntakesWidget,
+    statusWidget,
+    suppliesWidget,
   ];
 }
