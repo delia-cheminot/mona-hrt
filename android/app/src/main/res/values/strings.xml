@@ -4,4 +4,14 @@
     <string name="hrt_widget_description">Shows how long you\'ve been on HRT and how many intakes you\'ve logged.</string>
     <string name="hrt_widget_default_title">On HRT for —</string>
     <string name="hrt_widget_default_subtitle">Open Mona to get started</string>
+
+    <string name="next_dose_widget_label">Next dose</string>
+    <string name="next_dose_widget_description">Shows whichever medication is next due, or overdue.</string>
+    <string name="next_dose_widget_default_title">Next dose</string>
+    <string name="next_dose_widget_default_subtitle">Open Mona to get started</string>
+
+    <string name="recent_intakes_widget_label">Recent injections</string>
+    <string name="recent_intakes_widget_description">Shows your most recently logged intakes.</string>
+    <string name="recent_intakes_widget_title">Recent injections</string>
+    <string name="recent_intakes_widget_empty">Taken intakes will appear here</string>
 </resources>

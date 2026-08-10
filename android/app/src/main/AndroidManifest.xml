@@ -61,6 +61,30 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/hrt_widget_info"/>
         </receiver>
+        <!-- "Next dose" home screen widget, see NextDoseWidgetProvider.kt -->
+        <receiver
+            android:name=".NextDoseWidgetProvider"
+            android:exported="false"
+            android:label="@string/next_dose_widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/next_dose_widget_info"/>
+        </receiver>
+        <!-- "Recent injections" home screen widget, see RecentIntakesWidgetProvider.kt -->
+        <receiver
+            android:name=".RecentIntakesWidgetProvider"
+            android:exported="false"
+            android:label="@string/recent_intakes_widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/recent_intakes_widget_info"/>
+        </receiver>
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

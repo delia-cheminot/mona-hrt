@@ -10,8 +10,10 @@ import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/locale_provider.dart';
 import 'package:mona/i18n/tok_localizations.dart';
 import 'package:mona/services/hrt_widget_service.dart';
+import 'package:mona/services/next_dose_widget_service.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
+import 'package:mona/services/recent_intakes_widget_service.dart';
 import 'package:mona/theme/app_theme_controller.dart';
 import 'package:provider/provider.dart';
 import 'ui/views/main_page.dart';
@@ -30,6 +32,8 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   late PreferencesService _preferencesService;
   late NotificationScheduler _notificationScheduler;
   late HrtWidgetService _hrtWidgetService;
+  late NextDoseWidgetService _nextDoseWidgetService;
+  late RecentIntakesWidgetService _recentIntakesWidgetService;
 
   @override
   void initState() {
@@ -52,13 +56,21 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
         medicationIntakeProvider: _medicationIntakeProvider,
         preferencesService: _preferencesService,
       );
+      _nextDoseWidgetService = NextDoseWidgetService(
+        medicationIntakeProvider: _medicationIntakeProvider,
+        medicationScheduleProvider: _medicationScheduleProvider,
+      );
+      _recentIntakesWidgetService = RecentIntakesWidgetService(
+        medicationIntakeProvider: _medicationIntakeProvider,
+      );
       _medicationScheduleProvider.addListener(_regenerateNotifications);
       _medicationIntakeProvider.addListener(_regenerateNotifications);
       _preferencesService.addListener(_regenerateNotifications);
-      _medicationIntakeProvider.addListener(_updateHomeWidget);
-      _preferencesService.addListener(_updateHomeWidget);
+      _medicationIntakeProvider.addListener(_updateHomeWidgets);
+      _preferencesService.addListener(_updateHomeWidgets);
+      _medicationScheduleProvider.addListener(_updateHomeWidgets);
       _regenerateNotifications();
-      _updateHomeWidget();
+      _updateHomeWidgets();
     });
   }
 
@@ -68,8 +80,9 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
     _medicationScheduleProvider.removeListener(_regenerateNotifications);
     _medicationIntakeProvider.removeListener(_regenerateNotifications);
     _preferencesService.removeListener(_regenerateNotifications);
-    _medicationIntakeProvider.removeListener(_updateHomeWidget);
-    _preferencesService.removeListener(_updateHomeWidget);
+    _medicationIntakeProvider.removeListener(_updateHomeWidgets);
+    _preferencesService.removeListener(_updateHomeWidgets);
+    _medicationScheduleProvider.removeListener(_updateHomeWidgets);
     super.dispose();
   }
 
@@ -80,8 +93,10 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
     _notificationScheduler.regenerateAll(locale.intlLanguageTag);
   }
 
-  void _updateHomeWidget() {
+  void _updateHomeWidgets() {
     _hrtWidgetService.sync();
+    _nextDoseWidgetService.sync();
+    _recentIntakesWidgetService.sync();
   }
 
   void _checkTimezoneChange() {

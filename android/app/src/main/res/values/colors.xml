@@ -2,10 +2,15 @@
 <resources>
     <color name="ic_launcher_background">#fef2e2</color>
 
-    <!-- HRT progress widget -->
+    <!-- Shared home screen widget card style (HRT progress, Next dose,
+         Recent injections all use the same look) -->
     <color name="hrt_widget_card_background">#1E2318</color>
     <color name="hrt_widget_icon_background">#F6DFA0</color>
     <color name="hrt_widget_icon_foreground">#3A3320</color>
     <color name="hrt_widget_title_text">#F2F4EA</color>
     <color name="hrt_widget_subtitle_text">#8D9280</color>
+
+    <!-- Next dose widget: overdue accent, swapped in for the icon circle -->
+    <color name="widget_overdue_icon_background">#F2A38B</color>
+    <color name="widget_overdue_icon_foreground">#4A2015</color>
 </resources>
