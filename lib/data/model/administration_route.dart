@@ -74,22 +74,6 @@ class AdministrationRoute {
     return all.firstWhere((route) => route.name == name);
   }
 
-  /// Whether a supply item's "concentration" field, for this route, means
-  /// the dose delivered per single administration unit (e.g. per pump, per
-  /// patch) rather than a familiar strength like mg/mL or a pill's dose.
-  ///
-  /// Injection/transdermal drops (mg/mL) and oral/sublingual (a pill's
-  /// known dose) have an intuitive, everyday sense of "concentration". For
-  /// the rest, entering the product's own concentration (e.g. a "0.06%" on
-  /// the box) instead of the actual per-unit dose from the drug leaflet is
-  /// an easy mistake -- see https://github.com/mona-hrt/mona/issues/305.
-  bool get concentrationMeansDosePerUnit =>
-      this == patch ||
-      this == gel ||
-      this == implant ||
-      this == suppository ||
-      this == transdermalSpray;
-
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||

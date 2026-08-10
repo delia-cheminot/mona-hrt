@@ -497,9 +497,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Concentration'
   String get concentration => 'Concentration';
 
-  /// en: 'This is the dose delivered per {unit}, not the product's overall concentration (e.g. a percentage on the box). Check the drug leaflet if you're not sure.'
-  String concentrationPerUnitHint({required Object unit}) =>
-      'This is the dose delivered per ${unit}, not the product\'s overall concentration (e.g. a percentage on the box). Check the drug leaflet if you\'re not sure.';
+  /// en: 'Dose per {unit}'
+  String concentrationLabelPerUnit({required Object unit}) =>
+      'Dose per ${unit}';
 
   /// en: 'Edit item'
   String get editItem => 'Edit item';
@@ -1154,8 +1154,8 @@ extension on Translations {
       'adminRoute' => 'Administration route',
       'totalAmount' => 'Total amount',
       'concentration' => 'Concentration',
-      'concentrationPerUnitHint' => ({required Object unit}) =>
-          'This is the dose delivered per ${unit}, not the product\'s overall concentration (e.g. a percentage on the box). Check the drug leaflet if you\'re not sure.',
+      'concentrationLabelPerUnit' => ({required Object unit}) =>
+          'Dose per ${unit}',
       'editItem' => 'Edit item',
       'usedAmount' => 'Used amount',
       'deleteItem' => ({required Object name}) => 'Delete ${name}?',
