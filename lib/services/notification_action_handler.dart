@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
@@ -10,21 +11,11 @@ import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/repository.dart';
 
-/// Handles the "Take" notification action (see [takeActionId]): logs an
-/// intake for the reminder's schedule directly, without opening the app.
+/// Handles medication reminder notification actions -- "Take" ([takeActionId])
+/// and "Snooze" ([snoozeActionId]) -- without opening the app.
 ///
 /// Runs on a separate background isolate the OS spawns just for this call,
 /// so there's no running app, no Provider tree, nothing already in memory.
-/// It talks to the database directly through the same repositories
-/// [MedicationIntakeProvider]/[MedicationScheduleProvider] use, bypassing
-/// the ChangeNotifier wrappers themselves since there's nothing here to
-/// notify and their async init-then-read pattern assumes a widget tree.
-///
-/// Deliberately narrow in scope: no supply item is linked/deducted (there's
-/// no sensible way to guess which one headlessly) and nothing else that
-/// depends on the app already running (widget/notification resync) happens
-/// here -- that catches up next time the app is opened, same as it already
-/// does for other changes made while the app isn't running.
 ///
 /// Must be a top-level function annotated with `@pragma('vm:entry-point')`
 /// so the Dart compiler doesn't strip it and the background isolate can
@@ -42,9 +33,36 @@ Future<void> onBackgroundNotificationResponse(
   Repository<MedicationSchedule>? scheduleRepository,
   Repository<MedicationIntake>? intakeRepository,
 }) async {
-  if (response.actionId != takeActionId) return;
-
   final payload = _decodePayload(response.payload);
+
+  switch (response.actionId) {
+    case takeActionId:
+      await _handleTake(
+        payload,
+        scheduleRepository: scheduleRepository,
+        intakeRepository: intakeRepository,
+      );
+    case snoozeActionId:
+      await _handleSnooze(payload);
+  }
+}
+
+/// Logs an intake for the reminder's schedule directly. It talks to the
+/// database through the same repositories [MedicationIntakeProvider]/
+/// [MedicationScheduleProvider] use, bypassing the ChangeNotifier wrappers
+/// themselves since there's nothing here to notify and their async
+/// init-then-read pattern assumes a widget tree.
+///
+/// Deliberately narrow in scope: no supply item is linked/deducted (there's
+/// no sensible way to guess which one headlessly) and nothing else that
+/// depends on the app already running (widget/notification resync) happens
+/// here -- that catches up next time the app is opened, same as it already
+/// does for other changes made while the app isn't running.
+Future<void> _handleTake(
+  Map<String, dynamic> payload, {
+  Repository<MedicationSchedule>? scheduleRepository,
+  Repository<MedicationIntake>? intakeRepository,
+}) async {
   final scheduleId = payload['scheduleId'] as int?;
   if (scheduleId == null) return;
 
@@ -76,6 +94,38 @@ Future<void> onBackgroundNotificationResponse(
     administrationRoute: schedule.administrationRoute,
     ester: schedule.ester,
   ));
+}
+
+/// Reschedules the exact same reminder [snoozeDuration] later, reusing the
+/// original (already-localized) title/body text carried in the payload
+/// rather than re-rendering strings from a background isolate that has no
+/// guarantee of running with the user's chosen locale.
+///
+/// No database read needed: unlike [_handleTake], nothing here depends on
+/// the schedule's current state, just the id/time-of-day to carry forward
+/// so the snoozed notification's own Take/Snooze actions keep working (and
+/// can themselves be snoozed again).
+Future<void> _handleSnooze(Map<String, dynamic> payload) async {
+  final scheduleId = payload['scheduleId'] as int?;
+  final title = payload['title'] as String?;
+  final body = payload['body'] as String?;
+  if (scheduleId == null || title == null || body == null) return;
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService().initialize();
+
+  final scheduledTime = clock.now().add(snoozeDuration);
+
+  await NotificationService().scheduleNotification(
+    id: Object.hash(scheduleId, scheduledTime.millisecondsSinceEpoch) &
+        0x7fffffff,
+    title: title,
+    body: body,
+    scheduledTime: scheduledTime,
+    scheduleId: scheduleId,
+    scheduledTimeHour: payload['scheduledTimeHour'] as int?,
+    scheduledTimeMinute: payload['scheduledTimeMinute'] as int?,
+  );
 }
 
 Map<String, dynamic> _decodePayload(String? payload) {

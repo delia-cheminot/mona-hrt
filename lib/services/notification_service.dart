@@ -15,6 +15,13 @@ import 'package:timezone/timezone.dart' as tz;
 /// see lib/services/notification_action_handler.dart.
 const String takeActionId = 'take';
 
+/// Id of the notification action that reschedules the same reminder
+/// [snoozeDuration] later instead of logging it. Shared with the
+/// background handler.
+const String snoozeActionId = 'snooze';
+
+const Duration snoozeDuration = Duration(minutes: 30);
+
 class NotificationService {
   static FlutterLocalNotificationsPlugin Function()? createPlugin =
       () => FlutterLocalNotificationsPlugin();
@@ -88,6 +95,12 @@ class NotificationService {
             takeActionId,
             t.notificationActionTake,
             // Runs the background handler directly, no app UI shown.
+            showsUserInterface: false,
+            cancelNotification: true,
+          ),
+          AndroidNotificationAction(
+            snoozeActionId,
+            t.notificationActionSnooze(minutes: snoozeDuration.inMinutes),
             showsUserInterface: false,
             cancelNotification: true,
           ),
@@ -248,6 +261,12 @@ class NotificationService {
       if (scheduledTimeHour != null) 'scheduledTimeHour': scheduledTimeHour,
       if (scheduledTimeMinute != null)
         'scheduledTimeMinute': scheduledTimeMinute,
+      // Carried along so the "Snooze" action (see [snoozeActionId]) can
+      // reschedule with the exact same, already-localized text without
+      // needing to re-render strings from a background isolate that has
+      // no guarantee of running with the user's chosen locale.
+      'title': title,
+      'body': body,
     });
     final dateTime = tz.TZDateTime(
         tz.local,

@@ -168,6 +168,22 @@ void main() {
     expect(payload['scheduleId'], 42);
   });
 
+  test('scheduleNotification embeds title/body in the payload for snoozing',
+      () async {
+    await service.scheduleNotification(
+      id: 1,
+      title: 'Test',
+      body: 'Body',
+      scheduledTime: DateTime(2026, 2, 8, 10, 30),
+      scheduleId: 42,
+    );
+
+    final n = fakePlugin.scheduled.single;
+    final payload = jsonDecode(n['payload'] as String) as Map<String, Object?>;
+    expect(payload['title'], 'Test');
+    expect(payload['body'], 'Body');
+  });
+
   test('showNotification adds a shown notification', () async {
     await service.showNotification(title: 'Show', body: 'Body');
     expect(fakePlugin.shown.length, 1);
