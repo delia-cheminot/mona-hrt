@@ -6,15 +6,15 @@
     android:background="@drawable/hrt_widget_background">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
         <FrameLayout
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
             android:background="@drawable/hrt_widget_icon_circle">
 
             <ImageView
@@ -25,32 +25,48 @@
                 android:contentDescription="@null" />
         </FrameLayout>
 
+        <!--
+          Width AND height are bounded (0dp+weight, match_parent) rather than
+          wrap_content so the auto-size TextViews below have real room to grow
+          into as the widget is resized larger in either direction, not just
+          whatever their text naturally measures at.
+        -->
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:layout_marginStart="16dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center_vertical">
 
             <TextView
                 android:id="@+id/hrt_widget_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/hrt_widget_title_text"
                 android:textSize="17sp"
                 android:textStyle="bold"
                 android:maxLines="1"
                 android:ellipsize="end"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="32sp"
+                android:autoSizeStepGranularity="1sp"
                 android:text="@string/hrt_widget_default_title" />
 
             <TextView
                 android:id="@+id/hrt_widget_subtitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:textColor="@color/hrt_widget_subtitle_text"
                 android:textSize="13sp"
                 android:maxLines="1"
                 android:ellipsize="end"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="10sp"
+                android:autoSizeMaxTextSize="22sp"
+                android:autoSizeStepGranularity="1sp"
                 android:text="@string/hrt_widget_default_subtitle" />
         </LinearLayout>
     </LinearLayout>
