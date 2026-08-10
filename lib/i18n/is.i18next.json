@@ -109,7 +109,7 @@
   "takenAmount": "Tekið upphæð",
   "wastedAmount": "Sóað upphæð",
   "none": "Ekkert",
-  "supplyItem": "Supply item",
+  "supplyItem": "Framboðsvara",
   "injectionSide": "Innspýtingarhlið",
   "deleteIntake": "Eyddu þetta inntak?",
   "takeMedication": "Taktu {{scheduleName}}",
@@ -278,5 +278,9 @@
   "intakeCounter": "Inntaksmælir",
   "intakeCounterDescription": "Sýnið hversu lengi þið hafið verið á HRT og heildarinntöku ykkar",
   "startOfDay": "Byrjun dags",
-  "startOfDayDescription": "Tíminn fyrir {{time}} telst með í fyrri degi"
+  "startOfDayDescription": "Tíminn fyrir {{time}} telst með í fyrri degi",
+  "anchorToLastIntake": "Endurreikna út frá síðustu inntöku",
+  "anchorToLastIntakeDescription": "Áætlar næstu inntöku með fullu millibili eftir að þú tókst hana síðast",
+  "chooseItem": "Veldu atriði",
+  "noItemsToAdd": "Engar atriði tiltækar"
 }
