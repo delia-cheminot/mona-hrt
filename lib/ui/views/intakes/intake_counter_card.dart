@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:mona/i18n/helpers/hrt_duration_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/util/hrt_duration.dart';
 
@@ -33,18 +34,11 @@ class IntakeCounterCard extends StatelessWidget {
               color: theme.colorScheme.onTertiaryContainer,
             ),
           ),
-          title: Text(_durationText(duration!),
-              style: theme.textTheme.titleMedium),
+          title:
+              Text(duration!.localizedText, style: theme.textTheme.titleMedium),
           subtitle: Text(t.intakesLoggedCount(count: intakeCount)),
         ),
       ],
     );
   }
-
-  String _durationText(HrtDuration d) => switch (d.unit) {
-        HrtDurationUnit.days => t.onHrtForDays(count: d.value),
-        HrtDurationUnit.weeks => t.onHrtForWeeks(count: d.value),
-        HrtDurationUnit.months => t.onHrtForMonths(count: d.value),
-        HrtDurationUnit.years => t.onHrtForYears(count: d.value),
-      };
 }

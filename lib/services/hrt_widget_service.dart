@@ -1,5 +1,6 @@
 import 'package:home_widget/home_widget.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
+import 'package:mona/i18n/helpers/hrt_duration_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/services/widget_provider_names.dart';
@@ -41,7 +42,7 @@ class HrtWidgetService {
     final intakeCount = medicationIntakeProvider.takenIntakes.length;
 
     final title =
-        firstDate == null ? null : _durationText(hrtDurationSince(firstDate));
+        firstDate == null ? null : hrtDurationSince(firstDate).localizedText;
     final subtitle =
         firstDate == null ? null : t.intakesLoggedCount(count: intakeCount);
 
@@ -50,11 +51,4 @@ class HrtWidgetService {
     await HomeWidget.updateWidget(
         qualifiedAndroidName: WidgetProviderNames.hrtWidget);
   }
-
-  String _durationText(HrtDuration d) => switch (d.unit) {
-        HrtDurationUnit.days => t.onHrtForDays(count: d.value),
-        HrtDurationUnit.weeks => t.onHrtForWeeks(count: d.value),
-        HrtDurationUnit.months => t.onHrtForMonths(count: d.value),
-        HrtDurationUnit.years => t.onHrtForYears(count: d.value),
-      };
 }
