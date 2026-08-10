@@ -69,47 +69,80 @@ class MainGraph extends StatelessWidget {
         [...spots, ...bloodSpots].map((s) => s.y).fold(0.0, math.max);
     final double maxYWithPadding = maxY * _ChartConstants.maxYPadding;
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width *
-            (1 + _ChartConstants.windowWidthFactor * window),
-        child: Row(
-          children: [
-            Padding(
-              padding:
-                  const EdgeInsets.only(right: _ChartConstants.axesPadding),
-              child: RotatedBox(
-                quarterTurns: -1,
-                child: Text('${t.concentration} (${unit.localizedName})',
-                    style: const TextStyle(
-                        fontSize: _ChartConstants.titleFontSize)),
+    // The Y-axis label/numbers are rendered as a separate, unscrolled overlay
+    // (below) rather than as part of the chart inside the ScrollView, so they
+    // stay visible while panning horizontally instead of scrolling away with
+    // the data. The scale itself (minY/maxY) is constant regardless of scroll
+    // position -- it's computed from the whole dataset, not just what's
+    // currently visible -- so a static overlay always stays correct.
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width *
+                (1 + _ChartConstants.windowWidthFactor * window),
+            child: LineChart(
+              LineChartData(
+                minX: 0,
+                maxX: (graphSpan + GraphCalculator.tMaxOffset),
+                minY: 0,
+                maxY: maxYWithPadding,
+                gridData: FlGridData(show: true),
+                titlesData:
+                    _buildTitlesData(context, tMin, showLeftTitles: false),
+                borderData: FlBorderData(show: true),
+                lineBarsData: [
+                  _buildLineBarData(spots, theme),
+                  _buildBloodTestData(bloodSpots, theme),
+                ],
+                lineTouchData: _buildLineTouchData(context, theme, tMin, unit),
+                extraLinesData:
+                    _buildTodayVerticalLine(theme, todaySpot, tNow, unit),
               ),
             ),
-            Expanded(
-              child: LineChart(
-                LineChartData(
-                  minX: 0,
-                  maxX: (graphSpan + GraphCalculator.tMaxOffset),
-                  minY: 0,
-                  maxY: maxYWithPadding,
-                  gridData: FlGridData(show: true),
-                  titlesData: _buildTitlesData(context, tMin),
-                  borderData: FlBorderData(show: true),
-                  lineBarsData: [
-                    _buildLineBarData(spots, theme),
-                    _buildBloodTestData(bloodSpots, theme),
-                  ],
-                  lineTouchData:
-                      _buildLineTouchData(context, theme, tMin, unit),
-                  extraLinesData:
-                      _buildTodayVerticalLine(theme, todaySpot, tNow, unit),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+        Positioned(
+          left: 0,
+          top: 0,
+          bottom: 0,
+          child: IgnorePointer(
+            child: Container(
+              color: theme.colorScheme.surface,
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        right: _ChartConstants.axesPadding),
+                    child: RotatedBox(
+                      quarterTurns: -1,
+                      child: Text('${t.concentration} (${unit.localizedName})',
+                          style: const TextStyle(
+                              fontSize: _ChartConstants.titleFontSize)),
+                    ),
+                  ),
+                  SizedBox(
+                    width: _ChartConstants.leftReservedSize,
+                    child: LineChart(
+                      LineChartData(
+                        minX: 0,
+                        maxX: 1,
+                        minY: 0,
+                        maxY: maxYWithPadding,
+                        lineBarsData: const [],
+                        gridData: FlGridData(show: false),
+                        borderData: FlBorderData(show: false),
+                        titlesData: _axisOnlyTitlesData(),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -193,7 +226,8 @@ class MainGraph extends StatelessWidget {
     );
   }
 
-  FlTitlesData _buildTitlesData(BuildContext context, DateTime tMin) {
+  FlTitlesData _buildTitlesData(BuildContext context, DateTime tMin,
+      {bool showLeftTitles = true}) {
     return FlTitlesData(
       show: true,
       bottomTitles: AxisTitles(
@@ -218,14 +252,41 @@ class MainGraph extends StatelessWidget {
         ),
       ),
       leftTitles: AxisTitles(
+        sideTitles: showLeftTitles
+            ? _leftSideTitles()
+            : const SideTitles(showTitles: false),
+      ),
+      topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+    );
+  }
+
+  SideTitles _leftSideTitles() {
+    return SideTitles(
+      showTitles: true,
+      reservedSize: _ChartConstants.leftReservedSize,
+      getTitlesWidget: (value, meta) {
+        return Text(value.toStringAsFixed(0),
+            style: const TextStyle(fontSize: _ChartConstants.labelFontSize));
+      },
+    );
+  }
+
+  /// Titles for the pinned Y-axis overlay: just the left-side numbers, same
+  /// as the real chart's. The bottom axis is kept space-reserved (fl_chart
+  /// only reserves [SideTitles.reservedSize] when [SideTitles.showTitles] is
+  /// true, see [AxisTitles.showSideTitles]) but rendered blank, so this
+  /// chart's plot area is exactly as tall as the real one's and their
+  /// Y-value tick positions line up.
+  FlTitlesData _axisOnlyTitlesData() {
+    return FlTitlesData(
+      show: true,
+      leftTitles: AxisTitles(sideTitles: _leftSideTitles()),
+      bottomTitles: AxisTitles(
         sideTitles: SideTitles(
           showTitles: true,
-          reservedSize: _ChartConstants.leftReservedSize,
-          getTitlesWidget: (value, meta) {
-            return Text(value.toStringAsFixed(0),
-                style:
-                    const TextStyle(fontSize: _ChartConstants.labelFontSize));
-          },
+          reservedSize: _ChartConstants.bottomReservedSize,
+          getTitlesWidget: (value, meta) => const SizedBox.shrink(),
         ),
       ),
       topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
