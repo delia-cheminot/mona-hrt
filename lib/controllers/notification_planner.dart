@@ -147,7 +147,6 @@ class NotificationPlanner {
             schedule,
             periodicity: Periodicity.daily,
             firstFire: candidate,
-            time: time,
           );
         }(),
     ];
@@ -177,7 +176,6 @@ class NotificationPlanner {
               schedule,
               periodicity: Periodicity.weekly,
               firstFire: candidate,
-              time: time,
               dayOfWeek: dayOfWeek,
             );
           }(),
