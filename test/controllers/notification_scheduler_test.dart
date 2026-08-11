@@ -1,5 +1,4 @@
 import 'package:clock/clock.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -166,14 +165,10 @@ void main() {
       when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
           .thenReturn([
         anOccurrencePlan(schedule: s, dateTime: DateTime.utc(2026, 6, 2, 9, 0)),
-        aDailyPlan(
-            schedule: s,
-            time: const TimeOfDay(hour: 14, minute: 0),
-            firstFire: DateTime.utc(2026, 6, 2, 14, 0)),
+        aDailyPlan(schedule: s, firstFire: DateTime.utc(2026, 6, 2, 14, 0)),
         aWeeklyPlan(
             schedule: s,
             dayOfWeek: 3,
-            time: const TimeOfDay(hour: 20, minute: 0),
             firstFire: DateTime.utc(2026, 6, 3, 20, 0)),
       ]);
       final sut = NotificationScheduler(planner, preferences);
