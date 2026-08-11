@@ -2,67 +2,39 @@ import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/i18n/translations.g.dart';
 
 extension AdministrationRouteL10n on AdministrationRoute {
-  String get localizedName => _AdministrationRouteDisplayNames.resolve(this);
+  String get localizedName => switch (this) {
+        AdministrationRoute.injection => t.injection,
+        AdministrationRoute.oral => t.oral,
+        AdministrationRoute.sublingual => t.sublingual,
+        AdministrationRoute.patch => t.patch,
+        AdministrationRoute.gel => t.gel,
+        AdministrationRoute.implant => t.implant,
+        AdministrationRoute.suppository => t.suppository,
+        AdministrationRoute.transdermalSpray => t.transdermalSpray,
+        AdministrationRoute.transdermalDrops => t.transdermalDrops,
+      };
 
-  String localizedUnit(num count) =>
-      _AdministrationRouteUnits.resolve(this, count);
+  String localizedUnit(num count) => switch (this) {
+        AdministrationRoute.injection =>
+          t.administrationRouteUnitMl(count: count),
+        AdministrationRoute.oral => t.administrationRouteUnitPill(count: count),
+        AdministrationRoute.sublingual =>
+          t.administrationRouteUnitPill(count: count),
+        AdministrationRoute.patch =>
+          t.administrationRouteUnitPatch(count: count),
+        AdministrationRoute.gel => t.administrationRouteUnitPump(count: count),
+        AdministrationRoute.implant =>
+          t.administrationRouteUnitImplant(count: count),
+        AdministrationRoute.suppository =>
+          t.administrationRouteUnitSuppository(count: count),
+        AdministrationRoute.transdermalSpray =>
+          t.administrationRouteUnitSpray(count: count),
+        AdministrationRoute.transdermalDrops =>
+          t.administrationRouteUnitMl(count: count),
+      };
 
   String get localizedConcentrationLabel =>
       this == AdministrationRoute.injection
           ? t.concentration
           : t.concentrationLabelPerUnit(unit: localizedUnit(1));
-}
-
-abstract final class _AdministrationRouteDisplayNames {
-  static final Map<String, String Function()> _labelsByName = {
-    AdministrationRoute.injection.name: () => t.injection,
-    AdministrationRoute.oral.name: () => t.oral,
-    AdministrationRoute.sublingual.name: () => t.sublingual,
-    AdministrationRoute.patch.name: () => t.patch,
-    AdministrationRoute.gel.name: () => t.gel,
-    AdministrationRoute.implant.name: () => t.implant,
-    AdministrationRoute.suppository.name: () => t.suppository,
-    AdministrationRoute.transdermalSpray.name: () => t.transdermalSpray,
-    AdministrationRoute.transdermalDrops.name: () => t.transdermalDrops,
-  };
-
-  static String resolve(AdministrationRoute route) {
-    final labelBuilder = _labelsByName[route.name];
-    if (labelBuilder != null) {
-      return labelBuilder();
-    }
-    final n = route.name;
-    return n[0].toUpperCase() + n.substring(1);
-  }
-}
-
-abstract final class _AdministrationRouteUnits {
-  static final Map<String, String Function(num count)> _labelsByName = {
-    AdministrationRoute.injection.name: (c) =>
-        t.administrationRouteUnitMl(count: c),
-    AdministrationRoute.oral.name: (c) =>
-        t.administrationRouteUnitPill(count: c),
-    AdministrationRoute.sublingual.name: (c) =>
-        t.administrationRouteUnitPill(count: c),
-    AdministrationRoute.patch.name: (c) =>
-        t.administrationRouteUnitPatch(count: c),
-    AdministrationRoute.gel.name: (c) =>
-        t.administrationRouteUnitPump(count: c),
-    AdministrationRoute.implant.name: (c) =>
-        t.administrationRouteUnitImplant(count: c),
-    AdministrationRoute.suppository.name: (c) =>
-        t.administrationRouteUnitSuppository(count: c),
-    AdministrationRoute.transdermalSpray.name: (c) =>
-        t.administrationRouteUnitSpray(count: c),
-    AdministrationRoute.transdermalDrops.name: (c) =>
-        t.administrationRouteUnitMl(count: c),
-  };
-
-  static String resolve(AdministrationRoute route, num count) {
-    final labelBuilder = _labelsByName[route.name];
-    if (labelBuilder != null) {
-      return labelBuilder(count);
-    }
-    return route.unit;
-  }
 }

@@ -17,8 +17,6 @@ part 'medication_supply_item.mapper.dart';
   includeCustomMappers: [
     DateStringMapper(),
     DecimalStringMapper(),
-    AdministrationRouteNameMapper(),
-    EsterNameMapper(),
   ],
 )
 class MedicationSupplyItem extends SupplyItem
