@@ -7,25 +7,10 @@ extension AdministrationRouteL10n on AdministrationRoute {
   String localizedUnit(num count) =>
       _AdministrationRouteUnits.resolve(this, count);
 
-  /// The label for a supply item's "concentration" field, for this route.
-  ///
-  /// Patch/gel/implant/suppository/transdermal spray get a route-specific
-  /// "Dose per X" label instead of the generic "Concentration" one, since
-  /// entering the product's own concentration there (e.g. a gel's "0.06%")
-  /// instead of the actual per-unit dose from the drug leaflet is an easy
-  /// mistake -- injection/transdermal drops (mg/mL) and oral/sublingual (a
-  /// pill's known dose) don't have that ambiguity, so they keep the
-  /// generic label. See https://github.com/mona-hrt/mona/issues/305.
-  String get localizedConcentrationLabel => _hasAmbiguousConcentrationLabel
-      ? t.concentrationLabelPerUnit(unit: localizedUnit(1))
-      : t.concentration;
-
-  bool get _hasAmbiguousConcentrationLabel =>
-      this == AdministrationRoute.patch ||
-      this == AdministrationRoute.gel ||
-      this == AdministrationRoute.implant ||
-      this == AdministrationRoute.suppository ||
-      this == AdministrationRoute.transdermalSpray;
+  String get localizedConcentrationLabel =>
+      this == AdministrationRoute.injection
+          ? t.concentration
+          : t.concentrationLabelPerUnit(unit: localizedUnit(1));
 }
 
 abstract final class _AdministrationRouteDisplayNames {
