@@ -316,6 +316,13 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   String notificationMedicationReminderBodyWeekday({required Object weekday}) =>
       'Scheduled for ${weekday}';
 
+  /// en: 'Take'
+  String get notificationActionTake => 'Take';
+
+  /// en: 'In {minutes}m'
+  String notificationActionSnooze({required Object minutes}) =>
+      'In ${minutes}m';
+
   /// en: 'Add a schedule'
   String get addSchedule => 'Add a schedule';
 
@@ -1090,6 +1097,9 @@ extension on Translations {
           'Scheduled for ${time}',
       'notificationMedicationReminderBodyWeekday' =>
         ({required Object weekday}) => 'Scheduled for ${weekday}',
+      'notificationActionTake' => 'Take',
+      'notificationActionSnooze' => ({required Object minutes}) =>
+          'In ${minutes}m',
       'addSchedule' => 'Add a schedule',
       'addScheduleToGetStarted' => 'Add a schedule to get started.',
       'newSchedule' => 'New schedule',

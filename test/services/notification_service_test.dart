@@ -142,6 +142,7 @@ void main() {
       title: 'Test',
       body: 'Body',
       scheduledTime: DateTime(2026, 2, 8, 10, 30),
+      scheduleId: 42,
     );
 
     expect(fakePlugin.scheduled.length, 1);
@@ -151,6 +152,36 @@ void main() {
     expect(n['body'], 'Body');
     expect((n['date'] as tz.TZDateTime).hour, 10);
     expect((n['date'] as tz.TZDateTime).minute, 30);
+  });
+
+  test('scheduleNotification embeds the scheduleId in the payload', () async {
+    await service.scheduleNotification(
+      id: 1,
+      title: 'Test',
+      body: 'Body',
+      scheduledTime: DateTime(2026, 2, 8, 10, 30),
+      scheduleId: 42,
+    );
+
+    final n = fakePlugin.scheduled.single;
+    final payload = jsonDecode(n['payload'] as String) as Map<String, Object?>;
+    expect(payload['scheduleId'], 42);
+  });
+
+  test('scheduleNotification embeds title/body in the payload for snoozing',
+      () async {
+    await service.scheduleNotification(
+      id: 1,
+      title: 'Test',
+      body: 'Body',
+      scheduledTime: DateTime(2026, 2, 8, 10, 30),
+      scheduleId: 42,
+    );
+
+    final n = fakePlugin.scheduled.single;
+    final payload = jsonDecode(n['payload'] as String) as Map<String, Object?>;
+    expect(payload['title'], 'Test');
+    expect(payload['body'], 'Body');
   });
 
   test('showNotification adds a shown notification', () async {
@@ -167,6 +198,7 @@ void main() {
       title: 'T1',
       body: 'B1',
       scheduledTime: DateTime(2026, 2, 8, 10, 0),
+      scheduleId: 1,
     );
     await service.cancelAllNotifications();
     expect(fakePlugin.scheduled.length, 0);
@@ -178,12 +210,14 @@ void main() {
       title: 'T1',
       body: 'B1',
       scheduledTime: DateTime(2026, 2, 8, 10, 0),
+      scheduleId: 1,
     );
     await service.scheduleNotification(
       id: 2,
       title: 'T2',
       body: 'B2',
       scheduledTime: DateTime(2026, 2, 9, 10, 0),
+      scheduleId: 2,
     );
 
     await service.cancelPendingNotifications();
@@ -247,6 +281,9 @@ void main() {
       title: 'D',
       body: 'B',
       firstOccurrence: firstFire,
+      scheduleId: 7,
+      scheduledTimeHour: 10,
+      scheduledTimeMinute: 30,
     );
 
     // Assert
@@ -254,6 +291,9 @@ void main() {
     final payload = jsonDecode(n['payload'] as String) as Map<String, Object?>;
     expect(n['matchDateTimeComponents'], DateTimeComponents.time);
     expect(payload['isRepeating'], isTrue);
+    expect(payload['scheduleId'], 7);
+    expect(payload['scheduledTimeHour'], 10);
+    expect(payload['scheduledTimeMinute'], 30);
   });
 
   test(
@@ -268,6 +308,9 @@ void main() {
       title: 'W',
       body: 'B',
       firstOccurrence: firstFire,
+      scheduleId: 9,
+      scheduledTimeHour: 8,
+      scheduledTimeMinute: 0,
     );
 
     // Assert
@@ -275,5 +318,43 @@ void main() {
     final payload = jsonDecode(n['payload'] as String) as Map<String, Object?>;
     expect(n['matchDateTimeComponents'], DateTimeComponents.dayOfWeekAndTime);
     expect(payload['isRepeating'], isTrue);
+    expect(payload['scheduleId'], 9);
+  });
+
+  test('showNotification forwards the payload when provided', () async {
+    await service.showNotification(
+      title: 'Show',
+      body: 'Body',
+      payload: jsonEncode({'scheduleId': 5}),
+    );
+
+    final n = fakePlugin.shown.single;
+    final payload = jsonDecode(n['payload'] as String) as Map<String, Object?>;
+    expect(payload['scheduleId'], 5);
+  });
+
+  test('triggerPastPendingNotifications forwards the original payload',
+      () async {
+    await withFixedClockAsync(() async {
+      final payload = jsonEncode({
+        'scheduledTime':
+            clock.now().subtract(Duration(days: 1)).toIso8601String(),
+        'scheduleId': 3,
+      });
+      fakePlugin.scheduled.add({
+        'id': 1,
+        'title': 'Past',
+        'body': 'B',
+        'date': clock.now(),
+        'payload': payload,
+      });
+
+      await service.triggerPastPendingNotifications();
+
+      final shown = fakePlugin.shown.single;
+      final shownPayload =
+          jsonDecode(shown['payload'] as String) as Map<String, Object?>;
+      expect(shownPayload['scheduleId'], 3);
+    });
   });
 }

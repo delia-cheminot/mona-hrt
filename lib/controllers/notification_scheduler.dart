@@ -60,6 +60,7 @@ class NotificationScheduler {
         date: dateFormat.format(plan.dateTime),
       ),
       scheduledTime: plan.dateTime,
+      scheduleId: plan.schedule.id,
     );
   }
 
@@ -76,6 +77,9 @@ class NotificationScheduler {
         time: timeFormat.format(plan.firstFire),
       ),
       firstOccurrence: plan.firstFire,
+      scheduleId: plan.schedule.id,
+      scheduledTimeHour: plan.time.hour,
+      scheduledTimeMinute: plan.time.minute,
     );
   }
 
@@ -92,6 +96,9 @@ class NotificationScheduler {
         weekday: weekdayFormat.format(plan.firstFire),
       ),
       firstOccurrence: plan.firstFire,
+      scheduleId: plan.schedule.id,
+      scheduledTimeHour: plan.time.hour,
+      scheduledTimeMinute: plan.time.minute,
     );
   }
 }

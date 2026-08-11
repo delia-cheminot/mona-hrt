@@ -14,7 +14,7 @@ class MedicationIntakeProvider extends ChangeNotifier {
   final Repository<MedicationIntake> repository;
 
   MedicationIntakeProvider({Repository<MedicationIntake>? repository})
-      : repository = repository ?? _medicationIntakeRepository {
+      : repository = repository ?? defaultRepository {
     _init();
   }
 
@@ -165,7 +165,7 @@ class MedicationIntakeProvider extends ChangeNotifier {
         .reduce((a, b) => a.takenDateTime!.isAfter(b.takenDateTime!) ? a : b);
   }
 
-  static final _medicationIntakeRepository = Repository<MedicationIntake>(
+  static final defaultRepository = Repository<MedicationIntake>(
     tableName: 'medication_intakes',
     toMap: (MedicationIntake intake) => intake.toMap(),
     fromMap: (map) =>

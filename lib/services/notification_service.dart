@@ -5,9 +5,22 @@ import 'package:clock/clock.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
+
+/// Id of the notification action that logs an intake as taken without
+/// opening the app. Shared with the background handler that processes it,
+/// see lib/services/notification_action_handler.dart.
+const String takeActionId = 'take';
+
+/// Id of the notification action that reschedules the same reminder
+/// [snoozeDuration] later instead of logging it. Shared with the
+/// background handler.
+const String snoozeActionId = 'snooze';
+
+const Duration snoozeDuration = Duration(minutes: 30);
 
 class NotificationService {
   static FlutterLocalNotificationsPlugin Function()? createPlugin =
@@ -35,7 +48,11 @@ class NotificationService {
       _notificationsPlugin.resolvePlatformSpecificImplementation<
           IOSFlutterLocalNotificationsPlugin>();
 
-  Future<void> initialize() async {
+  Future<void> initialize({
+    DidReceiveNotificationResponseCallback? onDidReceiveNotificationResponse,
+    DidReceiveBackgroundNotificationResponseCallback?
+        onDidReceiveBackgroundNotificationResponse,
+  }) async {
     if (_initialized) return;
 
     tzdata.initializeTimeZones();
@@ -53,22 +70,43 @@ class NotificationService {
     );
 
     await _notificationsPlugin.initialize(
-        settings: InitializationSettings(
-      android: androidSettings,
-      iOS: iosSettings,
-    ));
+      settings: InitializationSettings(
+        android: androidSettings,
+        iOS: iosSettings,
+      ),
+      onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
+      onDidReceiveBackgroundNotificationResponse:
+          onDidReceiveBackgroundNotificationResponse,
+    );
 
     _initialized = true;
   }
 
   NotificationDetails _notificationDetails() {
-    return const NotificationDetails(
+    return NotificationDetails(
       android: AndroidNotificationDetails(
-          'medication_intakes', 'Medication Intakes',
-          channelDescription: 'Notifications for medication intakes',
-          importance: Importance.max,
-          priority: Priority.max),
-      iOS: DarwinNotificationDetails(
+        'medication_intakes',
+        'Medication Intakes',
+        channelDescription: 'Notifications for medication intakes',
+        importance: Importance.max,
+        priority: Priority.max,
+        actions: [
+          AndroidNotificationAction(
+            takeActionId,
+            t.notificationActionTake,
+            // Runs the background handler directly, no app UI shown.
+            showsUserInterface: false,
+            cancelNotification: true,
+          ),
+          AndroidNotificationAction(
+            snoozeActionId,
+            t.notificationActionSnooze(minutes: snoozeDuration.inMinutes),
+            showsUserInterface: false,
+            cancelNotification: true,
+          ),
+        ],
+      ),
+      iOS: const DarwinNotificationDetails(
         interruptionLevel: InterruptionLevel.timeSensitive,
         presentAlert: true,
         presentBadge: true,
@@ -122,6 +160,7 @@ class NotificationService {
     int? id,
     String? title,
     String? body,
+    String? payload,
   }) async {
     id ??= Random().nextInt(1 << 31);
 
@@ -137,20 +176,32 @@ class NotificationService {
       title: title,
       body: body,
       notificationDetails: _notificationDetails(),
+      payload: payload,
     );
   }
 
+  /// [scheduleId] is embedded in the payload so the "Take" action (see
+  /// [takeActionId]) knows which schedule to log an intake for.
+  /// [scheduledTimeHour]/[scheduledTimeMinute] are only meaningful (and
+  /// only need setting) for daily/weekly schedules, where MedicationIntake
+  /// tracks which time-of-day slot was taken.
   Future<void> scheduleNotification({
     required int id,
     required String title,
     required String body,
     required DateTime scheduledTime,
+    required int scheduleId,
+    int? scheduledTimeHour,
+    int? scheduledTimeMinute,
   }) =>
       _schedule(
         id: id,
         title: title,
         body: body,
         scheduledTime: scheduledTime,
+        scheduleId: scheduleId,
+        scheduledTimeHour: scheduledTimeHour,
+        scheduledTimeMinute: scheduledTimeMinute,
       );
 
   Future<void> scheduleDailyNotification({
@@ -158,6 +209,9 @@ class NotificationService {
     required String title,
     required String body,
     required DateTime firstOccurrence,
+    required int scheduleId,
+    int? scheduledTimeHour,
+    int? scheduledTimeMinute,
   }) =>
       _schedule(
         id: id,
@@ -165,6 +219,9 @@ class NotificationService {
         body: body,
         scheduledTime: firstOccurrence,
         matchComponents: DateTimeComponents.time,
+        scheduleId: scheduleId,
+        scheduledTimeHour: scheduledTimeHour,
+        scheduledTimeMinute: scheduledTimeMinute,
       );
 
   Future<void> scheduleWeeklyNotification({
@@ -172,6 +229,9 @@ class NotificationService {
     required String title,
     required String body,
     required DateTime firstOccurrence,
+    required int scheduleId,
+    int? scheduledTimeHour,
+    int? scheduledTimeMinute,
   }) =>
       _schedule(
         id: id,
@@ -179,6 +239,9 @@ class NotificationService {
         body: body,
         scheduledTime: firstOccurrence,
         matchComponents: DateTimeComponents.dayOfWeekAndTime,
+        scheduleId: scheduleId,
+        scheduledTimeHour: scheduledTimeHour,
+        scheduledTimeMinute: scheduledTimeMinute,
       );
 
   Future<void> _schedule({
@@ -186,11 +249,24 @@ class NotificationService {
     required String title,
     required String body,
     required DateTime scheduledTime,
+    required int scheduleId,
     DateTimeComponents? matchComponents,
+    int? scheduledTimeHour,
+    int? scheduledTimeMinute,
   }) async {
     final payload = jsonEncode({
       'scheduledTime': scheduledTime.toIso8601String(),
       if (matchComponents != null) 'isRepeating': true,
+      'scheduleId': scheduleId,
+      if (scheduledTimeHour != null) 'scheduledTimeHour': scheduledTimeHour,
+      if (scheduledTimeMinute != null)
+        'scheduledTimeMinute': scheduledTimeMinute,
+      // Carried along so the "Snooze" action (see [snoozeActionId]) can
+      // reschedule with the exact same, already-localized text without
+      // needing to re-render strings from a background isolate that has
+      // no guarantee of running with the user's chosen locale.
+      'title': title,
+      'body': body,
     });
     final dateTime = tz.TZDateTime(
         tz.local,
@@ -245,6 +321,7 @@ class NotificationService {
       await showNotification(
         title: notification.title,
         body: notification.body,
+        payload: notification.payload,
       );
     }
   }
