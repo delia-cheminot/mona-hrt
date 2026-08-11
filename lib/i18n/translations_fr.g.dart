@@ -614,6 +614,7 @@ class TranslationsFr extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
         one: '1 jour sous THS',
+        many: '${count} de jours sous THS',
         other: '${count} jours sous THS',
       );
   @override
@@ -621,6 +622,7 @@ class TranslationsFr extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
         one: '1 semaine sous THS',
+        many: '${count} de semaines sous THS',
         other: '${count} semaines sous THS',
       );
   @override
@@ -628,6 +630,7 @@ class TranslationsFr extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
         one: '1 mois sous THS',
+        many: '${count} de mois sous THS',
         other: '${count} mois sous THS',
       );
   @override
@@ -635,6 +638,7 @@ class TranslationsFr extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
         one: '1 an sous THS',
+        many: '${count} d\'années sous THS',
         other: '${count} ans sous THS',
       );
   @override
@@ -642,6 +646,7 @@ class TranslationsFr extends Translations
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
         one: '1 prise enregistrée',
+        many: '${count} de prises enregistrées',
         other: '${count} prises enregistrées',
       );
   @override
@@ -1072,30 +1077,35 @@ extension on TranslationsFr {
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
             one: '1 jour sous THS',
+            many: '${count} de jours sous THS',
             other: '${count} jours sous THS',
           ),
       'onHrtForWeeks' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
             one: '1 semaine sous THS',
+            many: '${count} de semaines sous THS',
             other: '${count} semaines sous THS',
           ),
       'onHrtForMonths' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
             one: '1 mois sous THS',
+            many: '${count} de mois sous THS',
             other: '${count} mois sous THS',
           ),
       'onHrtForYears' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
             one: '1 an sous THS',
+            many: '${count} d\'années sous THS',
             other: '${count} ans sous THS',
           ),
       'intakesLoggedCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
             one: '1 prise enregistrée',
+            many: '${count} de prises enregistrées',
             other: '${count} prises enregistrées',
           ),
       'remaining' => ({required num count, required Object unit}) =>
