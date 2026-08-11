@@ -170,6 +170,7 @@
   "adminRoute": "Voie d'administration",
   "totalAmount": "Quantité totale",
   "concentration": "Concentration",
+  "concentrationLabelPerUnit": "Dose par {{unit}}",
   "editItem": "Modifier l'élément",
   "usedAmount": "Quantité utilisée",
   "deleteItem": "Supprimer {{name}} ?",

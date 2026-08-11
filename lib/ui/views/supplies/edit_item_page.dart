@@ -237,7 +237,7 @@ class _EditItemPageState extends State<EditItemPage> {
             regexFormatter: RegexPatterns.floatNumber),
         FormTextField(
           controller: _concentrationController,
-          label: t.concentration,
+          label: _administrationRoute.localizedConcentrationLabel,
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           suffixText:
