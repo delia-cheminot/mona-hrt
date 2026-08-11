@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -429,7 +430,11 @@ void main() {
             planner.planNotifications(daysAhead: 30).cast<PlannedRepeating>();
 
         // Assert
-        expect(plans.singleWhere((p) => p.time == afternoon).firstFire,
+        expect(
+            plans
+                .singleWhere(
+                    (p) => TimeOfDay.fromDateTime(p.firstFire) == afternoon)
+                .firstFire,
             Date.today().toDateTimeAt(afternoon));
       });
     });

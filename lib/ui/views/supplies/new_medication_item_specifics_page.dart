@@ -184,7 +184,8 @@ class _NewMedicationItemSpecificsPageState
         ),
         FormTextField(
           controller: _concentrationController,
-          label: t.concentration,
+          label: _administrationRoute?.localizedConcentrationLabel ??
+              t.concentration,
           fieldKey: const ValueKey('newMedicationItemConcentration'),
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),

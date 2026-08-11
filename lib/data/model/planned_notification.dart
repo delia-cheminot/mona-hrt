@@ -25,14 +25,12 @@ class PlannedRepeating extends PlannedNotification {
   final Periodicity periodicity;
   @override
   final DateTime firstFire;
-  final TimeOfDay time;
   final int? dayOfWeek;
 
   const PlannedRepeating(
     super.schedule, {
     required this.periodicity,
     required this.firstFire,
-    required this.time,
     this.dayOfWeek,
   }) : assert(
           (periodicity == Periodicity.weekly) == (dayOfWeek != null),

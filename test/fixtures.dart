@@ -228,26 +228,22 @@ PlannedOccurrence anOccurrencePlan({
 
 PlannedRepeating aDailyPlan({
   MedicationSchedule? schedule,
-  TimeOfDay time = morning,
   DateTime? firstFire,
 }) =>
     PlannedRepeating(
       schedule ?? aMedicationSchedule(),
       periodicity: Periodicity.daily,
       firstFire: firstFire ?? _tomorrowMorning,
-      time: time,
     );
 
 PlannedRepeating aWeeklyPlan({
   MedicationSchedule? schedule,
   int dayOfWeek = 1,
-  TimeOfDay time = morning,
   DateTime? firstFire,
 }) =>
     PlannedRepeating(
       schedule ?? aMedicationSchedule(),
       periodicity: Periodicity.weekly,
       firstFire: firstFire ?? _nextMondayMorning,
-      time: time,
       dayOfWeek: dayOfWeek,
     );

@@ -6,6 +6,11 @@ extension AdministrationRouteL10n on AdministrationRoute {
 
   String localizedUnit(num count) =>
       _AdministrationRouteUnits.resolve(this, count);
+
+  String get localizedConcentrationLabel =>
+      this == AdministrationRoute.injection
+          ? t.concentration
+          : t.concentrationLabelPerUnit(unit: localizedUnit(1));
 }
 
 abstract final class _AdministrationRouteDisplayNames {
