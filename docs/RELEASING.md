@@ -50,7 +50,7 @@ A new version is published by merging a Pull Request from `dev` to `main`. The [
 
 ## Post-release
 
-The CI automatically publishes the GitHub Release (with the standalone APK attached, used by IzzyOnDroid) and tags the commit. Store uploads must still be done by hand.
+The CI automatically publishes the GitHub Release and tags the commit. Store uploads must still be done by hand.
 
 ### Android (Google Play)
 
@@ -93,31 +93,18 @@ iOS builds are **not** produced by CI, they must be archived locally on a Mac wi
 
 ### iOS sideload (AltStore / SideStore source)
 
-Mona is also distributed to iOS users outside the App Store via an AltStore-compatible source ([`ios_source.json`](../ios_source.json)). Each release must ship a signed `.ipa` attached to the GitHub Release, and the source file must be updated to point to it.
+Mona also reaches iOS users outside the App Store through an AltStore-compatible source ([`ios_source.json`](../ios_source.json)). Each release ships a signed `.ipa` attached to the GitHub Release, and the source file points to it.
 
-The Xcode archive produced in the previous section already contains the `.app` bundle. We just need to repackage it as an `.ipa` (a zipped `Payload/` folder).
+The [`scripts/ios_release.sh`](../scripts/ios_release.sh) script does all of this. It repackages the Xcode archive as an `.ipa`, uploads it to the GitHub Release, updates `ios_source.json`, and pushes the change.
 
-1. From the repository root, package the archive into an `.ipa`. Replace `<VERSION>` with the release version (e.g. `1.10.2`):
+Prerequisites:
 
-   ```bash
-   cd ios/build/Runner.xcarchive/Products/Applications
-   mkdir Payload
-   mv Runner.app Payload
-   zip -9r mona-<VERSION>.ipa Payload
-   ```
+- The Xcode archive from the App Store section exists.
+- The GitHub Release for `v<VERSION>` exists.
+- `jq` and the GitHub CLI (`gh`) are installed, and `gh` is authenticated.
 
-2. Open the existing GitHub Release for `v<VERSION>` (created earlier by the `CI - release` workflow) and **upload `mona-<VERSION>.ipa`** as an additional asset.
-3. Get the exact size of the `.ipa` in bytes. This is what `size` must be set to in `ios_source.json`:
+Run the script from the repository root:
 
-   ```bash
-   stat -f %z mona-<VERSION>.ipa
-   ```
-
-4. Update [`ios_source.json`](../ios_source.json) on `main`:
-
-   - In `apps[0]`, update the top-level fields: `downloadURL`, `size` (in bytes, from the previous step), `version`, `versionDate` (ISO 8601 UTC), `versionDescription`.
-   - Prepend a new entry at the top of `apps[0].versions[]` with the same `downloadURL` / `size` / `version`, plus `buildVersion`, `date`, `localizedDescription` (release notes), and `minOSVersion`.
-
-   See the existing entries in the file for the exact format.
-
-5. Commit and push the updated `ios_source.json` to `main`.
+```bash
+scripts/ios_release.sh
+```
