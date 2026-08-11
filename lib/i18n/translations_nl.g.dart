@@ -256,6 +256,293 @@ class TranslationsNl extends Translations
   @override
   String get addNotification => 'Melding toevoegen';
   @override
+  String get startOfDay => 'Begin van de dag';
+  @override
+  String startOfDayDescription({required Object time}) =>
+      'Tijd voor ${time} teld voor de vorige dag';
+  @override
+  String get chooseSchedule => 'Kies een schema';
+  @override
+  String get addSchedulesFirst => 'voeg eerst een schema toe.';
+  @override
+  String get editIntake => 'Intake bewerken';
+  @override
+  String get date => 'Datum';
+  @override
+  String get amount => 'Hoeveelheid';
+  @override
+  String get takenAmount => 'Genomen hoeveelheid';
+  @override
+  String get wastedAmount => 'Verloren hoeveelheid';
+  @override
+  String get none => 'Geen';
+  @override
+  String get chooseItem => 'Kies een item';
+  @override
+  String get noItemsToAdd => 'Geen items beschikbaar';
+  @override
+  String get injectionSide => 'Kant van injectie';
+  @override
+  String get deleteIntake => 'Deze intake verwijderen?';
+  @override
+  String takeMedication({required Object scheduleName}) =>
+      'Neem ${scheduleName}';
+  @override
+  String get takeIntake => 'Neem intake';
+  @override
+  String get intakeRecorded => 'Intake opgenomen';
+  @override
+  String get notes => 'Notities';
+  @override
+  String get microliters => 'μL';
+  @override
+  String get milliliters => 'mL';
+  @override
+  String get empty_levels => 'Estradiol injecties komen hier te staan';
+  @override
+  String get bloodTestsTitle => 'Bloedwaardentesten';
+  @override
+  String get empty_blood_tests =>
+      'Genomen bloedwaardentesten zullen hier komen te staan. Begin door op de Toevoegen knop te drukken!';
+  @override
+  String get addBloodTest => 'Voeg een bloedwaardentest toe';
+  @override
+  String get editBloodTest => 'Een bloedwaardentest bewerken';
+  @override
+  String get newBloodTest => 'Nieuwe bloedwaardentest';
+  @override
+  String get deleteBloodTest => 'Deze bloedwaardentest verwijderen?';
+  @override
+  String get estradiolLevelLabel => 'Oestradiol niveau';
+  @override
+  String get testosteroneLevelLabel => 'Testosteron niveau';
+  @override
+  String get bloodTestDateLabel => 'Test datum';
+  @override
+  String chartNowConcentration({required Object value}) => 'Nu ${value}';
+  @override
+  String chartBloodTestLevelTooltip(
+          {required Object date, required Object level}) =>
+      '${date}: ${level}';
+  @override
+  String chartLevelTooltip({required Object date, required Object level}) =>
+      '${date}: ${level}';
+  @override
+  String get empty_supplies =>
+      'Geen middelen. Voeg een item toe om te beginnen.';
+  @override
+  String get newItem => 'Nieuw item';
+  @override
+  String get totalAmount => 'Totale hoeveelheid';
+  @override
+  String get concentration => 'Concentratie';
+  @override
+  String get editItem => 'Item bewerken';
+  @override
+  String get usedAmount => 'Gebruikte hoeveelheid';
+  @override
+  String deleteItem({required Object name}) => '${name} verwijderen?';
+  @override
+  String get allItemsFilter => 'Alles';
+  @override
+  String get medicationItemsFilter => 'Medicatie';
+  @override
+  String get genericItems => 'Verbruiksmaterialen';
+  @override
+  String get medicationItemType => 'Medicatie';
+  @override
+  String get genericItemType => 'Verbruiksmaterialen';
+  @override
+  String get supplyType => 'Type';
+  @override
+  String get syringe => 'Injectiespuiten';
+  @override
+  String get wipe => 'Doekjes';
+  @override
+  String get needle => 'Naalden';
+  @override
+  String get gloves => 'Handschoenen';
+  @override
+  String get bandage => 'Pleisters/Verband';
+  @override
+  String get add => 'Toevoegen';
+  @override
+  String get save => 'Opslaan';
+  @override
+  String get cancel => 'Annuleren';
+  @override
+  String get next => 'Volgende';
+  @override
+  String get delete => 'Verwijderen';
+  @override
+  String get deleteElement => 'Dit item verwijderen?';
+  @override
+  String get irreversibleAction =>
+      'Deze actie kan niet ongedaan worden gemaakt.';
+  @override
+  String get name => 'Naam';
+  @override
+  String get molecule => 'Molecule';
+  @override
+  String get ester => 'Ester';
+  @override
+  String get estradiol => 'Oestradiol';
+  @override
+  String get progesterone => 'Progesterone';
+  @override
+  String get testosterone => 'Testosteron';
+  @override
+  String get nandrolone => 'Nandrolon';
+  @override
+  String get dihydrotestosterone => 'Dihydrotestosteron';
+  @override
+  String get spironolactone => 'Spironolacton';
+  @override
+  String get cyproteroneAcetate => 'Cyproteronacetaat';
+  @override
+  String get leuprorelinAcetate => 'Leuprorelineacetaat';
+  @override
+  String get bicalutamide => 'Bicalutamide';
+  @override
+  String get decapeptyl => 'Decapeptyl';
+  @override
+  String get raloxifene => 'Raloxifene';
+  @override
+  String get tamoxifen => 'Tamoxifen';
+  @override
+  String get finasteride => 'Finasteride';
+  @override
+  String get dutasteride => 'Dutasteride';
+  @override
+  String get minoxidil => 'Minoxidil';
+  @override
+  String get pioglitazone => 'Pioglitazone';
+  @override
+  String get enanthate => 'Enanthaat';
+  @override
+  String get valerate => 'Valeraat';
+  @override
+  String get cypionate => 'Cypionaat';
+  @override
+  String get undecylate => 'Undecylaat';
+  @override
+  String get benzoate => 'Benzoaat';
+  @override
+  String get cypionateSuspension => 'Cypionaat-suspensie';
+  @override
+  String get medicationEstradiolEnanthate => 'Estradiol-enanthaat';
+  @override
+  String get medicationEstradiolValerate => 'Estradiolvaleraat';
+  @override
+  String get medicationEstradiolCypionate => 'Estradiolcypionaat';
+  @override
+  String get medicationEstradiolUndecylate => 'Estradiolundecylaat';
+  @override
+  String get medicationEstradiolBenzoate => 'Estradiolbenzoaat';
+  @override
+  String get medicationEstradiolCypionateSuspension =>
+      'Estradiolcypionaat-suspensie';
+  @override
+  String get injection => 'Injectie';
+  @override
+  String get oral => 'Oraal';
+  @override
+  String get sublingual => 'Sublinguaal';
+  @override
+  String get patch => 'Pleister';
+  @override
+  String get gel => 'Gel';
+  @override
+  String get implant => 'Implantaat';
+  @override
+  String get suppository => 'Zetpil';
+  @override
+  String get transdermalSpray => 'Transdermale spray';
+  @override
+  String get transdermalDrops => 'Transdermale druppels';
+  @override
+  String get unitMilligram => 'mg';
+  @override
+  String get unitPgPerMl => 'pg/mL';
+  @override
+  String get unitPmolPerL => 'pmol/L';
+  @override
+  String get unitNgPerDl => 'ng/dL';
+  @override
+  String get unitNmolPerL => 'nmol/L';
+  @override
+  String get injectionSideLeft => 'Links';
+  @override
+  String get injectionSideRight => 'Rechts';
+  @override
+  String get placementLeft => 'Linker kant';
+  @override
+  String get placementRight => 'Rechter kant';
+  @override
+  String get placementLeftThigh => 'Linkerdij';
+  @override
+  String get placementRightThigh => 'Rechterdij';
+  @override
+  String get placementLeftArm => 'Linkerarm';
+  @override
+  String get placementRightArm => 'Rechterarm';
+  @override
+  String get placementLeftButtock => 'Linkerbil';
+  @override
+  String get placementRightButtock => 'Rechterbil';
+  @override
+  String get placementLeftAbdomen => 'Linkerzijde van de buik';
+  @override
+  String get placementRightAbdomen => 'Rechterzijde van de buik';
+  @override
+  String get injectionSites => 'Injectieplekken';
+  @override
+  String get injectionSitesDescription => 'Beheer de plekken waar je wisselt';
+  @override
+  String get addInjectionSite => 'Plek toevoegen';
+  @override
+  String get noInjectionSitesYet => 'Nog geen plekken';
+  @override
+  String get noInjectionAddOneToGetStarted =>
+      'Voeg hieronder plekken toe om te beginnen.';
+  @override
+  String get placementSuggestionPerScheduleTitle => 'Suggesteer per schema';
+  @override
+  String get placementSuggestionPerScheduleDescription =>
+      'Baseer de suggestie voor de volgende plek alleen op de geschiedenis van dit schema.';
+  @override
+  String get requiredField => 'Verplicht veld';
+  @override
+  String get mustBePositiveNumber => 'Moet een positief nummer zijn';
+  @override
+  String get mustBeBetween1And28 => 'Moet tussen 1 en 28 zijn';
+  @override
+  String get invalidTotalAmount => 'Ongeldige totaalhoeveelheid';
+  @override
+  String get cannotExceedTotalCapacity => 'Kan niet het totaal overschrijden';
+  @override
+  String get lastTaken => 'Laatst (in)genomen';
+  @override
+  String get neverTakenYet => 'Nog niet (in)genomen';
+  @override
+  String get scheduleFrequencyInterval => 'Interval';
+  @override
+  String get anchorToLastIntake =>
+      'Opnieuw berekenen op basis van de laatste inname';
+  @override
+  String get anchorToLastIntakeDescription =>
+      'Plan de volgende inname volgens de ingestelde interval sinds de vorige inname';
+  @override
+  String notificationMedicationReminderTitle({required Object scheduleName}) =>
+      'Tijd om ${scheduleName} in te nemen';
+  @override
+  String get empty_intakes => '(In)Genomen innames zullen hier getoond worden';
+  @override
+  String get intakeCounter => 'Inname teller';
+  @override
+  String get intakeCounterDescription =>
+      'Laat zien hoe lang je aan HRT zit en je totale innames';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
         count,
@@ -318,6 +605,97 @@ class TranslationsNl extends Translations
         count,
         one: 'Aan HRT voor 1 jaar',
         other: 'Aan HRT voor ${count} jaar',
+      );
+  @override
+  String remaining({required num count, required Object unit}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+        count,
+        one: '${count} ${unit} over',
+        other: '${count} ${unit} over',
+      );
+  @override
+  String syringeRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+        count,
+        one: '1 injectiespuit over',
+        other: '${count} injectiespuiten over',
+      );
+  @override
+  String wipeRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+        count,
+        one: '1 doekje over',
+        other: '${count} doekjes over',
+      );
+  @override
+  String needleRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+        count,
+        one: '1 naald over',
+        other: '${count} naalden over',
+      );
+  @override
+  String glovesRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+        count,
+        one: '1 handschoen over',
+        other: '${count} handschoenen over',
+      );
+  @override
+  String administrationRouteUnitMl({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+        count,
+        one: 'ml',
+        other: 'ml',
+      );
+  @override
+  String administrationRouteUnitPill({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+        count,
+        one: 'pil',
+        other: 'pillen',
+      );
+  @override
+  String administrationRouteUnitPatch({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+        count,
+        one: 'pleister',
+        other: 'pleisters',
+      );
+  @override
+  String administrationRouteUnitPump({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+        count,
+        one: 'pomp',
+        other: 'pompen',
+      );
+  @override
+  String administrationRouteUnitImplant({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+        count,
+        one: 'implantaat',
+        other: 'implantaten',
+      );
+  @override
+  String administrationRouteUnitSuppository({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+        count,
+        one: 'zetpil',
+        other: 'zetpillen',
+      );
+  @override
+  String administrationRouteUnitSpray({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+        count,
+        one: 'spray',
+        other: 'sprays',
+      );
+  @override
+  String intakesLoggedCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+        count,
+        one: '1 inname gelogd',
+        other: '${count} innames gelogd',
       );
 }
 
@@ -440,6 +818,155 @@ extension on TranslationsNl {
       'editSchedule' => 'Planning bewerken',
       'deleteSchedule' => ({required Object name}) => '${name} verwijderen?',
       'addNotification' => 'Melding toevoegen',
+      'startOfDay' => 'Begin van de dag',
+      'startOfDayDescription' => ({required Object time}) =>
+          'Tijd voor ${time} teld voor de vorige dag',
+      'chooseSchedule' => 'Kies een schema',
+      'addSchedulesFirst' => 'voeg eerst een schema toe.',
+      'editIntake' => 'Intake bewerken',
+      'date' => 'Datum',
+      'amount' => 'Hoeveelheid',
+      'takenAmount' => 'Genomen hoeveelheid',
+      'wastedAmount' => 'Verloren hoeveelheid',
+      'none' => 'Geen',
+      'chooseItem' => 'Kies een item',
+      'noItemsToAdd' => 'Geen items beschikbaar',
+      'injectionSide' => 'Kant van injectie',
+      'deleteIntake' => 'Deze intake verwijderen?',
+      'takeMedication' => ({required Object scheduleName}) =>
+          'Neem ${scheduleName}',
+      'takeIntake' => 'Neem intake',
+      'intakeRecorded' => 'Intake opgenomen',
+      'notes' => 'Notities',
+      'microliters' => 'μL',
+      'milliliters' => 'mL',
+      'empty_levels' => 'Estradiol injecties komen hier te staan',
+      'bloodTestsTitle' => 'Bloedwaardentesten',
+      'empty_blood_tests' =>
+        'Genomen bloedwaardentesten zullen hier komen te staan. Begin door op de Toevoegen knop te drukken!',
+      'addBloodTest' => 'Voeg een bloedwaardentest toe',
+      'editBloodTest' => 'Een bloedwaardentest bewerken',
+      'newBloodTest' => 'Nieuwe bloedwaardentest',
+      'deleteBloodTest' => 'Deze bloedwaardentest verwijderen?',
+      'estradiolLevelLabel' => 'Oestradiol niveau',
+      'testosteroneLevelLabel' => 'Testosteron niveau',
+      'bloodTestDateLabel' => 'Test datum',
+      'chartNowConcentration' => ({required Object value}) => 'Nu ${value}',
+      'chartBloodTestLevelTooltip' =>
+        ({required Object date, required Object level}) => '${date}: ${level}',
+      'chartLevelTooltip' => ({required Object date, required Object level}) =>
+          '${date}: ${level}',
+      'empty_supplies' => 'Geen middelen. Voeg een item toe om te beginnen.',
+      'newItem' => 'Nieuw item',
+      'totalAmount' => 'Totale hoeveelheid',
+      'concentration' => 'Concentratie',
+      'editItem' => 'Item bewerken',
+      'usedAmount' => 'Gebruikte hoeveelheid',
+      'deleteItem' => ({required Object name}) => '${name} verwijderen?',
+      'allItemsFilter' => 'Alles',
+      'medicationItemsFilter' => 'Medicatie',
+      'genericItems' => 'Verbruiksmaterialen',
+      'medicationItemType' => 'Medicatie',
+      'genericItemType' => 'Verbruiksmaterialen',
+      'supplyType' => 'Type',
+      'syringe' => 'Injectiespuiten',
+      'wipe' => 'Doekjes',
+      'needle' => 'Naalden',
+      'gloves' => 'Handschoenen',
+      'bandage' => 'Pleisters/Verband',
+      'add' => 'Toevoegen',
+      'save' => 'Opslaan',
+      'cancel' => 'Annuleren',
+      'next' => 'Volgende',
+      'delete' => 'Verwijderen',
+      'deleteElement' => 'Dit item verwijderen?',
+      'irreversibleAction' => 'Deze actie kan niet ongedaan worden gemaakt.',
+      'name' => 'Naam',
+      'molecule' => 'Molecule',
+      'ester' => 'Ester',
+      'estradiol' => 'Oestradiol',
+      'progesterone' => 'Progesterone',
+      'testosterone' => 'Testosteron',
+      'nandrolone' => 'Nandrolon',
+      'dihydrotestosterone' => 'Dihydrotestosteron',
+      'spironolactone' => 'Spironolacton',
+      'cyproteroneAcetate' => 'Cyproteronacetaat',
+      'leuprorelinAcetate' => 'Leuprorelineacetaat',
+      'bicalutamide' => 'Bicalutamide',
+      'decapeptyl' => 'Decapeptyl',
+      'raloxifene' => 'Raloxifene',
+      'tamoxifen' => 'Tamoxifen',
+      'finasteride' => 'Finasteride',
+      'dutasteride' => 'Dutasteride',
+      'minoxidil' => 'Minoxidil',
+      'pioglitazone' => 'Pioglitazone',
+      'enanthate' => 'Enanthaat',
+      'valerate' => 'Valeraat',
+      'cypionate' => 'Cypionaat',
+      'undecylate' => 'Undecylaat',
+      'benzoate' => 'Benzoaat',
+      'cypionateSuspension' => 'Cypionaat-suspensie',
+      'medicationEstradiolEnanthate' => 'Estradiol-enanthaat',
+      'medicationEstradiolValerate' => 'Estradiolvaleraat',
+      'medicationEstradiolCypionate' => 'Estradiolcypionaat',
+      'medicationEstradiolUndecylate' => 'Estradiolundecylaat',
+      'medicationEstradiolBenzoate' => 'Estradiolbenzoaat',
+      'medicationEstradiolCypionateSuspension' =>
+        'Estradiolcypionaat-suspensie',
+      'injection' => 'Injectie',
+      'oral' => 'Oraal',
+      'sublingual' => 'Sublinguaal',
+      'patch' => 'Pleister',
+      'gel' => 'Gel',
+      'implant' => 'Implantaat',
+      'suppository' => 'Zetpil',
+      'transdermalSpray' => 'Transdermale spray',
+      'transdermalDrops' => 'Transdermale druppels',
+      'unitMilligram' => 'mg',
+      'unitPgPerMl' => 'pg/mL',
+      'unitPmolPerL' => 'pmol/L',
+      'unitNgPerDl' => 'ng/dL',
+      'unitNmolPerL' => 'nmol/L',
+      'injectionSideLeft' => 'Links',
+      'injectionSideRight' => 'Rechts',
+      'placementLeft' => 'Linker kant',
+      'placementRight' => 'Rechter kant',
+      'placementLeftThigh' => 'Linkerdij',
+      'placementRightThigh' => 'Rechterdij',
+      'placementLeftArm' => 'Linkerarm',
+      'placementRightArm' => 'Rechterarm',
+      'placementLeftButtock' => 'Linkerbil',
+      'placementRightButtock' => 'Rechterbil',
+      'placementLeftAbdomen' => 'Linkerzijde van de buik',
+      'placementRightAbdomen' => 'Rechterzijde van de buik',
+      'injectionSites' => 'Injectieplekken',
+      'injectionSitesDescription' => 'Beheer de plekken waar je wisselt',
+      'addInjectionSite' => 'Plek toevoegen',
+      'noInjectionSitesYet' => 'Nog geen plekken',
+      'noInjectionAddOneToGetStarted' =>
+        'Voeg hieronder plekken toe om te beginnen.',
+      'placementSuggestionPerScheduleTitle' => 'Suggesteer per schema',
+      'placementSuggestionPerScheduleDescription' =>
+        'Baseer de suggestie voor de volgende plek alleen op de geschiedenis van dit schema.',
+      'requiredField' => 'Verplicht veld',
+      'mustBePositiveNumber' => 'Moet een positief nummer zijn',
+      'mustBeBetween1And28' => 'Moet tussen 1 en 28 zijn',
+      'invalidTotalAmount' => 'Ongeldige totaalhoeveelheid',
+      'cannotExceedTotalCapacity' => 'Kan niet het totaal overschrijden',
+      'lastTaken' => 'Laatst (in)genomen',
+      'neverTakenYet' => 'Nog niet (in)genomen',
+      'scheduleFrequencyInterval' => 'Interval',
+      'anchorToLastIntake' =>
+        'Opnieuw berekenen op basis van de laatste inname',
+      'anchorToLastIntakeDescription' =>
+        'Plan de volgende inname volgens de ingestelde interval sinds de vorige inname',
+      'notificationMedicationReminderTitle' => (
+              {required Object scheduleName}) =>
+          'Tijd om ${scheduleName} in te nemen',
+      'empty_intakes' => '(In)Genomen innames zullen hier getoond worden',
+      'intakeCounter' => 'Inname teller',
+      'intakeCounterDescription' =>
+        'Laat zien hoe lang je aan HRT zit en je totale innames',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
             count,
@@ -494,6 +1021,84 @@ extension on TranslationsNl {
             count,
             one: 'Aan HRT voor 1 jaar',
             other: 'Aan HRT voor ${count} jaar',
+          ),
+      'remaining' => ({required num count, required Object unit}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+            count,
+            one: '${count} ${unit} over',
+            other: '${count} ${unit} over',
+          ),
+      'syringeRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+            count,
+            one: '1 injectiespuit over',
+            other: '${count} injectiespuiten over',
+          ),
+      'wipeRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+            count,
+            one: '1 doekje over',
+            other: '${count} doekjes over',
+          ),
+      'needleRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+            count,
+            one: '1 naald over',
+            other: '${count} naalden over',
+          ),
+      'glovesRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+            count,
+            one: '1 handschoen over',
+            other: '${count} handschoenen over',
+          ),
+      'administrationRouteUnitMl' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+            count,
+            one: 'ml',
+            other: 'ml',
+          ),
+      'administrationRouteUnitPill' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+            count,
+            one: 'pil',
+            other: 'pillen',
+          ),
+      'administrationRouteUnitPatch' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+            count,
+            one: 'pleister',
+            other: 'pleisters',
+          ),
+      'administrationRouteUnitPump' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+            count,
+            one: 'pomp',
+            other: 'pompen',
+          ),
+      'administrationRouteUnitImplant' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+            count,
+            one: 'implantaat',
+            other: 'implantaten',
+          ),
+      'administrationRouteUnitSuppository' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+            count,
+            one: 'zetpil',
+            other: 'zetpillen',
+          ),
+      'administrationRouteUnitSpray' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+            count,
+            one: 'spray',
+            other: 'sprays',
+          ),
+      'intakesLoggedCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+            count,
+            one: '1 inname gelogd',
+            other: '${count} innames gelogd',
           ),
       _ => null,
     };

@@ -3,8 +3,8 @@
 /// Source: lib/i18n/generated
 /// To regenerate, run: `dart run slang`
 ///
-/// Locales: 18
-/// Strings: 3576 (198 per locale)
+/// Locales: 19
+/// Strings: 3870 (203 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
@@ -27,6 +27,7 @@ import 'translations_pl.g.dart' as l_pl;
 import 'translations_pt.g.dart' as l_pt;
 import 'translations_ru.g.dart' as l_ru;
 import 'translations_sk.g.dart' as l_sk;
+import 'translations_sv.g.dart' as l_sv;
 import 'translations_th.g.dart' as l_th;
 import 'translations_tok.g.dart' as l_tok;
 import 'translations_uk.g.dart' as l_uk;
@@ -54,6 +55,7 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
   pt(languageCode: 'pt'),
   ru(languageCode: 'ru'),
   sk(languageCode: 'sk'),
+  sv(languageCode: 'sv'),
   th(languageCode: 'th'),
   tok(languageCode: 'tok'),
   uk(languageCode: 'uk'),
@@ -167,6 +169,12 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
         );
       case AppLocale.sk:
         return l_sk.TranslationsSk(
+          overrides: overrides,
+          cardinalResolver: cardinalResolver,
+          ordinalResolver: ordinalResolver,
+        );
+      case AppLocale.sv:
+        return l_sv.TranslationsSv(
           overrides: overrides,
           cardinalResolver: cardinalResolver,
           ordinalResolver: ordinalResolver,
