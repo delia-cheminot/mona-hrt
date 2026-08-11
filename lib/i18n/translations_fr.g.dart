@@ -370,6 +370,9 @@ class TranslationsFr extends Translations
   @override
   String get concentration => 'Concentration';
   @override
+  String concentrationLabelPerUnit({required Object unit}) =>
+      'Dose par ${unit}';
+  @override
   String get editItem => 'Modifier l\'élément';
   @override
   String get usedAmount => 'Quantité utilisée';
@@ -936,6 +939,8 @@ extension on TranslationsFr {
       'adminRoute' => 'Voie d\'administration',
       'totalAmount' => 'Quantité totale',
       'concentration' => 'Concentration',
+      'concentrationLabelPerUnit' => ({required Object unit}) =>
+          'Dose par ${unit}',
       'editItem' => 'Modifier l\'élément',
       'usedAmount' => 'Quantité utilisée',
       'deleteItem' => ({required Object name}) => 'Supprimer ${name} ?',
