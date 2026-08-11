@@ -16,12 +16,12 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = MedicationIntakeMapper._());
       MapperContainer.globals.useAll([
-        AdministrationRouteNameMapper(),
         EsterNameMapper(),
         DecimalStringMapper(),
         TimeOfDayMapper(),
       ]);
       MoleculeMapper.ensureInitialized();
+      AdministrationRouteMapper.ensureInitialized();
       PlacementMapper.ensureInitialized();
     }
     return _instance!;

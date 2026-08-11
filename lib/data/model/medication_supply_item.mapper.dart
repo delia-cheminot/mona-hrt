@@ -20,10 +20,10 @@ class MedicationSupplyItemMapper
       MapperContainer.globals.useAll([
         DateStringMapper(),
         DecimalStringMapper(),
-        AdministrationRouteNameMapper(),
         EsterNameMapper(),
       ]);
       MoleculeMapper.ensureInitialized();
+      AdministrationRouteMapper.ensureInitialized();
     }
     return _instance!;
   }

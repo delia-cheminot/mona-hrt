@@ -16,13 +16,13 @@ class MedicationScheduleMapper extends ClassMapperBase<MedicationSchedule> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = MedicationScheduleMapper._());
       MapperContainer.globals.useAll([
-        AdministrationRouteNameMapper(),
         EsterNameMapper(),
         DecimalStringMapper(),
         DateStringMapper(),
       ]);
       SchedulingStrategyMapper.ensureInitialized();
       MoleculeMapper.ensureInitialized();
+      AdministrationRouteMapper.ensureInitialized();
     }
     return _instance!;
   }
