@@ -11,7 +11,7 @@ class AdministrationRouteNameMapper extends SimpleMapper<AdministrationRoute> {
 
   @override
   AdministrationRoute decode(Object value) {
-    return AdministrationRoute.fromName(value as String);
+    return AdministrationRoute.values.byName(value as String);
   }
 
   @override
