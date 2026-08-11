@@ -16,7 +16,6 @@ part 'medication_intake.mapper.dart';
 
 @MappableClass(
   includeCustomMappers: [
-    EsterNameMapper(),
     DecimalStringMapper(),
     TimeOfDayMapper(),
   ],

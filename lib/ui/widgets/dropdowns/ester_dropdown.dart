@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/i18n/helpers/ester_l10n.dart';
 
-List<DropdownMenuItem<Ester>> esterDropdownMenuItems() => Ester.all
+List<DropdownMenuItem<Ester>> esterDropdownMenuItems() => Ester.values
     .map(
       (ester) => DropdownMenuItem<Ester>(
         value: ester,
