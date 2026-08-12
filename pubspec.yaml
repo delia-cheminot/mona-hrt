@@ -73,6 +73,7 @@ dependencies:
   m3e_core: ^0.1.5
   slang: ^4.16.0
   slang_flutter: ^4.16.0
+  home_widget: ^0.9.3
 
 dev_dependencies:
   flutter_test:

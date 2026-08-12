@@ -9,9 +9,11 @@ import 'package:mona/distribution.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/locale_provider.dart';
 import 'package:mona/i18n/tok_localizations.dart';
+import 'package:mona/services/home_widget_service.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/theme/app_theme_controller.dart';
+import 'package:mona/util/hrt_duration.dart';
 import 'package:provider/provider.dart';
 import 'ui/views/main_page.dart';
 
@@ -28,6 +30,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   late MedicationIntakeProvider _medicationIntakeProvider;
   late PreferencesService _preferencesService;
   late NotificationScheduler _notificationScheduler;
+  final HomeWidgetService _homeWidgetService = HomeWidgetService();
 
   @override
   void initState() {
@@ -50,6 +53,10 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
       _medicationIntakeProvider.addListener(_regenerateNotifications);
       _preferencesService.addListener(_regenerateNotifications);
       _regenerateNotifications();
+
+      _medicationIntakeProvider.addListener(_regenerateHomeWidget);
+      _preferencesService.addListener(_regenerateHomeWidget);
+      _regenerateHomeWidget();
     });
   }
 
@@ -59,6 +66,8 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
     _medicationScheduleProvider.removeListener(_regenerateNotifications);
     _medicationIntakeProvider.removeListener(_regenerateNotifications);
     _preferencesService.removeListener(_regenerateNotifications);
+    _medicationIntakeProvider.removeListener(_regenerateHomeWidget);
+    _preferencesService.removeListener(_regenerateHomeWidget);
     super.dispose();
   }
 
@@ -67,6 +76,16 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
 
     final locale = context.read<LocaleProvider>().locale;
     _notificationScheduler.regenerateAll(locale.intlLanguageTag);
+  }
+
+  void _regenerateHomeWidget() {
+    if (!mounted) return;
+
+    final firstDate = _medicationIntakeProvider.firstTakenLocalDate;
+    final text = firstDate == null || !_preferencesService.intakeCounterEnabled
+        ? null
+        : hrtDurationText(hrtDurationSince(firstDate));
+    _homeWidgetService.updateHrtDurationWidget(text);
   }
 
   void _checkTimezoneChange() {
@@ -93,6 +112,13 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
               systemLight: lightDynamic,
               systemDark: darkDynamic,
             );
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
+          _homeWidgetService.updateHrtWidgetColors(
+            light: themes.theme.colorScheme,
+            dark: themes.darkTheme.colorScheme,
+          );
+        });
 
         return MaterialApp(
           title: 'Mona',

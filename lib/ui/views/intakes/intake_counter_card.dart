@@ -33,18 +33,11 @@ class IntakeCounterCard extends StatelessWidget {
               color: theme.colorScheme.onTertiaryContainer,
             ),
           ),
-          title: Text(_durationText(duration!),
+          title: Text(hrtDurationText(duration!),
               style: theme.textTheme.titleMedium),
           subtitle: Text(t.intakesLoggedCount(count: intakeCount)),
         ),
       ],
     );
   }
-
-  String _durationText(HrtDuration d) => switch (d.unit) {
-        HrtDurationUnit.days => t.onHrtForDays(count: d.value),
-        HrtDurationUnit.weeks => t.onHrtForWeeks(count: d.value),
-        HrtDurationUnit.months => t.onHrtForMonths(count: d.value),
-        HrtDurationUnit.years => t.onHrtForYears(count: d.value),
-      };
 }
