@@ -20,11 +20,17 @@ fi
 
 # A crashed/wedged attempt can leave adb (and orphaned Gradle/instrumentation
 # processes) stuck; reset them so the next attempt starts from a clean device.
+# FIXED BY RBN
+PATROL_PACKAGE_NAME="$(grep -m1 'package_name:' pubspec.yaml | awk '{print $2}')"
+
 reset_device_state() {
   ./android/gradlew --stop >/dev/null 2>&1 || true
   adb kill-server >/dev/null 2>&1 || true
   adb start-server >/dev/null 2>&1 || true
   adb wait-for-device >/dev/null 2>&1 || true
+  if [ -n "$PATROL_PACKAGE_NAME" ]; then
+    adb shell pm clear "$PATROL_PACKAGE_NAME" >/dev/null 2>&1 || true
+  fi
 }
 
 for attempt in $(seq 1 "$ATTEMPTS"); do
