@@ -81,10 +81,10 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   void _regenerateHomeWidget() {
     if (!mounted) return;
 
-    final firstDate = _medicationIntakeProvider.firstTakenLocalDate;
-    final text = firstDate == null || !_preferencesService.intakeCounterEnabled
-        ? null
-        : hrtDurationText(hrtDurationSince(firstDate));
+    final text = hrtWidgetDurationText(
+      firstTakenLocalDate: _medicationIntakeProvider.firstTakenLocalDate,
+      intakeCounterEnabled: _preferencesService.intakeCounterEnabled,
+    );
     _homeWidgetService.updateHrtDurationWidget(text);
   }
 

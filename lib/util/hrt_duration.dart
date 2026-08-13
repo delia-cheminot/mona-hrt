@@ -52,3 +52,11 @@ String hrtDurationText(HrtDuration d) => switch (d.unit) {
       HrtDurationUnit.months => t.onHrtForMonths(count: d.value),
       HrtDurationUnit.years => t.onHrtForYears(count: d.value),
     };
+
+String? hrtWidgetDurationText({
+  required Date? firstTakenLocalDate,
+  required bool intakeCounterEnabled,
+}) =>
+    firstTakenLocalDate == null || !intakeCounterEnabled
+        ? null
+        : hrtDurationText(hrtDurationSince(firstTakenLocalDate));

@@ -12,6 +12,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mona/controllers/hrt_widget_refresh_controller.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
@@ -30,6 +31,7 @@ void main() async {
 
   final preferencesService = await PreferencesService.init();
   logicalDayStartMinutes = preferencesService.logicalDayStartMinutesRaw;
+  await scheduleHrtWidgetRefresh();
 
   if (Platform.isAndroid) {
     SystemChrome.setEnabledSystemUIMode(

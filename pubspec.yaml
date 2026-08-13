@@ -74,6 +74,7 @@ dependencies:
   slang: ^4.16.0
   slang_flutter: ^4.16.0
   home_widget: ^0.9.3
+  workmanager: ^0.10.7
 
 dev_dependencies:
   flutter_test:
