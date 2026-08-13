@@ -4,35 +4,26 @@ import 'dart:io';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/services/home_widget_service.dart';
-import 'package:mona/services/preferences_service.dart';
 import 'package:mona/util/hrt_duration.dart';
 import 'package:workmanager/workmanager.dart';
 
 const String hrtWidgetRefreshTaskName = 'hrt_widget_refresh';
 
-typedef LoadPreferences = Future<PreferencesService> Function();
 typedef LoadFirstTakenDate = Future<Date?> Function();
 
 class HrtWidgetRefreshController {
-  final LoadPreferences _loadPreferences;
   final LoadFirstTakenDate _loadFirstTakenDate;
   final HomeWidgetService _homeWidgetService;
 
   HrtWidgetRefreshController({
-    LoadPreferences? loadPreferences,
     LoadFirstTakenDate? loadFirstTakenDate,
     HomeWidgetService? homeWidgetService,
-  })  : _loadPreferences = loadPreferences ?? PreferencesService.init,
-        _loadFirstTakenDate = loadFirstTakenDate ?? _loadFirstTakenDateFromDb,
+  })  : _loadFirstTakenDate = loadFirstTakenDate ?? _loadFirstTakenDateFromDb,
         _homeWidgetService = homeWidgetService ?? HomeWidgetService();
 
   Future<void> refresh() async {
-    final prefs = await _loadPreferences();
     final firstDate = await _loadFirstTakenDate();
-    final text = hrtWidgetDurationText(
-      firstTakenLocalDate: firstDate,
-      intakeCounterEnabled: prefs.intakeCounterEnabled,
-    );
+    final text = hrtWidgetDurationText(firstTakenLocalDate: firstDate);
     await _homeWidgetService.updateHrtDurationWidget(text);
   }
 }

@@ -55,7 +55,6 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
       _regenerateNotifications();
 
       _medicationIntakeProvider.addListener(_regenerateHomeWidget);
-      _preferencesService.addListener(_regenerateHomeWidget);
       _regenerateHomeWidget();
     });
   }
@@ -67,7 +66,6 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
     _medicationIntakeProvider.removeListener(_regenerateNotifications);
     _preferencesService.removeListener(_regenerateNotifications);
     _medicationIntakeProvider.removeListener(_regenerateHomeWidget);
-    _preferencesService.removeListener(_regenerateHomeWidget);
     super.dispose();
   }
 
@@ -83,7 +81,6 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
 
     final text = hrtWidgetDurationText(
       firstTakenLocalDate: _medicationIntakeProvider.firstTakenLocalDate,
-      intakeCounterEnabled: _preferencesService.intakeCounterEnabled,
     );
     _homeWidgetService.updateHrtDurationWidget(text);
   }

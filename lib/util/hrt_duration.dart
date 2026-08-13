@@ -53,10 +53,7 @@ String hrtDurationText(HrtDuration d) => switch (d.unit) {
       HrtDurationUnit.years => t.onHrtForYears(count: d.value),
     };
 
-String? hrtWidgetDurationText({
-  required Date? firstTakenLocalDate,
-  required bool intakeCounterEnabled,
-}) =>
-    firstTakenLocalDate == null || !intakeCounterEnabled
+String? hrtWidgetDurationText({required Date? firstTakenLocalDate}) =>
+    firstTakenLocalDate == null
         ? null
         : hrtDurationText(hrtDurationSince(firstTakenLocalDate));

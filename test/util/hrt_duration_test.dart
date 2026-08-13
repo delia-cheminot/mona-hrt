@@ -122,19 +122,7 @@ void main() {
 
   group('hrtWidgetDurationText', () {
     test('is null when there is no first taken date', () {
-      final result = hrtWidgetDurationText(
-        firstTakenLocalDate: null,
-        intakeCounterEnabled: true,
-      );
-
-      expect(result, isNull);
-    });
-
-    test('is null when the intake counter is disabled', () {
-      final result = hrtWidgetDurationText(
-        firstTakenLocalDate: Date(year: 2026, month: 6, day: 1),
-        intakeCounterEnabled: false,
-      );
+      final result = hrtWidgetDurationText(firstTakenLocalDate: null);
 
       expect(result, isNull);
     });
@@ -144,7 +132,6 @@ void main() {
         () {
           final result = hrtWidgetDurationText(
             firstTakenLocalDate: Date(year: 2026, month: 6, day: 1),
-            intakeCounterEnabled: true,
           );
 
           expect(result, t.onHrtForDays(count: 2));
