@@ -269,6 +269,5 @@
   "empty_intakes": "(In)Genomen innames zullen hier getoond worden",
   "intakesLoggedCount_one": "1 inname gelogd",
   "intakesLoggedCount_other": "{{count}} innames gelogd",
-  "intakeCounter": "Inname teller",
-  "intakeCounterDescription": "Laat zien hoe lang je aan HRT zit en je totale innames"
+  "HrtCounterDescription": "Laat zien hoe lang je aan HRT zit en je totale innames"
 }

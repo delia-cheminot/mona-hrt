@@ -252,6 +252,5 @@
   "onHrtForMonths_other": "เทคฮอร์โมนมาแล้ว {{count}} เดือน",
   "onHrtForYears_other": "เทคฮอร์โมนมาแล้ว {{count}} ปี",
   "intakesLoggedCount_other": "บันทึกไปแล้ว {{count}} ครั้ง",
-  "intakeCounter": "ตัวนับการเทคฮอร์โมน",
-  "intakeCounterDescription": "แสดงว่าคุณเทคฮอร์โมนมานานขนาดใหนและเทคกี่ครั้ง"
+  "HrtCounterDescription": "แสดงว่าคุณเทคฮอร์โมนมานานขนาดใหนและเทคกี่ครั้ง"
 }

@@ -316,11 +316,11 @@ class _SettingsPageState extends State<SettingsPage>
             },
           ),
           SwitchListTile(
-            title: Text(t.intakeCounter),
-            subtitle: Text(t.intakeCounterDescription),
-            value: preferencesService.intakeCounterEnabled,
+            title: Text(t.HrtCounter),
+            subtitle: Text(t.HrtCounterDescription),
+            value: preferencesService.hrtCounterEnabled,
             onChanged: (value) =>
-                preferencesService.setIntakeCounterEnabled(value),
+                preferencesService.setHrtCounterEnabled(value),
           ),
           if (Platform.isAndroid && !isStoreDistribution) ...[
             const Divider(),

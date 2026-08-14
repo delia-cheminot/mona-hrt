@@ -87,8 +87,7 @@ void main() {
       // Act
       await service.sync(firstDate: null, locale: const Locale('en'));
       // Assert
-      expect(
-          saved, contains(equals({'id': 'hrt_first_date', 'data': null})));
+      expect(saved, contains(equals({'id': 'hrt_first_date', 'data': null})));
     });
 
     test('does nothing when the platform is unsupported', () async {

@@ -365,10 +365,10 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   String get empty_intakes => 'Taken intakes will appear here';
 
   /// en: 'Intake counter'
-  String get intakeCounter => 'Intake counter';
+  String get HrtCounter => 'Intake counter';
 
   /// en: 'Show how long you've been on HRT and your total intakes'
-  String get intakeCounterDescription =>
+  String get HrtCounterDescription =>
       'Show how long you\'ve been on HRT and your total intakes';
 
   /// en: 'Time on HRT'
@@ -1118,8 +1118,8 @@ extension on Translations {
       'deleteSchedule' => ({required Object name}) => 'Delete ${name}?',
       'addNotification' => 'Add a notification',
       'empty_intakes' => 'Taken intakes will appear here',
-      'intakeCounter' => 'Intake counter',
-      'intakeCounterDescription' =>
+      'HrtCounter' => 'Intake counter',
+      'HrtCounterDescription' =>
         'Show how long you\'ve been on HRT and your total intakes',
       'hrtWidgetTitle' => 'Time on HRT',
       'hrtWidgetDescription' => 'Show how long you\'ve been on HRT',

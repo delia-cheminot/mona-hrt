@@ -535,9 +535,7 @@ class TranslationsTh extends Translations
   @override
   String get mustBeBetween1And28 => 'ระหว่างวันที่ 1 ถึง 28 เท่านั้น';
   @override
-  String get intakeCounter => 'ตัวนับการเทคฮอร์โมน';
-  @override
-  String get intakeCounterDescription =>
+  String get HrtCounterDescription =>
       'แสดงว่าคุณเทคฮอร์โมนมานานขนาดใหนและเทคกี่ครั้ง';
   @override
   String daysAgoCount({required num count}) =>
@@ -938,8 +936,7 @@ extension on TranslationsTh {
       'dayOfMonth' => 'วันที่',
       'months' => 'เดือน',
       'mustBeBetween1And28' => 'ระหว่างวันที่ 1 ถึง 28 เท่านั้น',
-      'intakeCounter' => 'ตัวนับการเทคฮอร์โมน',
-      'intakeCounterDescription' =>
+      'HrtCounterDescription' =>
         'แสดงว่าคุณเทคฮอร์โมนมานานขนาดใหนและเทคกี่ครั้ง',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('th'))(

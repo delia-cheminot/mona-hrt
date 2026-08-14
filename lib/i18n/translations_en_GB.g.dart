@@ -268,9 +268,9 @@ class TranslationsEnGb extends Translations
   @override
   String get empty_intakes => 'Taken intakes will appear here';
   @override
-  String get intakeCounter => 'Intake counter';
+  String get HrtCounter => 'Intake counter';
   @override
-  String get intakeCounterDescription =>
+  String get HrtCounterDescription =>
       'Show how long you\'ve been on HRT and your total intakes';
   @override
   String get hrtWidgetTitle => 'Time on HRT';
@@ -852,8 +852,8 @@ extension on TranslationsEnGb {
       'deleteSchedule' => ({required Object name}) => 'Delete ${name}?',
       'addNotification' => 'Add a notification',
       'empty_intakes' => 'Taken intakes will appear here',
-      'intakeCounter' => 'Intake counter',
-      'intakeCounterDescription' =>
+      'HrtCounter' => 'Intake counter',
+      'HrtCounterDescription' =>
         'Show how long you\'ve been on HRT and your total intakes',
       'hrtWidgetTitle' => 'Time on HRT',
       'hrtWidgetDescription' => 'Show how long you\'ve been on HRT',

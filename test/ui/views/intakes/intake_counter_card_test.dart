@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/i18n/translations.g.dart';
-import 'package:mona/ui/views/intakes/intake_counter_card.dart';
+import 'package:mona/ui/views/intakes/hrt_counter_card.dart';
 import 'package:mona/util/hrt_duration.dart';
 
 void main() {
@@ -9,7 +9,7 @@ void main() {
 
   testWidgets('shows the duration when enabled', (tester) async {
     // Arrange
-    await tester.pumpWidget(wrap(const IntakeCounterCard(
+    await tester.pumpWidget(wrap(const HrtCounterCard(
       enabled: true,
       duration: HrtDuration(HrtDurationUnit.weeks, 14),
       intakeCount: 142,
@@ -24,7 +24,7 @@ void main() {
 
   testWidgets('shows the intake count subtitle when enabled', (tester) async {
     // Arrange
-    await tester.pumpWidget(wrap(const IntakeCounterCard(
+    await tester.pumpWidget(wrap(const HrtCounterCard(
       enabled: true,
       duration: HrtDuration(HrtDurationUnit.weeks, 14),
       intakeCount: 142,
@@ -39,7 +39,7 @@ void main() {
 
   testWidgets('renders nothing when disabled', (tester) async {
     // Arrange
-    await tester.pumpWidget(wrap(const IntakeCounterCard(
+    await tester.pumpWidget(wrap(const HrtCounterCard(
       enabled: false,
       duration: HrtDuration(HrtDurationUnit.weeks, 14),
       intakeCount: 142,
@@ -54,7 +54,7 @@ void main() {
 
   testWidgets('renders nothing when there is no duration', (tester) async {
     // Arrange
-    await tester.pumpWidget(wrap(const IntakeCounterCard(
+    await tester.pumpWidget(wrap(const HrtCounterCard(
       enabled: true,
       duration: null,
       intakeCount: 0,
