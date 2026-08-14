@@ -273,6 +273,14 @@ class TranslationsEnGb extends Translations
   String get intakeCounterDescription =>
       'Show how long you\'ve been on HRT and your total intakes';
   @override
+  String get hrtWidgetTitle => 'Time on HRT';
+  @override
+  String get hrtWidgetDescription => 'Show how long you\'ve been on HRT';
+  @override
+  String get hrtWidgetPlaceholder => 'Open Mona to log your first intake';
+  @override
+  String get hrtWidgetPreviewSample => 'On HRT for 8 months';
+  @override
   String get startOfDay => 'Start of day';
   @override
   String startOfDayDescription({required Object time}) =>
@@ -847,6 +855,10 @@ extension on TranslationsEnGb {
       'intakeCounter' => 'Intake counter',
       'intakeCounterDescription' =>
         'Show how long you\'ve been on HRT and your total intakes',
+      'hrtWidgetTitle' => 'Time on HRT',
+      'hrtWidgetDescription' => 'Show how long you\'ve been on HRT',
+      'hrtWidgetPlaceholder' => 'Open Mona to log your first intake',
+      'hrtWidgetPreviewSample' => 'On HRT for 8 months',
       'startOfDay' => 'Start of day',
       'startOfDayDescription' => ({required Object time}) =>
           'Time before ${time} counts towards the previous day',
