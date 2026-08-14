@@ -1,0 +1,105 @@
+package com.deliacheminot.mona
+
+import android.content.Context
+import android.os.Build
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.glance.ColorFilter
+import androidx.glance.GlanceId
+import androidx.glance.GlanceModifier
+import androidx.glance.GlanceTheme
+import androidx.glance.Image
+import androidx.glance.ImageProvider
+import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.cornerRadius
+import androidx.glance.appwidget.provideContent
+import androidx.glance.background
+import androidx.glance.currentState
+import androidx.glance.layout.Alignment
+import androidx.glance.layout.Row
+import androidx.glance.layout.Spacer
+import androidx.glance.layout.fillMaxSize
+import androidx.glance.layout.padding
+import androidx.glance.layout.size
+import androidx.glance.layout.width
+import androidx.glance.text.FontWeight
+import androidx.glance.text.Text
+import androidx.glance.text.TextStyle
+import es.antonborri.home_widget.HomeWidgetGlanceState
+import es.antonborri.home_widget.HomeWidgetGlanceStateDefinition
+import java.time.LocalDate
+import java.util.Locale
+
+class HrtGlanceWidget : GlanceAppWidget() {
+
+    override val stateDefinition = HomeWidgetGlanceStateDefinition()
+
+    override suspend fun provideGlance(context: Context, id: GlanceId) {
+        provideContent { Content(context, currentState()) }
+    }
+
+    @Composable
+    private fun Content(context: Context, state: HomeWidgetGlanceState) {
+        val prefs = state.preferences
+        val firstDate = prefs.getString("hrt_first_date", null)
+        val localeTag = prefs.getString("app_locale", "en") ?: "en"
+
+        val text = if (firstDate.isNullOrEmpty()) {
+            context.getString(R.string.hrt_home_widget_placeholder)
+        } else {
+            durationText(context, firstDate, localeTag)
+        }
+
+        GlanceTheme {
+            Row(
+                modifier = GlanceModifier
+                    .fillMaxSize()
+                    .background(GlanceTheme.colors.widgetBackground)
+                    .cornerRadius(16.dp)
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Image(
+                    provider = ImageProvider(R.drawable.ic_hrt_calendar),
+                    contentDescription = null,
+                    colorFilter = ColorFilter.tint(GlanceTheme.colors.onSurface),
+                    modifier = GlanceModifier.size(24.dp),
+                )
+                Spacer(modifier = GlanceModifier.width(12.dp))
+                Text(
+                    text = text,
+                    style = TextStyle(
+                        color = GlanceTheme.colors.onSurface,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                    ),
+                )
+            }
+        }
+    }
+
+    private fun durationText(context: Context, startIso: String, localeTag: String): String {
+        val duration = hrtDurationSince(startIso, LocalDate.now())
+        val pluralRes = when (duration.unit) {
+            HrtDurationUnit.DAYS -> R.plurals.on_hrt_for_days
+            HrtDurationUnit.WEEKS -> R.plurals.on_hrt_for_weeks
+            HrtDurationUnit.MONTHS -> R.plurals.on_hrt_for_months
+            HrtDurationUnit.YEARS -> R.plurals.on_hrt_for_years
+        }
+        val localized = localizedContext(context, localeTag)
+        return localized.resources.getQuantityString(pluralRes, duration.value, duration.value)
+    }
+
+    private fun localizedContext(context: Context, localeTag: String): Context {
+        val locale = Locale.forLanguageTag(localeTag)
+        val config = android.content.res.Configuration(context.resources.configuration)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            config.setLocale(locale)
+        } else {
+            @Suppress("DEPRECATION")
+            config.locale = locale
+        }
+        return context.createConfigurationContext(config)
+    }
+}

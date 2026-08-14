@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ic_launcher_background">#fef2e2</color>
-
-    <color name="hrt_widget_background">#F3DAFF</color>
-    <color name="hrt_widget_icon_background">#FF9CB5</color>
-    <color name="hrt_widget_icon">#710033</color>
-    <color name="hrt_widget_text">#40294F</color>
 </resources>

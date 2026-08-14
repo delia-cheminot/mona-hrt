@@ -53,7 +53,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".HrtHomeWidgetProvider"
+            android:name=".HrtGlanceReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
@@ -61,6 +61,13 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/hrt_home_widget_info"/>
+        </receiver>
+        <receiver
+            android:name="es.antonborri.home_widget.HomeWidgetBackgroundReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="es.antonborri.home_widget.action.BACKGROUND"/>
+            </intent-filter>
         </receiver>
     </application>
     <!-- Required to query activities that can process text, see:
