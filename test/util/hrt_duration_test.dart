@@ -119,25 +119,4 @@ void main() {
           t.onHrtForYears(count: 1));
     });
   });
-
-  group('hrtWidgetDurationText', () {
-    test('is null when there is no first taken date', () {
-      final result = hrtWidgetDurationText(firstTakenLocalDate: null);
-
-      expect(result, isNull);
-    });
-
-    test('formats the duration since the first taken date', () {
-      withFixedClock(
-        () {
-          final result = hrtWidgetDurationText(
-            firstTakenLocalDate: Date(year: 2026, month: 6, day: 1),
-          );
-
-          expect(result, t.onHrtForDays(count: 2));
-        },
-        at: DateTime(2026, 6, 3, 12, 0),
-      );
-    });
-  });
 }

@@ -13,7 +13,6 @@ import 'package:mona/services/home_widget_service.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/theme/app_theme_controller.dart';
-import 'package:mona/util/hrt_duration.dart';
 import 'package:provider/provider.dart';
 import 'ui/views/main_page.dart';
 
@@ -29,6 +28,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   late MedicationScheduleProvider _medicationScheduleProvider;
   late MedicationIntakeProvider _medicationIntakeProvider;
   late PreferencesService _preferencesService;
+  late LocaleProvider _localeProvider;
   late NotificationScheduler _notificationScheduler;
   final HomeWidgetService _homeWidgetService = HomeWidgetService();
 
@@ -44,6 +44,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
       _medicationScheduleProvider = context.read<MedicationScheduleProvider>();
       _medicationIntakeProvider = context.read<MedicationIntakeProvider>();
       _preferencesService = context.read<PreferencesService>();
+      _localeProvider = context.read<LocaleProvider>();
       _notificationScheduler = NotificationScheduler(
         NotificationPlanner(
             _medicationIntakeProvider, _medicationScheduleProvider),
@@ -55,6 +56,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
       _regenerateNotifications();
 
       _medicationIntakeProvider.addListener(_regenerateHomeWidget);
+      _localeProvider.addListener(_regenerateHomeWidget);
       _regenerateHomeWidget();
     });
   }
@@ -66,6 +68,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
     _medicationIntakeProvider.removeListener(_regenerateNotifications);
     _preferencesService.removeListener(_regenerateNotifications);
     _medicationIntakeProvider.removeListener(_regenerateHomeWidget);
+    _localeProvider.removeListener(_regenerateHomeWidget);
     super.dispose();
   }
 
@@ -79,10 +82,10 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   void _regenerateHomeWidget() {
     if (!mounted) return;
 
-    final text = hrtWidgetDurationText(
-      firstTakenLocalDate: _medicationIntakeProvider.firstTakenLocalDate,
+    _homeWidgetService.sync(
+      firstDate: _medicationIntakeProvider.firstTakenLocalDate,
+      locale: _localeProvider.locale,
     );
-    _homeWidgetService.updateHrtDurationWidget(text);
   }
 
   void _checkTimezoneChange() {
@@ -109,14 +112,6 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
               systemLight: lightDynamic,
               systemDark: darkDynamic,
             );
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (!mounted) return;
-          _homeWidgetService.updateHrtWidgetColors(
-            light: themes.theme.colorScheme,
-            dark: themes.darkTheme.colorScheme,
-          );
-        });
-
         return MaterialApp(
           title: 'Mona',
           locale: context.watch<LocaleProvider>().locale,
