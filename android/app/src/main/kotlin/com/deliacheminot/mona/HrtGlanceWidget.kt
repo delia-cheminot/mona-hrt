@@ -11,6 +11,7 @@ import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
@@ -28,6 +29,7 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import es.antonborri.home_widget.HomeWidgetGlanceState
 import es.antonborri.home_widget.HomeWidgetGlanceStateDefinition
+import es.antonborri.home_widget.actionStartActivity
 import java.time.LocalDate
 import java.util.Locale
 
@@ -57,7 +59,8 @@ class HrtGlanceWidget : GlanceAppWidget() {
                     .fillMaxSize()
                     .background(GlanceTheme.colors.widgetBackground)
                     .cornerRadius(16.dp)
-                    .padding(16.dp),
+                    .padding(16.dp)
+                    .clickable(onClick = actionStartActivity<MainActivity>(context)),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Image(
