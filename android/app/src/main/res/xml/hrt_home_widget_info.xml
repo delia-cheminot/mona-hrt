@@ -5,8 +5,10 @@
     android:targetCellWidth="3"
     android:targetCellHeight="1"
     android:updatePeriodMillis="86400000"
+    android:description="@string/hrt_widget_description"
     android:initialLayout="@layout/hrt_widget_loading"
-    android:previewImage="@mipmap/ic_launcher"
+    android:previewImage="@drawable/hrt_widget_preview"
+    android:previewLayout="@layout/hrt_widget_preview"
     android:resizeMode="horizontal"
     android:widgetCategory="home_screen">
 </appwidget-provider>

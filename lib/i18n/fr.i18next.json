@@ -128,7 +128,7 @@
   "intakesLoggedCount_one": "1 prise enregistrée",
   "intakesLoggedCount_many": "{{count}} de prises enregistrées",
   "intakesLoggedCount_other": "{{count}} prises enregistrées",
-  "HrtCounter": "Compteur de THS",
+  "HrtCounter": "Temps sous THS",
   "HrtCounterDescription": "Affiche depuis combien de temps vous êtes sous THS et votre nombre total de prises",
   "startOfDay": "Début de la journée",
   "startOfDayDescription": "Les heures avant {{time}} comptent pour la veille",

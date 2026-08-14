@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hrt_widget_title">Temps sous THS</string>
+    <string name="hrt_widget_description">Affiche depuis combien de temps vous êtes sous THS et votre nombre total de prises</string>
+</resources>

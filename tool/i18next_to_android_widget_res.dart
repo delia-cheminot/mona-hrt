@@ -14,8 +14,8 @@ const _pluralResourceNames = {
 };
 
 const _stringResourceNames = {
-  'hrtWidgetTitle': 'hrt_widget_title',
-  'hrtWidgetDescription': 'hrt_widget_description',
+  'HrtCounter': 'hrt_widget_title',
+  'HrtCounterDescription': 'hrt_widget_description',
   'hrtWidgetPlaceholder': 'hrt_home_widget_placeholder',
   'hrtWidgetPreviewSample': 'hrt_widget_preview_sample',
 };

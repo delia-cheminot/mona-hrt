@@ -268,14 +268,10 @@ class TranslationsEnGb extends Translations
   @override
   String get empty_intakes => 'Taken intakes will appear here';
   @override
-  String get HrtCounter => 'Intake counter';
+  String get HrtCounter => 'Time on HRT';
   @override
   String get HrtCounterDescription =>
       'Show how long you\'ve been on HRT and your total intakes';
-  @override
-  String get hrtWidgetTitle => 'Time on HRT';
-  @override
-  String get hrtWidgetDescription => 'Show how long you\'ve been on HRT';
   @override
   String get hrtWidgetPlaceholder => 'Open Mona to log your first intake';
   @override
@@ -852,11 +848,9 @@ extension on TranslationsEnGb {
       'deleteSchedule' => ({required Object name}) => 'Delete ${name}?',
       'addNotification' => 'Add a notification',
       'empty_intakes' => 'Taken intakes will appear here',
-      'HrtCounter' => 'Intake counter',
+      'HrtCounter' => 'Time on HRT',
       'HrtCounterDescription' =>
         'Show how long you\'ve been on HRT and your total intakes',
-      'hrtWidgetTitle' => 'Time on HRT',
-      'hrtWidgetDescription' => 'Show how long you\'ve been on HRT',
       'hrtWidgetPlaceholder' => 'Open Mona to log your first intake',
       'hrtWidgetPreviewSample' => 'On HRT for 8 months',
       'startOfDay' => 'Start of day',

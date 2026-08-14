@@ -54,7 +54,8 @@
         </receiver>
         <receiver
             android:name=".HrtGlanceReceiver"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/hrt_widget_title">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>

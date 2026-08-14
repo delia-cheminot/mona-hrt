@@ -364,18 +364,12 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Taken intakes will appear here'
   String get empty_intakes => 'Taken intakes will appear here';
 
-  /// en: 'Intake counter'
-  String get HrtCounter => 'Intake counter';
+  /// en: 'Time on HRT'
+  String get HrtCounter => 'Time on HRT';
 
   /// en: 'Show how long you've been on HRT and your total intakes'
   String get HrtCounterDescription =>
       'Show how long you\'ve been on HRT and your total intakes';
-
-  /// en: 'Time on HRT'
-  String get hrtWidgetTitle => 'Time on HRT';
-
-  /// en: 'Show how long you've been on HRT'
-  String get hrtWidgetDescription => 'Show how long you\'ve been on HRT';
 
   /// en: 'Open Mona to log your first intake'
   String get hrtWidgetPlaceholder => 'Open Mona to log your first intake';
@@ -1118,11 +1112,9 @@ extension on Translations {
       'deleteSchedule' => ({required Object name}) => 'Delete ${name}?',
       'addNotification' => 'Add a notification',
       'empty_intakes' => 'Taken intakes will appear here',
-      'HrtCounter' => 'Intake counter',
+      'HrtCounter' => 'Time on HRT',
       'HrtCounterDescription' =>
         'Show how long you\'ve been on HRT and your total intakes',
-      'hrtWidgetTitle' => 'Time on HRT',
-      'hrtWidgetDescription' => 'Show how long you\'ve been on HRT',
       'hrtWidgetPlaceholder' => 'Open Mona to log your first intake',
       'hrtWidgetPreviewSample' => 'On HRT for 8 months',
       'startOfDay' => 'Start of day',

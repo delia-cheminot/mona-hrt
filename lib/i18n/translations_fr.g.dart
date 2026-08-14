@@ -276,7 +276,7 @@ class TranslationsFr extends Translations
   @override
   String get empty_intakes => 'Les prises enregistrées apparaîtront ici';
   @override
-  String get HrtCounter => 'Compteur de THS';
+  String get HrtCounter => 'Temps sous THS';
   @override
   String get HrtCounterDescription =>
       'Affiche depuis combien de temps vous êtes sous THS et votre nombre total de prises';
@@ -888,7 +888,7 @@ extension on TranslationsFr {
       'deleteSchedule' => ({required Object name}) => 'Supprimer ${name} ?',
       'addNotification' => 'Ajouter une notification',
       'empty_intakes' => 'Les prises enregistrées apparaîtront ici',
-      'HrtCounter' => 'Compteur de THS',
+      'HrtCounter' => 'Temps sous THS',
       'HrtCounterDescription' =>
         'Affiche depuis combien de temps vous êtes sous THS et votre nombre total de prises',
       'startOfDay' => 'Début de la journée',
