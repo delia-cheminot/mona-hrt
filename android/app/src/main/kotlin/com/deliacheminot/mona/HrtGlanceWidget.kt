@@ -18,6 +18,7 @@ import androidx.glance.appwidget.provideContent
 import androidx.glance.background
 import androidx.glance.currentState
 import androidx.glance.layout.Alignment
+import androidx.glance.layout.Box
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
@@ -63,12 +64,23 @@ class HrtGlanceWidget : GlanceAppWidget() {
                     .clickable(onClick = actionStartActivity<MainActivity>(context)),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Image(
-                    provider = ImageProvider(R.drawable.ic_hrt_calendar),
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(GlanceTheme.colors.onSurface),
-                    modifier = GlanceModifier.size(24.dp),
-                )
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = GlanceModifier.size(48.dp),
+                ) {
+                    Image(
+                        provider = ImageProvider(R.drawable.widget_icon_circle),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(GlanceTheme.colors.tertiaryContainer),
+                        modifier = GlanceModifier.fillMaxSize(),
+                    )
+                    Image(
+                        provider = ImageProvider(R.drawable.ic_hrt_calendar),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(GlanceTheme.colors.onTertiaryContainer),
+                        modifier = GlanceModifier.size(24.dp),
+                    )
+                }
                 Spacer(modifier = GlanceModifier.width(12.dp))
                 Text(
                     text = text,
