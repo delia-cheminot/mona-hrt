@@ -1,6 +1,7 @@
 plugins {
     id "com.android.application"
     id "org.jetbrains.kotlin.android"
+    id "org.jetbrains.kotlin.plugin.compose"
     id "dev.flutter.flutter-gradle-plugin"
 }
 
@@ -55,6 +56,10 @@ android {
 
     kotlinOptions {
         jvmTarget = "17"
+    }
+
+    buildFeatures {
+        compose true
     }
 
     // Patrol E2E: required for `clearPackageData` between Dart tests.
@@ -131,4 +136,6 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
     // Patrol E2E: test orchestrator enables clearPackageData between tests.
     androidTestUtil("androidx.test:orchestrator:1.5.1")
+    implementation "androidx.glance:glance-appwidget:1.1.1"
+    testImplementation "junit:junit:4.13.2"
 }

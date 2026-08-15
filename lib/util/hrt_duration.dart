@@ -52,8 +52,3 @@ String hrtDurationText(HrtDuration d) => switch (d.unit) {
       HrtDurationUnit.months => t.onHrtForMonths(count: d.value),
       HrtDurationUnit.years => t.onHrtForYears(count: d.value),
     };
-
-String? hrtWidgetDurationText({required Date? firstTakenLocalDate}) =>
-    firstTakenLocalDate == null
-        ? null
-        : hrtDurationText(hrtDurationSince(firstTakenLocalDate));

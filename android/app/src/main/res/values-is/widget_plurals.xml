@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="on_hrt_for_days">
+        <item quantity="one">Á HRT í 1 dag</item>
+        <item quantity="other">Á HRT í %d daga</item>
+    </plurals>
+    <plurals name="on_hrt_for_weeks">
+        <item quantity="one">Á HRT í 1 viku</item>
+        <item quantity="other">Á HRT í %d vikur</item>
+    </plurals>
+    <plurals name="on_hrt_for_months">
+        <item quantity="one">Á HRT í 1 mánuð</item>
+        <item quantity="other">Á HRT í %d mánuði</item>
+    </plurals>
+    <plurals name="on_hrt_for_years">
+        <item quantity="one">Á HRT í 1 ár</item>
+        <item quantity="other">Á HRT í %d ár</item>
+    </plurals>
+    <plurals name="intakes_logged_count">
+        <item quantity="one">1 inntaka skráð</item>
+        <item quantity="other">%d inntökur skráðar</item>
+    </plurals>
+</resources>

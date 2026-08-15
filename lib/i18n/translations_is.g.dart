@@ -542,9 +542,7 @@ class TranslationsIs extends Translations
   @override
   String get mustBeBetween1And28 => 'Verður að vera á milli 1 og 28';
   @override
-  String get intakeCounter => 'Inntaksmælir';
-  @override
-  String get intakeCounterDescription =>
+  String get HrtCounterDescription =>
       'Sýnið hversu lengi þið hafið verið á HRT og heildarinntöku ykkar';
   @override
   String get startOfDay => 'Byrjun dags';
@@ -988,8 +986,7 @@ extension on TranslationsIs {
       'dayOfMonth' => 'Dag mánaðarins',
       'months' => 'mánuðir',
       'mustBeBetween1And28' => 'Verður að vera á milli 1 og 28',
-      'intakeCounter' => 'Inntaksmælir',
-      'intakeCounterDescription' =>
+      'HrtCounterDescription' =>
         'Sýnið hversu lengi þið hafið verið á HRT og heildarinntöku ykkar',
       'startOfDay' => 'Byrjun dags',
       'startOfDayDescription' => ({required Object time}) =>

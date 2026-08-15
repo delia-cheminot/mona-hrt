@@ -4,12 +4,12 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/util/hrt_duration.dart';
 
-class IntakeCounterCard extends StatelessWidget {
+class HrtCounterCard extends StatelessWidget {
   final bool enabled;
   final HrtDuration? duration;
   final int intakeCount;
 
-  const IntakeCounterCard({
+  const HrtCounterCard({
     super.key,
     required this.enabled,
     required this.duration,

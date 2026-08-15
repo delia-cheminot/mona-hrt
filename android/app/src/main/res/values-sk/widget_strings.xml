@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hrt_widget_title">Počítadlo dávok</string>
+    <string name="hrt_widget_description">Zobraziť dobu užívania HRT a celkový počet dávok</string>
+</resources>

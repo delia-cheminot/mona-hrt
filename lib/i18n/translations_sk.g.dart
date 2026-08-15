@@ -483,7 +483,7 @@ class TranslationsSk extends Translations
   String get anchorToLastIntakeDescription =>
       'Naplánuje ďalšie užitie o celý interval od posledného užitia';
   @override
-  String get intakeCounterDescription =>
+  String get HrtCounterDescription =>
       'Zobraziť dobu užívania HRT a celkový počet dávok';
   @override
   String get startOfDay => 'Začiatok dňa';
@@ -550,7 +550,7 @@ class TranslationsSk extends Translations
   String get noInjectionAddOneToGetStarted =>
       'Ak chcete začať, pridajte miesto vpichu.';
   @override
-  String get intakeCounter => 'Počítadlo dávok';
+  String get HrtCounter => 'Počítadlo dávok';
   @override
   String get placementLeftButtock => 'Ľavý sedací sval';
   @override
@@ -981,7 +981,7 @@ extension on TranslationsSk {
       'scheduleFrequencyMonthly' => 'Mesačne',
       'anchorToLastIntakeDescription' =>
         'Naplánuje ďalšie užitie o celý interval od posledného užitia',
-      'intakeCounterDescription' =>
+      'HrtCounterDescription' =>
         'Zobraziť dobu užívania HRT a celkový počet dávok',
       'startOfDay' => 'Začiatok dňa',
       'noItemsToAdd' => 'Žiadne dostupné položky',
@@ -1016,7 +1016,7 @@ extension on TranslationsSk {
         'Odporúčanie ďalšieho miesta vpichu odvodzujte len z histórie tohto plánu.',
       'noInjectionAddOneToGetStarted' =>
         'Ak chcete začať, pridajte miesto vpichu.',
-      'intakeCounter' => 'Počítadlo dávok',
+      'HrtCounter' => 'Počítadlo dávok',
       'placementLeftButtock' => 'Ľavý sedací sval',
       'placementRightButtock' => 'Pravý sedací sval',
       'placementLeftAbdomen' => 'Ľavá abdominálna oblasť',

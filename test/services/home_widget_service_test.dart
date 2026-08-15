@@ -1,116 +1,150 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:mona/data/model/date.dart';
 import 'package:mona/services/home_widget_service.dart';
 
+import '../fixtures.dart';
+import '../mocks/mocks.mocks.dart';
+
 void main() {
-  late List<Map<String, String?>> saved;
-  late List<Map<String, dynamic>> savedInts;
-  late List<String?> updated;
-  late HomeWidgetService service;
+  group('HomeWidgetService.sync', () {
+    late List<Map<String, String?>> saved;
+    late List<String?> updated;
+    late HomeWidgetService service;
 
-  setUp(() {
-    saved = [];
-    savedInts = [];
-    updated = [];
-    HomeWidgetService.isPlatformSupported = () => true;
-    service = HomeWidgetService(
-      saveWidgetData: (id, data) async => saved.add({'id': id, 'data': data}),
-      saveIntWidgetData: (id, data) async =>
-          savedInts.add({'id': id, 'data': data}),
-      updateWidget: ({qualifiedAndroidName}) async =>
-          updated.add(qualifiedAndroidName),
-    );
-  });
-
-  tearDown(() {
-    HomeWidgetService.isPlatformSupported = null;
-  });
-
-  group('HomeWidgetService', () {
-    test('saves the text under the shared data key and updates the widget',
-        () async {
-      await service.updateHrtDurationWidget('On HRT for 3 weeks');
-
-      expect(saved, [
-        {
-          'id': HomeWidgetService.hrtDurationDataKey,
-          'data': 'On HRT for 3 weeks',
-        },
-      ]);
-      expect(updated, ['com.deliacheminot.mona.HrtHomeWidgetProvider']);
+    setUp(() {
+      saved = [];
+      updated = [];
+      HomeWidgetService.isPlatformSupported = () => true;
+      service = HomeWidgetService(
+        saveWidgetData: (id, data) async => saved.add({'id': id, 'data': data}),
+        updateWidget: ({qualifiedAndroidName}) async =>
+            updated.add(qualifiedAndroidName),
+      );
     });
 
-    test('still pushes a null value to clear the widget', () async {
-      await service.updateHrtDurationWidget(null);
+    tearDown(() {
+      HomeWidgetService.isPlatformSupported = null;
+    });
 
-      expect(saved, [
-        {'id': HomeWidgetService.hrtDurationDataKey, 'data': null},
-      ]);
-      expect(updated, ['com.deliacheminot.mona.HrtHomeWidgetProvider']);
+    test('saves the first date under the shared key', () async {
+      // Arrange
+      final firstDate = Date(year: 2026, month: 1, day: 5);
+      // Act
+      await service.syncHrtTimeWidget(
+          firstDate: firstDate, locale: const Locale('fr'), intakeCount: 0);
+      // Assert
+      expect(saved,
+          contains(equals({'id': 'hrt_first_date', 'data': '2026-01-05'})));
+    });
+
+    test('saves the locale under the shared key', () async {
+      // Arrange
+      final firstDate = Date(year: 2026, month: 1, day: 5);
+      // Act
+      await service.syncHrtTimeWidget(
+          firstDate: firstDate, locale: const Locale('fr'), intakeCount: 0);
+      // Assert
+      expect(saved, contains(equals({'id': 'app_locale', 'data': 'fr'})));
+    });
+
+    test('saves the intake count under the shared key', () async {
+      // Arrange
+      final firstDate = Date(year: 2026, month: 1, day: 5);
+      // Act
+      await service.syncHrtTimeWidget(
+          firstDate: firstDate, locale: const Locale('fr'), intakeCount: 42);
+      // Assert
+      expect(saved, contains(equals({'id': 'hrt_intake_count', 'data': '42'})));
+    });
+
+    test('updates the Glance receiver', () async {
+      // Arrange
+      final firstDate = Date(year: 2026, month: 1, day: 5);
+      // Act
+      await service.syncHrtTimeWidget(
+          firstDate: firstDate, locale: const Locale('fr'), intakeCount: 0);
+      // Assert
+      expect(updated, ['com.deliacheminot.mona.HrtGlanceReceiver']);
+    });
+
+    test('pushes a null first date to clear the widget', () async {
+      // Act
+      await service.syncHrtTimeWidget(
+          firstDate: null, locale: const Locale('en'), intakeCount: 0);
+      // Assert
+      expect(saved, contains(equals({'id': 'hrt_first_date', 'data': null})));
     });
 
     test('does nothing when the platform is unsupported', () async {
+      // Arrange
       HomeWidgetService.isPlatformSupported = () => false;
-
-      await service.updateHrtDurationWidget('On HRT for 3 weeks');
-
+      // Act
+      await service.syncHrtTimeWidget(
+          firstDate: null, locale: const Locale('en'), intakeCount: 0);
+      // Assert
       expect(saved, isEmpty);
-      expect(updated, isEmpty);
     });
   });
 
-  group('updateHrtWidgetColors', () {
-    final light = ColorScheme.fromSeed(seedColor: Colors.teal);
-    final dark = ColorScheme.fromSeed(
-        seedColor: Colors.teal, brightness: Brightness.dark);
+  group('HomeWidgetService.syncFromProviders', () {
+    late List<Map<String, String?>> saved;
+    late HomeWidgetService service;
+    late MockMedicationIntakeProvider intake;
+    late MockLocaleProvider localeProvider;
 
-    test('pushes each role\'s light and dark color', () async {
-      await service.updateHrtWidgetColors(light: light, dark: dark);
-
-      expect(savedInts, [
-        {
-          'id': HomeWidgetService.hrtBackgroundLightColorKey,
-          'data': light.surfaceContainerHighest.toARGB32(),
-        },
-        {
-          'id': HomeWidgetService.hrtBackgroundDarkColorKey,
-          'data': dark.surfaceContainerHighest.toARGB32(),
-        },
-        {
-          'id': HomeWidgetService.hrtIconBackgroundLightColorKey,
-          'data': light.tertiaryContainer.toARGB32(),
-        },
-        {
-          'id': HomeWidgetService.hrtIconBackgroundDarkColorKey,
-          'data': dark.tertiaryContainer.toARGB32(),
-        },
-        {
-          'id': HomeWidgetService.hrtIconLightColorKey,
-          'data': light.onTertiaryContainer.toARGB32(),
-        },
-        {
-          'id': HomeWidgetService.hrtIconDarkColorKey,
-          'data': dark.onTertiaryContainer.toARGB32(),
-        },
-        {
-          'id': HomeWidgetService.hrtTextLightColorKey,
-          'data': light.onSurface.toARGB32(),
-        },
-        {
-          'id': HomeWidgetService.hrtTextDarkColorKey,
-          'data': dark.onSurface.toARGB32(),
-        },
-      ]);
-      expect(updated, ['com.deliacheminot.mona.HrtHomeWidgetProvider']);
+    setUp(() {
+      saved = [];
+      HomeWidgetService.isPlatformSupported = () => true;
+      service = HomeWidgetService(
+        saveWidgetData: (id, data) async => saved.add({'id': id, 'data': data}),
+        updateWidget: ({qualifiedAndroidName}) async {},
+      );
+      intake = MockMedicationIntakeProvider();
+      localeProvider = MockLocaleProvider();
+      when(intake.isLoading).thenReturn(false);
+      when(intake.firstTakenLocalDate)
+          .thenReturn(Date(year: 2026, month: 1, day: 5));
+      when(intake.takenIntakes).thenReturn(const []);
+      when(localeProvider.locale).thenReturn(const Locale('fr'));
     });
 
-    test('does nothing when the platform is unsupported', () async {
-      HomeWidgetService.isPlatformSupported = () => false;
+    tearDown(() {
+      HomeWidgetService.isPlatformSupported = null;
+    });
 
-      await service.updateHrtWidgetColors(light: light, dark: dark);
+    test('reads the first date getter into the saved data', () async {
+      // Act
+      await service.sync(intake, localeProvider);
+      // Assert
+      expect(saved,
+          contains(equals({'id': 'hrt_first_date', 'data': '2026-01-05'})));
+    });
 
-      expect(savedInts, isEmpty);
-      expect(updated, isEmpty);
+    test('reads the locale getter into the saved data', () async {
+      // Act
+      await service.sync(intake, localeProvider);
+      // Assert
+      expect(saved, contains(equals({'id': 'app_locale', 'data': 'fr'})));
+    });
+
+    test('reads the taken intake count into the saved data', () async {
+      // Arrange
+      when(intake.takenIntakes).thenReturn(List.filled(3, aMedicationIntake()));
+      // Act
+      await service.sync(intake, localeProvider);
+      // Assert
+      expect(saved, contains(equals({'id': 'hrt_intake_count', 'data': '3'})));
+    });
+
+    test('does nothing while the intake provider is loading', () async {
+      // Arrange
+      when(intake.isLoading).thenReturn(true);
+      // Act
+      await service.sync(intake, localeProvider);
+      // Assert
+      expect(saved, isEmpty);
     });
   });
 }

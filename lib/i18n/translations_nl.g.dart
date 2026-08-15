@@ -538,9 +538,7 @@ class TranslationsNl extends Translations
   @override
   String get empty_intakes => '(In)Genomen innames zullen hier getoond worden';
   @override
-  String get intakeCounter => 'Inname teller';
-  @override
-  String get intakeCounterDescription =>
+  String get HrtCounterDescription =>
       'Laat zien hoe lang je aan HRT zit en je totale innames';
   @override
   String daysAgoCount({required num count}) =>
@@ -964,8 +962,7 @@ extension on TranslationsNl {
               {required Object scheduleName}) =>
           'Tijd om ${scheduleName} in te nemen',
       'empty_intakes' => '(In)Genomen innames zullen hier getoond worden',
-      'intakeCounter' => 'Inname teller',
-      'intakeCounterDescription' =>
+      'HrtCounterDescription' =>
         'Laat zien hoe lang je aan HRT zit en je totale innames',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(

@@ -611,8 +611,8 @@ class MockPreferencesService extends _i1.Mock
       ) as bool);
 
   @override
-  bool get intakeCounterEnabled => (super.noSuchMethod(
-        Invocation.getter(#intakeCounterEnabled),
+  bool get hrtCounterEnabled => (super.noSuchMethod(
+        Invocation.getter(#hrtCounterEnabled),
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
@@ -752,10 +752,9 @@ class MockPreferencesService extends _i1.Mock
       ) as _i8.Future<void>);
 
   @override
-  _i8.Future<void> setIntakeCounterEnabled(bool? isEnabled) =>
-      (super.noSuchMethod(
+  _i8.Future<void> setHrtCounterEnabled(bool? isEnabled) => (super.noSuchMethod(
         Invocation.method(
-          #setIntakeCounterEnabled,
+          #setHrtCounterEnabled,
           [isEnabled],
         ),
         returnValue: _i8.Future<void>.value(),
