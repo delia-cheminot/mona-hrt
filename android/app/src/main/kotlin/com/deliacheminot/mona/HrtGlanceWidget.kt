@@ -45,6 +45,13 @@ private const val ROW_PADDING_DP = 16f
 private const val ICON_BOX_DP = 48f
 private const val ICON_SPACER_DP = 12f
 
+private fun GlanceModifier.appWidgetBackgroundRadius(): GlanceModifier =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        cornerRadius(android.R.dimen.system_app_widget_background_radius)
+    } else {
+        cornerRadius(16.dp)
+    }
+
 class HrtGlanceWidget : GlanceAppWidget() {
 
     override val stateDefinition = HomeWidgetGlanceStateDefinition()
@@ -80,7 +87,7 @@ class HrtGlanceWidget : GlanceAppWidget() {
                 modifier = GlanceModifier
                     .fillMaxSize()
                     .background(GlanceTheme.colors.widgetBackground)
-                    .cornerRadius(16.dp)
+                    .appWidgetBackgroundRadius()
                     .padding(16.dp)
                     .clickable(onClick = actionStartActivity<MainActivity>(context)),
                 verticalAlignment = Alignment.CenterVertically,
