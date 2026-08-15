@@ -3,6 +3,6 @@
     <string name="hrt_widget_title">Temps sous THS</string>
     <string name="hrt_widget_description">Affiche depuis combien de temps vous êtes sous THS et votre nombre total de prises</string>
     <string name="hrt_home_widget_placeholder">Ouvrir Mona pour enregistrer votre première prise</string>
-    <string name="hrt_widget_preview_sample">On HRT for 8 months</string>
-    <string name="hrt_widget_preview_intake_sample">16 intakes logged</string>
+    <string name="hrt_widget_preview_sample">Sous THS depuis 8 mois</string>
+    <string name="hrt_widget_preview_intake_sample">16 prises enregistrées</string>
 </resources>

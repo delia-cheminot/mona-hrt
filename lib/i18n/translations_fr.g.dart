@@ -284,9 +284,9 @@ class TranslationsFr extends Translations
   String get hrtWidgetPlaceholder =>
       'Ouvrir Mona pour enregistrer votre première prise';
   @override
-  String get hrtWidgetPreviewSample => 'On HRT for 8 months';
+  String get hrtWidgetPreviewSample => 'Sous THS depuis 8 mois';
   @override
-  String get hrtWidgetPreviewIntakeSample => '16 intakes logged';
+  String get hrtWidgetPreviewIntakeSample => '16 prises enregistrées';
   @override
   String get startOfDay => 'Début de la journée';
   @override
@@ -900,8 +900,8 @@ extension on TranslationsFr {
         'Affiche depuis combien de temps vous êtes sous THS et votre nombre total de prises',
       'hrtWidgetPlaceholder' =>
         'Ouvrir Mona pour enregistrer votre première prise',
-      'hrtWidgetPreviewSample' => 'On HRT for 8 months',
-      'hrtWidgetPreviewIntakeSample' => '16 intakes logged',
+      'hrtWidgetPreviewSample' => 'Sous THS depuis 8 mois',
+      'hrtWidgetPreviewIntakeSample' => '16 prises enregistrées',
       'startOfDay' => 'Début de la journée',
       'startOfDayDescription' => ({required Object time}) =>
           'Les heures avant ${time} comptent pour la veille',
