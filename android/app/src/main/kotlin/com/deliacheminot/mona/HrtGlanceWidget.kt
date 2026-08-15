@@ -85,7 +85,7 @@ class HrtGlanceWidget : GlanceAppWidget() {
                 Text(
                     text = text,
                     style = TextStyle(
-                        color = GlanceTheme.colors.onSurface,
+                        color = GlanceTheme.colors.primary,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Medium,
                     ),
