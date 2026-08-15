@@ -563,6 +563,9 @@ class TranslationsEnGb extends Translations
   @override
   String get cannotExceedTotalCapacity => 'Cannot exceed total capacity';
   @override
+  String concentrationLabelPerUnit({required Object unit}) =>
+      'Dose per ${unit}';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         count,
@@ -1001,6 +1004,8 @@ extension on TranslationsEnGb {
       'mustBeBetween1And28' => 'Must be between 1 and 28',
       'invalidTotalAmount' => 'Invalid total amount',
       'cannotExceedTotalCapacity' => 'Cannot exceed total capacity',
+      'concentrationLabelPerUnit' => ({required Object unit}) =>
+          'Dose per ${unit}',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
             count,

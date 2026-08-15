@@ -150,6 +150,14 @@ class TranslationsSv extends Translations
   @override
   String get upcoming => 'Kommande';
   @override
+  String get taken => 'Intaget';
+  @override
+  String get lastTaken => 'Senaste intag';
+  @override
+  String get newUpdateAvailable => 'En ny uppdatering är tillgänglig!';
+  @override
+  String get goToSettings => 'Gå till Inställningar';
+  @override
   String administrationRouteUnitMl({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sv'))(
         count,
@@ -214,6 +222,10 @@ extension on TranslationsSv {
       'empty_home' => 'Börja med att skapa ett schema i Inställningar',
       'noIntakesDue' => 'Inga intag planerade för idag',
       'upcoming' => 'Kommande',
+      'taken' => 'Intaget',
+      'lastTaken' => 'Senaste intag',
+      'newUpdateAvailable' => 'En ny uppdatering är tillgänglig!',
+      'goToSettings' => 'Gå till Inställningar',
       'administrationRouteUnitMl' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sv'))(
             count,

@@ -285,5 +285,6 @@
   "mustBePositiveNumber": "Must be a positive number",
   "mustBeBetween1And28": "Must be between 1 and 28",
   "invalidTotalAmount": "Invalid total amount",
-  "cannotExceedTotalCapacity": "Cannot exceed total capacity"
+  "cannotExceedTotalCapacity": "Cannot exceed total capacity",
+  "concentrationLabelPerUnit": "Dose per {{unit}}"
 }

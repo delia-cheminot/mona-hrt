@@ -560,6 +560,9 @@ class TranslationsSk extends Translations
   @override
   String get placementRightAbdomen => 'Pravá abdominálna oblasť';
   @override
+  String concentrationLabelPerUnit({required Object unit}) =>
+      'Dávka na ${unit}';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
         count,
@@ -1021,6 +1024,8 @@ extension on TranslationsSk {
       'placementRightButtock' => 'Pravý sedací sval',
       'placementLeftAbdomen' => 'Ľavá abdominálna oblasť',
       'placementRightAbdomen' => 'Pravá abdominálna oblasť',
+      'concentrationLabelPerUnit' => ({required Object unit}) =>
+          'Dávka na ${unit}',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
             count,

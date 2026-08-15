@@ -48,5 +48,9 @@
   "addAnItem": "Lägg till ett objekt",
   "empty_home": "Börja med att skapa ett schema i Inställningar",
   "noIntakesDue": "Inga intag planerade för idag",
-  "upcoming": "Kommande"
+  "upcoming": "Kommande",
+  "taken": "Intaget",
+  "lastTaken": "Senaste intag",
+  "newUpdateAvailable": "En ny uppdatering är tillgänglig!",
+  "goToSettings": "Gå till Inställningar"
 }

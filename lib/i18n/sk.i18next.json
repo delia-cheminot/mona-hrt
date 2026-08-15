@@ -305,5 +305,6 @@
   "placementLeftButtock": "Ľavý sedací sval",
   "placementRightButtock": "Pravý sedací sval",
   "placementLeftAbdomen": "Ľavá abdominálna oblasť",
-  "placementRightAbdomen": "Pravá abdominálna oblasť"
+  "placementRightAbdomen": "Pravá abdominálna oblasť",
+  "concentrationLabelPerUnit": "Dávka na {{unit}}"
 }
