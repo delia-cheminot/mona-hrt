@@ -11,102 +11,20 @@ void main() {
   group('HomeWidgetService.sync', () {
     late List<Map<String, String?>> saved;
     late List<String?> updated;
-    late HomeWidgetService service;
+    late MockMedicationIntakeProvider intakeProvider;
+    late MockLocaleProvider localeProvider;
 
     setUp(() {
       saved = [];
       updated = [];
       HomeWidgetService.isPlatformSupported = () => true;
-      service = HomeWidgetService(
-        saveWidgetData: (id, data) async => saved.add({'id': id, 'data': data}),
-        updateWidget: ({qualifiedAndroidName}) async =>
-            updated.add(qualifiedAndroidName),
-      );
-    });
-
-    tearDown(() {
-      HomeWidgetService.isPlatformSupported = null;
-    });
-
-    test('saves the first date under the shared key', () async {
-      // Arrange
-      final firstDate = Date(year: 2026, month: 1, day: 5);
-      // Act
-      await service.syncHrtTimeWidget(
-          firstDate: firstDate, locale: const Locale('fr'), intakeCount: 0);
-      // Assert
-      expect(saved,
-          contains(equals({'id': 'hrt_first_date', 'data': '2026-01-05'})));
-    });
-
-    test('saves the locale under the shared key', () async {
-      // Arrange
-      final firstDate = Date(year: 2026, month: 1, day: 5);
-      // Act
-      await service.syncHrtTimeWidget(
-          firstDate: firstDate, locale: const Locale('fr'), intakeCount: 0);
-      // Assert
-      expect(saved, contains(equals({'id': 'app_locale', 'data': 'fr'})));
-    });
-
-    test('saves the intake count under the shared key', () async {
-      // Arrange
-      final firstDate = Date(year: 2026, month: 1, day: 5);
-      // Act
-      await service.syncHrtTimeWidget(
-          firstDate: firstDate, locale: const Locale('fr'), intakeCount: 42);
-      // Assert
-      expect(saved, contains(equals({'id': 'hrt_intake_count', 'data': '42'})));
-    });
-
-    test('updates the Glance receiver', () async {
-      // Arrange
-      final firstDate = Date(year: 2026, month: 1, day: 5);
-      // Act
-      await service.syncHrtTimeWidget(
-          firstDate: firstDate, locale: const Locale('fr'), intakeCount: 0);
-      // Assert
-      expect(updated, ['com.deliacheminot.mona.HrtGlanceReceiver']);
-    });
-
-    test('pushes a null first date to clear the widget', () async {
-      // Act
-      await service.syncHrtTimeWidget(
-          firstDate: null, locale: const Locale('en'), intakeCount: 0);
-      // Assert
-      expect(saved, contains(equals({'id': 'hrt_first_date', 'data': null})));
-    });
-
-    test('does nothing when the platform is unsupported', () async {
-      // Arrange
-      HomeWidgetService.isPlatformSupported = () => false;
-      // Act
-      await service.syncHrtTimeWidget(
-          firstDate: null, locale: const Locale('en'), intakeCount: 0);
-      // Assert
-      expect(saved, isEmpty);
-    });
-  });
-
-  group('HomeWidgetService.syncFromProviders', () {
-    late List<Map<String, String?>> saved;
-    late HomeWidgetService service;
-    late MockMedicationIntakeProvider intake;
-    late MockLocaleProvider localeProvider;
-
-    setUp(() {
-      saved = [];
-      HomeWidgetService.isPlatformSupported = () => true;
-      service = HomeWidgetService(
-        saveWidgetData: (id, data) async => saved.add({'id': id, 'data': data}),
-        updateWidget: ({qualifiedAndroidName}) async {},
-      );
-      intake = MockMedicationIntakeProvider();
+      intakeProvider = MockMedicationIntakeProvider();
       localeProvider = MockLocaleProvider();
-      when(intake.isLoading).thenReturn(false);
-      when(intake.firstTakenLocalDate)
+      when(intakeProvider.isLoading).thenReturn(false);
+      when(intakeProvider.firstTakenLocalDate)
           .thenReturn(Date(year: 2026, month: 1, day: 5));
-      when(intake.takenIntakes).thenReturn(const []);
+      when(intakeProvider.takenIntakes)
+          .thenReturn(List.filled(3, aMedicationIntake()));
       when(localeProvider.locale).thenReturn(const Locale('fr'));
     });
 
@@ -114,35 +32,78 @@ void main() {
       HomeWidgetService.isPlatformSupported = null;
     });
 
-    test('reads the first date getter into the saved data', () async {
-      // Act
-      await service.sync(intake, localeProvider);
-      // Assert
-      expect(saved,
-          contains(equals({'id': 'hrt_first_date', 'data': '2026-01-05'})));
-    });
+    final keyCases = [
+      (name: 'first date', id: 'hrt_first_date', data: '2026-01-05'),
+      (name: 'locale', id: 'app_locale', data: 'fr'),
+      (name: 'intake count', id: 'hrt_intake_count', data: '3'),
+    ];
+    for (final c in keyCases) {
+      test('saves the ${c.name} under its shared key', () async {
+        // Arrange
+        final service = HomeWidgetService(
+          saveWidgetData: (id, data) async =>
+              saved.add({'id': id, 'data': data}),
+          updateWidget: ({qualifiedAndroidName}) async =>
+              updated.add(qualifiedAndroidName),
+        );
+        // Act
+        await service.sync(intakeProvider, localeProvider);
+        // Assert
+        expect(saved, contains(equals({'id': c.id, 'data': c.data})));
+      });
+    }
 
-    test('reads the locale getter into the saved data', () async {
-      // Act
-      await service.sync(intake, localeProvider);
-      // Assert
-      expect(saved, contains(equals({'id': 'app_locale', 'data': 'fr'})));
-    });
-
-    test('reads the taken intake count into the saved data', () async {
+    test('updates the Glance receiver', () async {
       // Arrange
-      when(intake.takenIntakes).thenReturn(List.filled(3, aMedicationIntake()));
+      final service = HomeWidgetService(
+        saveWidgetData: (id, data) async => saved.add({'id': id, 'data': data}),
+        updateWidget: ({qualifiedAndroidName}) async =>
+            updated.add(qualifiedAndroidName),
+      );
       // Act
-      await service.sync(intake, localeProvider);
+      await service.sync(intakeProvider, localeProvider);
       // Assert
-      expect(saved, contains(equals({'id': 'hrt_intake_count', 'data': '3'})));
+      expect(updated, ['com.deliacheminot.mona.HrtGlanceReceiver']);
+    });
+
+    test('pushes a null first date to clear the widget', () async {
+      // Arrange
+      final service = HomeWidgetService(
+        saveWidgetData: (id, data) async => saved.add({'id': id, 'data': data}),
+        updateWidget: ({qualifiedAndroidName}) async =>
+            updated.add(qualifiedAndroidName),
+      );
+      when(intakeProvider.firstTakenLocalDate).thenReturn(null);
+      // Act
+      await service.sync(intakeProvider, localeProvider);
+      // Assert
+      expect(saved, contains(equals({'id': 'hrt_first_date', 'data': null})));
+    });
+
+    test('does nothing when the platform is unsupported', () async {
+      // Arrange
+      final service = HomeWidgetService(
+        saveWidgetData: (id, data) async => saved.add({'id': id, 'data': data}),
+        updateWidget: ({qualifiedAndroidName}) async =>
+            updated.add(qualifiedAndroidName),
+      );
+      HomeWidgetService.isPlatformSupported = () => false;
+      // Act
+      await service.sync(intakeProvider, localeProvider);
+      // Assert
+      expect(saved, isEmpty);
     });
 
     test('does nothing while the intake provider is loading', () async {
       // Arrange
-      when(intake.isLoading).thenReturn(true);
+      final service = HomeWidgetService(
+        saveWidgetData: (id, data) async => saved.add({'id': id, 'data': data}),
+        updateWidget: ({qualifiedAndroidName}) async =>
+            updated.add(qualifiedAndroidName),
+      );
+      when(intakeProvider.isLoading).thenReturn(true);
       // Act
-      await service.sync(intake, localeProvider);
+      await service.sync(intakeProvider, localeProvider);
       // Assert
       expect(saved, isEmpty);
     });
