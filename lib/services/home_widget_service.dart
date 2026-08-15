@@ -7,21 +7,27 @@ import 'package:mona/data/model/date.dart';
 typedef SaveWidgetData = Future<void> Function(String id, String? data);
 typedef UpdateWidget = Future<void> Function({String? qualifiedAndroidName});
 
-({String? firstDateIso, String localeTag}) widgetPayload(
+({String? firstDateIso, String localeTag, int intakeCount}) widgetPayload(
   Date? firstDate,
   Locale locale,
+  int intakeCount,
 ) {
   final iso = firstDate == null
       ? null
       : '${firstDate.year.toString().padLeft(4, '0')}-'
           '${firstDate.month.toString().padLeft(2, '0')}-'
           '${firstDate.day.toString().padLeft(2, '0')}';
-  return (firstDateIso: iso, localeTag: locale.languageCode);
+  return (
+    firstDateIso: iso,
+    localeTag: locale.languageCode,
+    intakeCount: intakeCount,
+  );
 }
 
 class HomeWidgetService {
   static const String firstDateKey = 'hrt_first_date';
   static const String localeKey = 'app_locale';
+  static const String intakeCountKey = 'hrt_intake_count';
 
   static const String _qualifiedAndroidName =
       'com.deliacheminot.mona.HrtGlanceReceiver';
@@ -43,13 +49,15 @@ class HomeWidgetService {
   Future<void> sync({
     required Date? firstDate,
     required Locale locale,
+    required int intakeCount,
   }) async {
     final supported = isPlatformSupported?.call() ?? Platform.isAndroid;
     if (!supported) return;
 
-    final payload = widgetPayload(firstDate, locale);
+    final payload = widgetPayload(firstDate, locale, intakeCount);
     await _saveWidgetData(firstDateKey, payload.firstDateIso);
     await _saveWidgetData(localeKey, payload.localeTag);
+    await _saveWidgetData(intakeCountKey, payload.intakeCount.toString());
     await _updateWidget(qualifiedAndroidName: _qualifiedAndroidName);
   }
 }

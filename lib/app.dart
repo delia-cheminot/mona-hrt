@@ -86,6 +86,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
     _homeWidgetService.sync(
       firstDate: _medicationIntakeProvider.firstTakenLocalDate,
       locale: _localeProvider.locale,
+      intakeCount: _medicationIntakeProvider.takenIntakes.length,
     );
   }
 

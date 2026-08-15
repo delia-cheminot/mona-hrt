@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="hrt_widget_preview_background">@android:color/system_accent2_700</color>
-    <color name="hrt_widget_preview_foreground">@android:color/system_neutral1_100</color>
+    <color name="hrt_widget_preview_foreground">@android:color/system_accent1_200</color>
     <color name="hrt_widget_preview_icon_circle">@android:color/system_accent3_700</color>
     <color name="hrt_widget_preview_icon">@android:color/system_accent3_100</color>
 </resources>

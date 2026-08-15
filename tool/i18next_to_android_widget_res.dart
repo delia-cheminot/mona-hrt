@@ -11,6 +11,7 @@ const _pluralResourceNames = {
   'onHrtForWeeks': 'on_hrt_for_weeks',
   'onHrtForMonths': 'on_hrt_for_months',
   'onHrtForYears': 'on_hrt_for_years',
+  'intakesLoggedCount': 'intakes_logged_count',
 };
 
 const _stringResourceNames = {
@@ -18,6 +19,7 @@ const _stringResourceNames = {
   'HrtCounterDescription': 'hrt_widget_description',
   'hrtWidgetPlaceholder': 'hrt_home_widget_placeholder',
   'hrtWidgetPreviewSample': 'hrt_widget_preview_sample',
+  'hrtWidgetPreviewIntakeSample': 'hrt_widget_preview_intake_sample',
 };
 
 void main() {

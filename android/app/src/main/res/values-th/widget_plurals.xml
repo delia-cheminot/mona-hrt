@@ -12,4 +12,7 @@
     <plurals name="on_hrt_for_years">
         <item quantity="other">เทคฮอร์โมนมาแล้ว %d ปี</item>
     </plurals>
+    <plurals name="intakes_logged_count">
+        <item quantity="other">บันทึกไปแล้ว %d ครั้ง</item>
+    </plurals>
 </resources>

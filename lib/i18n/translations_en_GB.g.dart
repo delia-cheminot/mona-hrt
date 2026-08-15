@@ -277,6 +277,8 @@ class TranslationsEnGb extends Translations
   @override
   String get hrtWidgetPreviewSample => 'On HRT for 8 months';
   @override
+  String get hrtWidgetPreviewIntakeSample => '16 intakes logged';
+  @override
   String get startOfDay => 'Start of day';
   @override
   String startOfDayDescription({required Object time}) =>
@@ -853,6 +855,7 @@ extension on TranslationsEnGb {
         'Show how long you\'ve been on HRT and your total intakes',
       'hrtWidgetPlaceholder' => 'Open Mona to log your first intake',
       'hrtWidgetPreviewSample' => 'On HRT for 8 months',
+      'hrtWidgetPreviewIntakeSample' => '16 intakes logged',
       'startOfDay' => 'Start of day',
       'startOfDayDescription' => ({required Object time}) =>
           'Time before ${time} counts towards the previous day',

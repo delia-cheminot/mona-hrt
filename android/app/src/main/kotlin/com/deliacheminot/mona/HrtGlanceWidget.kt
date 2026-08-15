@@ -19,6 +19,7 @@ import androidx.glance.background
 import androidx.glance.currentState
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
+import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
@@ -47,11 +48,18 @@ class HrtGlanceWidget : GlanceAppWidget() {
         val prefs = state.preferences
         val firstDate = prefs.getString("hrt_first_date", null)
         val localeTag = prefs.getString("app_locale", "en") ?: "en"
+        val intakeCount = prefs.getString("hrt_intake_count", null)?.toIntOrNull()
 
-        val text = if (firstDate.isNullOrEmpty()) {
-            context.getString(R.string.hrt_home_widget_placeholder)
+        val hasData = !firstDate.isNullOrEmpty()
+        val text = if (hasData) {
+            durationText(context, firstDate!!, localeTag)
         } else {
-            durationText(context, firstDate, localeTag)
+            context.getString(R.string.hrt_home_widget_placeholder)
+        }
+        val subtitle = if (hasData && intakeCount != null) {
+            intakeCountText(context, intakeCount, localeTag)
+        } else {
+            null
         }
 
         GlanceTheme {
@@ -82,14 +90,26 @@ class HrtGlanceWidget : GlanceAppWidget() {
                     )
                 }
                 Spacer(modifier = GlanceModifier.width(12.dp))
-                Text(
-                    text = text,
-                    style = TextStyle(
-                        color = GlanceTheme.colors.primary,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Medium,
-                    ),
-                )
+                Column {
+                    Text(
+                        text = text,
+                        style = TextStyle(
+                            color = GlanceTheme.colors.primary,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Medium,
+                        ),
+                    )
+                    if (subtitle != null) {
+                        Text(
+                            text = subtitle,
+                            style = TextStyle(
+                                color = GlanceTheme.colors.primary,
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.Normal,
+                            ),
+                        )
+                    }
+                }
             }
         }
     }
@@ -104,6 +124,11 @@ class HrtGlanceWidget : GlanceAppWidget() {
         }
         val localized = localizedContext(context, localeTag)
         return localized.resources.getQuantityString(pluralRes, duration.value, duration.value)
+    }
+
+    private fun intakeCountText(context: Context, count: Int, localeTag: String): String {
+        val localized = localizedContext(context, localeTag)
+        return localized.resources.getQuantityString(R.plurals.intakes_logged_count, count, count)
     }
 
     private fun localizedContext(context: Context, localeTag: String): Context {

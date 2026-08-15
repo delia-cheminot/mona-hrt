@@ -20,4 +20,9 @@
         <item quantity="few">Na HRT %d roky</item>
         <item quantity="other">Na HRT %d rokov</item>
     </plurals>
+    <plurals name="intakes_logged_count">
+        <item quantity="one">%d dávka zaznamenaná</item>
+        <item quantity="few">%d dávky zaznamenané</item>
+        <item quantity="other">%d zaznamenaných dávok</item>
+    </plurals>
 </resources>

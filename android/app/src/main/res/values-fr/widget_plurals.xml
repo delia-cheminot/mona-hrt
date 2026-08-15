@@ -20,4 +20,9 @@
         <item quantity="many">%d d\'années sous THS</item>
         <item quantity="other">%d ans sous THS</item>
     </plurals>
+    <plurals name="intakes_logged_count">
+        <item quantity="one">1 prise enregistrée</item>
+        <item quantity="many">%d de prises enregistrées</item>
+        <item quantity="other">%d prises enregistrées</item>
+    </plurals>
 </resources>

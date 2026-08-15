@@ -377,6 +377,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'On HRT for 8 months'
   String get hrtWidgetPreviewSample => 'On HRT for 8 months';
 
+  /// en: '16 intakes logged'
+  String get hrtWidgetPreviewIntakeSample => '16 intakes logged';
+
   /// en: 'Start of day'
   String get startOfDay => 'Start of day';
 
@@ -1117,6 +1120,7 @@ extension on Translations {
         'Show how long you\'ve been on HRT and your total intakes',
       'hrtWidgetPlaceholder' => 'Open Mona to log your first intake',
       'hrtWidgetPreviewSample' => 'On HRT for 8 months',
+      'hrtWidgetPreviewIntakeSample' => '16 intakes logged',
       'startOfDay' => 'Start of day',
       'startOfDayDescription' => ({required Object time}) =>
           'Time before ${time} counts toward the previous day',

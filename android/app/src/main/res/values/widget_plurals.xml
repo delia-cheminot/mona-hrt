@@ -16,4 +16,8 @@
         <item quantity="one">On HRT for 1 year</item>
         <item quantity="other">On HRT for %d years</item>
     </plurals>
+    <plurals name="intakes_logged_count">
+        <item quantity="one">1 intake logged</item>
+        <item quantity="other">%d intakes logged</item>
+    </plurals>
 </resources>

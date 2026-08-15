@@ -27,12 +27,26 @@
             android:tint="@color/hrt_widget_preview_icon" />
     </FrameLayout>
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:text="@string/hrt_widget_preview_sample"
-        android:textColor="@color/hrt_widget_preview_foreground"
-        android:textSize="18sp"
-        android:textStyle="normal" />
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hrt_widget_preview_sample"
+            android:textColor="@color/hrt_widget_preview_foreground"
+            android:textSize="18sp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hrt_widget_preview_intake_sample"
+            android:textColor="@color/hrt_widget_preview_foreground"
+            android:textSize="13sp"
+            android:textStyle="normal" />
+    </LinearLayout>
 </LinearLayout>

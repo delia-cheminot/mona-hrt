@@ -16,4 +16,8 @@
         <item quantity="one">Á HRT í 1 ár</item>
         <item quantity="other">Á HRT í %d ár</item>
     </plurals>
+    <plurals name="intakes_logged_count">
+        <item quantity="one">1 inntaka skráð</item>
+        <item quantity="other">%d inntökur skráðar</item>
+    </plurals>
 </resources>
