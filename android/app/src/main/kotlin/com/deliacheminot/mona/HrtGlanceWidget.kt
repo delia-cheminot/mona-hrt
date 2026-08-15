@@ -1,7 +1,10 @@
 package com.deliacheminot.mona
 
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Build
+import android.text.TextPaint
+import android.util.TypedValue
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -11,8 +14,10 @@ import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalSize
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
@@ -35,9 +40,16 @@ import es.antonborri.home_widget.actionStartActivity
 import java.time.LocalDate
 import java.util.Locale
 
+private const val TITLE_TEXT_SP = 18f
+private const val ROW_PADDING_DP = 16f
+private const val ICON_BOX_DP = 48f
+private const val ICON_SPACER_DP = 12f
+
 class HrtGlanceWidget : GlanceAppWidget() {
 
     override val stateDefinition = HomeWidgetGlanceStateDefinition()
+
+    override val sizeMode = SizeMode.Exact
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent { Content(context, currentState()) }
@@ -56,7 +68,8 @@ class HrtGlanceWidget : GlanceAppWidget() {
         } else {
             context.getString(R.string.hrt_home_widget_placeholder)
         }
-        val subtitle = if (hasData && intakeCount != null) {
+        val widthDp = LocalSize.current.width.value
+        val subtitle = if (hasData && intakeCount != null && titleFitsOneLine(context, text, widthDp)) {
             intakeCountText(context, intakeCount, localeTag)
         } else {
             null
@@ -129,6 +142,18 @@ class HrtGlanceWidget : GlanceAppWidget() {
     private fun intakeCountText(context: Context, count: Int, localeTag: String): String {
         val localized = localizedContext(context, localeTag)
         return localized.resources.getQuantityString(R.plurals.intakes_logged_count, count, count)
+    }
+
+    private fun titleFitsOneLine(context: Context, title: String, widthDp: Float): Boolean {
+        val metrics = context.resources.displayMetrics
+        val availableDp = widthDp - (ROW_PADDING_DP * 2) - ICON_BOX_DP - ICON_SPACER_DP
+        if (availableDp <= 0f) return false
+        val availablePx = availableDp * metrics.density
+        val paint = TextPaint().apply {
+            textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, TITLE_TEXT_SP, metrics)
+            typeface = Typeface.DEFAULT_BOLD
+        }
+        return paint.measureText(title) <= availablePx
     }
 
     private fun localizedContext(context: Context, localeTag: String): Context {
