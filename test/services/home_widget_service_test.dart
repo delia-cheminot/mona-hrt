@@ -1,50 +1,13 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/services/home_widget_service.dart';
 
+import '../fixtures.dart';
+import '../mocks/mocks.mocks.dart';
+
 void main() {
-  group('widgetPayload', () {
-    test('maps a date to ISO yyyy-MM-dd', () {
-      // Arrange
-      final firstDate = Date(year: 2026, month: 1, day: 5);
-      const locale = Locale('fr');
-      // Act
-      final payload = widgetPayload(firstDate, locale, 0);
-      // Assert
-      expect(payload.firstDateIso, '2026-01-05');
-    });
-
-    test('maps the locale to its language code', () {
-      // Arrange
-      final firstDate = Date(year: 2026, month: 1, day: 5);
-      const locale = Locale('fr');
-      // Act
-      final payload = widgetPayload(firstDate, locale, 0);
-      // Assert
-      expect(payload.localeTag, 'fr');
-    });
-
-    test('null date maps to null firstDateIso', () {
-      // Arrange
-      const locale = Locale('en');
-      // Act
-      final payload = widgetPayload(null, locale, 0);
-      // Assert
-      expect(payload.firstDateIso, isNull);
-    });
-
-    test('carries the intake count through', () {
-      // Arrange
-      final firstDate = Date(year: 2026, month: 1, day: 5);
-      const locale = Locale('en');
-      // Act
-      final payload = widgetPayload(firstDate, locale, 42);
-      // Assert
-      expect(payload.intakeCount, 42);
-    });
-  });
-
   group('HomeWidgetService.sync', () {
     late List<Map<String, String?>> saved;
     late List<String?> updated;
@@ -69,7 +32,7 @@ void main() {
       // Arrange
       final firstDate = Date(year: 2026, month: 1, day: 5);
       // Act
-      await service.sync(
+      await service.syncHrtTimeWidget(
           firstDate: firstDate, locale: const Locale('fr'), intakeCount: 0);
       // Assert
       expect(saved,
@@ -80,7 +43,7 @@ void main() {
       // Arrange
       final firstDate = Date(year: 2026, month: 1, day: 5);
       // Act
-      await service.sync(
+      await service.syncHrtTimeWidget(
           firstDate: firstDate, locale: const Locale('fr'), intakeCount: 0);
       // Assert
       expect(saved, contains(equals({'id': 'app_locale', 'data': 'fr'})));
@@ -90,7 +53,7 @@ void main() {
       // Arrange
       final firstDate = Date(year: 2026, month: 1, day: 5);
       // Act
-      await service.sync(
+      await service.syncHrtTimeWidget(
           firstDate: firstDate, locale: const Locale('fr'), intakeCount: 42);
       // Assert
       expect(saved, contains(equals({'id': 'hrt_intake_count', 'data': '42'})));
@@ -100,7 +63,7 @@ void main() {
       // Arrange
       final firstDate = Date(year: 2026, month: 1, day: 5);
       // Act
-      await service.sync(
+      await service.syncHrtTimeWidget(
           firstDate: firstDate, locale: const Locale('fr'), intakeCount: 0);
       // Assert
       expect(updated, ['com.deliacheminot.mona.HrtGlanceReceiver']);
@@ -108,7 +71,7 @@ void main() {
 
     test('pushes a null first date to clear the widget', () async {
       // Act
-      await service.sync(
+      await service.syncHrtTimeWidget(
           firstDate: null, locale: const Locale('en'), intakeCount: 0);
       // Assert
       expect(saved, contains(equals({'id': 'hrt_first_date', 'data': null})));
@@ -118,8 +81,68 @@ void main() {
       // Arrange
       HomeWidgetService.isPlatformSupported = () => false;
       // Act
-      await service.sync(
+      await service.syncHrtTimeWidget(
           firstDate: null, locale: const Locale('en'), intakeCount: 0);
+      // Assert
+      expect(saved, isEmpty);
+    });
+  });
+
+  group('HomeWidgetService.syncFromProviders', () {
+    late List<Map<String, String?>> saved;
+    late HomeWidgetService service;
+    late MockMedicationIntakeProvider intake;
+    late MockLocaleProvider localeProvider;
+
+    setUp(() {
+      saved = [];
+      HomeWidgetService.isPlatformSupported = () => true;
+      service = HomeWidgetService(
+        saveWidgetData: (id, data) async => saved.add({'id': id, 'data': data}),
+        updateWidget: ({qualifiedAndroidName}) async {},
+      );
+      intake = MockMedicationIntakeProvider();
+      localeProvider = MockLocaleProvider();
+      when(intake.isLoading).thenReturn(false);
+      when(intake.firstTakenLocalDate)
+          .thenReturn(Date(year: 2026, month: 1, day: 5));
+      when(intake.takenIntakes).thenReturn(const []);
+      when(localeProvider.locale).thenReturn(const Locale('fr'));
+    });
+
+    tearDown(() {
+      HomeWidgetService.isPlatformSupported = null;
+    });
+
+    test('reads the first date getter into the saved data', () async {
+      // Act
+      await service.sync(intake, localeProvider);
+      // Assert
+      expect(saved,
+          contains(equals({'id': 'hrt_first_date', 'data': '2026-01-05'})));
+    });
+
+    test('reads the locale getter into the saved data', () async {
+      // Act
+      await service.sync(intake, localeProvider);
+      // Assert
+      expect(saved, contains(equals({'id': 'app_locale', 'data': 'fr'})));
+    });
+
+    test('reads the taken intake count into the saved data', () async {
+      // Arrange
+      when(intake.takenIntakes).thenReturn(List.filled(3, aMedicationIntake()));
+      // Act
+      await service.sync(intake, localeProvider);
+      // Assert
+      expect(saved, contains(equals({'id': 'hrt_intake_count', 'data': '3'})));
+    });
+
+    test('does nothing while the intake provider is loading', () async {
+      // Arrange
+      when(intake.isLoading).thenReturn(true);
+      // Act
+      await service.sync(intake, localeProvider);
       // Assert
       expect(saved, isEmpty);
     });

@@ -81,12 +81,10 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
 
   void _regenerateHomeWidget() {
     if (!mounted) return;
-    if (_medicationIntakeProvider.isLoading) return;
 
     _homeWidgetService.sync(
-      firstDate: _medicationIntakeProvider.firstTakenLocalDate,
-      locale: _localeProvider.locale,
-      intakeCount: _medicationIntakeProvider.takenIntakes.length,
+      _medicationIntakeProvider,
+      _localeProvider,
     );
   }
 

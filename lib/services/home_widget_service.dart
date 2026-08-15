@@ -3,32 +3,13 @@ import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/providers/medication_intake_provider.dart';
+import 'package:mona/i18n/locale_provider.dart';
 
 typedef SaveWidgetData = Future<void> Function(String id, String? data);
 typedef UpdateWidget = Future<void> Function({String? qualifiedAndroidName});
 
-({String? firstDateIso, String localeTag, int intakeCount}) widgetPayload(
-  Date? firstDate,
-  Locale locale,
-  int intakeCount,
-) {
-  final iso = firstDate == null
-      ? null
-      : '${firstDate.year.toString().padLeft(4, '0')}-'
-          '${firstDate.month.toString().padLeft(2, '0')}-'
-          '${firstDate.day.toString().padLeft(2, '0')}';
-  return (
-    firstDateIso: iso,
-    localeTag: locale.languageCode,
-    intakeCount: intakeCount,
-  );
-}
-
 class HomeWidgetService {
-  static const String firstDateKey = 'hrt_first_date';
-  static const String localeKey = 'app_locale';
-  static const String intakeCountKey = 'hrt_intake_count';
-
   static const String _qualifiedAndroidName =
       'com.deliacheminot.mona.HrtGlanceReceiver';
 
@@ -46,7 +27,19 @@ class HomeWidgetService {
             (({qualifiedAndroidName}) => HomeWidget.updateWidget(
                 qualifiedAndroidName: qualifiedAndroidName));
 
-  Future<void> sync({
+  Future<void> sync(
+    MedicationIntakeProvider medicationIntakeProvider,
+    LocaleProvider localeProvider,
+  ) async {
+    if (medicationIntakeProvider.isLoading) return;
+    await syncHrtTimeWidget(
+      firstDate: medicationIntakeProvider.firstTakenLocalDate,
+      locale: localeProvider.locale,
+      intakeCount: medicationIntakeProvider.takenIntakes.length,
+    );
+  }
+
+  Future<void> syncHrtTimeWidget({
     required Date? firstDate,
     required Locale locale,
     required int intakeCount,
@@ -54,10 +47,14 @@ class HomeWidgetService {
     final supported = isPlatformSupported?.call() ?? Platform.isAndroid;
     if (!supported) return;
 
-    final payload = widgetPayload(firstDate, locale, intakeCount);
-    await _saveWidgetData(firstDateKey, payload.firstDateIso);
-    await _saveWidgetData(localeKey, payload.localeTag);
-    await _saveWidgetData(intakeCountKey, payload.intakeCount.toString());
+    final firstDateIso = firstDate == null
+        ? null
+        : '${firstDate.year.toString().padLeft(4, '0')}-'
+            '${firstDate.month.toString().padLeft(2, '0')}-'
+            '${firstDate.day.toString().padLeft(2, '0')}';
+    await _saveWidgetData('hrt_first_date', firstDateIso);
+    await _saveWidgetData('app_locale', locale.languageCode);
+    await _saveWidgetData('hrt_intake_count', intakeCount.toString());
     await _updateWidget(qualifiedAndroidName: _qualifiedAndroidName);
   }
 }
