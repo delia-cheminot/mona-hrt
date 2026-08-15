@@ -10,6 +10,11 @@
         android:fillColor="#F8EDF6"
         android:pathData="M8,0 L172,0 A8,8 0 0 1 180,8 L180,48 A8,8 0 0 1 172,56 L8,56 A8,8 0 0 1 0,48 L0,8 A8,8 0 0 1 8,0 Z" />
 
+    <!-- icon circle (mirrors hrt_widget_preview_icon_circle, light) -->
+    <path
+        android:fillColor="#FFD8E4"
+        android:pathData="M28,10 A18,18 0 1 1 28,46 A18,18 0 1 1 28,10 Z" />
+
     <!-- calendar icon -->
     <group
         android:translateX="16"
