@@ -305,5 +305,9 @@
   "placementRightButtock": "Pravý sedací sval",
   "placementLeftAbdomen": "Ľavá abdominálna oblasť",
   "placementRightAbdomen": "Pravá abdominálna oblasť",
-  "concentrationLabelPerUnit": "Dávka na {{unit}}"
+  "concentrationLabelPerUnit": "Dávka na {{unit}}",
+  "HrtCounter": "Čas na HRT",
+  "hrtWidgetPlaceholder": "Otvorte Mona a zaznamenajte svoje prvé dávky",
+  "hrtWidgetPreviewSample": "Na HRT 8 mesiacov",
+  "hrtWidgetPreviewIntakeSample": "16 zaznamenaných dávok"
 }
