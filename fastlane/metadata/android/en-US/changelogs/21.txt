@@ -1,0 +1,5 @@
+New:
+
+- Display your time on HRT as an Android widget!
+- Clarifies the concentration setting for non-injection routes
+- New language: Swedish
