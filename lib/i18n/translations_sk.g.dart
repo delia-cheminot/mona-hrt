@@ -550,8 +550,6 @@ class TranslationsSk extends Translations
   String get noInjectionAddOneToGetStarted =>
       'Ak chcete začať, pridajte miesto vpichu.';
   @override
-  String get HrtCounter => 'Počítadlo dávok';
-  @override
   String get placementLeftButtock => 'Ľavý sedací sval';
   @override
   String get placementRightButtock => 'Pravý sedací sval';
@@ -562,6 +560,15 @@ class TranslationsSk extends Translations
   @override
   String concentrationLabelPerUnit({required Object unit}) =>
       'Dávka na ${unit}';
+  @override
+  String get HrtCounter => 'Čas na HRT';
+  @override
+  String get hrtWidgetPlaceholder =>
+      'Otvorte Mona a zaznamenajte svoje prvé dávky';
+  @override
+  String get hrtWidgetPreviewSample => 'Na HRT 8 mesiacov';
+  @override
+  String get hrtWidgetPreviewIntakeSample => '16 zaznamenaných dávok';
   @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
@@ -1019,13 +1026,16 @@ extension on TranslationsSk {
         'Odporúčanie ďalšieho miesta vpichu odvodzujte len z histórie tohto plánu.',
       'noInjectionAddOneToGetStarted' =>
         'Ak chcete začať, pridajte miesto vpichu.',
-      'HrtCounter' => 'Počítadlo dávok',
       'placementLeftButtock' => 'Ľavý sedací sval',
       'placementRightButtock' => 'Pravý sedací sval',
       'placementLeftAbdomen' => 'Ľavá abdominálna oblasť',
       'placementRightAbdomen' => 'Pravá abdominálna oblasť',
       'concentrationLabelPerUnit' => ({required Object unit}) =>
           'Dávka na ${unit}',
+      'HrtCounter' => 'Čas na HRT',
+      'hrtWidgetPlaceholder' => 'Otvorte Mona a zaznamenajte svoje prvé dávky',
+      'hrtWidgetPreviewSample' => 'Na HRT 8 mesiacov',
+      'hrtWidgetPreviewIntakeSample' => '16 zaznamenaných dávok',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
             count,

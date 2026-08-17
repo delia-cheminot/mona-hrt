@@ -263,7 +263,7 @@ class TranslationsNl extends Translations
   @override
   String get chooseSchedule => 'Kies een schema';
   @override
-  String get addSchedulesFirst => 'voeg eerst een schema toe.';
+  String get addSchedulesFirst => 'Voeg eerst een schema toe.';
   @override
   String get editIntake => 'Intake bewerken';
   @override
@@ -541,6 +541,39 @@ class TranslationsNl extends Translations
   String get HrtCounterDescription =>
       'Laat zien hoe lang je aan HRT zit en je totale innames';
   @override
+  String get HrtCounter => 'Tijd op HRT';
+  @override
+  String get hrtWidgetPlaceholder =>
+      'Open Mona om je eerste inname te registreren';
+  @override
+  String get hrtWidgetPreviewSample => '8 maanden op HRT';
+  @override
+  String get hrtWidgetPreviewIntakeSample => '16 innames geregistreerd';
+  @override
+  String get supplyItem => 'Voorraaditem';
+  @override
+  String get needleDeadSpace => 'Dode ruimte van de naald';
+  @override
+  String get adminRoute => 'Toedieningsweg';
+  @override
+  String concentrationLabelPerUnit({required Object unit}) =>
+      'Dosis per ${unit}';
+  @override
+  String get medicationTestosteroneEnanthate => 'Testosteron-enanthaat';
+  @override
+  String get medicationTestosteroneValerate => 'Testosteronvaleraat';
+  @override
+  String get medicationTestosteroneCypionate => 'Testosteroncypionaat';
+  @override
+  String get medicationTestosteroneUndecylate => 'Testosteronundecylaat';
+  @override
+  String get medicationTestosteroneBenzoate => 'Testosteronbenzoaat';
+  @override
+  String get medicationTestosteroneCypionateSuspension =>
+      'Testosteroncypionaat-suspensie';
+  @override
+  String get customSiteLabel => 'Aangepaste pleknaam';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
         count,
@@ -695,6 +728,13 @@ class TranslationsNl extends Translations
         one: '1 inname gelogd',
         other: '${count} innames gelogd',
       );
+  @override
+  String bandageRemaining({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+        count,
+        one: 'Nog 1 verband over',
+        other: 'Nog ${count} verbanden over',
+      );
 }
 
 /// The flat map containing all translations for locale <nl>.
@@ -820,7 +860,7 @@ extension on TranslationsNl {
       'startOfDayDescription' => ({required Object time}) =>
           'Tijd voor ${time} teld voor de vorige dag',
       'chooseSchedule' => 'Kies een schema',
-      'addSchedulesFirst' => 'voeg eerst een schema toe.',
+      'addSchedulesFirst' => 'Voeg eerst een schema toe.',
       'editIntake' => 'Intake bewerken',
       'date' => 'Datum',
       'amount' => 'Hoeveelheid',
@@ -964,6 +1004,23 @@ extension on TranslationsNl {
       'empty_intakes' => '(In)Genomen innames zullen hier getoond worden',
       'HrtCounterDescription' =>
         'Laat zien hoe lang je aan HRT zit en je totale innames',
+      'HrtCounter' => 'Tijd op HRT',
+      'hrtWidgetPlaceholder' => 'Open Mona om je eerste inname te registreren',
+      'hrtWidgetPreviewSample' => '8 maanden op HRT',
+      'hrtWidgetPreviewIntakeSample' => '16 innames geregistreerd',
+      'supplyItem' => 'Voorraaditem',
+      'needleDeadSpace' => 'Dode ruimte van de naald',
+      'adminRoute' => 'Toedieningsweg',
+      'concentrationLabelPerUnit' => ({required Object unit}) =>
+          'Dosis per ${unit}',
+      'medicationTestosteroneEnanthate' => 'Testosteron-enanthaat',
+      'medicationTestosteroneValerate' => 'Testosteronvaleraat',
+      'medicationTestosteroneCypionate' => 'Testosteroncypionaat',
+      'medicationTestosteroneUndecylate' => 'Testosteronundecylaat',
+      'medicationTestosteroneBenzoate' => 'Testosteronbenzoaat',
+      'medicationTestosteroneCypionateSuspension' =>
+        'Testosteroncypionaat-suspensie',
+      'customSiteLabel' => 'Aangepaste pleknaam',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
             count,
@@ -1096,6 +1153,12 @@ extension on TranslationsNl {
             count,
             one: '1 inname gelogd',
             other: '${count} innames gelogd',
+          ),
+      'bandageRemaining' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('nl'))(
+            count,
+            one: 'Nog 1 verband over',
+            other: 'Nog ${count} verbanden over',
           ),
       _ => null,
     };

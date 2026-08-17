@@ -469,10 +469,113 @@ class TranslationsPtBr extends TranslationsPt
   @override
   String get cannotExceedTotalCapacity => 'Não pode exceder a capacidade total';
   @override
+  String get scheduleFrequencyMonthly => 'Mensal';
+  @override
+  String get anchorToLastIntake => 'Recalcular com base na última dose';
+  @override
+  String get anchorToLastIntakeDescription =>
+      'Agenda a próxima dose um intervalo completo depois da última dose';
+  @override
+  String get medicalSettings => 'Configurações médicas';
+  @override
+  String get theme => 'Tema';
+  @override
+  String get themeCustomizeColors => 'Personalize as cores do aplicativo';
+  @override
+  String get customThemeEnabled => 'Tema personalizado';
+  @override
+  String get themeGenerate => 'Gerar';
+  @override
+  String get themeVariant => 'Variante';
+  @override
+  String get themeContrast => 'Contraste';
+  @override
+  String get themeContrastStandard => 'Padrão';
+  @override
+  String get themeContrastMedium => 'Médio';
+  @override
+  String get themeContrastHigh => 'Alto';
+  @override
+  String get dayOfMonth => 'Dia do mês';
+  @override
+  String get months => 'meses';
+  @override
+  String get HrtCounter => 'Tempo em TH';
+  @override
+  String get HrtCounterDescription =>
+      'Mostra há quanto tempo você está em TH e o total de doses';
+  @override
+  String get hrtWidgetPlaceholder =>
+      'Abra o Mona para registrar sua primeira dose';
+  @override
+  String get hrtWidgetPreviewSample => 'Em TH há 8 meses';
+  @override
+  String get hrtWidgetPreviewIntakeSample => '16 doses registradas';
+  @override
+  String get startOfDay => 'Início do dia';
+  @override
+  String startOfDayDescription({required Object time}) =>
+      'O tempo antes de ${time} conta para o dia anterior';
+  @override
+  String get chooseItem => 'Escolha um item';
+  @override
+  String get noItemsToAdd => 'Nenhum item disponível';
+  @override
+  String concentrationLabelPerUnit({required Object unit}) =>
+      'Dose por ${unit}';
+  @override
+  String get allItemsFilter => 'Todos';
+  @override
+  String get medicationItemsFilter => 'Medicação';
+  @override
+  String get genericItems => 'Consumíveis';
+  @override
+  String get medicationItemType => 'Medicação';
+  @override
+  String get genericItemType => 'Consumível';
+  @override
+  String get placementLeftThigh => 'Coxa esquerda';
+  @override
+  String get placementRightThigh => 'Coxa direita';
+  @override
+  String get placementLeftArm => 'Braço esquerdo';
+  @override
+  String get placementRightArm => 'Braço direito';
+  @override
+  String get placementLeftButtock => 'Nádega esquerda';
+  @override
+  String get placementRightButtock => 'Nádega direita';
+  @override
+  String get placementLeftAbdomen => 'Abdômen esquerdo';
+  @override
+  String get placementRightAbdomen => 'Abdômen direito';
+  @override
+  String get injectionSites => 'Locais de injeção';
+  @override
+  String get injectionSitesDescription =>
+      'Gerencie os locais entre os quais você alterna';
+  @override
+  String get addInjectionSite => 'Adicionar local';
+  @override
+  String get customSiteLabel => 'Nome de local personalizado';
+  @override
+  String get noInjectionSitesYet => 'Ainda não há locais';
+  @override
+  String get noInjectionAddOneToGetStarted =>
+      'Adicione um local abaixo para começar.';
+  @override
+  String get placementSuggestionPerScheduleTitle => 'Sugerir por agendamento';
+  @override
+  String get placementSuggestionPerScheduleDescription =>
+      'Baseie a sugestão do próximo local apenas no histórico deste agendamento.';
+  @override
+  String get mustBeBetween1And28 => 'Deve estar entre 1 e 28';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
         one: 'há ${count} dias',
+        many: 'há ${count} dias',
         other: 'há ${count} dias',
       );
   @override
@@ -480,6 +583,7 @@ class TranslationsPtBr extends TranslationsPt
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
         one: 'em ${count} dias',
+        many: 'em ${count} dias',
         other: 'em ${count} dias',
       );
   @override
@@ -487,6 +591,7 @@ class TranslationsPtBr extends TranslationsPt
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
         one: 'A cada ${count} dias',
+        many: 'A cada ${count} dias',
         other: 'A cada ${count} dias',
       );
   @override
@@ -501,6 +606,7 @@ class TranslationsPtBr extends TranslationsPt
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
         one: '${count} ${unit} restantes',
+        many: 'Restam ${count} ${unit}',
         other: '${count} ${unit} restantes',
       );
   @override
@@ -508,6 +614,7 @@ class TranslationsPtBr extends TranslationsPt
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
         one: '1 seringa restante',
+        many: 'Restam ${count} seringas',
         other: '${count} seringas restantes',
       );
   @override
@@ -515,6 +622,7 @@ class TranslationsPtBr extends TranslationsPt
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
         one: '1 lenço restante',
+        many: 'Restam ${count} lenços',
         other: '${count} lenços restantes',
       );
   @override
@@ -522,6 +630,7 @@ class TranslationsPtBr extends TranslationsPt
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
         one: '1 agulha restante',
+        many: 'Restam ${count} agulhas',
         other: '${count} agulhas restantes',
       );
   @override
@@ -529,6 +638,7 @@ class TranslationsPtBr extends TranslationsPt
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
         one: '1 luva restante',
+        many: 'Restam ${count} luvas',
         other: '${count} luvas restantes',
       );
   @override
@@ -536,6 +646,7 @@ class TranslationsPtBr extends TranslationsPt
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
         one: '1 curativo restante',
+        many: 'Restam ${count} curativos',
         other: '${count} curativos restantes',
       );
   @override
@@ -543,6 +654,7 @@ class TranslationsPtBr extends TranslationsPt
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
         one: 'ml',
+        many: 'ml',
         other: 'ml',
       );
   @override
@@ -550,6 +662,7 @@ class TranslationsPtBr extends TranslationsPt
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
         one: 'comprimido',
+        many: 'comprimidos',
         other: 'comprimidos',
       );
   @override
@@ -557,6 +670,7 @@ class TranslationsPtBr extends TranslationsPt
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
         one: 'adesivo',
+        many: 'adesivos',
         other: 'adesivos',
       );
   @override
@@ -564,6 +678,7 @@ class TranslationsPtBr extends TranslationsPt
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
         one: 'aplicação',
+        many: 'aplicações',
         other: 'aplicações',
       );
   @override
@@ -571,6 +686,7 @@ class TranslationsPtBr extends TranslationsPt
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
         one: 'implante',
+        many: 'implantes',
         other: 'implantes',
       );
   @override
@@ -578,6 +694,7 @@ class TranslationsPtBr extends TranslationsPt
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
         one: 'supositório',
+        many: 'supositórios',
         other: 'supositórios',
       );
   @override
@@ -585,7 +702,57 @@ class TranslationsPtBr extends TranslationsPt
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
         one: 'pulverização',
+        many: 'pulverizações',
         other: 'pulverizações',
+      );
+  @override
+  String scheduleFrequencyOnDayEveryNMonths(
+          {required num count, required Object day}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
+        count,
+        one: 'Dia ${day}, a cada ${count} mês',
+        many: 'Dia ${day}, a cada ${count} meses',
+        other: 'Dia ${day}, a cada ${count} meses',
+      );
+  @override
+  String onHrtForDays({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
+        count,
+        one: 'Em TH há ${count} dia',
+        many: 'Em TH há ${count} dias',
+        other: 'Em TH há ${count} dias',
+      );
+  @override
+  String onHrtForWeeks({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
+        count,
+        one: 'Em TH há ${count} semana',
+        many: 'Em TH há ${count} semanas',
+        other: 'Em TH há ${count} semanas',
+      );
+  @override
+  String onHrtForMonths({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
+        count,
+        one: 'Em TH há ${count} mês',
+        many: 'Em TH há ${count} meses',
+        other: 'Em TH há ${count} meses',
+      );
+  @override
+  String onHrtForYears({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
+        count,
+        one: 'Em TH há ${count} ano',
+        many: 'Em TH há ${count} anos',
+        other: 'Em TH há ${count} anos',
+      );
+  @override
+  String intakesLoggedCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
+        count,
+        one: '${count} dose registrada',
+        many: '${count} doses registradas',
+        other: '${count} doses registradas',
       );
 }
 
@@ -817,22 +984,79 @@ extension on TranslationsPtBr {
       'mustBePositiveNumber' => 'Deve ser um número positivo',
       'invalidTotalAmount' => 'Quantidade total inválida',
       'cannotExceedTotalCapacity' => 'Não pode exceder a capacidade total',
+      'scheduleFrequencyMonthly' => 'Mensal',
+      'anchorToLastIntake' => 'Recalcular com base na última dose',
+      'anchorToLastIntakeDescription' =>
+        'Agenda a próxima dose um intervalo completo depois da última dose',
+      'medicalSettings' => 'Configurações médicas',
+      'theme' => 'Tema',
+      'themeCustomizeColors' => 'Personalize as cores do aplicativo',
+      'customThemeEnabled' => 'Tema personalizado',
+      'themeGenerate' => 'Gerar',
+      'themeVariant' => 'Variante',
+      'themeContrast' => 'Contraste',
+      'themeContrastStandard' => 'Padrão',
+      'themeContrastMedium' => 'Médio',
+      'themeContrastHigh' => 'Alto',
+      'dayOfMonth' => 'Dia do mês',
+      'months' => 'meses',
+      'HrtCounter' => 'Tempo em TH',
+      'HrtCounterDescription' =>
+        'Mostra há quanto tempo você está em TH e o total de doses',
+      'hrtWidgetPlaceholder' => 'Abra o Mona para registrar sua primeira dose',
+      'hrtWidgetPreviewSample' => 'Em TH há 8 meses',
+      'hrtWidgetPreviewIntakeSample' => '16 doses registradas',
+      'startOfDay' => 'Início do dia',
+      'startOfDayDescription' => ({required Object time}) =>
+          'O tempo antes de ${time} conta para o dia anterior',
+      'chooseItem' => 'Escolha um item',
+      'noItemsToAdd' => 'Nenhum item disponível',
+      'concentrationLabelPerUnit' => ({required Object unit}) =>
+          'Dose por ${unit}',
+      'allItemsFilter' => 'Todos',
+      'medicationItemsFilter' => 'Medicação',
+      'genericItems' => 'Consumíveis',
+      'medicationItemType' => 'Medicação',
+      'genericItemType' => 'Consumível',
+      'placementLeftThigh' => 'Coxa esquerda',
+      'placementRightThigh' => 'Coxa direita',
+      'placementLeftArm' => 'Braço esquerdo',
+      'placementRightArm' => 'Braço direito',
+      'placementLeftButtock' => 'Nádega esquerda',
+      'placementRightButtock' => 'Nádega direita',
+      'placementLeftAbdomen' => 'Abdômen esquerdo',
+      'placementRightAbdomen' => 'Abdômen direito',
+      'injectionSites' => 'Locais de injeção',
+      'injectionSitesDescription' =>
+        'Gerencie os locais entre os quais você alterna',
+      'addInjectionSite' => 'Adicionar local',
+      'customSiteLabel' => 'Nome de local personalizado',
+      'noInjectionSitesYet' => 'Ainda não há locais',
+      'noInjectionAddOneToGetStarted' =>
+        'Adicione um local abaixo para começar.',
+      'placementSuggestionPerScheduleTitle' => 'Sugerir por agendamento',
+      'placementSuggestionPerScheduleDescription' =>
+        'Baseie a sugestão do próximo local apenas no histórico deste agendamento.',
+      'mustBeBetween1And28' => 'Deve estar entre 1 e 28',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
             one: 'há ${count} dias',
+            many: 'há ${count} dias',
             other: 'há ${count} dias',
           ),
       'inDaysCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
             one: 'em ${count} dias',
+            many: 'em ${count} dias',
             other: 'em ${count} dias',
           ),
       'scheduleFrequencyEveryNDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
             one: 'A cada ${count} dias',
+            many: 'A cada ${count} dias',
             other: 'A cada ${count} dias',
           ),
       'schedulesCreated' => ({required num count}) =>
@@ -845,79 +1069,135 @@ extension on TranslationsPtBr {
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
             one: '${count} ${unit} restantes',
+            many: 'Restam ${count} ${unit}',
             other: '${count} ${unit} restantes',
           ),
       'syringeRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
             one: '1 seringa restante',
+            many: 'Restam ${count} seringas',
             other: '${count} seringas restantes',
           ),
       'wipeRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
             one: '1 lenço restante',
+            many: 'Restam ${count} lenços',
             other: '${count} lenços restantes',
           ),
       'needleRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
             one: '1 agulha restante',
+            many: 'Restam ${count} agulhas',
             other: '${count} agulhas restantes',
           ),
       'glovesRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
             one: '1 luva restante',
+            many: 'Restam ${count} luvas',
             other: '${count} luvas restantes',
           ),
       'bandageRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
             one: '1 curativo restante',
+            many: 'Restam ${count} curativos',
             other: '${count} curativos restantes',
           ),
       'administrationRouteUnitMl' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
             one: 'ml',
+            many: 'ml',
             other: 'ml',
           ),
       'administrationRouteUnitPill' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
             one: 'comprimido',
+            many: 'comprimidos',
             other: 'comprimidos',
           ),
       'administrationRouteUnitPatch' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
             one: 'adesivo',
+            many: 'adesivos',
             other: 'adesivos',
           ),
       'administrationRouteUnitPump' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
             one: 'aplicação',
+            many: 'aplicações',
             other: 'aplicações',
           ),
       'administrationRouteUnitImplant' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
             one: 'implante',
+            many: 'implantes',
             other: 'implantes',
           ),
       'administrationRouteUnitSuppository' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
             one: 'supositório',
+            many: 'supositórios',
             other: 'supositórios',
           ),
       'administrationRouteUnitSpray' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
             one: 'pulverização',
+            many: 'pulverizações',
             other: 'pulverizações',
+          ),
+      'scheduleFrequencyOnDayEveryNMonths' => (
+              {required num count, required Object day}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
+            count,
+            one: 'Dia ${day}, a cada ${count} mês',
+            many: 'Dia ${day}, a cada ${count} meses',
+            other: 'Dia ${day}, a cada ${count} meses',
+          ),
+      'onHrtForDays' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
+            count,
+            one: 'Em TH há ${count} dia',
+            many: 'Em TH há ${count} dias',
+            other: 'Em TH há ${count} dias',
+          ),
+      'onHrtForWeeks' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
+            count,
+            one: 'Em TH há ${count} semana',
+            many: 'Em TH há ${count} semanas',
+            other: 'Em TH há ${count} semanas',
+          ),
+      'onHrtForMonths' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
+            count,
+            one: 'Em TH há ${count} mês',
+            many: 'Em TH há ${count} meses',
+            other: 'Em TH há ${count} meses',
+          ),
+      'onHrtForYears' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
+            count,
+            one: 'Em TH há ${count} ano',
+            many: 'Em TH há ${count} anos',
+            other: 'Em TH há ${count} anos',
+          ),
+      'intakesLoggedCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
+            count,
+            one: '${count} dose registrada',
+            many: '${count} doses registradas',
+            other: '${count} doses registradas',
           ),
       _ => null,
     };

@@ -535,6 +535,51 @@ class TranslationsDe extends Translations
   @override
   String get placementRightButtock => 'Rechtes Gesäß';
   @override
+  String get scheduleFrequencyMonthly => 'Monatlich';
+  @override
+  String get anchorToLastIntake => 'Anhand der letzten Einnahme neu berechnen';
+  @override
+  String get anchorToLastIntakeDescription =>
+      'Plant die nächste Einnahme ein volles Intervall nach der letzten Einnahme';
+  @override
+  String get dayOfMonth => 'Tag des Monats';
+  @override
+  String get months => 'Monate';
+  @override
+  String get HrtCounter => 'Zeit auf HET';
+  @override
+  String get HrtCounterDescription =>
+      'Zeigt, wie lange du schon HET nimmst, sowie die Gesamtzahl deiner Einnahmen';
+  @override
+  String get hrtWidgetPlaceholder =>
+      'Öffne Mona, um deine erste Einnahme zu erfassen';
+  @override
+  String get hrtWidgetPreviewSample => 'Seit 8 Monaten auf HET';
+  @override
+  String get hrtWidgetPreviewIntakeSample => '16 Einnahmen erfasst';
+  @override
+  String get startOfDay => 'Tagesbeginn';
+  @override
+  String startOfDayDescription({required Object time}) =>
+      'Zeit vor ${time} zählt zum vorherigen Tag';
+  @override
+  String get chooseItem => 'Eintrag auswählen';
+  @override
+  String get noItemsToAdd => 'Keine Einträge verfügbar';
+  @override
+  String concentrationLabelPerUnit({required Object unit}) =>
+      'Dosis pro ${unit}';
+  @override
+  String get injectionSitesDescription =>
+      'Verwalte die Stellen, zwischen denen du wechselst';
+  @override
+  String get placementSuggestionPerScheduleTitle => 'Pro Zeitplan vorschlagen';
+  @override
+  String get placementSuggestionPerScheduleDescription =>
+      'Nächste Stelle nur anhand der Historie dieses Zeitplans vorschlagen.';
+  @override
+  String get mustBeBetween1And28 => 'Muss zwischen 1 und 28 liegen';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
         count,
@@ -652,6 +697,49 @@ class TranslationsDe extends Translations
         count,
         one: 'Spray',
         other: 'Sprays',
+      );
+  @override
+  String scheduleFrequencyOnDayEveryNMonths(
+          {required num count, required Object day}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
+        count,
+        one: 'Tag ${day}, jeden Monat',
+        other: 'Tag ${day}, alle ${count} Monate',
+      );
+  @override
+  String onHrtForDays({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
+        count,
+        one: 'Seit 1 Tag auf HET',
+        other: 'Seit ${count} Tagen auf HET',
+      );
+  @override
+  String onHrtForWeeks({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
+        count,
+        one: 'Seit 1 Woche auf HET',
+        other: 'Seit ${count} Wochen auf HET',
+      );
+  @override
+  String onHrtForMonths({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
+        count,
+        one: 'Seit 1 Monat auf HET',
+        other: 'Seit ${count} Monaten auf HET',
+      );
+  @override
+  String onHrtForYears({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
+        count,
+        one: 'Seit 1 Jahr auf HET',
+        other: 'Seit ${count} Jahren auf HET',
+      );
+  @override
+  String intakesLoggedCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
+        count,
+        one: '1 Einnahme erfasst',
+        other: '${count} Einnahmen erfasst',
       );
 }
 
@@ -916,6 +1004,32 @@ extension on TranslationsDe {
         'Füge eine Stelle hinzu, um zu beginnen.',
       'placementLeftButtock' => 'Linkes Gesäß',
       'placementRightButtock' => 'Rechtes Gesäß',
+      'scheduleFrequencyMonthly' => 'Monatlich',
+      'anchorToLastIntake' => 'Anhand der letzten Einnahme neu berechnen',
+      'anchorToLastIntakeDescription' =>
+        'Plant die nächste Einnahme ein volles Intervall nach der letzten Einnahme',
+      'dayOfMonth' => 'Tag des Monats',
+      'months' => 'Monate',
+      'HrtCounter' => 'Zeit auf HET',
+      'HrtCounterDescription' =>
+        'Zeigt, wie lange du schon HET nimmst, sowie die Gesamtzahl deiner Einnahmen',
+      'hrtWidgetPlaceholder' =>
+        'Öffne Mona, um deine erste Einnahme zu erfassen',
+      'hrtWidgetPreviewSample' => 'Seit 8 Monaten auf HET',
+      'hrtWidgetPreviewIntakeSample' => '16 Einnahmen erfasst',
+      'startOfDay' => 'Tagesbeginn',
+      'startOfDayDescription' => ({required Object time}) =>
+          'Zeit vor ${time} zählt zum vorherigen Tag',
+      'chooseItem' => 'Eintrag auswählen',
+      'noItemsToAdd' => 'Keine Einträge verfügbar',
+      'concentrationLabelPerUnit' => ({required Object unit}) =>
+          'Dosis pro ${unit}',
+      'injectionSitesDescription' =>
+        'Verwalte die Stellen, zwischen denen du wechselst',
+      'placementSuggestionPerScheduleTitle' => 'Pro Zeitplan vorschlagen',
+      'placementSuggestionPerScheduleDescription' =>
+        'Nächste Stelle nur anhand der Historie dieses Zeitplans vorschlagen.',
+      'mustBeBetween1And28' => 'Muss zwischen 1 und 28 liegen',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
             count,
@@ -1017,6 +1131,43 @@ extension on TranslationsDe {
             count,
             one: 'Spray',
             other: 'Sprays',
+          ),
+      'scheduleFrequencyOnDayEveryNMonths' => (
+              {required num count, required Object day}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
+            count,
+            one: 'Tag ${day}, jeden Monat',
+            other: 'Tag ${day}, alle ${count} Monate',
+          ),
+      'onHrtForDays' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
+            count,
+            one: 'Seit 1 Tag auf HET',
+            other: 'Seit ${count} Tagen auf HET',
+          ),
+      'onHrtForWeeks' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
+            count,
+            one: 'Seit 1 Woche auf HET',
+            other: 'Seit ${count} Wochen auf HET',
+          ),
+      'onHrtForMonths' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
+            count,
+            one: 'Seit 1 Monat auf HET',
+            other: 'Seit ${count} Monaten auf HET',
+          ),
+      'onHrtForYears' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
+            count,
+            one: 'Seit 1 Jahr auf HET',
+            other: 'Seit ${count} Jahren auf HET',
+          ),
+      'intakesLoggedCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('de'))(
+            count,
+            one: '1 Einnahme erfasst',
+            other: '${count} Einnahmen erfasst',
           ),
       _ => null,
     };

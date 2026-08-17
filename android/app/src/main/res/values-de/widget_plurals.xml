@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="on_hrt_for_days">
+        <item quantity="one">Seit 1 Tag auf HET</item>
+        <item quantity="other">Seit %d Tagen auf HET</item>
+    </plurals>
+    <plurals name="on_hrt_for_weeks">
+        <item quantity="one">Seit 1 Woche auf HET</item>
+        <item quantity="other">Seit %d Wochen auf HET</item>
+    </plurals>
+    <plurals name="on_hrt_for_months">
+        <item quantity="one">Seit 1 Monat auf HET</item>
+        <item quantity="other">Seit %d Monaten auf HET</item>
+    </plurals>
+    <plurals name="on_hrt_for_years">
+        <item quantity="one">Seit 1 Jahr auf HET</item>
+        <item quantity="other">Seit %d Jahren auf HET</item>
+    </plurals>
+    <plurals name="intakes_logged_count">
+        <item quantity="one">1 Einnahme erfasst</item>
+        <item quantity="other">%d Einnahmen erfasst</item>
+    </plurals>
+</resources>

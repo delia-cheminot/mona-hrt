@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hrt_widget_title">Tiempo en TH</string>
+    <string name="hrt_widget_description">Muestra cuánto tiempo llevas en TH y el total de tomas</string>
+    <string name="hrt_home_widget_placeholder">Abre Mona para registrar tu primera toma</string>
+    <string name="hrt_widget_preview_sample">En TH desde hace 8 meses</string>
+    <string name="hrt_widget_preview_intake_sample">16 tomas registradas</string>
+</resources>

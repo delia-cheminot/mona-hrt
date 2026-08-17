@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hrt_widget_title">Czas na HTZ</string>
+    <string name="hrt_widget_description">Pokazuje, jak długo jesteś na HTZ oraz łączną liczbę przyjęć</string>
+    <string name="hrt_home_widget_placeholder">Otwórz Monę, aby odnotować pierwsze przyjęcie</string>
+    <string name="hrt_widget_preview_sample">Na HTZ od 8 miesięcy</string>
+    <string name="hrt_widget_preview_intake_sample">Odnotowano 16 przyjęć</string>
+</resources>
