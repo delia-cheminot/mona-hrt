@@ -599,6 +599,7 @@ class TranslationsPtBr extends TranslationsPt
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
         count,
         one: '${count} criado',
+        many: '${count} criados',
         other: '${count} criados',
       );
   @override
@@ -1063,6 +1064,7 @@ extension on TranslationsPtBr {
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(
             count,
             one: '${count} criado',
+            many: '${count} criados',
             other: '${count} criados',
           ),
       'remaining' => ({required num count, required Object unit}) =>

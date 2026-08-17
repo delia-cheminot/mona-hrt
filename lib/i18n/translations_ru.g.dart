@@ -576,6 +576,7 @@ class TranslationsRu extends Translations
         one: '${count} день назад',
         few: '${count} дня назад',
         many: '${count} дней назад',
+        other: '${count} дней назад',
       );
   @override
   String inDaysCount({required num count}) =>
@@ -584,6 +585,7 @@ class TranslationsRu extends Translations
         one: 'через ${count} день',
         few: 'через ${count} дня',
         many: 'через ${count} дней',
+        other: 'через ${count} дней',
       );
   @override
   String scheduleFrequencyEveryNDays({required num count}) =>
@@ -592,6 +594,7 @@ class TranslationsRu extends Translations
         one: 'Каждые ${count} дней',
         few: 'Каждые ${count} дней',
         many: 'Каждые ${count} дней',
+        other: 'Каждые ${count} дней',
       );
   @override
   String schedulesCreated({required num count}) =>
@@ -600,6 +603,7 @@ class TranslationsRu extends Translations
         one: '${count} создано',
         few: '${count} создано',
         many: '${count} создано',
+        other: '${count} создано',
       );
   @override
   String remaining({required num count, required Object unit}) =>
@@ -608,6 +612,7 @@ class TranslationsRu extends Translations
         one: '${count} ${unit} осталось',
         few: '${count} ${unit} осталось',
         many: '${count} ${unit} осталось',
+        other: '${count} ${unit} осталось',
       );
   @override
   String syringeRemaining({required num count}) =>
@@ -616,6 +621,7 @@ class TranslationsRu extends Translations
         one: '1 шприц осталось',
         few: '${count} шприца осталось',
         many: '${count} шприцев осталось',
+        other: '${count} шприцев осталось',
       );
   @override
   String wipeRemaining({required num count}) =>
@@ -624,6 +630,7 @@ class TranslationsRu extends Translations
         one: '1 салфетка осталось',
         few: '${count} салфетки осталось',
         many: '${count} салфеток осталось',
+        other: '${count} салфеток осталось',
       );
   @override
   String needleRemaining({required num count}) =>
@@ -632,6 +639,7 @@ class TranslationsRu extends Translations
         one: '1 игла осталось',
         few: '${count} иглы осталось',
         many: '${count} игл осталось',
+        other: '${count} игл осталось',
       );
   @override
   String glovesRemaining({required num count}) =>
@@ -640,6 +648,7 @@ class TranslationsRu extends Translations
         one: '1 перчатка осталось',
         few: '${count} перчатки осталось',
         many: '${count} перчаток осталось',
+        other: '${count} перчаток осталось',
       );
   @override
   String bandageRemaining({required num count}) =>
@@ -648,6 +657,7 @@ class TranslationsRu extends Translations
         one: '1 пластырь осталось',
         few: '${count} пластыря осталось',
         many: '${count} пластырей осталось',
+        other: '${count} пластырей осталось',
       );
   @override
   String administrationRouteUnitMl({required num count}) =>
@@ -656,6 +666,7 @@ class TranslationsRu extends Translations
         one: 'мл',
         few: 'мл',
         many: 'мл',
+        other: 'мл',
       );
   @override
   String administrationRouteUnitPill({required num count}) =>
@@ -664,6 +675,7 @@ class TranslationsRu extends Translations
         one: 'таблетка',
         few: 'таблетки',
         many: 'таблеток',
+        other: 'таблеток',
       );
   @override
   String administrationRouteUnitPatch({required num count}) =>
@@ -672,6 +684,7 @@ class TranslationsRu extends Translations
         one: 'пластырь',
         few: 'пластыря',
         many: 'пластырей',
+        other: 'пластырей',
       );
   @override
   String administrationRouteUnitPump({required num count}) =>
@@ -680,6 +693,7 @@ class TranslationsRu extends Translations
         one: 'помпа',
         few: 'помпы',
         many: 'помп',
+        other: 'помп',
       );
   @override
   String administrationRouteUnitImplant({required num count}) =>
@@ -688,6 +702,7 @@ class TranslationsRu extends Translations
         one: 'имплант',
         few: 'импланта',
         many: 'имплантов',
+        other: 'имплантов',
       );
   @override
   String administrationRouteUnitSuppository({required num count}) =>
@@ -696,6 +711,7 @@ class TranslationsRu extends Translations
         one: 'суппозитория',
         few: 'суппозитории',
         many: 'суппозиторий',
+        other: 'суппозиторий',
       );
   @override
   String administrationRouteUnitSpray({required num count}) =>
@@ -704,6 +720,7 @@ class TranslationsRu extends Translations
         one: 'брызг',
         few: 'брызг',
         many: 'брызгов',
+        other: 'брызгов',
       );
   @override
   String scheduleFrequencyOnDayEveryNMonths(
@@ -713,6 +730,7 @@ class TranslationsRu extends Translations
         one: 'День ${day}, каждый ${count} месяц',
         few: 'День ${day}, каждые ${count} месяца',
         many: 'День ${day}, каждые ${count} месяцев',
+        other: 'День ${day}, каждые ${count} месяцев',
       );
   @override
   String onHrtForDays({required num count}) =>
@@ -721,6 +739,7 @@ class TranslationsRu extends Translations
         one: 'На ЗГТ уже ${count} день',
         few: 'На ЗГТ уже ${count} дня',
         many: 'На ЗГТ уже ${count} дней',
+        other: 'На ЗГТ уже ${count} дней',
       );
   @override
   String onHrtForWeeks({required num count}) =>
@@ -729,6 +748,7 @@ class TranslationsRu extends Translations
         one: 'На ЗГТ уже ${count} неделю',
         few: 'На ЗГТ уже ${count} недели',
         many: 'На ЗГТ уже ${count} недель',
+        other: 'На ЗГТ уже ${count} недель',
       );
   @override
   String onHrtForMonths({required num count}) =>
@@ -737,6 +757,7 @@ class TranslationsRu extends Translations
         one: 'На ЗГТ уже ${count} месяц',
         few: 'На ЗГТ уже ${count} месяца',
         many: 'На ЗГТ уже ${count} месяцев',
+        other: 'На ЗГТ уже ${count} месяцев',
       );
   @override
   String onHrtForYears({required num count}) =>
@@ -745,6 +766,7 @@ class TranslationsRu extends Translations
         one: 'На ЗГТ уже ${count} год',
         few: 'На ЗГТ уже ${count} года',
         many: 'На ЗГТ уже ${count} лет',
+        other: 'На ЗГТ уже ${count} лет',
       );
   @override
   String intakesLoggedCount({required num count}) =>
@@ -753,6 +775,7 @@ class TranslationsRu extends Translations
         one: 'Записан ${count} приём',
         few: 'Записано ${count} приёма',
         many: 'Записано ${count} приёмов',
+        other: 'Записано ${count} приёмов',
       );
 }
 
@@ -1042,6 +1065,7 @@ extension on TranslationsRu {
             one: '${count} день назад',
             few: '${count} дня назад',
             many: '${count} дней назад',
+            other: '${count} дней назад',
           ),
       'inDaysCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1049,6 +1073,7 @@ extension on TranslationsRu {
             one: 'через ${count} день',
             few: 'через ${count} дня',
             many: 'через ${count} дней',
+            other: 'через ${count} дней',
           ),
       'scheduleFrequencyEveryNDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1056,6 +1081,7 @@ extension on TranslationsRu {
             one: 'Каждые ${count} дней',
             few: 'Каждые ${count} дней',
             many: 'Каждые ${count} дней',
+            other: 'Каждые ${count} дней',
           ),
       'schedulesCreated' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1063,6 +1089,7 @@ extension on TranslationsRu {
             one: '${count} создано',
             few: '${count} создано',
             many: '${count} создано',
+            other: '${count} создано',
           ),
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1070,6 +1097,7 @@ extension on TranslationsRu {
             one: '${count} ${unit} осталось',
             few: '${count} ${unit} осталось',
             many: '${count} ${unit} осталось',
+            other: '${count} ${unit} осталось',
           ),
       'syringeRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1077,6 +1105,7 @@ extension on TranslationsRu {
             one: '1 шприц осталось',
             few: '${count} шприца осталось',
             many: '${count} шприцев осталось',
+            other: '${count} шприцев осталось',
           ),
       'wipeRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1084,6 +1113,7 @@ extension on TranslationsRu {
             one: '1 салфетка осталось',
             few: '${count} салфетки осталось',
             many: '${count} салфеток осталось',
+            other: '${count} салфеток осталось',
           ),
       'needleRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1091,6 +1121,7 @@ extension on TranslationsRu {
             one: '1 игла осталось',
             few: '${count} иглы осталось',
             many: '${count} игл осталось',
+            other: '${count} игл осталось',
           ),
       'glovesRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1098,6 +1129,7 @@ extension on TranslationsRu {
             one: '1 перчатка осталось',
             few: '${count} перчатки осталось',
             many: '${count} перчаток осталось',
+            other: '${count} перчаток осталось',
           ),
       'bandageRemaining' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1105,6 +1137,7 @@ extension on TranslationsRu {
             one: '1 пластырь осталось',
             few: '${count} пластыря осталось',
             many: '${count} пластырей осталось',
+            other: '${count} пластырей осталось',
           ),
       'administrationRouteUnitMl' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1112,6 +1145,7 @@ extension on TranslationsRu {
             one: 'мл',
             few: 'мл',
             many: 'мл',
+            other: 'мл',
           ),
       'administrationRouteUnitPill' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1119,6 +1153,7 @@ extension on TranslationsRu {
             one: 'таблетка',
             few: 'таблетки',
             many: 'таблеток',
+            other: 'таблеток',
           ),
       'administrationRouteUnitPatch' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1126,6 +1161,7 @@ extension on TranslationsRu {
             one: 'пластырь',
             few: 'пластыря',
             many: 'пластырей',
+            other: 'пластырей',
           ),
       'administrationRouteUnitPump' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1133,6 +1169,7 @@ extension on TranslationsRu {
             one: 'помпа',
             few: 'помпы',
             many: 'помп',
+            other: 'помп',
           ),
       'administrationRouteUnitImplant' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1140,6 +1177,7 @@ extension on TranslationsRu {
             one: 'имплант',
             few: 'импланта',
             many: 'имплантов',
+            other: 'имплантов',
           ),
       'administrationRouteUnitSuppository' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1147,6 +1185,7 @@ extension on TranslationsRu {
             one: 'суппозитория',
             few: 'суппозитории',
             many: 'суппозиторий',
+            other: 'суппозиторий',
           ),
       'administrationRouteUnitSpray' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1154,6 +1193,7 @@ extension on TranslationsRu {
             one: 'брызг',
             few: 'брызг',
             many: 'брызгов',
+            other: 'брызгов',
           ),
       'scheduleFrequencyOnDayEveryNMonths' => (
               {required num count, required Object day}) =>
@@ -1162,6 +1202,7 @@ extension on TranslationsRu {
             one: 'День ${day}, каждый ${count} месяц',
             few: 'День ${day}, каждые ${count} месяца',
             many: 'День ${day}, каждые ${count} месяцев',
+            other: 'День ${day}, каждые ${count} месяцев',
           ),
       'onHrtForDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1169,6 +1210,7 @@ extension on TranslationsRu {
             one: 'На ЗГТ уже ${count} день',
             few: 'На ЗГТ уже ${count} дня',
             many: 'На ЗГТ уже ${count} дней',
+            other: 'На ЗГТ уже ${count} дней',
           ),
       'onHrtForWeeks' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1176,6 +1218,7 @@ extension on TranslationsRu {
             one: 'На ЗГТ уже ${count} неделю',
             few: 'На ЗГТ уже ${count} недели',
             many: 'На ЗГТ уже ${count} недель',
+            other: 'На ЗГТ уже ${count} недель',
           ),
       'onHrtForMonths' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1183,6 +1226,7 @@ extension on TranslationsRu {
             one: 'На ЗГТ уже ${count} месяц',
             few: 'На ЗГТ уже ${count} месяца',
             many: 'На ЗГТ уже ${count} месяцев',
+            other: 'На ЗГТ уже ${count} месяцев',
           ),
       'onHrtForYears' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1190,6 +1234,7 @@ extension on TranslationsRu {
             one: 'На ЗГТ уже ${count} год',
             few: 'На ЗГТ уже ${count} года',
             many: 'На ЗГТ уже ${count} лет',
+            other: 'На ЗГТ уже ${count} лет',
           ),
       'intakesLoggedCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
@@ -1197,6 +1242,7 @@ extension on TranslationsRu {
             one: 'Записан ${count} приём',
             few: 'Записано ${count} приёма',
             many: 'Записано ${count} приёмов',
+            other: 'Записано ${count} приёмов',
           ),
       _ => null,
     };

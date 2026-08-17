@@ -36,7 +36,7 @@
   "schedules": "Cronogramas",
   "noSchedules": "Sem cronogramas",
   "schedulesCreated_one": "{{count}} criado",
-  "schedulesCreated_many": "",
+  "schedulesCreated_many": "{{count}} criados",
   "schedulesCreated_other": "{{count}} criados",
   "language": "Idioma",
   "languageFollowDevice": "Seguir o idioma do dispositivo",

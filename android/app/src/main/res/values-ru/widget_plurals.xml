@@ -4,25 +4,30 @@
         <item quantity="one">На ЗГТ уже %d день</item>
         <item quantity="few">На ЗГТ уже %d дня</item>
         <item quantity="many">На ЗГТ уже %d дней</item>
+        <item quantity="other">На ЗГТ уже %d дней</item>
     </plurals>
     <plurals name="on_hrt_for_weeks">
         <item quantity="one">На ЗГТ уже %d неделю</item>
         <item quantity="few">На ЗГТ уже %d недели</item>
         <item quantity="many">На ЗГТ уже %d недель</item>
+        <item quantity="other">На ЗГТ уже %d недель</item>
     </plurals>
     <plurals name="on_hrt_for_months">
         <item quantity="one">На ЗГТ уже %d месяц</item>
         <item quantity="few">На ЗГТ уже %d месяца</item>
         <item quantity="many">На ЗГТ уже %d месяцев</item>
+        <item quantity="other">На ЗГТ уже %d месяцев</item>
     </plurals>
     <plurals name="on_hrt_for_years">
         <item quantity="one">На ЗГТ уже %d год</item>
         <item quantity="few">На ЗГТ уже %d года</item>
         <item quantity="many">На ЗГТ уже %d лет</item>
+        <item quantity="other">На ЗГТ уже %d лет</item>
     </plurals>
     <plurals name="intakes_logged_count">
         <item quantity="one">Записан %d приём</item>
         <item quantity="few">Записано %d приёма</item>
         <item quantity="many">Записано %d приёмов</item>
+        <item quantity="other">Записано %d приёмов</item>
     </plurals>
 </resources>
