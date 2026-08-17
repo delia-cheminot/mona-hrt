@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hrt_widget_title">Tempo em TH</string>
+    <string name="hrt_widget_description">Mostra há quanto tempo você está em TH e o total de doses</string>
+    <string name="hrt_home_widget_placeholder">Abra o Mona para registrar sua primeira dose</string>
+    <string name="hrt_widget_preview_sample">Em TH há 8 meses</string>
+    <string name="hrt_widget_preview_intake_sample">16 doses registradas</string>
+</resources>

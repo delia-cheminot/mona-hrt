@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="on_hrt_for_days">
+        <item quantity="one">En TH desde hace 1 día</item>
+        <item quantity="many">En TH desde hace %d días</item>
+        <item quantity="other">En TH desde hace %d días</item>
+    </plurals>
+    <plurals name="on_hrt_for_weeks">
+        <item quantity="one">En TH desde hace 1 semana</item>
+        <item quantity="many">En TH desde hace %d semanas</item>
+        <item quantity="other">En TH desde hace %d semanas</item>
+    </plurals>
+    <plurals name="on_hrt_for_months">
+        <item quantity="one">En TH desde hace 1 mes</item>
+        <item quantity="many">En TH desde hace %d meses</item>
+        <item quantity="other">En TH desde hace %d meses</item>
+    </plurals>
+    <plurals name="on_hrt_for_years">
+        <item quantity="one">En TH desde hace 1 año</item>
+        <item quantity="many">En TH desde hace %d años</item>
+        <item quantity="other">En TH desde hace %d años</item>
+    </plurals>
+    <plurals name="intakes_logged_count">
+        <item quantity="one">1 toma registrada</item>
+        <item quantity="many">%d tomas registradas</item>
+        <item quantity="other">%d tomas registradas</item>
+    </plurals>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hrt_widget_title">Čas na HRT</string>
+    <string name="hrt_widget_description">Zobraziť dobu užívania HRT a celkový počet dávok</string>
+    <string name="hrt_home_widget_placeholder">Otvorte Mona a zaznamenajte svoje prvé dávky</string>
+    <string name="hrt_widget_preview_sample">Na HRT 8 mesiacov</string>
+    <string name="hrt_widget_preview_intake_sample">16 zaznamenaných dávok</string>
+</resources>

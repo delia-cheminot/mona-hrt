@@ -10,7 +10,7 @@ import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/intakes/edit_intake_page.dart';
-import 'package:mona/ui/views/intakes/intake_counter_card.dart';
+import 'package:mona/ui/views/intakes/hrt_counter_card.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
 import 'package:mona/util/hrt_duration.dart';
 import 'package:provider/provider.dart';
@@ -34,8 +34,8 @@ class IntakesPage extends StatelessWidget {
               SliverToBoxAdapter(
                 child: Padding(
                   padding: pagePadding,
-                  child: IntakeCounterCard(
-                    enabled: preferencesService.intakeCounterEnabled,
+                  child: HrtCounterCard(
+                    enabled: preferencesService.hrtCounterEnabled,
                     duration:
                         firstDate == null ? null : hrtDurationSince(firstDate),
                     intakeCount: medicationIntakeProvider.takenIntakes.length,

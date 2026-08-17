@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="on_hrt_for_days">
+        <item quantity="one">Aan HRT voor 1 dag</item>
+        <item quantity="other">Aan HRT voor %d dagen</item>
+    </plurals>
+    <plurals name="on_hrt_for_weeks">
+        <item quantity="one">Aan HRT voor 1 week</item>
+        <item quantity="other">Aan HRT voor %d weken</item>
+    </plurals>
+    <plurals name="on_hrt_for_months">
+        <item quantity="one">Aan HRT voor 1 maand</item>
+        <item quantity="other">Aan HRT voor %d maanden</item>
+    </plurals>
+    <plurals name="on_hrt_for_years">
+        <item quantity="one">Aan HRT voor 1 jaar</item>
+        <item quantity="other">Aan HRT voor %d jaar</item>
+    </plurals>
+    <plurals name="intakes_logged_count">
+        <item quantity="one">1 inname gelogd</item>
+        <item quantity="other">%d innames gelogd</item>
+    </plurals>
+</resources>

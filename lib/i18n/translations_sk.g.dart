@@ -460,7 +460,7 @@ class TranslationsSk extends Translations
   @override
   String get placementRight => 'Pravá strana';
   @override
-  String get requiredField => 'Požadované políčko';
+  String get requiredField => 'Povinné pole';
   @override
   String get mustBePositiveNumber => 'Musí byť kladné číslo';
   @override
@@ -468,10 +468,112 @@ class TranslationsSk extends Translations
   @override
   String get cannotExceedTotalCapacity => 'Nemôže presahovať celkové množstvo';
   @override
+  String get anchorToLastIntake => 'Prepočítať na základe posledného príjmu';
+  @override
+  String get theme => 'Motív';
+  @override
+  String get themeCustomizeColors => 'Prispôsobiť farby aplikácie';
+  @override
+  String get customThemeEnabled => 'Vlastný motív';
+  @override
+  String get themeGenerate => 'Generovať';
+  @override
+  String get scheduleFrequencyMonthly => 'Mesačne';
+  @override
+  String get anchorToLastIntakeDescription =>
+      'Naplánuje ďalšie užitie o celý interval od posledného užitia';
+  @override
+  String get HrtCounterDescription =>
+      'Zobraziť dobu užívania HRT a celkový počet dávok';
+  @override
+  String get startOfDay => 'Začiatok dňa';
+  @override
+  String get noItemsToAdd => 'Žiadne dostupné položky';
+  @override
+  String get medicalSettings => 'Zdravotné nastavenia';
+  @override
+  String get themeVariant => 'Alternatíva';
+  @override
+  String get themeContrast => 'Kontrast';
+  @override
+  String get themeContrastStandard => 'Štandardný';
+  @override
+  String get themeContrastMedium => 'Stredný';
+  @override
+  String get themeContrastHigh => 'Vysoký';
+  @override
+  String get dayOfMonth => 'Deň mesiaca';
+  @override
+  String get months => 'mesiace';
+  @override
+  String startOfDayDescription({required Object time}) =>
+      'Čas pred ${time} sa započítava do predchádzajúceho dňa';
+  @override
+  String get allItemsFilter => 'Všetky';
+  @override
+  String get medicationItemsFilter => 'Liek';
+  @override
+  String get medicationItemType => 'Liek';
+  @override
+  String get genericItemType => 'Spotrebný materiál';
+  @override
+  String get placementLeftThigh => 'Ľavé stehno';
+  @override
+  String get placementRightThigh => 'Pravé stehno';
+  @override
+  String get placementLeftArm => 'Ľavá ruka';
+  @override
+  String get placementRightArm => 'Pravá ruka';
+  @override
+  String get mustBeBetween1And28 => 'Musí byť medzi 1 a 28';
+  @override
+  String get chooseItem => 'Zvoľte položku';
+  @override
+  String get genericItems => 'Spotrebný materiál';
+  @override
+  String get injectionSites => 'Miesta vpichu';
+  @override
+  String get injectionSitesDescription =>
+      'Spravujte miesta vpichu, ktoré striedate';
+  @override
+  String get addInjectionSite => 'Pridať miesto vpichu';
+  @override
+  String get customSiteLabel => 'Vlastný názov miesta vpichu';
+  @override
+  String get noInjectionSitesYet => 'Zatiaľ žiadne miesta vpichu';
+  @override
+  String get placementSuggestionPerScheduleTitle => 'Navrhnúť podľa plánu';
+  @override
+  String get placementSuggestionPerScheduleDescription =>
+      'Odporúčanie ďalšieho miesta vpichu odvodzujte len z histórie tohto plánu.';
+  @override
+  String get noInjectionAddOneToGetStarted =>
+      'Ak chcete začať, pridajte miesto vpichu.';
+  @override
+  String get placementLeftButtock => 'Ľavý sedací sval';
+  @override
+  String get placementRightButtock => 'Pravý sedací sval';
+  @override
+  String get placementLeftAbdomen => 'Ľavá abdominálna oblasť';
+  @override
+  String get placementRightAbdomen => 'Pravá abdominálna oblasť';
+  @override
+  String concentrationLabelPerUnit({required Object unit}) =>
+      'Dávka na ${unit}';
+  @override
+  String get HrtCounter => 'Čas na HRT';
+  @override
+  String get hrtWidgetPlaceholder =>
+      'Otvorte Mona a zaznamenajte svoje prvé dávky';
+  @override
+  String get hrtWidgetPreviewSample => 'Na HRT 8 mesiacov';
+  @override
+  String get hrtWidgetPreviewIntakeSample => '16 zaznamenaných dávok';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
         count,
-        one: 'Pred ${count} dňami',
+        one: 'Pred ${count} dňom',
         few: 'Pred ${count} dňami',
         other: 'Pred ${count} dňami',
       );
@@ -479,6 +581,7 @@ class TranslationsSk extends Translations
   String inDaysCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
         count,
+        one: 'za ${count} deň',
         few: 'o ${count} dni',
         other: 'o ${count} dní',
       );
@@ -486,6 +589,7 @@ class TranslationsSk extends Translations
   String scheduleFrequencyEveryNDays({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
         count,
+        one: 'Každý deň',
         few: 'Každé ${count} dni',
         other: 'Každých ${count} dní',
       );
@@ -501,6 +605,7 @@ class TranslationsSk extends Translations
   String remaining({required num count, required Object unit}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
         count,
+        one: 'Zostáva ${count} ${unit}',
         few: 'Zostávajú ${count} ${unit}',
         other: 'Zostáva ${count} ${unit}',
       );
@@ -599,6 +704,55 @@ class TranslationsSk extends Translations
         one: 'sprej',
         few: 'spreje',
         other: 'sprejov',
+      );
+  @override
+  String onHrtForDays({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+        count,
+        one: 'Na HRT 1 deň',
+        few: 'Na HRT ${count} dni',
+        other: 'Na HRT ${count} dní',
+      );
+  @override
+  String onHrtForWeeks({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+        count,
+        one: 'Na HRT ${count} týždeň',
+        few: 'Na HRT ${count} týždne',
+        other: 'Na HRT ${count} týždňov',
+      );
+  @override
+  String onHrtForMonths({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+        count,
+        one: 'Na HRT ${count} mesiac',
+        few: 'Na HRT ${count} mesiace',
+        other: 'Na HRT ${count} mesiacov',
+      );
+  @override
+  String onHrtForYears({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+        count,
+        one: '${count} rok na HRT',
+        few: 'Na HRT ${count} roky',
+        other: 'Na HRT ${count} rokov',
+      );
+  @override
+  String intakesLoggedCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+        count,
+        one: '${count} dávka zaznamenaná',
+        few: '${count} dávky zaznamenané',
+        other: '${count} zaznamenaných dávok',
+      );
+  @override
+  String scheduleFrequencyOnDayEveryNMonths(
+          {required num count, required Object day}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+        count,
+        one: 'Deň ${day}, každý mesiac',
+        few: 'Deň ${day}, každé ${count} mesiace',
+        other: 'Deň ${day}, každých ${count} mesiacov',
       );
 }
 
@@ -825,26 +979,81 @@ extension on TranslationsSk {
       'injectionSideRight' => 'Vpravo',
       'placementLeft' => 'Ľavá strana',
       'placementRight' => 'Pravá strana',
-      'requiredField' => 'Požadované políčko',
+      'requiredField' => 'Povinné pole',
       'mustBePositiveNumber' => 'Musí byť kladné číslo',
       'invalidTotalAmount' => 'Nesprávne celkové množstvo',
       'cannotExceedTotalCapacity' => 'Nemôže presahovať celkové množstvo',
+      'anchorToLastIntake' => 'Prepočítať na základe posledného príjmu',
+      'theme' => 'Motív',
+      'themeCustomizeColors' => 'Prispôsobiť farby aplikácie',
+      'customThemeEnabled' => 'Vlastný motív',
+      'themeGenerate' => 'Generovať',
+      'scheduleFrequencyMonthly' => 'Mesačne',
+      'anchorToLastIntakeDescription' =>
+        'Naplánuje ďalšie užitie o celý interval od posledného užitia',
+      'HrtCounterDescription' =>
+        'Zobraziť dobu užívania HRT a celkový počet dávok',
+      'startOfDay' => 'Začiatok dňa',
+      'noItemsToAdd' => 'Žiadne dostupné položky',
+      'medicalSettings' => 'Zdravotné nastavenia',
+      'themeVariant' => 'Alternatíva',
+      'themeContrast' => 'Kontrast',
+      'themeContrastStandard' => 'Štandardný',
+      'themeContrastMedium' => 'Stredný',
+      'themeContrastHigh' => 'Vysoký',
+      'dayOfMonth' => 'Deň mesiaca',
+      'months' => 'mesiace',
+      'startOfDayDescription' => ({required Object time}) =>
+          'Čas pred ${time} sa započítava do predchádzajúceho dňa',
+      'allItemsFilter' => 'Všetky',
+      'medicationItemsFilter' => 'Liek',
+      'medicationItemType' => 'Liek',
+      'genericItemType' => 'Spotrebný materiál',
+      'placementLeftThigh' => 'Ľavé stehno',
+      'placementRightThigh' => 'Pravé stehno',
+      'placementLeftArm' => 'Ľavá ruka',
+      'placementRightArm' => 'Pravá ruka',
+      'mustBeBetween1And28' => 'Musí byť medzi 1 a 28',
+      'chooseItem' => 'Zvoľte položku',
+      'genericItems' => 'Spotrebný materiál',
+      'injectionSites' => 'Miesta vpichu',
+      'injectionSitesDescription' => 'Spravujte miesta vpichu, ktoré striedate',
+      'addInjectionSite' => 'Pridať miesto vpichu',
+      'customSiteLabel' => 'Vlastný názov miesta vpichu',
+      'noInjectionSitesYet' => 'Zatiaľ žiadne miesta vpichu',
+      'placementSuggestionPerScheduleTitle' => 'Navrhnúť podľa plánu',
+      'placementSuggestionPerScheduleDescription' =>
+        'Odporúčanie ďalšieho miesta vpichu odvodzujte len z histórie tohto plánu.',
+      'noInjectionAddOneToGetStarted' =>
+        'Ak chcete začať, pridajte miesto vpichu.',
+      'placementLeftButtock' => 'Ľavý sedací sval',
+      'placementRightButtock' => 'Pravý sedací sval',
+      'placementLeftAbdomen' => 'Ľavá abdominálna oblasť',
+      'placementRightAbdomen' => 'Pravá abdominálna oblasť',
+      'concentrationLabelPerUnit' => ({required Object unit}) =>
+          'Dávka na ${unit}',
+      'HrtCounter' => 'Čas na HRT',
+      'hrtWidgetPlaceholder' => 'Otvorte Mona a zaznamenajte svoje prvé dávky',
+      'hrtWidgetPreviewSample' => 'Na HRT 8 mesiacov',
+      'hrtWidgetPreviewIntakeSample' => '16 zaznamenaných dávok',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
             count,
-            one: 'Pred ${count} dňami',
+            one: 'Pred ${count} dňom',
             few: 'Pred ${count} dňami',
             other: 'Pred ${count} dňami',
           ),
       'inDaysCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
             count,
+            one: 'za ${count} deň',
             few: 'o ${count} dni',
             other: 'o ${count} dní',
           ),
       'scheduleFrequencyEveryNDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
             count,
+            one: 'Každý deň',
             few: 'Každé ${count} dni',
             other: 'Každých ${count} dní',
           ),
@@ -858,6 +1067,7 @@ extension on TranslationsSk {
       'remaining' => ({required num count, required Object unit}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
             count,
+            one: 'Zostáva ${count} ${unit}',
             few: 'Zostávajú ${count} ${unit}',
             other: 'Zostáva ${count} ${unit}',
           ),
@@ -944,6 +1154,49 @@ extension on TranslationsSk {
             one: 'sprej',
             few: 'spreje',
             other: 'sprejov',
+          ),
+      'onHrtForDays' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+            count,
+            one: 'Na HRT 1 deň',
+            few: 'Na HRT ${count} dni',
+            other: 'Na HRT ${count} dní',
+          ),
+      'onHrtForWeeks' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+            count,
+            one: 'Na HRT ${count} týždeň',
+            few: 'Na HRT ${count} týždne',
+            other: 'Na HRT ${count} týždňov',
+          ),
+      'onHrtForMonths' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+            count,
+            one: 'Na HRT ${count} mesiac',
+            few: 'Na HRT ${count} mesiace',
+            other: 'Na HRT ${count} mesiacov',
+          ),
+      'onHrtForYears' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+            count,
+            one: '${count} rok na HRT',
+            few: 'Na HRT ${count} roky',
+            other: 'Na HRT ${count} rokov',
+          ),
+      'intakesLoggedCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+            count,
+            one: '${count} dávka zaznamenaná',
+            few: '${count} dávky zaznamenané',
+            other: '${count} zaznamenaných dávok',
+          ),
+      'scheduleFrequencyOnDayEveryNMonths' => (
+              {required num count, required Object day}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('sk'))(
+            count,
+            one: 'Deň ${day}, každý mesiac',
+            few: 'Deň ${day}, každé ${count} mesiace',
+            other: 'Deň ${day}, každých ${count} mesiacov',
           ),
       _ => null,
     };

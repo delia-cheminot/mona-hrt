@@ -182,7 +182,7 @@ class TranslationsUk extends Translations
   String get updateDialogTitle => 'Доступне оновлення';
   @override
   String updateDialogBody({required Object latest, required Object current}) =>
-      'Версія ${latest} доступна! (Поточна: ${current})\n\nОновлення, сумісне з вашим пристроєм, готове до завантаження!.';
+      'Версія ${latest} доступна! (Поточна: ${current})\n\nОновлення, сумісне з вашим пристроєм, готове до завантаження!';
   @override
   String get updateDownloadAndInstall => 'Завантажити та встановити';
   @override
@@ -195,7 +195,7 @@ class TranslationsUk extends Translations
       'Невдалося відкрити встановлювач: ${message}';
   @override
   String get updateDownloadFailed =>
-      'Завантаження невдалося. Будь ласка, перевірте вашу мережу..';
+      'Завантаження не вдалося. Будь ласка, перевірте вашу мережу.';
   @override
   String notificationMedicationReminderTitle({required Object scheduleName}) =>
       'Час прийняти ${scheduleName}';
@@ -407,7 +407,7 @@ class TranslationsUk extends Translations
   String get medicationEstradiolBenzoate => 'Естрадіол бензоат';
   @override
   String get medicationEstradiolCypionateSuspension =>
-      'Естрадіол суспенція ципіонату';
+      'Суспензія естрадіолу ципіонату';
   @override
   String get medicationTestosteroneEnanthate => 'Тестостерон енантат';
   @override
@@ -420,7 +420,7 @@ class TranslationsUk extends Translations
   String get medicationTestosteroneBenzoate => 'Тестостерон бензоат';
   @override
   String get medicationTestosteroneCypionateSuspension =>
-      'Тестостерон суспенція ципіонату';
+      'Суспензія тестостерону ципіонату';
   @override
   String get injection => 'Ін\'єкції';
   @override
@@ -467,9 +467,112 @@ class TranslationsUk extends Translations
   String get cannotExceedTotalCapacity =>
       'Не може перевищувати загальну ємність';
   @override
+  String get scheduleFrequencyMonthly => 'Щомісяця';
+  @override
+  String get anchorToLastIntake =>
+      'Перераховувати на основі останнього прийому';
+  @override
+  String get anchorToLastIntakeDescription =>
+      'Планує наступний прийом через повний інтервал після останнього прийому';
+  @override
+  String get medicalSettings => 'Медичні налаштування';
+  @override
+  String get theme => 'Тема';
+  @override
+  String get themeCustomizeColors => 'Налаштуйте кольори застосунку';
+  @override
+  String get customThemeEnabled => 'Власна тема';
+  @override
+  String get themeGenerate => 'Згенерувати';
+  @override
+  String get themeVariant => 'Варіант';
+  @override
+  String get themeContrast => 'Контраст';
+  @override
+  String get themeContrastStandard => 'Стандартний';
+  @override
+  String get themeContrastMedium => 'Середній';
+  @override
+  String get themeContrastHigh => 'Високий';
+  @override
+  String get dayOfMonth => 'День місяця';
+  @override
+  String get months => 'місяців';
+  @override
+  String get HrtCounter => 'Час на ЗГТ';
+  @override
+  String get HrtCounterDescription =>
+      'Показує, скільки часу ви на ЗГТ, і загальну кількість прийомів';
+  @override
+  String get hrtWidgetPlaceholder =>
+      'Відкрийте Mona, щоб записати перший прийом';
+  @override
+  String get hrtWidgetPreviewSample => 'На ЗГТ вже 8 місяців';
+  @override
+  String get hrtWidgetPreviewIntakeSample => 'Записано 16 прийомів';
+  @override
+  String get startOfDay => 'Початок дня';
+  @override
+  String startOfDayDescription({required Object time}) =>
+      'Час до ${time} зараховується до попереднього дня';
+  @override
+  String get chooseItem => 'Виберіть препарат';
+  @override
+  String get noItemsToAdd => 'Немає доступних препаратів';
+  @override
+  String concentrationLabelPerUnit({required Object unit}) => 'Доза на ${unit}';
+  @override
+  String get allItemsFilter => 'Усі';
+  @override
+  String get medicationItemsFilter => 'Ліки';
+  @override
+  String get genericItems => 'Витратні матеріали';
+  @override
+  String get medicationItemType => 'Ліки';
+  @override
+  String get genericItemType => 'Витратний матеріал';
+  @override
+  String get placementLeftThigh => 'Ліве стегно';
+  @override
+  String get placementRightThigh => 'Праве стегно';
+  @override
+  String get placementLeftArm => 'Ліва рука';
+  @override
+  String get placementRightArm => 'Права рука';
+  @override
+  String get placementLeftButtock => 'Ліва сідниця';
+  @override
+  String get placementRightButtock => 'Права сідниця';
+  @override
+  String get placementLeftAbdomen => 'Ліва частина живота';
+  @override
+  String get placementRightAbdomen => 'Права частина живота';
+  @override
+  String get injectionSites => 'Місця ін\'єкцій';
+  @override
+  String get injectionSitesDescription =>
+      'Керуйте місцями, між якими ви чергуєте';
+  @override
+  String get addInjectionSite => 'Додати місце';
+  @override
+  String get customSiteLabel => 'Власна назва місця';
+  @override
+  String get noInjectionSitesYet => 'Поки немає місць';
+  @override
+  String get noInjectionAddOneToGetStarted =>
+      'Додайте місце нижче, щоб почати.';
+  @override
+  String get placementSuggestionPerScheduleTitle => 'Пропонувати за розкладом';
+  @override
+  String get placementSuggestionPerScheduleDescription =>
+      'Базувати пропозицію наступного місця лише на історії цього розкладу.';
+  @override
+  String get mustBeBetween1And28 => 'Має бути від 1 до 28';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
         count,
+        one: '${count} день тому',
         few: '${count} дні тому',
         many: '${count} днів тому',
         other: '${count} днів тому',
@@ -478,6 +581,7 @@ class TranslationsUk extends Translations
   String inDaysCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
         count,
+        one: 'через ${count} день',
         few: 'через ${count} дні',
         many: 'через ${count} днів',
         other: 'через ${count} днів',
@@ -617,6 +721,61 @@ class TranslationsUk extends Translations
         many: 'спреїв',
         other: 'спреїв',
       );
+  @override
+  String scheduleFrequencyOnDayEveryNMonths(
+          {required num count, required Object day}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
+        count,
+        one: 'День ${day}, кожен ${count} місяць',
+        few: 'День ${day}, кожні ${count} місяці',
+        many: 'День ${day}, кожні ${count} місяців',
+        other: 'День ${day}, кожні ${count} місяців',
+      );
+  @override
+  String onHrtForDays({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
+        count,
+        one: 'На ЗГТ вже ${count} день',
+        few: 'На ЗГТ вже ${count} дні',
+        many: 'На ЗГТ вже ${count} днів',
+        other: 'На ЗГТ вже ${count} днів',
+      );
+  @override
+  String onHrtForWeeks({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
+        count,
+        one: 'На ЗГТ вже ${count} тиждень',
+        few: 'На ЗГТ вже ${count} тижні',
+        many: 'На ЗГТ вже ${count} тижнів',
+        other: 'На ЗГТ вже ${count} тижнів',
+      );
+  @override
+  String onHrtForMonths({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
+        count,
+        one: 'На ЗГТ вже ${count} місяць',
+        few: 'На ЗГТ вже ${count} місяці',
+        many: 'На ЗГТ вже ${count} місяців',
+        other: 'На ЗГТ вже ${count} місяців',
+      );
+  @override
+  String onHrtForYears({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
+        count,
+        one: 'На ЗГТ вже ${count} рік',
+        few: 'На ЗГТ вже ${count} роки',
+        many: 'На ЗГТ вже ${count} років',
+        other: 'На ЗГТ вже ${count} років',
+      );
+  @override
+  String intakesLoggedCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
+        count,
+        one: 'Записано ${count} прийом',
+        few: 'Записано ${count} прийоми',
+        many: 'Записано ${count} прийомів',
+        other: 'Записано ${count} прийомів',
+      );
 }
 
 /// The flat map containing all translations for locale <uk>.
@@ -697,7 +856,7 @@ extension on TranslationsUk {
       'updateDialogTitle' => 'Доступне оновлення',
       'updateDialogBody' => (
               {required Object latest, required Object current}) =>
-          'Версія ${latest} доступна! (Поточна: ${current})\n\nОновлення, сумісне з вашим пристроєм, готове до завантаження!.',
+          'Версія ${latest} доступна! (Поточна: ${current})\n\nОновлення, сумісне з вашим пристроєм, готове до завантаження!',
       'updateDownloadAndInstall' => 'Завантажити та встановити',
       'updateInstallPermissionRequired' =>
         'Надайте дозвіл для встановлення оновлення.',
@@ -705,7 +864,7 @@ extension on TranslationsUk {
       'updateFailedOpenInstaller' => ({required Object message}) =>
           'Невдалося відкрити встановлювач: ${message}',
       'updateDownloadFailed' =>
-        'Завантаження невдалося. Будь ласка, перевірте вашу мережу..',
+        'Завантаження не вдалося. Будь ласка, перевірте вашу мережу.',
       'notificationMedicationReminderTitle' =>
         ({required Object scheduleName}) => 'Час прийняти ${scheduleName}',
       'notificationMedicationReminderBodyDate' => ({required Object date}) =>
@@ -816,14 +975,14 @@ extension on TranslationsUk {
       'medicationEstradiolUndecylate' => 'Естрадіол ундецилат',
       'medicationEstradiolBenzoate' => 'Естрадіол бензоат',
       'medicationEstradiolCypionateSuspension' =>
-        'Естрадіол суспенція ципіонату',
+        'Суспензія естрадіолу ципіонату',
       'medicationTestosteroneEnanthate' => 'Тестостерон енантат',
       'medicationTestosteroneValerate' => 'Тестостерон валерат',
       'medicationTestosteroneCypionate' => 'Тестостерон ципіонат',
       'medicationTestosteroneUndecylate' => 'Тестостерон ундецилат',
       'medicationTestosteroneBenzoate' => 'Тестостерон бензоат',
       'medicationTestosteroneCypionateSuspension' =>
-        'Тестостерон суспенція ципіонату',
+        'Суспензія тестостерону ципіонату',
       'injection' => 'Ін\'єкції',
       'oral' => 'Орально',
       'sublingual' => 'Під\'язиково',
@@ -846,9 +1005,62 @@ extension on TranslationsUk {
       'mustBePositiveNumber' => 'Має бути додатнім числом',
       'invalidTotalAmount' => 'Невірна сумарна кількість',
       'cannotExceedTotalCapacity' => 'Не може перевищувати загальну ємність',
+      'scheduleFrequencyMonthly' => 'Щомісяця',
+      'anchorToLastIntake' => 'Перераховувати на основі останнього прийому',
+      'anchorToLastIntakeDescription' =>
+        'Планує наступний прийом через повний інтервал після останнього прийому',
+      'medicalSettings' => 'Медичні налаштування',
+      'theme' => 'Тема',
+      'themeCustomizeColors' => 'Налаштуйте кольори застосунку',
+      'customThemeEnabled' => 'Власна тема',
+      'themeGenerate' => 'Згенерувати',
+      'themeVariant' => 'Варіант',
+      'themeContrast' => 'Контраст',
+      'themeContrastStandard' => 'Стандартний',
+      'themeContrastMedium' => 'Середній',
+      'themeContrastHigh' => 'Високий',
+      'dayOfMonth' => 'День місяця',
+      'months' => 'місяців',
+      'HrtCounter' => 'Час на ЗГТ',
+      'HrtCounterDescription' =>
+        'Показує, скільки часу ви на ЗГТ, і загальну кількість прийомів',
+      'hrtWidgetPlaceholder' => 'Відкрийте Mona, щоб записати перший прийом',
+      'hrtWidgetPreviewSample' => 'На ЗГТ вже 8 місяців',
+      'hrtWidgetPreviewIntakeSample' => 'Записано 16 прийомів',
+      'startOfDay' => 'Початок дня',
+      'startOfDayDescription' => ({required Object time}) =>
+          'Час до ${time} зараховується до попереднього дня',
+      'chooseItem' => 'Виберіть препарат',
+      'noItemsToAdd' => 'Немає доступних препаратів',
+      'concentrationLabelPerUnit' => ({required Object unit}) =>
+          'Доза на ${unit}',
+      'allItemsFilter' => 'Усі',
+      'medicationItemsFilter' => 'Ліки',
+      'genericItems' => 'Витратні матеріали',
+      'medicationItemType' => 'Ліки',
+      'genericItemType' => 'Витратний матеріал',
+      'placementLeftThigh' => 'Ліве стегно',
+      'placementRightThigh' => 'Праве стегно',
+      'placementLeftArm' => 'Ліва рука',
+      'placementRightArm' => 'Права рука',
+      'placementLeftButtock' => 'Ліва сідниця',
+      'placementRightButtock' => 'Права сідниця',
+      'placementLeftAbdomen' => 'Ліва частина живота',
+      'placementRightAbdomen' => 'Права частина живота',
+      'injectionSites' => 'Місця ін\'єкцій',
+      'injectionSitesDescription' => 'Керуйте місцями, між якими ви чергуєте',
+      'addInjectionSite' => 'Додати місце',
+      'customSiteLabel' => 'Власна назва місця',
+      'noInjectionSitesYet' => 'Поки немає місць',
+      'noInjectionAddOneToGetStarted' => 'Додайте місце нижче, щоб почати.',
+      'placementSuggestionPerScheduleTitle' => 'Пропонувати за розкладом',
+      'placementSuggestionPerScheduleDescription' =>
+        'Базувати пропозицію наступного місця лише на історії цього розкладу.',
+      'mustBeBetween1And28' => 'Має бути від 1 до 28',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
             count,
+            one: '${count} день тому',
             few: '${count} дні тому',
             many: '${count} днів тому',
             other: '${count} днів тому',
@@ -856,6 +1068,7 @@ extension on TranslationsUk {
       'inDaysCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
             count,
+            one: 'через ${count} день',
             few: 'через ${count} дні',
             many: 'через ${count} днів',
             other: 'через ${count} днів',
@@ -979,6 +1192,55 @@ extension on TranslationsUk {
             few: 'спреї',
             many: 'спреїв',
             other: 'спреїв',
+          ),
+      'scheduleFrequencyOnDayEveryNMonths' => (
+              {required num count, required Object day}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
+            count,
+            one: 'День ${day}, кожен ${count} місяць',
+            few: 'День ${day}, кожні ${count} місяці',
+            many: 'День ${day}, кожні ${count} місяців',
+            other: 'День ${day}, кожні ${count} місяців',
+          ),
+      'onHrtForDays' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
+            count,
+            one: 'На ЗГТ вже ${count} день',
+            few: 'На ЗГТ вже ${count} дні',
+            many: 'На ЗГТ вже ${count} днів',
+            other: 'На ЗГТ вже ${count} днів',
+          ),
+      'onHrtForWeeks' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
+            count,
+            one: 'На ЗГТ вже ${count} тиждень',
+            few: 'На ЗГТ вже ${count} тижні',
+            many: 'На ЗГТ вже ${count} тижнів',
+            other: 'На ЗГТ вже ${count} тижнів',
+          ),
+      'onHrtForMonths' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
+            count,
+            one: 'На ЗГТ вже ${count} місяць',
+            few: 'На ЗГТ вже ${count} місяці',
+            many: 'На ЗГТ вже ${count} місяців',
+            other: 'На ЗГТ вже ${count} місяців',
+          ),
+      'onHrtForYears' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
+            count,
+            one: 'На ЗГТ вже ${count} рік',
+            few: 'На ЗГТ вже ${count} роки',
+            many: 'На ЗГТ вже ${count} років',
+            other: 'На ЗГТ вже ${count} років',
+          ),
+      'intakesLoggedCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('uk'))(
+            count,
+            one: 'Записано ${count} прийом',
+            few: 'Записано ${count} прийоми',
+            many: 'Записано ${count} прийомів',
+            other: 'Записано ${count} прийомів',
           ),
       _ => null,
     };

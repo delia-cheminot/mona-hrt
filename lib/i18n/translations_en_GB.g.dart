@@ -268,10 +268,16 @@ class TranslationsEnGb extends Translations
   @override
   String get empty_intakes => 'Taken intakes will appear here';
   @override
-  String get intakeCounter => 'Intake counter';
+  String get HrtCounter => 'Time on HRT';
   @override
-  String get intakeCounterDescription =>
+  String get HrtCounterDescription =>
       'Show how long you\'ve been on HRT and your total intakes';
+  @override
+  String get hrtWidgetPlaceholder => 'Open Mona to log your first intake';
+  @override
+  String get hrtWidgetPreviewSample => 'On HRT for 8 months';
+  @override
+  String get hrtWidgetPreviewIntakeSample => '16 intakes logged';
   @override
   String get startOfDay => 'Start of day';
   @override
@@ -556,6 +562,9 @@ class TranslationsEnGb extends Translations
   String get invalidTotalAmount => 'Invalid total amount';
   @override
   String get cannotExceedTotalCapacity => 'Cannot exceed total capacity';
+  @override
+  String concentrationLabelPerUnit({required Object unit}) =>
+      'Dose per ${unit}';
   @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
@@ -844,9 +853,12 @@ extension on TranslationsEnGb {
       'deleteSchedule' => ({required Object name}) => 'Delete ${name}?',
       'addNotification' => 'Add a notification',
       'empty_intakes' => 'Taken intakes will appear here',
-      'intakeCounter' => 'Intake counter',
-      'intakeCounterDescription' =>
+      'HrtCounter' => 'Time on HRT',
+      'HrtCounterDescription' =>
         'Show how long you\'ve been on HRT and your total intakes',
+      'hrtWidgetPlaceholder' => 'Open Mona to log your first intake',
+      'hrtWidgetPreviewSample' => 'On HRT for 8 months',
+      'hrtWidgetPreviewIntakeSample' => '16 intakes logged',
       'startOfDay' => 'Start of day',
       'startOfDayDescription' => ({required Object time}) =>
           'Time before ${time} counts towards the previous day',
@@ -992,6 +1004,8 @@ extension on TranslationsEnGb {
       'mustBeBetween1And28' => 'Must be between 1 and 28',
       'invalidTotalAmount' => 'Invalid total amount',
       'cannotExceedTotalCapacity' => 'Cannot exceed total capacity',
+      'concentrationLabelPerUnit' => ({required Object unit}) =>
+          'Dose per ${unit}',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
             count,

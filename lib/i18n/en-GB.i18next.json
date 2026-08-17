@@ -118,8 +118,11 @@
   "onHrtForYears_other": "On HRT for {{count}} years",
   "intakesLoggedCount_one": "1 intake logged",
   "intakesLoggedCount_other": "{{count}} intakes logged",
-  "intakeCounter": "Intake counter",
-  "intakeCounterDescription": "Show how long you've been on HRT and your total intakes",
+  "HrtCounter": "Time on HRT",
+  "HrtCounterDescription": "Show how long you've been on HRT and your total intakes",
+  "hrtWidgetPlaceholder": "Open Mona to log your first intake",
+  "hrtWidgetPreviewSample": "On HRT for 8 months",
+  "hrtWidgetPreviewIntakeSample": "16 intakes logged",
   "startOfDay": "Start of day",
   "startOfDayDescription": "Time before {{time}} counts towards the previous day",
   "chooseSchedule": "Choose a schedule",
@@ -282,5 +285,6 @@
   "mustBePositiveNumber": "Must be a positive number",
   "mustBeBetween1And28": "Must be between 1 and 28",
   "invalidTotalAmount": "Invalid total amount",
-  "cannotExceedTotalCapacity": "Cannot exceed total capacity"
+  "cannotExceedTotalCapacity": "Cannot exceed total capacity",
+  "concentrationLabelPerUnit": "Dose per {{unit}}"
 }

@@ -135,11 +135,11 @@ class TranslationsIs extends Translations
   @override
   String get customThemeEnabled => 'Sérsniðið þema';
   @override
-  String get themeGenerate => 'Generate';
+  String get themeGenerate => 'Búa til';
   @override
   String get themeVariant => 'Variant';
   @override
-  String get themeContrast => 'Contrast';
+  String get themeContrast => 'Mótsetning';
   @override
   String get themeContrastStandard => 'Staðall';
   @override
@@ -275,7 +275,7 @@ class TranslationsIs extends Translations
   @override
   String get none => 'Ekkert';
   @override
-  String get supplyItem => 'Supply item';
+  String get supplyItem => 'Framboðsvara';
   @override
   String get injectionSide => 'Innspýtingarhlið';
   @override
@@ -509,7 +509,7 @@ class TranslationsIs extends Translations
   String get injectionSites => 'Innspýtingarstaðir';
   @override
   String get injectionSitesDescription =>
-      'Stjórnaðu síðunum sem þú skiptir á milli.';
+      'Stjórnaðu síðunum sem þú skiptir á milli';
   @override
   String get addInjectionSite => 'Bættu við staðir';
   @override
@@ -542,6 +542,23 @@ class TranslationsIs extends Translations
   @override
   String get mustBeBetween1And28 => 'Verður að vera á milli 1 og 28';
   @override
+  String get HrtCounterDescription =>
+      'Sýnið hversu lengi þið hafið verið á HRT og heildarinntöku ykkar';
+  @override
+  String get startOfDay => 'Byrjun dags';
+  @override
+  String startOfDayDescription({required Object time}) =>
+      'Tíminn fyrir ${time} telst með í fyrri degi';
+  @override
+  String get anchorToLastIntake => 'Endurreikna út frá síðustu inntöku';
+  @override
+  String get anchorToLastIntakeDescription =>
+      'Áætlar næstu inntöku með fullu millibili eftir að þú tókst hana síðast';
+  @override
+  String get chooseItem => 'Veldu atriði';
+  @override
+  String get noItemsToAdd => 'Engar atriði tiltækar';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
         count,
@@ -552,14 +569,14 @@ class TranslationsIs extends Translations
   String inDaysCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
         count,
-        one: 'á ${count} dagar',
-        other: 'á ${count} dagar',
+        one: 'eftir ${count} degi',
+        other: 'eftir ${count} daga',
       );
   @override
   String scheduleFrequencyEveryNDays({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
         count,
-        one: 'Á ${count} daga fresti',
+        one: 'Á hverjum degi',
         other: 'Á ${count} daga fresti',
       );
   @override
@@ -636,8 +653,8 @@ class TranslationsIs extends Translations
   String administrationRouteUnitPump({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
         count,
-        one: 'pump',
-        other: 'pumps',
+        one: 'dæla',
+        other: 'dælur',
       );
   @override
   String administrationRouteUnitImplant({required num count}) =>
@@ -667,6 +684,41 @@ class TranslationsIs extends Translations
         count,
         one: 'Dagur ${day}, í hverjum mánuði',
         other: 'Dagur ${day}, á ${count} mánaða fresti',
+      );
+  @override
+  String onHrtForDays({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
+        count,
+        one: 'Á HRT í 1 dag',
+        other: 'Á HRT í ${count} daga',
+      );
+  @override
+  String onHrtForWeeks({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
+        count,
+        one: 'Á HRT í 1 viku',
+        other: 'Á HRT í ${count} vikur',
+      );
+  @override
+  String onHrtForMonths({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
+        count,
+        one: 'Á HRT í 1 mánuð',
+        other: 'Á HRT í ${count} mánuði',
+      );
+  @override
+  String onHrtForYears({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
+        count,
+        one: 'Á HRT í 1 ár',
+        other: 'Á HRT í ${count} ár',
+      );
+  @override
+  String intakesLoggedCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
+        count,
+        one: '1 inntaka skráð',
+        other: '${count} inntökur skráðar',
       );
 }
 
@@ -719,9 +771,9 @@ extension on TranslationsIs {
       'theme' => 'Þema',
       'themeCustomizeColors' => 'Sérsniðaðu forritslitina',
       'customThemeEnabled' => 'Sérsniðið þema',
-      'themeGenerate' => 'Generate',
+      'themeGenerate' => 'Búa til',
       'themeVariant' => 'Variant',
-      'themeContrast' => 'Contrast',
+      'themeContrast' => 'Mótsetning',
       'themeContrastStandard' => 'Staðall',
       'themeContrastMedium' => 'Meðallangur',
       'themeContrastHigh' => 'Há',
@@ -798,7 +850,7 @@ extension on TranslationsIs {
       'takenAmount' => 'Tekið upphæð',
       'wastedAmount' => 'Sóað upphæð',
       'none' => 'Ekkert',
-      'supplyItem' => 'Supply item',
+      'supplyItem' => 'Framboðsvara',
       'injectionSide' => 'Innspýtingarhlið',
       'deleteIntake' => 'Eyddu þetta inntak?',
       'takeMedication' => ({required Object scheduleName}) =>
@@ -917,8 +969,7 @@ extension on TranslationsIs {
       'placementLeftAbdomen' => 'Vinstri kvið',
       'placementRightAbdomen' => 'Right kvið',
       'injectionSites' => 'Innspýtingarstaðir',
-      'injectionSitesDescription' =>
-        'Stjórnaðu síðunum sem þú skiptir á milli.',
+      'injectionSitesDescription' => 'Stjórnaðu síðunum sem þú skiptir á milli',
       'addInjectionSite' => 'Bættu við staðir',
       'customSiteLabel' => 'Sérsniðið staðarnafn',
       'noInjectionSitesYet' => 'Engar staðir ennþá',
@@ -935,6 +986,16 @@ extension on TranslationsIs {
       'dayOfMonth' => 'Dag mánaðarins',
       'months' => 'mánuðir',
       'mustBeBetween1And28' => 'Verður að vera á milli 1 og 28',
+      'HrtCounterDescription' =>
+        'Sýnið hversu lengi þið hafið verið á HRT og heildarinntöku ykkar',
+      'startOfDay' => 'Byrjun dags',
+      'startOfDayDescription' => ({required Object time}) =>
+          'Tíminn fyrir ${time} telst með í fyrri degi',
+      'anchorToLastIntake' => 'Endurreikna út frá síðustu inntöku',
+      'anchorToLastIntakeDescription' =>
+        'Áætlar næstu inntöku með fullu millibili eftir að þú tókst hana síðast',
+      'chooseItem' => 'Veldu atriði',
+      'noItemsToAdd' => 'Engar atriði tiltækar',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
             count,
@@ -944,13 +1005,13 @@ extension on TranslationsIs {
       'inDaysCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
             count,
-            one: 'á ${count} dagar',
-            other: 'á ${count} dagar',
+            one: 'eftir ${count} degi',
+            other: 'eftir ${count} daga',
           ),
       'scheduleFrequencyEveryNDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
             count,
-            one: 'Á ${count} daga fresti',
+            one: 'Á hverjum degi',
             other: 'Á ${count} daga fresti',
           ),
       'schedulesCreated' => ({required num count}) =>
@@ -1016,8 +1077,8 @@ extension on TranslationsIs {
       'administrationRouteUnitPump' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
             count,
-            one: 'pump',
-            other: 'pumps',
+            one: 'dæla',
+            other: 'dælur',
           ),
       'administrationRouteUnitImplant' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
@@ -1043,6 +1104,36 @@ extension on TranslationsIs {
             count,
             one: 'Dagur ${day}, í hverjum mánuði',
             other: 'Dagur ${day}, á ${count} mánaða fresti',
+          ),
+      'onHrtForDays' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
+            count,
+            one: 'Á HRT í 1 dag',
+            other: 'Á HRT í ${count} daga',
+          ),
+      'onHrtForWeeks' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
+            count,
+            one: 'Á HRT í 1 viku',
+            other: 'Á HRT í ${count} vikur',
+          ),
+      'onHrtForMonths' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
+            count,
+            one: 'Á HRT í 1 mánuð',
+            other: 'Á HRT í ${count} mánuði',
+          ),
+      'onHrtForYears' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
+            count,
+            one: 'Á HRT í 1 ár',
+            other: 'Á HRT í ${count} ár',
+          ),
+      'intakesLoggedCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('is'))(
+            count,
+            one: '1 inntaka skráð',
+            other: '${count} inntökur skráðar',
           ),
       _ => null,
     };

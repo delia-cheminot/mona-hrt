@@ -17,12 +17,12 @@ class PreferencesService extends ChangeNotifier {
   static const _placementsListKey = 'placements_list';
   static const _placementSuggestionPerScheduleKey =
       'placement_suggestion_per_schedule';
-  static const _intakeCounterEnabledKey = 'intake_counter_enabled';
+  static const _hrtCounterEnabledKey = 'intake_counter_enabled';
   static const _logicalDayStartMinutesKey = 'logical_day_start_minutes';
 
   static const bool defaultNotificationsEnabled = false;
   static const bool defaultAutoCheckUpdates = false;
-  static const bool defaultIntakeCounterEnabled = true;
+  static const bool defaultHrtCounterEnabled = true;
   static const int defaultLogicalDayStartMinutes = 240;
   static const List<Placement> defaultPlacementsList = [
     PresetPlacement(PlacementPreset.left),
@@ -180,11 +180,11 @@ class PreferencesService extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool get intakeCounterEnabled =>
-      _prefs.getBool(_intakeCounterEnabledKey) ?? defaultIntakeCounterEnabled;
+  bool get hrtCounterEnabled =>
+      _prefs.getBool(_hrtCounterEnabledKey) ?? defaultHrtCounterEnabled;
 
-  Future<void> setIntakeCounterEnabled(bool isEnabled) async {
-    await _prefs.setBool(_intakeCounterEnabledKey, isEnabled);
+  Future<void> setHrtCounterEnabled(bool isEnabled) async {
+    await _prefs.setBool(_hrtCounterEnabledKey, isEnabled);
     notifyListeners();
   }
 

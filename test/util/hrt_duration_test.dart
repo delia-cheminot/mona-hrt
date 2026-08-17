@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/util/hrt_duration.dart';
 
 import '../util/test_clock.dart';
@@ -95,5 +96,27 @@ void main() {
         );
       });
     }
+  });
+
+  group('hrtDurationText', () {
+    test('formats days', () {
+      expect(hrtDurationText(const HrtDuration(HrtDurationUnit.days, 3)),
+          t.onHrtForDays(count: 3));
+    });
+
+    test('formats weeks', () {
+      expect(hrtDurationText(const HrtDuration(HrtDurationUnit.weeks, 2)),
+          t.onHrtForWeeks(count: 2));
+    });
+
+    test('formats months', () {
+      expect(hrtDurationText(const HrtDuration(HrtDurationUnit.months, 5)),
+          t.onHrtForMonths(count: 5));
+    });
+
+    test('formats years', () {
+      expect(hrtDurationText(const HrtDuration(HrtDurationUnit.years, 1)),
+          t.onHrtForYears(count: 1));
+    });
   });
 }

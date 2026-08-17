@@ -1,4 +1,6 @@
 lib/i18n/translations*.g.dart linguist-generated
 **/*.mocks.dart linguist-generated
 **/generated_plugins.cmake linguist-generated
+android/app/src/main/res/values*/widget_plurals.xml linguist-generated
+android/app/src/main/res/values*/widget_strings.xml linguist-generated
 pubspec.lock linguist-generated

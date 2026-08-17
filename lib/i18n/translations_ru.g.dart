@@ -469,6 +469,107 @@ class TranslationsRu extends Translations
   @override
   String get cannotExceedTotalCapacity => 'Не может превышать общее количество';
   @override
+  String get scheduleFrequencyMonthly => 'Ежемесячно';
+  @override
+  String get anchorToLastIntake => 'Пересчитывать на основе последнего приёма';
+  @override
+  String get anchorToLastIntakeDescription =>
+      'Планирует следующий приём через полный интервал после последнего приёма';
+  @override
+  String get medicalSettings => 'Медицинские настройки';
+  @override
+  String get theme => 'Тема';
+  @override
+  String get themeCustomizeColors => 'Настройте цвета приложения';
+  @override
+  String get customThemeEnabled => 'Пользовательская тема';
+  @override
+  String get themeGenerate => 'Создать';
+  @override
+  String get themeVariant => 'Вариант';
+  @override
+  String get themeContrast => 'Контраст';
+  @override
+  String get themeContrastStandard => 'Стандартный';
+  @override
+  String get themeContrastMedium => 'Средний';
+  @override
+  String get themeContrastHigh => 'Высокий';
+  @override
+  String get dayOfMonth => 'День месяца';
+  @override
+  String get months => 'месяцев';
+  @override
+  String get HrtCounter => 'Время на ЗГТ';
+  @override
+  String get HrtCounterDescription =>
+      'Показывает, сколько времени вы на ЗГТ, и общее количество приёмов';
+  @override
+  String get hrtWidgetPlaceholder =>
+      'Откройте Mona, чтобы записать первый приём';
+  @override
+  String get hrtWidgetPreviewSample => 'На ЗГТ уже 8 месяцев';
+  @override
+  String get hrtWidgetPreviewIntakeSample => 'Записано 16 приёмов';
+  @override
+  String get startOfDay => 'Начало дня';
+  @override
+  String startOfDayDescription({required Object time}) =>
+      'Время до ${time} засчитывается к предыдущему дню';
+  @override
+  String get chooseItem => 'Выберите препарат';
+  @override
+  String get noItemsToAdd => 'Нет доступных препаратов';
+  @override
+  String concentrationLabelPerUnit({required Object unit}) => 'Доза на ${unit}';
+  @override
+  String get allItemsFilter => 'Все';
+  @override
+  String get medicationItemsFilter => 'Лекарства';
+  @override
+  String get genericItems => 'Расходники';
+  @override
+  String get medicationItemType => 'Лекарство';
+  @override
+  String get genericItemType => 'Расходный материал';
+  @override
+  String get placementLeftThigh => 'Левое бедро';
+  @override
+  String get placementRightThigh => 'Правое бедро';
+  @override
+  String get placementLeftArm => 'Левая рука';
+  @override
+  String get placementRightArm => 'Правая рука';
+  @override
+  String get placementLeftButtock => 'Левая ягодица';
+  @override
+  String get placementRightButtock => 'Правая ягодица';
+  @override
+  String get placementLeftAbdomen => 'Левая часть живота';
+  @override
+  String get placementRightAbdomen => 'Правая часть живота';
+  @override
+  String get injectionSites => 'Места инъекций';
+  @override
+  String get injectionSitesDescription =>
+      'Управляйте местами, между которыми вы чередуете';
+  @override
+  String get addInjectionSite => 'Добавить место';
+  @override
+  String get customSiteLabel => 'Название места';
+  @override
+  String get noInjectionSitesYet => 'Пока нет мест';
+  @override
+  String get noInjectionAddOneToGetStarted =>
+      'Добавьте место ниже, чтобы начать.';
+  @override
+  String get placementSuggestionPerScheduleTitle => 'Предлагать по расписанию';
+  @override
+  String get placementSuggestionPerScheduleDescription =>
+      'Основывать предложение следующего места только на истории этого расписания.';
+  @override
+  String get mustBeBetween1And28 => 'Должно быть от 1 до 28';
+  @override
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
         count,
@@ -620,6 +721,61 @@ class TranslationsRu extends Translations
         few: 'брызг',
         many: 'брызгов',
         other: 'брызгов',
+      );
+  @override
+  String scheduleFrequencyOnDayEveryNMonths(
+          {required num count, required Object day}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+        count,
+        one: 'День ${day}, каждый ${count} месяц',
+        few: 'День ${day}, каждые ${count} месяца',
+        many: 'День ${day}, каждые ${count} месяцев',
+        other: 'День ${day}, каждые ${count} месяцев',
+      );
+  @override
+  String onHrtForDays({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+        count,
+        one: 'На ЗГТ уже ${count} день',
+        few: 'На ЗГТ уже ${count} дня',
+        many: 'На ЗГТ уже ${count} дней',
+        other: 'На ЗГТ уже ${count} дней',
+      );
+  @override
+  String onHrtForWeeks({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+        count,
+        one: 'На ЗГТ уже ${count} неделю',
+        few: 'На ЗГТ уже ${count} недели',
+        many: 'На ЗГТ уже ${count} недель',
+        other: 'На ЗГТ уже ${count} недель',
+      );
+  @override
+  String onHrtForMonths({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+        count,
+        one: 'На ЗГТ уже ${count} месяц',
+        few: 'На ЗГТ уже ${count} месяца',
+        many: 'На ЗГТ уже ${count} месяцев',
+        other: 'На ЗГТ уже ${count} месяцев',
+      );
+  @override
+  String onHrtForYears({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+        count,
+        one: 'На ЗГТ уже ${count} год',
+        few: 'На ЗГТ уже ${count} года',
+        many: 'На ЗГТ уже ${count} лет',
+        other: 'На ЗГТ уже ${count} лет',
+      );
+  @override
+  String intakesLoggedCount({required num count}) =>
+      (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+        count,
+        one: 'Записан ${count} приём',
+        few: 'Записано ${count} приёма',
+        many: 'Записано ${count} приёмов',
+        other: 'Записано ${count} приёмов',
       );
 }
 
@@ -850,6 +1006,59 @@ extension on TranslationsRu {
       'mustBePositiveNumber' => 'Число должно быть положительным',
       'invalidTotalAmount' => 'Неверное общее количество',
       'cannotExceedTotalCapacity' => 'Не может превышать общее количество',
+      'scheduleFrequencyMonthly' => 'Ежемесячно',
+      'anchorToLastIntake' => 'Пересчитывать на основе последнего приёма',
+      'anchorToLastIntakeDescription' =>
+        'Планирует следующий приём через полный интервал после последнего приёма',
+      'medicalSettings' => 'Медицинские настройки',
+      'theme' => 'Тема',
+      'themeCustomizeColors' => 'Настройте цвета приложения',
+      'customThemeEnabled' => 'Пользовательская тема',
+      'themeGenerate' => 'Создать',
+      'themeVariant' => 'Вариант',
+      'themeContrast' => 'Контраст',
+      'themeContrastStandard' => 'Стандартный',
+      'themeContrastMedium' => 'Средний',
+      'themeContrastHigh' => 'Высокий',
+      'dayOfMonth' => 'День месяца',
+      'months' => 'месяцев',
+      'HrtCounter' => 'Время на ЗГТ',
+      'HrtCounterDescription' =>
+        'Показывает, сколько времени вы на ЗГТ, и общее количество приёмов',
+      'hrtWidgetPlaceholder' => 'Откройте Mona, чтобы записать первый приём',
+      'hrtWidgetPreviewSample' => 'На ЗГТ уже 8 месяцев',
+      'hrtWidgetPreviewIntakeSample' => 'Записано 16 приёмов',
+      'startOfDay' => 'Начало дня',
+      'startOfDayDescription' => ({required Object time}) =>
+          'Время до ${time} засчитывается к предыдущему дню',
+      'chooseItem' => 'Выберите препарат',
+      'noItemsToAdd' => 'Нет доступных препаратов',
+      'concentrationLabelPerUnit' => ({required Object unit}) =>
+          'Доза на ${unit}',
+      'allItemsFilter' => 'Все',
+      'medicationItemsFilter' => 'Лекарства',
+      'genericItems' => 'Расходники',
+      'medicationItemType' => 'Лекарство',
+      'genericItemType' => 'Расходный материал',
+      'placementLeftThigh' => 'Левое бедро',
+      'placementRightThigh' => 'Правое бедро',
+      'placementLeftArm' => 'Левая рука',
+      'placementRightArm' => 'Правая рука',
+      'placementLeftButtock' => 'Левая ягодица',
+      'placementRightButtock' => 'Правая ягодица',
+      'placementLeftAbdomen' => 'Левая часть живота',
+      'placementRightAbdomen' => 'Правая часть живота',
+      'injectionSites' => 'Места инъекций',
+      'injectionSitesDescription' =>
+        'Управляйте местами, между которыми вы чередуете',
+      'addInjectionSite' => 'Добавить место',
+      'customSiteLabel' => 'Название места',
+      'noInjectionSitesYet' => 'Пока нет мест',
+      'noInjectionAddOneToGetStarted' => 'Добавьте место ниже, чтобы начать.',
+      'placementSuggestionPerScheduleTitle' => 'Предлагать по расписанию',
+      'placementSuggestionPerScheduleDescription' =>
+        'Основывать предложение следующего места только на истории этого расписания.',
+      'mustBeBetween1And28' => 'Должно быть от 1 до 28',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
             count,
@@ -985,6 +1194,55 @@ extension on TranslationsRu {
             few: 'брызг',
             many: 'брызгов',
             other: 'брызгов',
+          ),
+      'scheduleFrequencyOnDayEveryNMonths' => (
+              {required num count, required Object day}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+            count,
+            one: 'День ${day}, каждый ${count} месяц',
+            few: 'День ${day}, каждые ${count} месяца',
+            many: 'День ${day}, каждые ${count} месяцев',
+            other: 'День ${day}, каждые ${count} месяцев',
+          ),
+      'onHrtForDays' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+            count,
+            one: 'На ЗГТ уже ${count} день',
+            few: 'На ЗГТ уже ${count} дня',
+            many: 'На ЗГТ уже ${count} дней',
+            other: 'На ЗГТ уже ${count} дней',
+          ),
+      'onHrtForWeeks' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+            count,
+            one: 'На ЗГТ уже ${count} неделю',
+            few: 'На ЗГТ уже ${count} недели',
+            many: 'На ЗГТ уже ${count} недель',
+            other: 'На ЗГТ уже ${count} недель',
+          ),
+      'onHrtForMonths' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+            count,
+            one: 'На ЗГТ уже ${count} месяц',
+            few: 'На ЗГТ уже ${count} месяца',
+            many: 'На ЗГТ уже ${count} месяцев',
+            other: 'На ЗГТ уже ${count} месяцев',
+          ),
+      'onHrtForYears' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+            count,
+            one: 'На ЗГТ уже ${count} год',
+            few: 'На ЗГТ уже ${count} года',
+            many: 'На ЗГТ уже ${count} лет',
+            other: 'На ЗГТ уже ${count} лет',
+          ),
+      'intakesLoggedCount' => ({required num count}) =>
+          (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ru'))(
+            count,
+            one: 'Записан ${count} приём',
+            few: 'Записано ${count} приёма',
+            many: 'Записано ${count} приёмов',
+            other: 'Записано ${count} приёмов',
           ),
       _ => null,
     };

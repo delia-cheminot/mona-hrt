@@ -254,16 +254,16 @@ void main() {
       });
     });
 
-    group('intakeCounterEnabled', () {
+    group('hrtCounterEnabled', () {
       test('defaults to true when not set', () async {
         // Arrange
         final service = await PreferencesService.init();
 
         // Act
-        final enabled = service.intakeCounterEnabled;
+        final enabled = service.hrtCounterEnabled;
 
         // Assert
-        expect(enabled, PreferencesService.defaultIntakeCounterEnabled);
+        expect(enabled, PreferencesService.defaultHrtCounterEnabled);
       });
 
       test('round-trips the saved value and notifies listeners', () async {
@@ -273,10 +273,10 @@ void main() {
         service.addListener(() => listenerNotified = true);
 
         // Act
-        await service.setIntakeCounterEnabled(false);
+        await service.setHrtCounterEnabled(false);
 
         // Assert
-        expect([service.intakeCounterEnabled, listenerNotified], [false, true]);
+        expect([service.hrtCounterEnabled, listenerNotified], [false, true]);
       });
     });
 

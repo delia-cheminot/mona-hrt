@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="on_hrt_for_days">
+        <item quantity="one">Na HTZ od 1 dnia</item>
+        <item quantity="few">Na HTZ od %d dni</item>
+        <item quantity="many">Na HTZ od %d dni</item>
+        <item quantity="other">Na HTZ od %d dni</item>
+    </plurals>
+    <plurals name="on_hrt_for_weeks">
+        <item quantity="one">Na HTZ od 1 tygodnia</item>
+        <item quantity="few">Na HTZ od %d tygodni</item>
+        <item quantity="many">Na HTZ od %d tygodni</item>
+        <item quantity="other">Na HTZ od %d tygodni</item>
+    </plurals>
+    <plurals name="on_hrt_for_months">
+        <item quantity="one">Na HTZ od 1 miesiąca</item>
+        <item quantity="few">Na HTZ od %d miesięcy</item>
+        <item quantity="many">Na HTZ od %d miesięcy</item>
+        <item quantity="other">Na HTZ od %d miesięcy</item>
+    </plurals>
+    <plurals name="on_hrt_for_years">
+        <item quantity="one">Na HTZ od 1 roku</item>
+        <item quantity="few">Na HTZ od %d lat</item>
+        <item quantity="many">Na HTZ od %d lat</item>
+        <item quantity="other">Na HTZ od %d lat</item>
+    </plurals>
+    <plurals name="intakes_logged_count">
+        <item quantity="one">Odnotowano 1 przyjęcie</item>
+        <item quantity="few">Odnotowano %d przyjęcia</item>
+        <item quantity="many">Odnotowano %d przyjęć</item>
+        <item quantity="other">Odnotowano %d przyjęć</item>
+    </plurals>
+</resources>

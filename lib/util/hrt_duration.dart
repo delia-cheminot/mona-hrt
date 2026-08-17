@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:mona/data/model/date.dart';
+import 'package:mona/i18n/translations.g.dart';
 
 enum HrtDurationUnit { days, weeks, months, years }
 
@@ -44,3 +45,10 @@ HrtDuration hrtDurationSince(Date start) {
 
   return HrtDuration(HrtDurationUnit.years, years);
 }
+
+String hrtDurationText(HrtDuration d) => switch (d.unit) {
+      HrtDurationUnit.days => t.onHrtForDays(count: d.value),
+      HrtDurationUnit.weeks => t.onHrtForWeeks(count: d.value),
+      HrtDurationUnit.months => t.onHrtForMonths(count: d.value),
+      HrtDurationUnit.years => t.onHrtForYears(count: d.value),
+    };

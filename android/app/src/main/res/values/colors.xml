@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ic_launcher_background">#fef2e2</color>
+    <color name="hrt_widget_preview_background">#FFF8EDF6</color>
+    <color name="hrt_widget_preview_foreground">#FF6750A4</color>
+    <color name="hrt_widget_preview_icon_circle">#FFFFD8E4</color>
+    <color name="hrt_widget_preview_icon">#FF31111D</color>
 </resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="on_hrt_for_days">
+        <item quantity="one">Em TH há %d dia</item>
+        <item quantity="many">Em TH há %d dias</item>
+        <item quantity="other">Em TH há %d dias</item>
+    </plurals>
+    <plurals name="on_hrt_for_weeks">
+        <item quantity="one">Em TH há %d semana</item>
+        <item quantity="many">Em TH há %d semanas</item>
+        <item quantity="other">Em TH há %d semanas</item>
+    </plurals>
+    <plurals name="on_hrt_for_months">
+        <item quantity="one">Em TH há %d mês</item>
+        <item quantity="many">Em TH há %d meses</item>
+        <item quantity="other">Em TH há %d meses</item>
+    </plurals>
+    <plurals name="on_hrt_for_years">
+        <item quantity="one">Em TH há %d ano</item>
+        <item quantity="many">Em TH há %d anos</item>
+        <item quantity="other">Em TH há %d anos</item>
+    </plurals>
+    <plurals name="intakes_logged_count">
+        <item quantity="one">%d dose registrada</item>
+        <item quantity="many">%d doses registradas</item>
+        <item quantity="other">%d doses registradas</item>
+    </plurals>
+</resources>

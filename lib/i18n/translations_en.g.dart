@@ -364,12 +364,21 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Taken intakes will appear here'
   String get empty_intakes => 'Taken intakes will appear here';
 
-  /// en: 'Intake counter'
-  String get intakeCounter => 'Intake counter';
+  /// en: 'Time on HRT'
+  String get HrtCounter => 'Time on HRT';
 
   /// en: 'Show how long you've been on HRT and your total intakes'
-  String get intakeCounterDescription =>
+  String get HrtCounterDescription =>
       'Show how long you\'ve been on HRT and your total intakes';
+
+  /// en: 'Open Mona to log your first intake'
+  String get hrtWidgetPlaceholder => 'Open Mona to log your first intake';
+
+  /// en: 'On HRT for 8 months'
+  String get hrtWidgetPreviewSample => 'On HRT for 8 months';
+
+  /// en: '16 intakes logged'
+  String get hrtWidgetPreviewIntakeSample => '16 intakes logged';
 
   /// en: 'Start of day'
   String get startOfDay => 'Start of day';
@@ -496,6 +505,10 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
   /// en: 'Concentration'
   String get concentration => 'Concentration';
+
+  /// en: 'Dose per {unit}'
+  String concentrationLabelPerUnit({required Object unit}) =>
+      'Dose per ${unit}';
 
   /// en: 'Edit item'
   String get editItem => 'Edit item';
@@ -1102,9 +1115,12 @@ extension on Translations {
       'deleteSchedule' => ({required Object name}) => 'Delete ${name}?',
       'addNotification' => 'Add a notification',
       'empty_intakes' => 'Taken intakes will appear here',
-      'intakeCounter' => 'Intake counter',
-      'intakeCounterDescription' =>
+      'HrtCounter' => 'Time on HRT',
+      'HrtCounterDescription' =>
         'Show how long you\'ve been on HRT and your total intakes',
+      'hrtWidgetPlaceholder' => 'Open Mona to log your first intake',
+      'hrtWidgetPreviewSample' => 'On HRT for 8 months',
+      'hrtWidgetPreviewIntakeSample' => '16 intakes logged',
       'startOfDay' => 'Start of day',
       'startOfDayDescription' => ({required Object time}) =>
           'Time before ${time} counts toward the previous day',
@@ -1150,6 +1166,8 @@ extension on Translations {
       'adminRoute' => 'Administration route',
       'totalAmount' => 'Total amount',
       'concentration' => 'Concentration',
+      'concentrationLabelPerUnit' => ({required Object unit}) =>
+          'Dose per ${unit}',
       'editItem' => 'Edit item',
       'usedAmount' => 'Used amount',
       'deleteItem' => ({required Object name}) => 'Delete ${name}?',

@@ -14,8 +14,6 @@ part 'medication_schedule.mapper.dart';
 
 @MappableClass(
   includeCustomMappers: [
-    AdministrationRouteNameMapper(),
-    EsterNameMapper(),
     DecimalStringMapper(),
     DateStringMapper(),
   ],
