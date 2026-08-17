@@ -31,12 +31,21 @@
         "https://i.imgur.com/vuSqW2l.png",
         "https://i.imgur.com/5cjzlB0.png"
       ],
-      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.17.1/mona-1.17.1.ipa",
-      "size": 11958933,
-      "version": "1.17.1",
-      "versionDate": "2026-08-09T16:45:54Z",
-      "versionDescription": "Fix:\r\n\r\n- Removes bottom margin on iOS 26+",
+      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.18.0/mona-1.18.0.ipa",
+      "size": 12237415,
+      "version": "1.18.0",
+      "versionDate": "2026-08-17T18:23:39Z",
+      "versionDescription": "New:\r\n\r\n- Display your time on HRT as an Android widget!\r\n- Clarifies the concentration setting for non-injection routes\r\n- New language: Swedish",
       "versions": [
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.18.0/mona-1.18.0.ipa",
+          "size": 12237415,
+          "version": "1.18.0",
+          "buildVersion": "21",
+          "date": "2026-08-17T18:23:39Z",
+          "localizedDescription": "New:\r\n\r\n- Display your time on HRT as an Android widget!\r\n- Clarifies the concentration setting for non-injection routes\r\n- New language: Swedish",
+          "minOSVersion": "13.0"
+        },
         {
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.17.1/mona-1.17.1.ipa",
           "size": 11958933,
