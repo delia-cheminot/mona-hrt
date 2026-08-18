@@ -91,6 +91,9 @@ enum Units {
   pg_mL_ng_dL(
       estradiol: EstradiolUnit.pg_mL, testosterone: TestosteroneUnit.ng_dL),
   // ignore: constant_identifier_names
+  pg_mL_ng_mL(
+      estradiol: EstradiolUnit.pg_mL, testosterone: TestosteroneUnit.ng_mL),
+  // ignore: constant_identifier_names
   pmol_L_nmol_L(
       estradiol: EstradiolUnit.pmol_L, testosterone: TestosteroneUnit.nmol_L);
 
