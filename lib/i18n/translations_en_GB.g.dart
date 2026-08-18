@@ -511,6 +511,8 @@ class TranslationsEnGb extends Translations
   @override
   String get unitNmolPerL => 'nmol/L';
   @override
+  String get unitNgPerMl => 'ng/mL';
+  @override
   String get injectionSideLeft => 'Left';
   @override
   String get injectionSideRight => 'Right';
@@ -978,6 +980,7 @@ extension on TranslationsEnGb {
       'unitPmolPerL' => 'pmol/L',
       'unitNgPerDl' => 'ng/dL',
       'unitNmolPerL' => 'nmol/L',
+      'unitNgPerMl' => 'ng/mL',
       'injectionSideLeft' => 'Left',
       'injectionSideRight' => 'Right',
       'placementLeft' => 'Left side',

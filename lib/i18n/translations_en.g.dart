@@ -728,6 +728,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'nmol/L'
   String get unitNmolPerL => 'nmol/L';
 
+  /// en: 'ng/mL'
+  String get unitNgPerMl => 'ng/mL';
+
   /// en: 'Left'
   String get injectionSideLeft => 'Left';
 
@@ -1242,6 +1245,7 @@ extension on Translations {
       'unitPmolPerL' => 'pmol/L',
       'unitNgPerDl' => 'ng/dL',
       'unitNmolPerL' => 'nmol/L',
+      'unitNgPerMl' => 'ng/mL',
       'injectionSideLeft' => 'Left',
       'injectionSideRight' => 'Right',
       'placementLeft' => 'Left side',
