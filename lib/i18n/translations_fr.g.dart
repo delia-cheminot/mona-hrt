@@ -526,6 +526,8 @@ class TranslationsFr extends Translations
   @override
   String get unitNmolPerL => 'nmol/L';
   @override
+  String get unitNgPerMl => 'ng/mL';
+  @override
   String get injectionSideLeft => 'Gauche';
   @override
   String get injectionSideRight => 'Droite';
@@ -1026,6 +1028,7 @@ extension on TranslationsFr {
       'unitPmolPerL' => 'pmol/L',
       'unitNgPerDl' => 'ng/dL',
       'unitNmolPerL' => 'nmol/L',
+      'unitNgPerMl' => 'ng/mL',
       'injectionSideLeft' => 'Gauche',
       'injectionSideRight' => 'Droite',
       'placementLeft' => 'Côté gauche',

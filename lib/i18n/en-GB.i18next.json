@@ -247,6 +247,7 @@
   "unitPmolPerL": "pmol/L",
   "unitNgPerDl": "ng/dL",
   "unitNmolPerL": "nmol/L",
+  "unitNgPerMl": "ng/mL",
   "administrationRouteUnitMl_one": "ml",
   "administrationRouteUnitMl_other": "ml",
   "administrationRouteUnitPill_one": "pill",
