@@ -15,6 +15,7 @@ const _newScheduleAmount = ValueKey('newScheduleAmount');
 const _newScheduleNext = ValueKey('newScheduleNext');
 const _newScheduleSave = ValueKey('newScheduleSave');
 const _newScheduleEvery = ValueKey('newScheduleEvery');
+const _schedulingTypePicker = ValueKey('schedulingTypePicker');
 const _scheduleTypeInterval = ValueKey('scheduleTypeInterval');
 const _scheduleTypeMonthly = ValueKey('scheduleTypeMonthly');
 const _newScheduleDayOfMonth = ValueKey('newScheduleDayOfMonth');
@@ -68,6 +69,7 @@ void main() {
     await $(Icons.add).tap(); // FAB: "Add a schedule"
     await _fillMainInfoAndNext($, name: 'Interval Estradiol');
 
+    await $(_schedulingTypePicker).tap();
     await $(_scheduleTypeInterval).tap();
     await $(_newScheduleEvery).enterText('3');
     await $(_newScheduleSave).tap();
@@ -84,6 +86,7 @@ void main() {
     await $(Icons.add).tap(); // FAB: "Add a schedule"
     await _fillMainInfoAndNext($, name: 'Monthly Estradiol');
 
+    await $(_schedulingTypePicker).tap();
     await $(_scheduleTypeMonthly).tap();
     await $(_newScheduleDayOfMonth).enterText('21');
     await $(_newScheduleEveryMonths).enterText('3');
@@ -161,6 +164,7 @@ Future<void> _createIntervalSchedule(
 }) async {
   await $(Icons.add).tap();
   await _fillMainInfoAndNext($, name: name);
+  await $(_schedulingTypePicker).tap();
   await $(_scheduleTypeInterval).tap();
   await $(_newScheduleEvery).enterText('3');
   await $(_newScheduleSave).tap();
