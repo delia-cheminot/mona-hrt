@@ -9,6 +9,6 @@
     android:initialLayout="@layout/hrt_widget_loading"
     android:previewImage="@drawable/hrt_widget_preview"
     android:previewLayout="@layout/hrt_widget_preview"
-    android:resizeMode="horizontal"
+    android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen">
 </appwidget-provider>
