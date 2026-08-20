@@ -34,7 +34,8 @@ const _routeInjection = 'Injection';
 const _esterEnanthate = 'Enanthate';
 const _next = 'Next';
 const _save = 'Save';
-const _intervalToggle = 'Interval';
+const _schedulingTypePicker = ValueKey('schedulingTypePicker');
+const _scheduleTypeInterval = ValueKey('scheduleTypeInterval');
 const _everyLabel = 'Every';
 
 void main() {
@@ -158,7 +159,8 @@ Future<void> _seedSchedule(
       .enterText('2'); // sets schedule dose
   await $(_next).tap();
 
-  await $(_intervalToggle).tap();
+  await $(_schedulingTypePicker).tap();
+  await $(_scheduleTypeInterval).tap();
   await $(TextField).containing(_everyLabel).enterText('3');
   await $(_save).tap();
   await $(ListTile).containing(name).waitUntilVisible();
@@ -189,7 +191,8 @@ Future<void> _seedInjectionSchedule(
   await $(TextField).containing(_amountLabel).enterText('2');
   await $(_next).tap();
 
-  await $(_intervalToggle).tap();
+  await $(_schedulingTypePicker).tap();
+  await $(_scheduleTypeInterval).tap();
   await $(TextField).containing(_everyLabel).enterText('3');
   await $(_save).tap();
   await $(ListTile).containing(name).waitUntilVisible();
