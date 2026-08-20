@@ -87,15 +87,27 @@ class TranslationsFr extends Translations
   @override
   String get neverTakenYet => 'Jamais pris auparavant';
   @override
-  String get scheduleFrequencyDaily => 'Tous les jours';
+  String get scheduleFrequencyDaily => 'Quotidien';
+  @override
+  String get scheduleFrequencyDailyDescription =>
+      'Tous les jours, à des heures précises';
   @override
   String get scheduleFrequencyInterval => 'Intervalle';
   @override
+  String get scheduleFrequencyIntervalDescription => 'Tous les quelques jours';
+  @override
   String get scheduleFrequencyWeekly => 'Hebdomadaire';
+  @override
+  String get scheduleFrequencyWeeklyDescription =>
+      'Certains jours de la semaine';
   @override
   String get scheduleFrequencyMonthly => 'Mensuel';
   @override
+  String get scheduleFrequencyMonthlyDescription => 'Le même jour chaque mois';
+  @override
   String get scheduleFrequencyAsNeeded => 'Au besoin';
+  @override
+  String get scheduleFrequencyAsNeededDescription => 'Pas de programme fixe';
   @override
   String get newUpdateAvailable => 'Une nouvelle mise à jour est disponible !';
   @override
@@ -602,7 +614,7 @@ class TranslationsFr extends Translations
   String scheduleFrequencyEveryNDays({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
         count,
-        one: 'Tous les ${count} jours',
+        one: 'Tous les jours',
         many: 'Tous les ${count} de jours',
         other: 'Tous les ${count} jours',
       );
@@ -793,11 +805,17 @@ extension on TranslationsFr {
       'tomorrow' => 'demain',
       'lastTaken' => 'Dernière prise',
       'neverTakenYet' => 'Jamais pris auparavant',
-      'scheduleFrequencyDaily' => 'Tous les jours',
+      'scheduleFrequencyDaily' => 'Quotidien',
+      'scheduleFrequencyDailyDescription' =>
+        'Tous les jours, à des heures précises',
       'scheduleFrequencyInterval' => 'Intervalle',
+      'scheduleFrequencyIntervalDescription' => 'Tous les quelques jours',
       'scheduleFrequencyWeekly' => 'Hebdomadaire',
+      'scheduleFrequencyWeeklyDescription' => 'Certains jours de la semaine',
       'scheduleFrequencyMonthly' => 'Mensuel',
+      'scheduleFrequencyMonthlyDescription' => 'Le même jour chaque mois',
       'scheduleFrequencyAsNeeded' => 'Au besoin',
+      'scheduleFrequencyAsNeededDescription' => 'Pas de programme fixe',
       'newUpdateAvailable' => 'Une nouvelle mise à jour est disponible !',
       'goToSettings' => 'Aller aux paramètres',
       'settingsTitle' => 'Paramètres',
@@ -1076,7 +1094,7 @@ extension on TranslationsFr {
       'scheduleFrequencyEveryNDays' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('fr'))(
             count,
-            one: 'Tous les ${count} jours',
+            one: 'Tous les jours',
             many: 'Tous les ${count} de jours',
             other: 'Tous les ${count} jours',
           ),

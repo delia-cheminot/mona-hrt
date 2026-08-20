@@ -88,13 +88,24 @@ class TranslationsEnGb extends Translations
   @override
   String get scheduleFrequencyDaily => 'Every day';
   @override
+  String get scheduleFrequencyDailyDescription =>
+      'Every day, at specific times';
+  @override
   String get scheduleFrequencyInterval => 'Interval';
+  @override
+  String get scheduleFrequencyIntervalDescription => 'Every few days';
   @override
   String get scheduleFrequencyWeekly => 'Weekly';
   @override
+  String get scheduleFrequencyWeeklyDescription => 'Certain days of the week';
+  @override
   String get scheduleFrequencyMonthly => 'Monthly';
   @override
+  String get scheduleFrequencyMonthlyDescription => 'The same day every month';
+  @override
   String get scheduleFrequencyAsNeeded => 'As needed';
+  @override
+  String get scheduleFrequencyAsNeededDescription => 'No fixed schedule';
   @override
   String get newUpdateAvailable => 'A new update is available!';
   @override
@@ -758,10 +769,15 @@ extension on TranslationsEnGb {
       'lastTaken' => 'Last taken',
       'neverTakenYet' => 'Never taken yet',
       'scheduleFrequencyDaily' => 'Every day',
+      'scheduleFrequencyDailyDescription' => 'Every day, at specific times',
       'scheduleFrequencyInterval' => 'Interval',
+      'scheduleFrequencyIntervalDescription' => 'Every few days',
       'scheduleFrequencyWeekly' => 'Weekly',
+      'scheduleFrequencyWeeklyDescription' => 'Certain days of the week',
       'scheduleFrequencyMonthly' => 'Monthly',
+      'scheduleFrequencyMonthlyDescription' => 'The same day every month',
       'scheduleFrequencyAsNeeded' => 'As needed',
+      'scheduleFrequencyAsNeededDescription' => 'No fixed schedule',
       'newUpdateAvailable' => 'A new update is available!',
       'goToSettings' => 'Go to Settings',
       'settingsTitle' => 'Settings',

@@ -102,17 +102,33 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Every day'
   String get scheduleFrequencyDaily => 'Every day';
 
+  /// en: 'Every day, at specific times'
+  String get scheduleFrequencyDailyDescription =>
+      'Every day, at specific times';
+
   /// en: 'Interval'
   String get scheduleFrequencyInterval => 'Interval';
+
+  /// en: 'Every few days'
+  String get scheduleFrequencyIntervalDescription => 'Every few days';
 
   /// en: 'Weekly'
   String get scheduleFrequencyWeekly => 'Weekly';
 
+  /// en: 'Certain days of the week'
+  String get scheduleFrequencyWeeklyDescription => 'Certain days of the week';
+
   /// en: 'Monthly'
   String get scheduleFrequencyMonthly => 'Monthly';
 
+  /// en: 'The same day every month'
+  String get scheduleFrequencyMonthlyDescription => 'The same day every month';
+
   /// en: 'As needed'
   String get scheduleFrequencyAsNeeded => 'As needed';
+
+  /// en: 'No fixed schedule'
+  String get scheduleFrequencyAsNeededDescription => 'No fixed schedule';
 
   /// en: 'A new update is available!'
   String get newUpdateAvailable => 'A new update is available!';
@@ -1022,10 +1038,15 @@ extension on Translations {
       'lastTaken' => 'Last taken',
       'neverTakenYet' => 'Never taken yet',
       'scheduleFrequencyDaily' => 'Every day',
+      'scheduleFrequencyDailyDescription' => 'Every day, at specific times',
       'scheduleFrequencyInterval' => 'Interval',
+      'scheduleFrequencyIntervalDescription' => 'Every few days',
       'scheduleFrequencyWeekly' => 'Weekly',
+      'scheduleFrequencyWeeklyDescription' => 'Certain days of the week',
       'scheduleFrequencyMonthly' => 'Monthly',
+      'scheduleFrequencyMonthlyDescription' => 'The same day every month',
       'scheduleFrequencyAsNeeded' => 'As needed',
+      'scheduleFrequencyAsNeededDescription' => 'No fixed schedule',
       'newUpdateAvailable' => 'A new update is available!',
       'goToSettings' => 'Go to Settings',
       'settingsTitle' => 'Settings',
