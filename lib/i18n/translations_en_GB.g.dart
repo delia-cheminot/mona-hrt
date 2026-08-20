@@ -88,7 +88,7 @@ class TranslationsEnGb extends Translations
   @override
   String get neverTakenYet => 'Never taken yet';
   @override
-  String get scheduleFrequencyDaily => 'Every day';
+  String get scheduleFrequencyDaily => 'Daily';
   @override
   String get scheduleFrequencyDailyDescription =>
       'Every day, at specific times';
@@ -771,7 +771,7 @@ extension on TranslationsEnGb {
       'tomorrow' => 'tomorrow',
       'lastTaken' => 'Last taken',
       'neverTakenYet' => 'Never taken yet',
-      'scheduleFrequencyDaily' => 'Every day',
+      'scheduleFrequencyDaily' => 'Daily',
       'scheduleFrequencyDailyDescription' => 'Every day, at specific times',
       'scheduleFrequencyInterval' => 'Interval',
       'scheduleFrequencyIntervalDescription' => 'Every few days',

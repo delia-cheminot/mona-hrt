@@ -13,16 +13,14 @@ extension MedicationScheduleL10n on MedicationSchedule {
 
   String get localizedFrequency {
     return switch (scheduling) {
-      IntervalDaysSchedule(intervalDays: 1) => t.scheduleFrequencyDaily,
       IntervalDaysSchedule(intervalDays: final n) =>
         t.scheduleFrequencyEveryNDays(count: n),
-      DynamicIntervalSchedule(intervalDays: 1) => t.scheduleFrequencyDaily,
       DynamicIntervalSchedule(intervalDays: final n) =>
         t.scheduleFrequencyEveryNDays(count: n),
-      DailySchedule _ => t.scheduleFrequencyDaily,
+      DailySchedule _ => t.scheduleFrequencyEveryNDays(count: 1),
       WeeklySchedule s => () {
           if (s.daysOfWeek.length == 7) {
-            return t.scheduleFrequencyDaily;
+            return t.scheduleFrequencyEveryNDays(count: 1);
           }
           final formatter = DateFormat.E(
               intlSafeLanguageTag(LocaleSettings.currentLocale.languageTag));

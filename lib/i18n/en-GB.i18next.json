@@ -20,7 +20,7 @@
   "tomorrow": "tomorrow",
   "lastTaken": "Last taken",
   "neverTakenYet": "Never taken yet",
-  "scheduleFrequencyDaily": "Every day",
+  "scheduleFrequencyDaily": "Daily",
   "scheduleFrequencyDailyDescription": "Every day, at specific times",
   "scheduleFrequencyEveryNDays_one": "Every day",
   "scheduleFrequencyEveryNDays_other": "Every {{count}} days",

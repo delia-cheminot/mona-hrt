@@ -102,8 +102,8 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Never taken yet'
   String get neverTakenYet => 'Never taken yet';
 
-  /// en: 'Every day'
-  String get scheduleFrequencyDaily => 'Every day';
+  /// en: 'Daily'
+  String get scheduleFrequencyDaily => 'Daily';
 
   /// en: 'Every day, at specific times'
   String get scheduleFrequencyDailyDescription =>
@@ -1041,7 +1041,7 @@ extension on Translations {
       'tomorrow' => 'tomorrow',
       'lastTaken' => 'Last taken',
       'neverTakenYet' => 'Never taken yet',
-      'scheduleFrequencyDaily' => 'Every day',
+      'scheduleFrequencyDaily' => 'Daily',
       'scheduleFrequencyDailyDescription' => 'Every day, at specific times',
       'scheduleFrequencyInterval' => 'Interval',
       'scheduleFrequencyIntervalDescription' => 'Every few days',
