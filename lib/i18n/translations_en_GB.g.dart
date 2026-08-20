@@ -76,6 +76,8 @@ class TranslationsEnGb extends Translations
   @override
   String get upcoming => 'Upcoming';
   @override
+  String get asNeeded => 'As needed';
+  @override
   String get taken => 'Taken';
   @override
   String get yesterday => 'yesterday';
@@ -763,6 +765,7 @@ extension on TranslationsEnGb {
       'allDone' => 'All done!',
       'noIntakesDue' => 'No intakes due today',
       'upcoming' => 'Upcoming',
+      'asNeeded' => 'As needed',
       'taken' => 'Taken',
       'yesterday' => 'yesterday',
       'tomorrow' => 'tomorrow',

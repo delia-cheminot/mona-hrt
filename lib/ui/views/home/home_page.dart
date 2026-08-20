@@ -42,6 +42,10 @@ class HomePage extends StatelessWidget {
                 _NoIntakesDueCard()
               else
                 _IntakeCardList(occurrences.today),
+              if (occurrences.asNeeded.isNotEmpty) ...[
+                _SectionTitle(t.asNeeded),
+                _IntakeCardList(occurrences.asNeeded),
+              ],
               if (occurrences.upcoming.isNotEmpty) ...[
                 _SectionTitle(t.upcoming),
                 _IntakeCardList(occurrences.upcoming),

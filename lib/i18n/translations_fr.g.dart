@@ -77,6 +77,8 @@ class TranslationsFr extends Translations
   @override
   String get upcoming => 'À venir';
   @override
+  String get asNeeded => 'Au besoin';
+  @override
   String get taken => 'Pris';
   @override
   String get yesterday => 'hier';
@@ -800,6 +802,7 @@ extension on TranslationsFr {
       'allDone' => 'Terminé !',
       'noIntakesDue' => 'Aucune prise prévue aujourd\'hui',
       'upcoming' => 'À venir',
+      'asNeeded' => 'Au besoin',
       'taken' => 'Pris',
       'yesterday' => 'hier',
       'tomorrow' => 'demain',

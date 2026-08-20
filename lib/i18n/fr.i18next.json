@@ -10,6 +10,7 @@
   "allDone": "Terminé !",
   "noIntakesDue": "Aucune prise prévue aujourd'hui",
   "upcoming": "À venir",
+  "asNeeded": "Au besoin",
   "taken": "Pris",
   "daysAgoCount_one": "il y a {{count}} jour",
   "daysAgoCount_many": "il y a {{count}} de jours",

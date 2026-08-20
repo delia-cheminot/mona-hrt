@@ -40,28 +40,33 @@ IntakeSlot occurrence({
 
 void main() {
   group('splitByDay', () {
-    test('returns two empty lists when there are no occurrences', () {
+    test('returns empty lists when there are no occurrences', () {
       final split = splitByDay([]);
 
       expect(split.today, isEmpty);
+      expect(split.asNeeded, isEmpty);
       expect(split.upcoming, isEmpty);
     });
 
-    test('routes upcoming status to `upcoming`, everything else to `today`',
+    test(
+        'routes upcoming to `upcoming`, asNeeded to `asNeeded`, rest to `today`',
         () {
       final a = schedule(id: 1);
       final b = schedule(id: 2);
       final c = schedule(id: 3);
       final d = schedule(id: 4);
+      final e = schedule(id: 5);
 
       final split = splitByDay([
         occurrence(schedule: a, status: ScheduleStatus.today),
         occurrence(schedule: b, status: ScheduleStatus.taken),
         occurrence(schedule: c, status: ScheduleStatus.upcoming),
         occurrence(schedule: d, status: ScheduleStatus.overdue),
+        occurrence(schedule: e, status: ScheduleStatus.asNeeded),
       ]);
 
       expect(split.today.map((o) => o.schedule), [d, a, b]);
+      expect(split.asNeeded.map((o) => o.schedule), [e]);
       expect(split.upcoming.map((o) => o.schedule), [c]);
     });
 

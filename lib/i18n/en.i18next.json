@@ -10,6 +10,7 @@
   "allDone": "All done!",
   "noIntakesDue": "No intakes due today",
   "upcoming": "Upcoming",
+  "asNeeded": "As needed",
   "taken": "Taken",
   "daysAgoCount_one": "{{count}} day ago",
   "daysAgoCount_other": "{{count}} days ago",

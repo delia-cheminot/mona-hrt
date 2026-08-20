@@ -84,6 +84,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Upcoming'
   String get upcoming => 'Upcoming';
 
+  /// en: 'As needed'
+  String get asNeeded => 'As needed';
+
   /// en: 'Taken'
   String get taken => 'Taken';
 
@@ -1032,6 +1035,7 @@ extension on Translations {
       'allDone' => 'All done!',
       'noIntakesDue' => 'No intakes due today',
       'upcoming' => 'Upcoming',
+      'asNeeded' => 'As needed',
       'taken' => 'Taken',
       'yesterday' => 'yesterday',
       'tomorrow' => 'tomorrow',
