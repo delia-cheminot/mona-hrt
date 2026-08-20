@@ -52,8 +52,8 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    // woo back baby
     return LiquidGlassBottomClamp(
+      // woo back baby
       child: PopScope(
         canPop: _selectedIndex == 0,
         onPopInvokedWithResult: (didPop, _) {
