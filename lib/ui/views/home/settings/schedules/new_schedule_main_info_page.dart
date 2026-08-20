@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -12,6 +13,7 @@ import 'package:mona/ui/views/home/settings/schedules/new_schedule_scheduling_pa
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/molecule_dropdown.dart';
+import 'package:mona/ui/widgets/forms/form_date_field.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
@@ -34,6 +36,7 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
   Molecule? _molecule;
   AdministrationRoute? _administrationRoute;
   Ester? _ester;
+  late Date _startDate;
   late PreferencesService _preferencesService;
 
   String? get _nameError =>
@@ -49,12 +52,16 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
     return validator(_ester);
   }
 
+  String? get _startDateError =>
+      MedicationSchedule.validateStartDate(_startDate);
+
   bool get _isFormValid =>
       _nameError == null &&
       _doseError == null &&
       _moleculeError == null &&
       _administrationRouteError == null &&
-      _esterError == null;
+      _esterError == null &&
+      _startDateError == null;
 
   bool get _useEsterField =>
       _molecule == KnownMolecules.estradiol &&
@@ -106,6 +113,7 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
           molecule: _molecule!,
           administrationRoute: _administrationRoute!,
           ester: _ester,
+          startDate: _startDate,
         ),
       ),
     );
@@ -118,6 +126,7 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
         Provider.of<PreferencesService>(context, listen: false);
     _nameController = TextEditingController();
     _doseController = TextEditingController();
+    _startDate = Date.today();
   }
 
   @override
@@ -164,7 +173,6 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
             onChanged: _onEsterChanged,
             label: t.ester,
           ),
-        FormSpacer(),
         FormTextField(
           controller: _doseController,
           label: t.amount,
@@ -173,6 +181,13 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
           onChanged: _refresh,
           inputType: TextInputType.numberWithOptions(decimal: true),
           regexFormatter: RegexPatterns.floatNumber,
+        ),
+        FormSpacer(),
+        FormDateField(
+          date: _startDate,
+          label: t.startDate,
+          errorText: _startDateError,
+          onChanged: (date) => setState(() => _startDate = date),
         ),
       ],
     );
