@@ -20,11 +20,12 @@ const _addInjectionSiteTile = ValueKey('addInjectionSiteTile');
 const _customSiteField = ValueKey('customSiteField');
 const _confirmAddSite = ValueKey('confirmAddSite');
 const _intakesList = ValueKey('intakesList');
+const _schedulingTypePicker = ValueKey('schedulingTypePicker');
+const _scheduleTypeInterval = ValueKey('scheduleTypeInterval');
 
 const _emptyIntakes = 'Taken intakes will appear here';
 const _addSchedulesFirst = 'Add schedules first.';
 const _editIntake = 'Edit intake';
-
 const _schedulesTile = 'Schedules';
 const _nameLabel = 'Name';
 const _amountLabel = 'Amount';
@@ -34,8 +35,6 @@ const _routeInjection = 'Injection';
 const _esterEnanthate = 'Enanthate';
 const _next = 'Next';
 const _save = 'Save';
-const _schedulingTypePicker = ValueKey('schedulingTypePicker');
-const _scheduleTypeInterval = ValueKey('scheduleTypeInterval');
 const _everyLabel = 'Every';
 
 void main() {
