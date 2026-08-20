@@ -15,7 +15,7 @@ import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
 
-enum _ScheduleType { daily, intervalDays, weekly, monthly }
+enum _ScheduleType { daily, intervalDays, weekly, monthly, asNeeded }
 
 class EditScheduleSchedulingPage extends StatefulWidget {
   final MedicationSchedule schedule;
@@ -63,6 +63,7 @@ class _EditScheduleSchedulingPageState
       _ScheduleType.weekly => _weeklyDaysError == null,
       _ScheduleType.monthly =>
         _monthlyDayError == null && _monthlyIntervalError == null,
+      _ScheduleType.asNeeded => true,
     };
   }
 
@@ -138,6 +139,7 @@ class _EditScheduleSchedulingPageState
           intervalMonths: _monthlyIntervalController.text.toInt,
           notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
         ),
+      _ScheduleType.asNeeded => AsNeededSchedule(),
     };
 
     final updatedSchedule = widget.schedule.copyWith(
@@ -189,6 +191,8 @@ class _EditScheduleSchedulingPageState
         _monthlyDayController.text = dayOfMonth.toString();
         _monthlyIntervalController.text = intervalMonths.toString();
         _intakeOrNotificationTimes.addAll(notificationTimes);
+      case AsNeededSchedule():
+        _type = _ScheduleType.asNeeded;
     }
     _sortTimes();
   }
@@ -216,6 +220,7 @@ class _EditScheduleSchedulingPageState
           _ScheduleType.daily => _dailySpecifics(),
           _ScheduleType.weekly => _weeklySpecifics(),
           _ScheduleType.monthly => _monthlySpecifics(),
+          _ScheduleType.asNeeded => [],
         },
         FormSpacer(),
         FormDateField(

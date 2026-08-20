@@ -94,6 +94,8 @@ class TranslationsEnGb extends Translations
   @override
   String get scheduleFrequencyMonthly => 'Monthly';
   @override
+  String get scheduleFrequencyAsNeeded => 'As needed';
+  @override
   String get newUpdateAvailable => 'A new update is available!';
   @override
   String get goToSettings => 'Go to Settings';
@@ -759,6 +761,7 @@ extension on TranslationsEnGb {
       'scheduleFrequencyInterval' => 'Interval',
       'scheduleFrequencyWeekly' => 'Weekly',
       'scheduleFrequencyMonthly' => 'Monthly',
+      'scheduleFrequencyAsNeeded' => 'As needed',
       'newUpdateAvailable' => 'A new update is available!',
       'goToSettings' => 'Go to Settings',
       'settingsTitle' => 'Settings',

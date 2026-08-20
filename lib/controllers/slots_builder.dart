@@ -28,6 +28,8 @@ class SlotsBuilder {
           slots.add(_weekly(schedule, scheduling));
         case MonthlySchedule scheduling:
           slots.add(_monthly(schedule, scheduling));
+        case AsNeededSchedule scheduling:
+          slots.add(_asNeeded(schedule, scheduling));
       }
     }
 
@@ -149,6 +151,17 @@ class SlotsBuilder {
           ? scheduling.previousDate(schedule.startDate)!
           : scheduling.nextDate(schedule.startDate),
       intake: status == ScheduleStatus.taken ? lastIntake : null,
+    );
+  }
+
+  IntakeSlot _asNeeded(
+    MedicationSchedule schedule,
+    AsNeededSchedule scheduling,
+  ) {
+    return IntakeSlot(
+      schedule: schedule,
+      status: scheduling.statusFor(startDate: schedule.startDate),
+      date: scheduling.nextDate(schedule.startDate),
     );
   }
 }

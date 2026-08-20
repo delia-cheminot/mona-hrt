@@ -174,6 +174,7 @@ class IntakeTileViewModel {
       case ScheduleStatus.upcoming:
       case ScheduleStatus.taken:
       case ScheduleStatus.overdue:
+      case ScheduleStatus.asNeeded:
         return null;
 
       case ScheduleStatus.todayEarly:

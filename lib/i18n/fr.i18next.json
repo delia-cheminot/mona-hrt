@@ -31,6 +31,7 @@
   "scheduleFrequencyOnDayEveryNMonths_one": "Le {{day}} de chaque mois",
   "scheduleFrequencyOnDayEveryNMonths_many": "Le {{day}}, tous les {{count}} de mois",
   "scheduleFrequencyOnDayEveryNMonths_other": "Le {{day}}, tous les {{count}} mois",
+  "scheduleFrequencyAsNeeded": "Au besoin",
   "newUpdateAvailable": "Une nouvelle mise à jour est disponible !",
   "goToSettings": "Aller aux paramètres",
   "settingsTitle": "Paramètres",

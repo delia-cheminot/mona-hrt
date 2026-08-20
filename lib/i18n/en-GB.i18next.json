@@ -27,6 +27,7 @@
   "scheduleFrequencyMonthly": "Monthly",
   "scheduleFrequencyOnDayEveryNMonths_one": "Day {{day}}, every month",
   "scheduleFrequencyOnDayEveryNMonths_other": "Day {{day}}, every {{count}} months",
+  "scheduleFrequencyAsNeeded": "As needed",
   "newUpdateAvailable": "A new update is available!",
   "goToSettings": "Go to Settings",
   "settingsTitle": "Settings",

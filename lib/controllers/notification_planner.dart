@@ -25,6 +25,7 @@ class NotificationPlanner {
               WeeklySchedule scheduling => _weeklyPlans(schedule, scheduling),
               MonthlySchedule scheduling =>
                 _monthlyPlans(schedule, scheduling, daysAhead),
+              AsNeededSchedule _ => [],
             },
       ];
 
@@ -45,6 +46,8 @@ class NotificationPlanner {
               scheduling.notificationTimes.length;
         case MonthlySchedule scheduling:
           perOccurrence += scheduling.notificationTimes.length;
+        case AsNeededSchedule _:
+          continue;
       }
     }
 

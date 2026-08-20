@@ -34,6 +34,7 @@ extension MedicationScheduleL10n on MedicationSchedule {
       MonthlySchedule(:final dayOfMonth, :final intervalMonths) =>
         t.scheduleFrequencyOnDayEveryNMonths(
             count: intervalMonths, day: dayOfMonth),
+      AsNeededSchedule _ => t.scheduleFrequencyAsNeeded,
     };
   }
 

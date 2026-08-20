@@ -111,6 +111,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Monthly'
   String get scheduleFrequencyMonthly => 'Monthly';
 
+  /// en: 'As needed'
+  String get scheduleFrequencyAsNeeded => 'As needed';
+
   /// en: 'A new update is available!'
   String get newUpdateAvailable => 'A new update is available!';
 
@@ -1022,6 +1025,7 @@ extension on Translations {
       'scheduleFrequencyInterval' => 'Interval',
       'scheduleFrequencyWeekly' => 'Weekly',
       'scheduleFrequencyMonthly' => 'Monthly',
+      'scheduleFrequencyAsNeeded' => 'As needed',
       'newUpdateAvailable' => 'A new update is available!',
       'goToSettings' => 'Go to Settings',
       'settingsTitle' => 'Settings',

@@ -15,7 +15,8 @@ enum ScheduleStatus {
   todayEarly,
   today,
   upcoming,
-  taken
+  taken,
+  asNeeded,
 }
 
 @MappableClass(discriminatorKey: 'type')
@@ -438,4 +439,28 @@ class MonthlySchedule extends SchedulingStrategy with MonthlyScheduleMappable {
 
   static String? validateIntervalMonths(String? value) =>
       requiredPositiveInt(value);
+}
+
+@MappableClass(
+  discriminatorValue: 'asNeeded',
+)
+class AsNeededSchedule extends SchedulingStrategy
+    with AsNeededScheduleMappable {
+  const AsNeededSchedule();
+
+  Date nextDate(Date startDate) {
+    return startDate.isAfterToday ? startDate : Date.today();
+  }
+
+  ScheduleStatus statusFor({
+    required Date startDate,
+    Date? lastTaken,
+  }) {
+    return nextDate(startDate).isToday
+        ? ScheduleStatus.asNeeded
+        : ScheduleStatus.upcoming;
+  }
+
+  @override
+  bool get isNotifiable => false;
 }

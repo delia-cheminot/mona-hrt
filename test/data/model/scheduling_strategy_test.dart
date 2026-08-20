@@ -1579,5 +1579,89 @@ void main() {
         expect(MonthlySchedule.validateIntervalMonths('0'), isNotNull);
       });
     });
+
+    group('AsNeededSchedule.nextDate', () {
+      test('startDate > today -> returns startDate', () {
+        // Arrange
+        final start = Date.today().add(const Duration(days: 5));
+        const s = AsNeededSchedule();
+
+        // Act
+        final next = s.nextDate(start);
+
+        // Assert
+        expect(next, start);
+      });
+
+      test('startDate == today -> returns today', () {
+        // Arrange
+        const s = AsNeededSchedule();
+
+        // Act
+        final next = s.nextDate(Date.today());
+
+        // Assert
+        expect(next, Date.today());
+      });
+
+      test('startDate < today -> returns today', () {
+        // Arrange
+        final start = Date.today().subtract(const Duration(days: 4));
+        const s = AsNeededSchedule();
+
+        // Act
+        final next = s.nextDate(start);
+
+        // Assert
+        expect(next, Date.today());
+      });
+    });
+
+    group('AsNeededSchedule.statusFor', () {
+      test('startDate in the past -> asNeeded', () {
+        // Arrange
+        final start = Date.today().subtract(const Duration(days: 10));
+        const s = AsNeededSchedule();
+
+        // Act
+        final status = s.statusFor(startDate: start);
+
+        // Assert
+        expect(status, ScheduleStatus.asNeeded);
+      });
+
+      test('startDate == today -> asNeeded', () {
+        // Arrange
+        const s = AsNeededSchedule();
+
+        // Act
+        final status = s.statusFor(startDate: Date.today());
+
+        // Assert
+        expect(status, ScheduleStatus.asNeeded);
+      });
+
+      test('startDate in the future -> upcoming', () {
+        // Arrange
+        final start = Date.today().add(const Duration(days: 5));
+        const s = AsNeededSchedule();
+
+        // Act
+        final status = s.statusFor(startDate: start);
+
+        // Assert
+        expect(status, ScheduleStatus.upcoming);
+      });
+    });
+
+    group('AsNeededSchedule.isNotifiable', () {
+      test('is never notifiable', () {
+        // Arrange
+        const s = AsNeededSchedule();
+
+        // Act & Assert
+        expect(s.isNotifiable, isFalse);
+      });
+    });
   });
 }

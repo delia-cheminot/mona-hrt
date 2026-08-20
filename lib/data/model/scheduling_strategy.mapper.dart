@@ -20,6 +20,7 @@ class SchedulingStrategyMapper extends ClassMapperBase<SchedulingStrategy> {
       DailyScheduleMapper.ensureInitialized();
       WeeklyScheduleMapper.ensureInitialized();
       MonthlyScheduleMapper.ensureInitialized();
+      AsNeededScheduleMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -886,4 +887,123 @@ class _MonthlyScheduleCopyWithImpl<$R, $Out>
     Then<$Out2, $R2> t,
   ) =>
       _MonthlyScheduleCopyWithImpl<$R2, $Out2>($value, $cast, t);
+}
+
+class AsNeededScheduleMapper extends SubClassMapperBase<AsNeededSchedule> {
+  AsNeededScheduleMapper._();
+
+  static AsNeededScheduleMapper? _instance;
+  static AsNeededScheduleMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = AsNeededScheduleMapper._());
+      SchedulingStrategyMapper.ensureInitialized().addSubMapper(_instance!);
+    }
+    return _instance!;
+  }
+
+  @override
+  final String id = 'AsNeededSchedule';
+
+  @override
+  final MappableFields<AsNeededSchedule> fields = const {};
+
+  @override
+  final String discriminatorKey = 'type';
+  @override
+  final dynamic discriminatorValue = 'asNeeded';
+  @override
+  late final ClassMapperBase superMapper =
+      SchedulingStrategyMapper.ensureInitialized();
+
+  static AsNeededSchedule _instantiate(DecodingData data) {
+    return AsNeededSchedule();
+  }
+
+  @override
+  final Function instantiate = _instantiate;
+
+  static AsNeededSchedule fromMap(Map<String, dynamic> map) {
+    return ensureInitialized().decodeMap<AsNeededSchedule>(map);
+  }
+
+  static AsNeededSchedule fromJson(String json) {
+    return ensureInitialized().decodeJson<AsNeededSchedule>(json);
+  }
+}
+
+mixin AsNeededScheduleMappable {
+  String toJson() {
+    return AsNeededScheduleMapper.ensureInitialized()
+        .encodeJson<AsNeededSchedule>(this as AsNeededSchedule);
+  }
+
+  Map<String, dynamic> toMap() {
+    return AsNeededScheduleMapper.ensureInitialized()
+        .encodeMap<AsNeededSchedule>(this as AsNeededSchedule);
+  }
+
+  AsNeededScheduleCopyWith<AsNeededSchedule, AsNeededSchedule, AsNeededSchedule>
+      get copyWith =>
+          _AsNeededScheduleCopyWithImpl<AsNeededSchedule, AsNeededSchedule>(
+            this as AsNeededSchedule,
+            $identity,
+            $identity,
+          );
+  @override
+  String toString() {
+    return AsNeededScheduleMapper.ensureInitialized().stringifyValue(
+      this as AsNeededSchedule,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return AsNeededScheduleMapper.ensureInitialized().equalsValue(
+      this as AsNeededSchedule,
+      other,
+    );
+  }
+
+  @override
+  int get hashCode {
+    return AsNeededScheduleMapper.ensureInitialized().hashValue(
+      this as AsNeededSchedule,
+    );
+  }
+}
+
+extension AsNeededScheduleValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, AsNeededSchedule, $Out> {
+  AsNeededScheduleCopyWith<$R, AsNeededSchedule, $Out>
+      get $asAsNeededSchedule => $base
+          .as((v, t, t2) => _AsNeededScheduleCopyWithImpl<$R, $Out>(v, t, t2));
+}
+
+abstract class AsNeededScheduleCopyWith<$R, $In extends AsNeededSchedule, $Out>
+    implements SchedulingStrategyCopyWith<$R, $In, $Out> {
+  @override
+  $R call();
+  AsNeededScheduleCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
+    Then<$Out2, $R2> t,
+  );
+}
+
+class _AsNeededScheduleCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, AsNeededSchedule, $Out>
+    implements AsNeededScheduleCopyWith<$R, AsNeededSchedule, $Out> {
+  _AsNeededScheduleCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<AsNeededSchedule> $mapper =
+      AsNeededScheduleMapper.ensureInitialized();
+  @override
+  $R call() => $apply(FieldCopyWithData({}));
+  @override
+  AsNeededSchedule $make(CopyWithData data) => AsNeededSchedule();
+
+  @override
+  AsNeededScheduleCopyWith<$R2, AsNeededSchedule, $Out2> $chain<$R2, $Out2>(
+    Then<$Out2, $R2> t,
+  ) =>
+      _AsNeededScheduleCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

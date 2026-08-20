@@ -95,6 +95,8 @@ class TranslationsFr extends Translations
   @override
   String get scheduleFrequencyMonthly => 'Mensuel';
   @override
+  String get scheduleFrequencyAsNeeded => 'Au besoin';
+  @override
   String get newUpdateAvailable => 'Une nouvelle mise à jour est disponible !';
   @override
   String get goToSettings => 'Aller aux paramètres';
@@ -795,6 +797,7 @@ extension on TranslationsFr {
       'scheduleFrequencyInterval' => 'Intervalle',
       'scheduleFrequencyWeekly' => 'Hebdomadaire',
       'scheduleFrequencyMonthly' => 'Mensuel',
+      'scheduleFrequencyAsNeeded' => 'Au besoin',
       'newUpdateAvailable' => 'Une nouvelle mise à jour est disponible !',
       'goToSettings' => 'Aller aux paramètres',
       'settingsTitle' => 'Paramètres',
