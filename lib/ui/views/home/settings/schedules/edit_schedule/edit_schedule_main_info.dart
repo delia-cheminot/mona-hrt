@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
 import 'package:mona/data/model/administration_route.dart';
@@ -104,10 +103,10 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
     if (!_isFormValid) return;
     if (!mounted) return;
 
-    final base = _medicationScheduleProvider.schedules
-            .firstWhereOrNull((s) => s.id == widget.schedule.id) ??
-        widget.schedule;
-    final updatedSchedule = base.copyWith(
+    final originalSchedule =
+        _medicationScheduleProvider.getScheduleById(widget.schedule.id) ??
+            widget.schedule;
+    final updatedSchedule = originalSchedule.copyWith(
       name: _nameController.text,
       dose: _doseController.text.toDecimal,
       molecule: _molecule,
@@ -157,8 +156,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
   Widget build(BuildContext context) {
     final currentSchedule = context
             .watch<MedicationScheduleProvider>()
-            .schedules
-            .firstWhereOrNull((s) => s.id == widget.schedule.id) ??
+            .getScheduleById(widget.schedule.id) ??
         widget.schedule;
 
     return ModelForm(
