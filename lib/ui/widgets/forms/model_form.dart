@@ -63,7 +63,11 @@ class ModelForm extends StatelessWidget {
                   Center(
                     child: CircleAvatar(
                       radius: 64,
-                      child: Icon(avatar, size: 64),
+                      child: Icon(
+                        avatar,
+                        size: 64,
+                        weight: 300,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 32),
