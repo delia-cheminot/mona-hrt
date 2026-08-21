@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
-import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/i18n/translations.g.dart';
-import 'package:mona/ui/widgets/forms/form_date_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
@@ -37,14 +35,11 @@ class _EditScheduleSchedulingPageState
   bool _dailyNotify = true;
   bool _anchorToLastIntake = false;
   final List<int> _weeklyDays = [];
-  late Date _startDate;
 
   late MedicationScheduleProvider _medicationScheduleProvider;
 
   String? get _intervalDaysError =>
       IntervalDaysSchedule.validateIntervalDays(_intervalDaysController.text);
-  String? get _startDateError =>
-      MedicationSchedule.validateStartDate(_startDate);
   String? get _dailyIntakeTimesError =>
       DailySchedule.validateIntakeTimes(_intakeOrNotificationTimes);
   String? get _weeklyDaysError =>
@@ -55,7 +50,6 @@ class _EditScheduleSchedulingPageState
       MonthlySchedule.validateIntervalMonths(_monthlyIntervalController.text);
 
   bool get _isFormValid {
-    if (_startDateError != null) return false;
     return switch (_type) {
       SchedulingType.intervalDays => _intervalDaysError == null,
       SchedulingType.daily => _dailyIntakeTimesError == null,
@@ -143,7 +137,6 @@ class _EditScheduleSchedulingPageState
 
     final updatedSchedule = widget.schedule.copyWith(
       scheduling: scheduling,
-      startDate: _startDate,
     );
 
     _medicationScheduleProvider.updateSchedule(updatedSchedule);
@@ -155,7 +148,6 @@ class _EditScheduleSchedulingPageState
     super.initState();
     _medicationScheduleProvider =
         Provider.of<MedicationScheduleProvider>(context, listen: false);
-    _startDate = widget.schedule.startDate;
 
     _intervalDaysController = TextEditingController();
     _monthlyDayController = TextEditingController();
@@ -221,14 +213,6 @@ class _EditScheduleSchedulingPageState
           SchedulingType.monthly => _monthlySpecifics(),
           SchedulingType.asNeeded => [],
         },
-        FormDateField(
-          date: _startDate,
-          label: t.startDate,
-          errorText: _startDateError,
-          onChanged: (date) => setState(() {
-            _startDate = date;
-          }),
-        ),
       ],
     );
   }

@@ -76,10 +76,10 @@ class ModelForm extends StatelessWidget {
         bottomNavigationBar: SafeArea(
           child: Padding(
             padding: EdgeInsets.only(
-              top: borderPadding,
-              left: borderPadding,
-              right: borderPadding,
-              bottom: borderPadding + MediaQuery.of(context).viewInsets.bottom,
+              top: 24,
+              left: 23,
+              right: 24,
+              bottom: 24 + MediaQuery.of(context).viewInsets.bottom,
             ),
             child: Row(
               children: [

@@ -9,7 +9,6 @@ import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/i18n/translations.g.dart';
-import 'package:mona/ui/widgets/forms/form_date_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
@@ -26,6 +25,7 @@ class NewScheduleSchedulingPage extends StatefulWidget {
   final Molecule molecule;
   final AdministrationRoute administrationRoute;
   final Ester? ester;
+  final Date startDate;
 
   const NewScheduleSchedulingPage({
     super.key,
@@ -33,6 +33,7 @@ class NewScheduleSchedulingPage extends StatefulWidget {
     required this.dose,
     required this.molecule,
     required this.administrationRoute,
+    required this.startDate,
     this.ester,
   });
 
@@ -49,14 +50,11 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   bool _dailyNotify = true;
   bool _anchorToLastIntake = false;
   final List<int> _weeklyDays = [];
-  late Date _startDate;
   late TextEditingController _monthlyDayController;
   late TextEditingController _monthlyIntervalController;
 
   String? get _intervalDaysError =>
       IntervalDaysSchedule.validateIntervalDays(_intervalDaysController.text);
-  String? get _startDateError =>
-      MedicationSchedule.validateStartDate(_startDate);
   String? get _dailyIntakeTimesError =>
       DailySchedule.validateIntakeTimes(_intakeOrNotificationTimes);
   String? get _weeklyDaysError =>
@@ -67,7 +65,6 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       MonthlySchedule.validateIntervalMonths(_monthlyIntervalController.text);
 
   bool get _isFormValid {
-    if (_startDateError != null) return false;
     return switch (_type) {
       SchedulingType.intervalDays => _intervalDaysError == null,
       SchedulingType.daily => _dailyIntakeTimesError == null,
@@ -162,7 +159,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       name: widget.name,
       dose: widget.dose,
       scheduling: scheduling,
-      startDate: _startDate,
+      startDate: widget.startDate,
       molecule: widget.molecule,
       administrationRoute: widget.administrationRoute,
       ester: widget.ester,
@@ -180,7 +177,6 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   void initState() {
     super.initState();
     _intervalDaysController = TextEditingController();
-    _startDate = Date.today();
     _monthlyDayController = TextEditingController();
     _monthlyIntervalController = TextEditingController(text: '1');
   }
@@ -215,15 +211,6 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
           SchedulingType.monthly => _monthlySpecifics(),
           SchedulingType.asNeeded => [],
         },
-        FormSpacer(),
-        FormDateField(
-          date: _startDate,
-          label: t.startDate,
-          errorText: _startDateError,
-          onChanged: (date) => setState(() {
-            _startDate = date;
-          }),
-        ),
       ],
     );
   }

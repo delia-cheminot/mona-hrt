@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/i18n/helpers/medication_schedule_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
-import 'package:mona/ui/views/home/settings/schedules/edit_schedule/edit_schedule_page.dart';
+import 'package:mona/ui/views/home/settings/schedules/edit_schedule/edit_schedule_main_info.dart';
 import 'package:provider/provider.dart';
 
 import 'new_schedule_main_info_page.dart';
@@ -50,7 +50,7 @@ class SchedulesPage extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute<void>(
                           builder: (context) =>
-                              EditSchedulePage(schedule: schedule),
+                              EditScheduleMainInfoPage(schedule: schedule),
                         ),
                       );
                     },

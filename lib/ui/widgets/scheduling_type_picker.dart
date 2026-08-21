@@ -53,10 +53,9 @@ class SchedulingTypePicker extends StatelessWidget {
       children: [
         ListTile(
           key: const ValueKey('schedulingTypePicker'),
-          leading: const Icon(Icons.event_repeat),
           title: Text(value.localizedName),
           subtitle: Text(value.localizedDescription),
-          trailing: const Icon(Icons.chevron_right),
+          trailing: const Icon(Icons.edit),
           onTap: () => _openTypeSheet(context),
         ),
       ],

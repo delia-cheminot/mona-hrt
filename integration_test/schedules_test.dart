@@ -21,7 +21,6 @@ const _scheduleTypeMonthly = ValueKey('scheduleTypeMonthly');
 const _newScheduleDayOfMonth = ValueKey('newScheduleDayOfMonth');
 const _newScheduleEveryMonths = ValueKey('newScheduleEveryMonths');
 const _addNotificationTile = ValueKey('addNotificationTile');
-const _editScheduleInfoTile = ValueKey('editScheduleInfoTile');
 const _editScheduleName = ValueKey('editScheduleName');
 const _editScheduleSave = ValueKey('editScheduleSave');
 const _editScheduleDelete = ValueKey('editScheduleDelete');
@@ -42,8 +41,9 @@ void main() {
     await $.openSchedules();
     await _createIntervalSchedule($, name: 'To Delete');
 
-    await $(ListTile).containing('To Delete').tap(); // data, not localized
-    await $(_editScheduleInfoTile).tap();
+    await $(ListTile)
+        .containing('To Delete')
+        .tap(); // -> EditScheduleMainInfoPage
 
     await $(_editScheduleDelete)
         .tap(); // form's Delete button -> confirm dialog
@@ -119,15 +119,11 @@ void main() {
     await $.openSchedules();
     await _createIntervalSchedule($, name: 'Old Name');
 
-    await $(ListTile).containing('Old Name').tap(); // -> EditSchedulePage
-    await $(_editScheduleInfoTile).tap(); // -> EditScheduleMainInfoPage
+    await $(ListTile)
+        .containing('Old Name')
+        .tap(); // -> EditScheduleMainInfoPage
     await $(_editScheduleName).enterText('New Name');
-    await $(_editScheduleSave).tap(); // pops back to EditSchedulePage
-
-    // Wait for the change to be reflected in the EditSchedulePage title before
-    // navigating back, ensuring the provider update has finished.
-    await $('New Name').waitUntilVisible();
-    await $(Icons.arrow_back).tap(); // back to the schedules list
+    await $(_editScheduleSave).tap(); // saves and pops back to the list
 
     await $('New Name').waitUntilVisible();
     expect($('New Name'), findsOneWidget);
