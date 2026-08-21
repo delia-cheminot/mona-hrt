@@ -25,6 +25,18 @@ class BloodTestProvider extends ChangeNotifier {
   List<BloodTest> get testosteroneLevelsSortedDesc =>
       _bloodtestsSortedDesc.where((t) => t.testosteroneLevels != null).toList();
 
+  UnitValue<EstradiolUnit>? latestEstradiolLevel(EstradiolUnit unit) {
+    final stored = estradiolLevelsSortedDesc.firstOrNull?.estradiolLevels;
+    if (stored == null) return null;
+    return UnitValue(stored.inUnit(unit), unit);
+  }
+
+  UnitValue<TestosteroneUnit>? latestTestosteroneLevel(TestosteroneUnit unit) {
+    final stored = testosteroneLevelsSortedDesc.firstOrNull?.testosteroneLevels;
+    if (stored == null) return null;
+    return UnitValue(stored.inUnit(unit), unit);
+  }
+
   Future<void> deleteBloodTestFromId(int id) async {
     await repository.delete(id);
     await _fetchBloodTests();
