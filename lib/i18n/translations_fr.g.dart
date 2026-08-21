@@ -60,7 +60,7 @@ class TranslationsFr extends Translations
   @override
   String get nav_intakes => 'Prises';
   @override
-  String get nav_levels => 'Niveaux';
+  String get nav_levels => 'Taux';
   @override
   String get nav_supplies => 'Pharmacie';
   @override
@@ -351,9 +351,11 @@ class TranslationsFr extends Translations
   String get milliliters => 'mL';
   @override
   String get empty_levels =>
-      'Les injections d’estradiol s’afficheront dans cet onglet';
+      'Ajoutez une prise de sang ou enregistrez une injection d’estradiol pour commencer';
   @override
   String get bloodTestsTitle => 'Prises de sang';
+  @override
+  String get estradiolLevelsTitle => 'Taux d\'estradiol';
   @override
   String get empty_blood_tests =>
       'Les prises de sang enregistrées s’afficheront ici. Commencez avec le bouton Ajouter !';
@@ -794,7 +796,7 @@ extension on TranslationsFr {
       'appTitle' => 'Mona',
       'nav_home' => 'Mona',
       'nav_intakes' => 'Prises',
-      'nav_levels' => 'Niveaux',
+      'nav_levels' => 'Taux',
       'nav_supplies' => 'Pharmacie',
       'takeAnIntake' => 'Prendre une prise',
       'addAnItem' => 'Ajouter un élément',
@@ -953,8 +955,9 @@ extension on TranslationsFr {
       'microliters' => 'μL',
       'milliliters' => 'mL',
       'empty_levels' =>
-        'Les injections d’estradiol s’afficheront dans cet onglet',
+        'Ajoutez une prise de sang ou enregistrez une injection d’estradiol pour commencer',
       'bloodTestsTitle' => 'Prises de sang',
+      'estradiolLevelsTitle' => 'Taux d\'estradiol',
       'empty_blood_tests' =>
         'Les prises de sang enregistrées s’afficheront ici. Commencez avec le bouton Ajouter !',
       'addBloodTest' => 'Ajouter une analyse de sang',

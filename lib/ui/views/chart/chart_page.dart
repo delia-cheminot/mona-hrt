@@ -16,22 +16,27 @@ class _ChartPageState extends State<ChartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MedicationIntakeProvider>(
-        builder: (context, medicationIntakeProvider, child) {
-      return MainPageWrapper(
-        isLoading: medicationIntakeProvider.isLoading,
-        isEmpty: medicationIntakeProvider.plottableIntakes.isEmpty,
-        emptyMessage: t.empty_levels,
-        child: Column(
-          children: [
-            ChartSlider(
-              value: sliderValue,
-              onChanged: (v) => setState(() => sliderValue = v),
+    return Scaffold(
+      appBar: AppBar(title: Text(t.estradiolLevelsTitle)),
+      body: Consumer<MedicationIntakeProvider>(
+          builder: (context, medicationIntakeProvider, child) {
+        return SafeArea(
+          child: MainPageWrapper(
+            isLoading: medicationIntakeProvider.isLoading,
+            isEmpty: medicationIntakeProvider.plottableIntakes.isEmpty,
+            emptyMessage: "",
+            child: Column(
+              children: [
+                ChartSlider(
+                  value: sliderValue,
+                  onChanged: (v) => setState(() => sliderValue = v),
+                ),
+                Expanded(child: MainGraph(window: sliderValue)),
+              ],
             ),
-            Expanded(child: MainGraph(window: sliderValue)),
-          ],
-        ),
-      );
-    });
+          ),
+        );
+      }),
+    );
   }
 }

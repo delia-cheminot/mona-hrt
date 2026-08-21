@@ -55,7 +55,7 @@ List<MainTabConfig> getMainTabs(BuildContext context) {
       backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       buildActions: (context) => [
         IconButton(
-          icon: const Icon(Symbols.bloodtype_rounded),
+          icon: const Icon(Symbols.lab_profile_rounded),
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => BloodTestPage()),

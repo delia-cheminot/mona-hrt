@@ -330,9 +330,6 @@ class TranslationsPl extends Translations
   @override
   String get milliliters => 'mL';
   @override
-  String get empty_levels =>
-      'Iniekcje estradiolu będą wyświetlane w tej zakładce';
-  @override
   String get bloodTestsTitle => 'Badania krwi';
   @override
   String get empty_blood_tests =>
@@ -941,7 +938,6 @@ extension on TranslationsPl {
       'notes' => 'Notatki',
       'microliters' => 'μL',
       'milliliters' => 'mL',
-      'empty_levels' => 'Iniekcje estradiolu będą wyświetlane w tej zakładce',
       'bloodTestsTitle' => 'Badania krwi',
       'empty_blood_tests' =>
         'Wykonane badania krwi pojawią się tutaj. Zacznij od przycisku Dodaj!',

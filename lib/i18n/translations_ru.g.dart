@@ -275,9 +275,6 @@ class TranslationsRu extends Translations
   @override
   String get milliliters => 'мл';
   @override
-  String get empty_levels =>
-      'Приёмы эстрадиола будут отображаться в данной вкладке';
-  @override
   String get bloodTestsTitle => 'Анализы крови';
   @override
   String get empty_blood_tests =>
@@ -907,7 +904,6 @@ extension on TranslationsRu {
       'notes' => 'Заметки',
       'microliters' => 'мкл',
       'milliliters' => 'мл',
-      'empty_levels' => 'Приёмы эстрадиола будут отображаться в данной вкладке',
       'bloodTestsTitle' => 'Анализы крови',
       'empty_blood_tests' =>
         'Записанные результаты анализов будут отображаться тут. Вы можете создать их с помощью кнопки внизу!',

@@ -271,8 +271,6 @@ class TranslationsTh extends Translations
   @override
   String get milliliters => 'มิลลิลิตร';
   @override
-  String get empty_levels => 'การฉีดเอสตราไดออลจะขึ้นในแท็บนี้';
-  @override
   String get bloodTestsTitle => 'การตรวจเลือด';
   @override
   String get empty_blood_tests =>
@@ -801,7 +799,6 @@ extension on TranslationsTh {
       'notes' => 'บันทึก',
       'microliters' => 'ไมโครลิตร',
       'milliliters' => 'มิลลิลิตร',
-      'empty_levels' => 'การฉีดเอสตราไดออลจะขึ้นในแท็บนี้',
       'bloodTestsTitle' => 'การตรวจเลือด',
       'empty_blood_tests' =>
         'ผลตรวจเลือดจะมาขึ้นที่นี่ เรื่มด้วยการกดปุ่ม “เพื่ม”',

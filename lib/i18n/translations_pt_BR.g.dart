@@ -276,8 +276,6 @@ class TranslationsPtBr extends TranslationsPt
   @override
   String get milliliters => 'mL';
   @override
-  String get empty_levels => 'As injeções de estradiol aparecerão nesta aba';
-  @override
   String get bloodTestsTitle => 'Exames de sangue';
   @override
   String get empty_blood_tests =>
@@ -887,7 +885,6 @@ extension on TranslationsPtBr {
       'notes' => 'Notas',
       'microliters' => 'μL',
       'milliliters' => 'mL',
-      'empty_levels' => 'As injeções de estradiol aparecerão nesta aba',
       'bloodTestsTitle' => 'Exames de sangue',
       'empty_blood_tests' =>
         'Os exames de sangue registrados aparecem aqui. Comece pelo botão Adicionar!',

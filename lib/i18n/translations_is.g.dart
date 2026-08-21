@@ -296,8 +296,6 @@ class TranslationsIs extends Translations
   @override
   String get milliliters => 'mL';
   @override
-  String get empty_levels => 'Estradíól sprautur birtast í þessum flipa';
-  @override
   String get bloodTestsTitle => 'Blóðprufur';
   @override
   String get empty_blood_tests =>
@@ -861,7 +859,6 @@ extension on TranslationsIs {
       'notes' => 'Glósur',
       'microliters' => 'μL',
       'milliliters' => 'mL',
-      'empty_levels' => 'Estradíól sprautur birtast í þessum flipa',
       'bloodTestsTitle' => 'Blóðprufur',
       'empty_blood_tests' =>
         'Blóðprufur sem teknar eru birtast hér. Byrjaðu með því að nota Bæta við hnappinn.!',
