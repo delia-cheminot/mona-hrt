@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/controllers/medication_intake_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
@@ -224,7 +225,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
           title: t.takeMedication(scheduleName: widget.schedule.name),
           avatar: widget.schedule.administrationRoute.icon,
           submitButtonLabel: _isTaken ? t.intakeRecorded : t.takeIntake,
-          submitButtonIcon: _isTaken ? Icons.check_circle : null,
+          submitButtonIcon: _isTaken ? Symbols.check_circle_rounded : null,
           submitButtonKey: const ValueKey('takeIntakeSubmit'),
           isFormValid: _isFormValid,
           saveChanges: (!isLoading && _isFormValid && !_isTaken)

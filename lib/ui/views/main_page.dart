@@ -105,7 +105,7 @@ class _MainPageState extends State<MainPage> {
                           key: tab.navKey,
                           label: tab.title,
                           icon: Icon(tab.icon),
-                          selectedIcon: Icon(tab.selectedIcon),
+                          selectedIcon: Icon(tab.icon, fill: 1),
                         ),
                     ],
                   ),

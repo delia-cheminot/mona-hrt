@@ -107,7 +107,7 @@ the production code, and keep **assertions** matching on user-visible text.
   under test (empty states, dialog titles, persisted values), assert on the
   text directly (`$('Taken intakes will appear here')`). A key there would
   weaken the assertion.
-- **Stable non-text finders are fine as-is** Icons (`$(Icons.add)`), widget
+- **Stable non-text finders are fine as-is** Icons (`$(Symbols.add_rounded)`), widget
   types (`$(ListTile)`), and user data that isn't localized (a schedule's name).
 
 When adding keys, prefer threading an optional key param through the shared

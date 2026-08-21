@@ -56,7 +56,7 @@ class _NewItemPageState extends State<NewItemPage> {
   Widget build(BuildContext context) {
     return ModelForm(
       title: t.newItem,
-      avatar: Symbols.medication,
+      avatar: Symbols.medication_rounded,
       submitButtonLabel: t.next,
       submitButtonKey: const ValueKey('newItemNext'),
       isFormValid: _isFormValid,

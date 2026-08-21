@@ -7,13 +7,13 @@ extension GenericSupplyTypeIcon on GenericSupplyType {
     switch (this) {
       case GenericSupplyType.syringe:
       case GenericSupplyType.needle:
-        return Symbols.syringe;
+        return Symbols.syringe_rounded;
       case GenericSupplyType.wipe:
-        return Symbols.note_stack;
+        return Symbols.note_stack_rounded;
       case GenericSupplyType.gloves:
-        return Symbols.handshake;
+        return Symbols.handshake_rounded;
       case GenericSupplyType.bandage:
-        return Symbols.healing;
+        return Symbols.healing_rounded;
     }
   }
 }

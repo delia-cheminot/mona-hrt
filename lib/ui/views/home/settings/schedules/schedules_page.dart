@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/i18n/helpers/medication_schedule_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
@@ -45,7 +46,7 @@ class SchedulesPage extends StatelessWidget {
                         schedule.administrationRoute.icon,
                       ),
                     ),
-                    trailing: Icon(Icons.chevron_right),
+                    trailing: Icon(Symbols.chevron_right_rounded),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute<void>(
@@ -66,7 +67,7 @@ class SchedulesPage extends StatelessWidget {
           ));
         },
         tooltip: t.addSchedule,
-        child: Icon(Icons.add),
+        child: Icon(Symbols.add_rounded),
       ),
     );
   }

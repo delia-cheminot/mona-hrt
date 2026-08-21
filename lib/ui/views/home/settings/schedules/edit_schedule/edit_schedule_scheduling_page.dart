@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
@@ -243,7 +244,7 @@ class _EditScheduleSchedulingPageState
       ),
       TimeListCard(
         times: _intakeOrNotificationTimes,
-        rowIcon: Icons.notifications,
+        rowIcon: Symbols.notifications_rounded,
         addLabel: t.addNotification,
         onAdd: _addTime,
         onEdit: _editTime,
@@ -285,7 +286,7 @@ class _EditScheduleSchedulingPageState
       FormSpacer(),
       TimeListCard(
         times: _intakeOrNotificationTimes,
-        rowIcon: Icons.notifications,
+        rowIcon: Symbols.notifications_rounded,
         addLabel: t.addNotification,
         onAdd: _addTime,
         onEdit: _editTime,
@@ -318,7 +319,7 @@ class _EditScheduleSchedulingPageState
       FormSpacer(),
       TimeListCard(
         times: _intakeOrNotificationTimes,
-        rowIcon: Icons.notifications,
+        rowIcon: Symbols.notifications_rounded,
         addLabel: t.addNotification,
         onAdd: _addTime,
         onEdit: _editTime,

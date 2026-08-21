@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/home/settings/settings_page.dart';
@@ -22,7 +23,7 @@ class UpdateBanner extends StatelessWidget {
         child: Row(
           children: [
             Icon(
-              Icons.system_update_rounded,
+              Symbols.system_update_rounded,
               color: Theme.of(context).colorScheme.onSecondaryContainer,
             ),
             const SizedBox(width: 12),
@@ -44,7 +45,7 @@ class UpdateBanner extends StatelessWidget {
               child: Text(t.goToSettings),
             ),
             IconButton(
-              icon: const Icon(Icons.close),
+              icon: const Icon(Symbols.close_rounded),
               onPressed: onClose,
             ),
           ],

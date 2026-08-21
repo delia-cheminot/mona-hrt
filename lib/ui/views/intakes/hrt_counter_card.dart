@@ -29,7 +29,7 @@ class HrtCounterCard extends StatelessWidget {
           leading: CircleAvatar(
             backgroundColor: theme.colorScheme.tertiaryContainer,
             child: Icon(
-              Symbols.calendar_month,
+              Symbols.calendar_month_rounded,
               color: theme.colorScheme.onTertiaryContainer,
             ),
           ),

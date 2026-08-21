@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
 
@@ -32,8 +33,8 @@ class FormDateField extends StatelessWidget {
           labelText: label,
           errorText: errorText,
           suffixIcon: errorText != null
-              ? Icon(Icons.error)
-              : Icon(Icons.calendar_today),
+              ? Icon(Symbols.error_rounded)
+              : Icon(Symbols.calendar_today_rounded),
         ),
         readOnly: true,
         onTap: () => _selectDate(context),
