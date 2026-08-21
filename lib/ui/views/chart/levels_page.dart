@@ -105,7 +105,8 @@ class LevelsPage extends StatelessWidget {
           isLoading:
               medicationIntakeProvider.isLoading || bloodTestProvider.isLoading,
           isEmpty: medicationIntakeProvider.plottableIntakes.isEmpty &&
-              bloodTestProvider.bloodtestsSortedDesc.isEmpty,
+              bloodTestProvider.estradiolLevelsSortedDesc.isEmpty &&
+              bloodTestProvider.testosteroneLevelsSortedDesc.isEmpty,
           emptyMessage: t.empty_levels,
           child: SingleChildScrollView(
             padding: pagePadding,
@@ -125,18 +126,22 @@ class LevelsPage extends StatelessWidget {
                       _graphTile(context),
                     ],
                   ),
-                if (bloodTestProvider.bloodtestsSortedDesc
-                    .isNotEmpty) // TODO separate t and e for empty states
+                if (bloodTestProvider.estradiolLevelsSortedDesc.isNotEmpty ||
+                    bloodTestProvider.testosteroneLevelsSortedDesc.isNotEmpty)
                   M3ECardColumn(
                     padding: const EdgeInsets.all(16),
                     margin: const EdgeInsets.symmetric(vertical: 8),
                     color: colorScheme.surface,
                     onTap: (_) {},
                     children: [
-                      _levelTile(context,
-                          label: 'Estradiol', value: '123', unit: 'pg/mL'),
-                      _levelTile(context,
-                          label: 'Testosterone', value: '18', unit: 'ng/dL'),
+                      if (bloodTestProvider
+                          .estradiolLevelsSortedDesc.isNotEmpty)
+                        _levelTile(context,
+                            label: 'Estradiol', value: '123', unit: 'pg/mL'),
+                      if (bloodTestProvider
+                          .testosteroneLevelsSortedDesc.isNotEmpty)
+                        _levelTile(context,
+                            label: 'Testosterone', value: '18', unit: 'ng/dL'),
                     ],
                   ),
               ],
