@@ -194,6 +194,94 @@ void main() {
       );
     });
 
+    group('estradiolLevelsSortedDesc', () {
+      test('excludes tests without estradiol levels', () async {
+        // Arrange
+        provider = BloodTestProvider(repository: repo);
+        await provider.add(aBloodTest(
+            id: 1,
+            dateTime: DateTime.utc(2025, 5, 4),
+            estradiolLevel: Decimal.parse('100.0')));
+        await provider.add(aBloodTest(
+            id: 2,
+            dateTime: DateTime.utc(2025, 5, 5),
+            testosteroneLevel: Decimal.parse('1.0')));
+
+        // Act
+        final result = provider.estradiolLevelsSortedDesc;
+
+        // Assert
+        expect(result.map((t) => t.id), [1]);
+      });
+
+      test('returns tests sorted descending by date', () async {
+        // Arrange
+        provider = BloodTestProvider(repository: repo);
+        await provider.add(aBloodTest(
+            id: 1,
+            dateTime: DateTime.utc(2025, 5, 4),
+            estradiolLevel: Decimal.parse('100.0')));
+        await provider.add(aBloodTest(
+            id: 2,
+            dateTime: DateTime.utc(2025, 6, 7),
+            estradiolLevel: Decimal.parse('200.0')));
+        await provider.add(aBloodTest(
+            id: 3,
+            dateTime: DateTime.utc(2025, 3, 2),
+            estradiolLevel: Decimal.parse('150.0')));
+
+        // Act
+        final result = provider.estradiolLevelsSortedDesc;
+
+        // Assert
+        expect(result.map((t) => t.id), [2, 1, 3]);
+      });
+    });
+
+    group('testosteroneLevelsSortedDesc', () {
+      test('excludes tests without testosterone levels', () async {
+        // Arrange
+        provider = BloodTestProvider(repository: repo);
+        await provider.add(aBloodTest(
+            id: 1,
+            dateTime: DateTime.utc(2025, 5, 4),
+            testosteroneLevel: Decimal.parse('1.0')));
+        await provider.add(aBloodTest(
+            id: 2,
+            dateTime: DateTime.utc(2025, 5, 5),
+            estradiolLevel: Decimal.parse('100.0')));
+
+        // Act
+        final result = provider.testosteroneLevelsSortedDesc;
+
+        // Assert
+        expect(result.map((t) => t.id), [1]);
+      });
+
+      test('returns tests sorted descending by date', () async {
+        // Arrange
+        provider = BloodTestProvider(repository: repo);
+        await provider.add(aBloodTest(
+            id: 1,
+            dateTime: DateTime.utc(2025, 5, 4),
+            testosteroneLevel: Decimal.parse('1.0')));
+        await provider.add(aBloodTest(
+            id: 2,
+            dateTime: DateTime.utc(2025, 6, 7),
+            testosteroneLevel: Decimal.parse('2.0')));
+        await provider.add(aBloodTest(
+            id: 3,
+            dateTime: DateTime.utc(2025, 3, 2),
+            testosteroneLevel: Decimal.parse('1.5')));
+
+        // Act
+        final result = provider.testosteroneLevelsSortedDesc;
+
+        // Assert
+        expect(result.map((t) => t.id), [2, 1, 3]);
+      });
+    });
+
     group('getBloodTestsForGraph', () {
       test('returns empty list when no bloodtests', () {
         // Arrange
