@@ -20,11 +20,12 @@ const _addInjectionSiteTile = ValueKey('addInjectionSiteTile');
 const _customSiteField = ValueKey('customSiteField');
 const _confirmAddSite = ValueKey('confirmAddSite');
 const _intakesList = ValueKey('intakesList');
+const _schedulingTypePicker = ValueKey('schedulingTypePicker');
+const _scheduleTypeInterval = ValueKey('scheduleTypeInterval');
 
 const _emptyIntakes = 'Taken intakes will appear here';
 const _addSchedulesFirst = 'Add schedules first.';
 const _editIntake = 'Edit intake';
-
 const _schedulesTile = 'Schedules';
 const _nameLabel = 'Name';
 const _amountLabel = 'Amount';
@@ -34,7 +35,6 @@ const _routeInjection = 'Injection';
 const _esterEnanthate = 'Enanthate';
 const _next = 'Next';
 const _save = 'Save';
-const _intervalToggle = 'Interval';
 const _everyLabel = 'Every';
 
 void main() {
@@ -158,7 +158,8 @@ Future<void> _seedSchedule(
       .enterText('2'); // sets schedule dose
   await $(_next).tap();
 
-  await $(_intervalToggle).tap();
+  await $(_schedulingTypePicker).tap();
+  await $(_scheduleTypeInterval).tap();
   await $(TextField).containing(_everyLabel).enterText('3');
   await $(_save).tap();
   await $(ListTile).containing(name).waitUntilVisible();
@@ -189,7 +190,8 @@ Future<void> _seedInjectionSchedule(
   await $(TextField).containing(_amountLabel).enterText('2');
   await $(_next).tap();
 
-  await $(_intervalToggle).tap();
+  await $(_schedulingTypePicker).tap();
+  await $(_scheduleTypeInterval).tap();
   await $(TextField).containing(_everyLabel).enterText('3');
   await $(_save).tap();
   await $(ListTile).containing(name).waitUntilVisible();
