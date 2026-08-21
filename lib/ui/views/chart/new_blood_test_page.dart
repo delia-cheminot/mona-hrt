@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
@@ -95,6 +96,7 @@ class _NewBloodTestPageState extends State<NewBloodTestPage> {
     final units = _preferencesService.units;
     return ModelForm(
       title: t.newBloodTest,
+      avatar: Symbols.lab_panel_rounded,
       submitButtonLabel: t.add,
       isFormValid: _isFormValid,
       saveChanges: _addBloodTest,
