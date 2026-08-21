@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/helpers/units_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
+import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/chart/edit_blood_test_page.dart';
 import 'package:mona/ui/views/chart/new_blood_test_page.dart';
-import 'package:mona/ui/widgets/dialogs.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
 import 'package:provider/provider.dart';
 
@@ -27,11 +28,15 @@ class BloodTestPage extends StatelessWidget {
             isLoading: bloodTestProvider.isLoading,
             isEmpty: bloodtests.isEmpty,
             emptyMessage: t.empty_blood_tests,
-            child: ListView.builder(
+            child: M3ECardList(
+              key: const ValueKey('bloodTestsList'),
+              margin: pagePadding
+                  .add(const EdgeInsets.symmetric(vertical: borderPadding)),
+              padding: EdgeInsets.zero,
               itemCount: bloodtests.length,
               itemBuilder: (context, index) {
-                BloodTest test = bloodtests[index];
-                return _buildBloodTestTile(context, test, bloodTestProvider);
+                return _buildBloodTestTile(
+                    context, bloodtests[index], bloodTestProvider);
               },
             ));
       }),
@@ -54,6 +59,7 @@ class BloodTestPage extends StatelessWidget {
         .format(bloodtest.localDateTime);
     return ListTile(
       title: Text(dateText),
+      leading: Icon(Symbols.lab_panel_rounded),
       subtitle: Text(
         [
           if (bloodtest.estradiolLevels case final e?)
@@ -68,16 +74,6 @@ class BloodTestPage extends StatelessWidget {
           builder: (context) => EditBloodTestPage(bloodtest: bloodtest),
         ));
       },
-      trailing: IconButton(
-        icon: const Icon(Symbols.delete_outline_rounded),
-        onPressed: () async {
-          final confirmed = await Dialogs.confirmDeleteDialog(
-              context: context, title: t.deleteBloodTest);
-          if (confirmed == true) {
-            bloodTestProvider.deleteBloodTest(bloodtest);
-          }
-        },
-      ),
     );
   }
 }
