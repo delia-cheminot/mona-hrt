@@ -6,15 +6,15 @@ part 'administration_route.mapper.dart';
 
 @MappableEnum()
 enum AdministrationRoute {
-  injection(unit: 'mL', icon: Symbols.syringe),
-  oral(unit: 'pill', icon: Symbols.pill),
-  sublingual(unit: 'pill', icon: Symbols.pill),
-  patch(unit: 'patch', icon: Symbols.sticker),
-  gel(unit: 'pump', icon: Symbols.sanitizer),
-  implant(unit: 'implant', icon: Symbols.syringe),
-  suppository(unit: 'suppository', icon: Symbols.pill),
-  transdermalSpray(unit: 'spray', icon: Symbols.fragrance),
-  transdermalDrops(unit: 'mL', icon: Symbols.colorize);
+  injection(unit: 'mL', icon: Symbols.syringe_rounded),
+  oral(unit: 'pill', icon: Symbols.pill_rounded),
+  sublingual(unit: 'pill', icon: Symbols.pill_rounded),
+  patch(unit: 'patch', icon: Symbols.sticker_rounded),
+  gel(unit: 'pump', icon: Symbols.sanitizer_rounded),
+  implant(unit: 'implant', icon: Symbols.syringe_rounded),
+  suppository(unit: 'suppository', icon: Symbols.pill_rounded),
+  transdermalSpray(unit: 'spray', icon: Symbols.fragrance_rounded),
+  transdermalDrops(unit: 'mL', icon: Symbols.colorize_rounded);
 
   const AdministrationRoute({
     required this.unit,

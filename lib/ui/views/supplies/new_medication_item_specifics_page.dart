@@ -146,7 +146,7 @@ class _NewMedicationItemSpecificsPageState
   Widget build(BuildContext context) {
     return ModelForm(
       title: widget.name,
-      avatar: _administrationRoute?.icon ?? Symbols.medication,
+      avatar: _administrationRoute?.icon ?? Symbols.medication_rounded,
       submitButtonLabel: t.add,
       submitButtonKey: const ValueKey('newMedicationItemAdd'),
       isFormValid: _isFormValid,

@@ -78,7 +78,7 @@ class IntakesPage extends StatelessWidget {
       leading: Icon(
         intake.administrationRoute.icon,
       ),
-      trailing: intake.notes != null ? Icon(Symbols.notes) : null,
+      trailing: intake.notes != null ? Icon(Symbols.notes_rounded) : null,
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute<void>(

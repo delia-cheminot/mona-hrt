@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:patrol/patrol.dart';
@@ -66,7 +67,7 @@ void main() {
     await $.launchApp();
     await $.openSchedules();
 
-    await $(Icons.add).tap(); // FAB: "Add a schedule"
+    await $(Symbols.add_rounded).tap(); // FAB: "Add a schedule"
     await _fillMainInfoAndNext($, name: 'Interval Estradiol');
 
     await $(_schedulingTypePicker).tap();
@@ -83,7 +84,7 @@ void main() {
     await $.launchApp();
     await $.openSchedules();
 
-    await $(Icons.add).tap(); // FAB: "Add a schedule"
+    await $(Symbols.add_rounded).tap(); // FAB: "Add a schedule"
     await _fillMainInfoAndNext($, name: 'Monthly Estradiol');
 
     await $(_schedulingTypePicker).tap();
@@ -101,7 +102,7 @@ void main() {
     await $.launchApp();
     await $.openSchedules();
 
-    await $(Icons.add).tap();
+    await $(Symbols.add_rounded).tap();
     await _fillMainInfoAndNext($, name: 'Daily Estradiol');
 
     // "Every day" is the default type. Add one intake time via the time
@@ -158,7 +159,7 @@ Future<void> _createIntervalSchedule(
   PatrolIntegrationTester $, {
   required String name,
 }) async {
-  await $(Icons.add).tap();
+  await $(Symbols.add_rounded).tap();
   await _fillMainInfoAndNext($, name: name);
   await $(_schedulingTypePicker).tap();
   await $(_scheduleTypeInterval).tap();

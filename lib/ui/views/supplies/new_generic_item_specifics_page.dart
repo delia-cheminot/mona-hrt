@@ -74,7 +74,7 @@ class _NewGenericItemSpecificsPageState
   Widget build(BuildContext context) {
     return ModelForm(
       title: widget.name,
-      avatar: _genericSupplyType?.icon ?? Symbols.medication,
+      avatar: _genericSupplyType?.icon ?? Symbols.medication_rounded,
       submitButtonLabel: t.add,
       submitButtonKey: const ValueKey('newGenericItemAdd'),
       isFormValid: _isFormValid,

@@ -144,7 +144,7 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
       submitButtonKey: const ValueKey('newScheduleNext'),
       isFormValid: _isFormValid,
       saveChanges: _next,
-      avatar: Symbols.prescriptions,
+      avatar: Symbols.prescriptions_rounded,
       fields: <Widget>[
         FormTextField(
           controller: _nameController,

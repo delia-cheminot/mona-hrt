@@ -2,6 +2,7 @@
 // navigation, reused across the *_test.dart files.
 
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/main.dart' as app;
 import 'package:patrol/patrol.dart';
 
@@ -20,12 +21,12 @@ extension MonaHelper on PatrolIntegrationTester {
     await pumpAndSettle();
     // main() initialises asynchronously (timezone data, preferences) before
     // runApp; poll until the home AppBar's settings button is on screen.
-    await this(Icons.settings).waitUntilVisible();
+    await this(Symbols.settings_rounded).waitUntilVisible();
   }
 
   /// Home -> Settings -> Schedules.
   Future<void> openSchedules() async {
-    await this(Icons.settings).tap();
+    await this(Symbols.settings_rounded).tap();
     await this(_settingsSchedulesTile).scrollTo().tap();
   }
 

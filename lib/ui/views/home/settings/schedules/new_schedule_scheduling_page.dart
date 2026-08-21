@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/ester.dart';
@@ -242,7 +243,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       ),
       TimeListCard(
         times: _intakeOrNotificationTimes,
-        rowIcon: Icons.notifications,
+        rowIcon: Symbols.notifications_rounded,
         addLabel: t.addNotification,
         onAdd: _addTime,
         onEdit: _editTime,
@@ -282,7 +283,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       FormSpacer(),
       TimeListCard(
         times: _intakeOrNotificationTimes,
-        rowIcon: Icons.notifications,
+        rowIcon: Symbols.notifications_rounded,
         addLabel: t.addNotification,
         onAdd: _addTime,
         onEdit: _editTime,
@@ -326,7 +327,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       FormSpacer(),
       TimeListCard(
         times: _intakeOrNotificationTimes,
-        rowIcon: Icons.notifications,
+        rowIcon: Symbols.notifications_rounded,
         addLabel: t.addNotification,
         onAdd: _addTime,
         onEdit: _editTime,

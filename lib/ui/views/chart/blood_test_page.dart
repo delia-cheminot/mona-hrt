@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
@@ -42,7 +43,7 @@ class BloodTestPage extends StatelessWidget {
           ));
         },
         tooltip: t.addBloodTest,
-        child: Icon(Icons.add),
+        child: Icon(Symbols.add_rounded),
       ),
     );
   }
@@ -68,7 +69,7 @@ class BloodTestPage extends StatelessWidget {
         ));
       },
       trailing: IconButton(
-        icon: const Icon(Icons.delete_outline),
+        icon: const Icon(Symbols.delete_outline_rounded),
         onPressed: () async {
           final confirmed = await Dialogs.confirmDeleteDialog(
               context: context, title: t.deleteBloodTest);
