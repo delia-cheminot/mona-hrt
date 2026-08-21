@@ -51,6 +51,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
             _medicationIntakeProvider, _medicationScheduleProvider),
         _preferencesService,
       );
+
       _medicationScheduleProvider.addListener(_regenerateNotifications);
       _medicationIntakeProvider.addListener(_regenerateNotifications);
       _preferencesService.addListener(_regenerateNotifications);
@@ -101,6 +102,8 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       _checkTimezoneChange();
+    } else if (state == AppLifecycleState.paused) {
+      _regenerateHomeWidget();
     }
   }
 
