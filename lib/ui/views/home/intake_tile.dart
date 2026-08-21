@@ -174,6 +174,7 @@ class IntakeTileViewModel {
       case ScheduleStatus.upcoming:
       case ScheduleStatus.taken:
       case ScheduleStatus.overdue:
+      case ScheduleStatus.asNeeded:
         return null;
 
       case ScheduleStatus.todayEarly:
@@ -213,17 +214,37 @@ class IntakeTileViewModel {
       );
     }
 
+    if (status == ScheduleStatus.asNeeded) {
+      return CircleAvatar(
+        backgroundColor: theme.colorScheme.secondaryContainer,
+        child: Icon(
+          schedule.administrationRoute.icon,
+          color: theme.colorScheme.onSecondaryContainer,
+        ),
+      );
+    }
+
     final icon = status == ScheduleStatus.today ||
             status == ScheduleStatus.todayOverdue ||
             status == ScheduleStatus.todayEarly
         ? schedule.administrationRoute.icon
         : Symbols.schedule;
 
+    final backgroundColor =
+        _isDailySlot && slotTime!.isAfter(TimeOfDay.fromDateTime(now))
+            ? theme.colorScheme.secondaryContainer
+            : theme.colorScheme.primaryContainer;
+
+    final iconColor =
+        _isDailySlot && slotTime!.isAfter(TimeOfDay.fromDateTime(now))
+            ? theme.colorScheme.onSecondaryContainer
+            : theme.colorScheme.onPrimaryContainer;
+
     return CircleAvatar(
-      backgroundColor: theme.colorScheme.primaryContainer,
+      backgroundColor: backgroundColor,
       child: Icon(
         icon,
-        color: theme.colorScheme.onPrimaryContainer,
+        color: iconColor,
       ),
     );
   }

@@ -625,6 +625,47 @@ void main() {
       // Assert
       expect(daysAhead, 32); // 64 ~/ 2
     });
+
+    test('as-needed schedules do not affect the budget', () {
+      // Arrange
+      withSchedules([
+        aMedicationSchedule(
+            scheduling: anIntervalStrategy(notificationTimes: const [morning])),
+        aMedicationSchedule(scheduling: anAsNeededStrategy()),
+      ]);
+
+      // Act
+      final daysAhead = planner.daysAhead(maxScheduled: 64);
+
+      // Assert
+      expect(daysAhead, 64);
+    });
+
+    test('only as-needed schedules -> zero days ahead', () {
+      // Arrange
+      withSchedules([aMedicationSchedule(scheduling: anAsNeededStrategy())]);
+
+      // Act
+      final daysAhead = planner.daysAhead(maxScheduled: 64);
+
+      // Assert
+      expect(daysAhead, 0);
+    });
+  });
+
+  group('planNotifications - AsNeededSchedule', () {
+    test('never emits plans', () {
+      withFixedClock(() {
+        // Arrange
+        withSchedules([aMedicationSchedule(scheduling: anAsNeededStrategy())]);
+
+        // Act
+        final plans = planner.planNotifications(daysAhead: 30);
+
+        // Assert
+        expect(plans, isEmpty);
+      });
+    });
   });
 
   group('planNotifications - WeeklySchedule', () {

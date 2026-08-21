@@ -48,12 +48,13 @@ MedicationSchedule aMedicationSchedule({
   );
 }
 
-SchedulingStrategy aSchedulingStrategy() => switch (Random().nextInt(5)) {
+SchedulingStrategy aSchedulingStrategy() => switch (Random().nextInt(6)) {
       0 => anIntervalStrategy(),
       1 => aDailyStrategy(),
       2 => aWeeklyStrategy(),
       3 => aMonthlyStrategy(),
       4 => aDynamicIntervalStrategy(),
+      5 => anAsNeededStrategy(),
       _ => throw StateError('unreachable'),
     };
 
@@ -100,6 +101,8 @@ MonthlySchedule aMonthlyStrategy({
       intervalMonths: intervalMonths,
       notificationTimes: notificationTimes,
     );
+
+AsNeededSchedule anAsNeededStrategy() => const AsNeededSchedule();
 
 Placement aPlacement({PlacementPreset preset = PlacementPreset.left}) =>
     PresetPlacement(preset);

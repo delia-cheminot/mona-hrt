@@ -76,6 +76,8 @@ class TranslationsEnGb extends Translations
   @override
   String get upcoming => 'Upcoming';
   @override
+  String get asNeeded => 'As needed';
+  @override
   String get taken => 'Taken';
   @override
   String get yesterday => 'yesterday';
@@ -86,13 +88,26 @@ class TranslationsEnGb extends Translations
   @override
   String get neverTakenYet => 'Never taken yet';
   @override
-  String get scheduleFrequencyDaily => 'Every day';
+  String get scheduleFrequencyDaily => 'Daily';
+  @override
+  String get scheduleFrequencyDailyDescription =>
+      'Every day, at specific times';
   @override
   String get scheduleFrequencyInterval => 'Interval';
   @override
+  String get scheduleFrequencyIntervalDescription => 'Every few days';
+  @override
   String get scheduleFrequencyWeekly => 'Weekly';
   @override
+  String get scheduleFrequencyWeeklyDescription => 'Certain days of the week';
+  @override
   String get scheduleFrequencyMonthly => 'Monthly';
+  @override
+  String get scheduleFrequencyMonthlyDescription => 'The same day every month';
+  @override
+  String get scheduleFrequencyAsNeeded => 'As needed';
+  @override
+  String get scheduleFrequencyAsNeededDescription => 'No fixed schedule';
   @override
   String get newUpdateAvailable => 'A new update is available!';
   @override
@@ -750,15 +765,22 @@ extension on TranslationsEnGb {
       'allDone' => 'All done!',
       'noIntakesDue' => 'No intakes due today',
       'upcoming' => 'Upcoming',
+      'asNeeded' => 'As needed',
       'taken' => 'Taken',
       'yesterday' => 'yesterday',
       'tomorrow' => 'tomorrow',
       'lastTaken' => 'Last taken',
       'neverTakenYet' => 'Never taken yet',
-      'scheduleFrequencyDaily' => 'Every day',
+      'scheduleFrequencyDaily' => 'Daily',
+      'scheduleFrequencyDailyDescription' => 'Every day, at specific times',
       'scheduleFrequencyInterval' => 'Interval',
+      'scheduleFrequencyIntervalDescription' => 'Every few days',
       'scheduleFrequencyWeekly' => 'Weekly',
+      'scheduleFrequencyWeeklyDescription' => 'Certain days of the week',
       'scheduleFrequencyMonthly' => 'Monthly',
+      'scheduleFrequencyMonthlyDescription' => 'The same day every month',
+      'scheduleFrequencyAsNeeded' => 'As needed',
+      'scheduleFrequencyAsNeededDescription' => 'No fixed schedule',
       'newUpdateAvailable' => 'A new update is available!',
       'goToSettings' => 'Go to Settings',
       'settingsTitle' => 'Settings',
