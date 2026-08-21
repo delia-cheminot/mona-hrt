@@ -3,7 +3,9 @@ import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
+import 'package:mona/i18n/helpers/units_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
+import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/chart/chart_page.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
@@ -99,14 +101,21 @@ class LevelsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Consumer2<MedicationIntakeProvider, BloodTestProvider>(
-      builder: (context, medicationIntakeProvider, bloodTestProvider, child) {
+    return Consumer3<MedicationIntakeProvider, BloodTestProvider,
+        PreferencesService>(
+      builder: (context, medicationIntakeProvider, bloodTestProvider,
+          preferences, child) {
+        final estradiolLevel =
+            bloodTestProvider.latestEstradiolLevel(preferences.units.estradiol);
+        final testosteroneLevel = bloodTestProvider
+            .latestTestosteroneLevel(preferences.units.testosterone);
+
         return MainPageWrapper(
           isLoading:
               medicationIntakeProvider.isLoading || bloodTestProvider.isLoading,
           isEmpty: medicationIntakeProvider.plottableIntakes.isEmpty &&
-              bloodTestProvider.estradiolLevelsSortedDesc.isEmpty &&
-              bloodTestProvider.testosteroneLevelsSortedDesc.isEmpty,
+              estradiolLevel == null &&
+              testosteroneLevel == null,
           emptyMessage: t.empty_levels,
           child: SingleChildScrollView(
             padding: pagePadding,
@@ -126,22 +135,27 @@ class LevelsPage extends StatelessWidget {
                       _graphTile(context),
                     ],
                   ),
-                if (bloodTestProvider.estradiolLevelsSortedDesc.isNotEmpty ||
-                    bloodTestProvider.testosteroneLevelsSortedDesc.isNotEmpty)
+                if (estradiolLevel != null || testosteroneLevel != null)
                   M3ECardColumn(
                     padding: const EdgeInsets.all(16),
                     margin: const EdgeInsets.symmetric(vertical: 8),
                     color: colorScheme.surface,
                     onTap: (_) {},
                     children: [
-                      if (bloodTestProvider
-                          .estradiolLevelsSortedDesc.isNotEmpty)
-                        _levelTile(context,
-                            label: 'Estradiol', value: '123', unit: 'pg/mL'),
-                      if (bloodTestProvider
-                          .testosteroneLevelsSortedDesc.isNotEmpty)
-                        _levelTile(context,
-                            label: 'Testosterone', value: '18', unit: 'ng/dL'),
+                      if (estradiolLevel != null)
+                        _levelTile(
+                          context,
+                          label: 'Estradiol',
+                          value: estradiolLevel.value.toString(),
+                          unit: estradiolLevel.unit.localizedName,
+                        ),
+                      if (testosteroneLevel != null)
+                        _levelTile(
+                          context,
+                          label: 'Testosterone',
+                          value: testosteroneLevel.value.toString(),
+                          unit: testosteroneLevel.unit.localizedName,
+                        ),
                     ],
                   ),
               ],
