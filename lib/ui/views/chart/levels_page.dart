@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:mona/data/model/hormone.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/i18n/helpers/units_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
+import 'package:mona/ui/views/chart/blood_tests_chart_page.dart';
 import 'package:mona/ui/views/chart/chart_page.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +23,7 @@ class LevelsPage extends StatelessWidget {
       children: [
         Row(
           children: [
-            const Icon(Symbols.trending_up_rounded),
+            Icon(Symbols.trending_up_rounded, color: colorScheme.onSurface),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
@@ -29,7 +31,7 @@ class LevelsPage extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleMedium,
               ),
             ),
-            const Icon(Symbols.chevron_right_rounded),
+            Icon(Symbols.chevron_right_rounded, color: colorScheme.onSurface),
           ],
         ),
         const SizedBox(height: 16),
@@ -51,19 +53,20 @@ class LevelsPage extends StatelessWidget {
     required String unit,
   }) {
     final theme = Theme.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Row(
           children: [
-            const Icon(Symbols.water_drop_rounded),
+            Icon(Symbols.water_drop_rounded, color: colorScheme.onSurface),
             const SizedBox(width: 8),
             Expanded(
               child: Text(label, style: theme.textTheme.titleMedium),
             ),
             Text('14 Aug', style: theme.textTheme.bodyMedium),
             const SizedBox(width: 8),
-            const Icon(Symbols.chevron_right_rounded),
+            Icon(Symbols.chevron_right_rounded, color: colorScheme.onSurface),
           ],
         ),
         const SizedBox(height: 16),
@@ -140,19 +143,28 @@ class LevelsPage extends StatelessWidget {
                     padding: const EdgeInsets.all(16),
                     margin: const EdgeInsets.symmetric(vertical: 8),
                     color: colorScheme.surface,
-                    onTap: (_) {},
+                    onTap: (index) => Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (context) => BloodTestsChartPage(
+                          hormone: [
+                            if (estradiolLevel != null) Hormone.estradiol,
+                            if (testosteroneLevel != null) Hormone.testosterone,
+                          ][index],
+                        ),
+                      ),
+                    ),
                     children: [
                       if (estradiolLevel != null)
                         _levelTile(
                           context,
-                          label: 'Estradiol',
+                          label: t.estradiol,
                           value: estradiolLevel.value.toString(),
                           unit: estradiolLevel.unit.localizedName,
                         ),
                       if (testosteroneLevel != null)
                         _levelTile(
                           context,
-                          label: 'Testosterone',
+                          label: t.testosterone,
                           value: testosteroneLevel.value.toString(),
                           unit: testosteroneLevel.unit.localizedName,
                         ),
