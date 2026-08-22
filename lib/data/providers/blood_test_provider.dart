@@ -19,20 +19,20 @@ class BloodTestProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   List<BloodTest> get bloodtestsSortedDesc => _bloodtestsSortedDesc;
 
-  List<BloodTest> get estradiolLevelsSortedDesc =>
+  List<BloodTest> get estradiolTestsSortedDesc =>
       _bloodtestsSortedDesc.where((t) => t.estradiolLevels != null).toList();
 
-  List<BloodTest> get testosteroneLevelsSortedDesc =>
+  List<BloodTest> get testosteroneTestsSortedDesc =>
       _bloodtestsSortedDesc.where((t) => t.testosteroneLevels != null).toList();
 
   UnitValue<EstradiolUnit>? latestEstradiolLevel(EstradiolUnit unit) {
-    final stored = estradiolLevelsSortedDesc.firstOrNull?.estradiolLevels;
+    final stored = estradiolTestsSortedDesc.firstOrNull?.estradiolLevels;
     if (stored == null) return null;
     return UnitValue(stored.inUnit(unit), unit);
   }
 
   UnitValue<TestosteroneUnit>? latestTestosteroneLevel(TestosteroneUnit unit) {
-    final stored = testosteroneLevelsSortedDesc.firstOrNull?.testosteroneLevels;
+    final stored = testosteroneTestsSortedDesc.firstOrNull?.testosteroneLevels;
     if (stored == null) return null;
     return UnitValue(stored.inUnit(unit), unit);
   }

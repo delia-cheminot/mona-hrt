@@ -194,7 +194,7 @@ void main() {
       );
     });
 
-    group('estradiolLevelsSortedDesc', () {
+    group('estradiolTestsSortedDesc', () {
       test('excludes tests without estradiol levels', () async {
         // Arrange
         provider = BloodTestProvider(repository: repo);
@@ -208,7 +208,7 @@ void main() {
             testosteroneLevel: Decimal.parse('1.0')));
 
         // Act
-        final result = provider.estradiolLevelsSortedDesc;
+        final result = provider.estradiolTestsSortedDesc;
 
         // Assert
         expect(result.map((t) => t.id), [1]);
@@ -231,14 +231,14 @@ void main() {
             estradiolLevel: Decimal.parse('150.0')));
 
         // Act
-        final result = provider.estradiolLevelsSortedDesc;
+        final result = provider.estradiolTestsSortedDesc;
 
         // Assert
         expect(result.map((t) => t.id), [2, 1, 3]);
       });
     });
 
-    group('testosteroneLevelsSortedDesc', () {
+    group('testosteroneTestsSortedDesc', () {
       test('excludes tests without testosterone levels', () async {
         // Arrange
         provider = BloodTestProvider(repository: repo);
@@ -252,7 +252,7 @@ void main() {
             estradiolLevel: Decimal.parse('100.0')));
 
         // Act
-        final result = provider.testosteroneLevelsSortedDesc;
+        final result = provider.testosteroneTestsSortedDesc;
 
         // Assert
         expect(result.map((t) => t.id), [1]);
@@ -275,7 +275,7 @@ void main() {
             testosteroneLevel: Decimal.parse('1.5')));
 
         // Act
-        final result = provider.testosteroneLevelsSortedDesc;
+        final result = provider.testosteroneTestsSortedDesc;
 
         // Assert
         expect(result.map((t) => t.id), [2, 1, 3]);
