@@ -74,7 +74,7 @@ class BloodTestProvider extends ChangeNotifier {
   static final _bloodTestRepository = Repository<BloodTest>(
     tableName: 'blood_tests',
     toMap: (BloodTest bloodtest) => bloodtest.toMap(),
-    fromMap: (Map<String, Object?> map) => BloodTest.fromMap(map),
+    fromMap: (map) => BloodTestMapper.fromMap(Map<String, dynamic>.from(map)),
   );
 
   Future<void> _fetchBloodTests() async {

@@ -284,10 +284,8 @@ void main() {
       final id = await db.insert('blood_tests', {
         'dateTime': DateTime(2025, 9, 13).toIso8601String(),
         'timeZone': 'Etc/UTC',
-        'estradiolLevels': '167.1',
-        'estradiolUnit': 'pg/mL',
-        'testosteroneLevels': '1.67',
-        'testosteroneUnit': 'ng/dL',
+        'estradiolLevels': '{"value":"167.1","unit":"pg/mL"}',
+        'testosteroneLevels': '{"value":"1.67","unit":"ng/dL"}',
       });
 
       final test =
@@ -295,14 +293,10 @@ void main() {
 
       expect([
         test.first['estradiolLevels'],
-        test.first['estradiolUnit'],
         test.first['testosteroneLevels'],
-        test.first['testosteroneUnit'],
       ], [
-        '167.1',
-        'pg/mL',
-        '1.67',
-        'ng/dL',
+        '{"value":"167.1","unit":"pg/mL"}',
+        '{"value":"1.67","unit":"ng/dL"}',
       ]);
     });
   });
