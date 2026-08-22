@@ -39,7 +39,13 @@ class BloodTestsChartPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                BarChartGraph(spots: _entriesSpots(entries)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: SizedBox(
+                    height: 200,
+                    child: BarChartGraph(spots: _entriesSpots(entries)),
+                  ),
+                ),
                 M3ECardList(
                   padding: const EdgeInsets.all(16),
                   margin: const EdgeInsets.symmetric(vertical: 8),
