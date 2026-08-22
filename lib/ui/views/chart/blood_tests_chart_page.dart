@@ -10,7 +10,7 @@ import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:provider/provider.dart';
 
-typedef _LevelEntry = ({DateTime localDateTime, String value, String unit});
+typedef _LevelEntry = ({DateTime localDateTime, Decimal value, String unit});
 
 class BloodTestsChartPage extends StatelessWidget {
   const BloodTestsChartPage({super.key, required this.hormone});
@@ -61,7 +61,7 @@ class BloodTestsChartPage extends StatelessWidget {
         return provider.estradiolTestsSortedDesc
             .map((test) => (
                   localDateTime: test.localDateTime,
-                  value: test.estradiolLevels!.inUnit(unit).toString(),
+                  value: test.estradiolLevels!.inUnit(unit),
                   unit: unit.localizedName,
                 ))
             .toList();
@@ -70,7 +70,7 @@ class BloodTestsChartPage extends StatelessWidget {
         return provider.testosteroneTestsSortedDesc
             .map((test) => (
                   localDateTime: test.localDateTime,
-                  value: test.testosteroneLevels!.inUnit(unit).toString(),
+                  value: test.testosteroneLevels!.inUnit(unit),
                   unit: unit.localizedName,
                 ))
             .toList();
@@ -88,7 +88,7 @@ class BloodTestsChartPage extends StatelessWidget {
         ),
         Text.rich(
           TextSpan(
-            text: entry.value,
+            text: entry.value.toString(),
             style: theme.textTheme.titleMedium,
             children: [
               TextSpan(
@@ -113,4 +113,5 @@ class BloodTestsChartPage extends StatelessWidget {
       ),
     );
   }
+  
 }
