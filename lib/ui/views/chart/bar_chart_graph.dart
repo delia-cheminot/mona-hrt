@@ -117,7 +117,7 @@ class BarChartGraph extends StatelessWidget {
             rodIndex,
           ) {
             return BarTooltipItem(
-              '${rod.toY} ${unit}',
+              '${rod.toY} $unit',
               TextStyle(color: theme.colorScheme.onTertiaryContainer),
             );
           },

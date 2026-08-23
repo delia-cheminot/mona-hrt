@@ -49,7 +49,7 @@ class LevelsPage extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        Container(
+        SizedBox(
           height: 200,
           child: BabyMainChartGraph(spots: lastWeekSpots),
         ),
@@ -99,7 +99,7 @@ class LevelsPage extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            Container(
+            SizedBox(
               width: 96,
               height: 48,
               child: BabyBarChartGraph(
