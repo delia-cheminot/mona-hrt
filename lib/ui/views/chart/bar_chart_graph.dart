@@ -14,7 +14,7 @@ class BarChartGraph extends StatelessWidget {
   static const double _bottomReservedSize = 52;
   static const double _leftReservedSize = 40;
   static const double _leftAxisWidth = 48;
-  static const double _chartInset = 8;
+  static const double _chartInset = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class BarChartGraph extends StatelessWidget {
                     child: BarChart(
                       curve: Curves.easeOutQuad,
                       BarChartData(
-                        maxY: maxY * 1.2,
+                        maxY: maxY * 1.3,
                         alignment: BarChartAlignment.start,
                         groupsSpace: _groupsSpace,
                         barGroups: _buildBarGroups(spots, theme),
