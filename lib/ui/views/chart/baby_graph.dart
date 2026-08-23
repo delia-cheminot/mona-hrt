@@ -6,7 +6,7 @@ class BabyBarChartGraph extends StatelessWidget {
 
   BabyBarChartGraph({required this.spots});
 
-  static const double _barWidth = 18;
+  static const double _barWidth = 12;
   static const double _groupsSpace = 12;
   @override
   Widget build(BuildContext context) {
