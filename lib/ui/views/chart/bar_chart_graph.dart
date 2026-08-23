@@ -14,7 +14,7 @@ class BarChartGraph extends StatelessWidget {
   static const double _bottomReservedSize = 52;
   static const double _leftReservedSize = 40;
   static const double _leftAxisWidth = 48;
-  static const double _chartLeftInset = 8;
+  static const double _chartInset = 8;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class BarChartGraph extends StatelessWidget {
         : spots.length * _barWidth + (spots.length - 1) * _groupsSpace;
     final chartWidth = math.max(
       MediaQuery.of(context).size.width,
-      contentWidth + _chartLeftInset,
+      contentWidth + _chartInset * 2,
     );
 
     final yInterval = maxY <= 0 ? 1.0 : maxY / 4;
@@ -54,7 +54,8 @@ class BarChartGraph extends StatelessWidget {
                   width: chartWidth,
                   height: height,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: _chartLeftInset),
+                    padding: const EdgeInsets.only(
+                        left: _chartInset, right: _chartInset),
                     child: BarChart(
                       curve: Curves.easeOutQuad,
                       BarChartData(
