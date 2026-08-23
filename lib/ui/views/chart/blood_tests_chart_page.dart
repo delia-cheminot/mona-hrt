@@ -14,7 +14,7 @@ import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/chart/bar_chart_graph.dart';
 import 'package:provider/provider.dart';
 
-typedef _LevelEntry = ({Date localDate, Decimal value, String unit});
+typedef LevelEntry = ({Date localDate, Decimal value, String unit});
 
 class BloodTestsChartPage extends StatelessWidget {
   const BloodTestsChartPage({super.key, required this.hormone});
@@ -32,7 +32,7 @@ class BloodTestsChartPage extends StatelessWidget {
       appBar: AppBar(title: Text(_title)),
       body: Consumer2<BloodTestProvider, PreferencesService>(
         builder: (context, bloodTestProvider, preferences, child) {
-          final entries = _entries(bloodTestProvider, preferences);
+          final entries = getListOfEntries(bloodTestProvider, preferences);
 
           return SingleChildScrollView(
             padding: pagePadding,
@@ -65,7 +65,7 @@ class BloodTestsChartPage extends StatelessWidget {
     );
   }
 
-  List<_LevelEntry> _entries(
+  List<LevelEntry> getListOfEntries(
     BloodTestProvider provider,
     PreferencesService preferences,
   ) {
@@ -91,7 +91,7 @@ class BloodTestsChartPage extends StatelessWidget {
     }
   }
 
-  Widget _testTile(BuildContext context, _LevelEntry entry) {
+  Widget _testTile(BuildContext context, LevelEntry entry) {
     final theme = Theme.of(context);
     final dateText =
         entry.localDate.format(DateFormat.yMMMd(context.intlLanguageTag));
@@ -116,7 +116,7 @@ class BloodTestsChartPage extends StatelessWidget {
     );
   }
 
-  List<FlSpot> _entriesSpots(List<_LevelEntry> entries) {
+  List<FlSpot> _entriesSpots(List<LevelEntry> entries) {
     return entries
         .map((i) => FlSpot(
             i.localDate.differenceInDays(entries.last.localDate).toDouble(),
@@ -124,12 +124,23 @@ class BloodTestsChartPage extends StatelessWidget {
         .toList();
   }
 
-  List<String> _entriesLabels(BuildContext context, List<_LevelEntry> entries) {
+  List<String> _entriesLabels(BuildContext context, List<LevelEntry> entries) {
     return entries
         .map(
           (entry) => entry.localDate
               .format(DateFormat('MM/yy', context.intlLanguageTag)),
         )
+        .toList();
+  }
+
+  List<FlSpot> lastFiveEntriesSpots(List<LevelEntry> entries) {
+    final lastFiveEntries = entries.take(5).toList();
+    return lastFiveEntries
+        .map((i) => FlSpot(
+            i.localDate
+                .differenceInDays(lastFiveEntries.last.localDate)
+                .toDouble(),
+            i.value.toDouble()))
         .toList();
   }
 }

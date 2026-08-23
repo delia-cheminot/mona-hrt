@@ -8,6 +8,7 @@ import 'package:mona/i18n/helpers/units_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
+import 'package:mona/ui/views/chart/baby_graph.dart';
 import 'package:mona/ui/views/chart/blood_tests_chart_page.dart';
 import 'package:mona/ui/views/chart/chart_page.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
@@ -18,6 +19,7 @@ class LevelsPage extends StatelessWidget {
 
   Widget _graphTile(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -51,6 +53,8 @@ class LevelsPage extends StatelessWidget {
     required String label,
     required String value,
     required String unit,
+    required List<LevelEntry> entry,
+    required Hormone hormone,
   }) {
     final theme = Theme.of(context);
     final colorScheme = Theme.of(context).colorScheme;
@@ -89,10 +93,9 @@ class LevelsPage extends StatelessWidget {
             Container(
               width: 96,
               height: 48,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: theme.colorScheme.outlineVariant),
-              ),
+              child: BabyBarChartGraph(
+                  spots: BloodTestsChartPage(hormone: hormone)
+                      .lastFiveEntriesSpots(entry)),
             ),
           ],
         ),
@@ -112,7 +115,10 @@ class LevelsPage extends StatelessWidget {
             bloodTestProvider.latestEstradiolLevel(preferences.units.estradiol);
         final testosteroneLevel = bloodTestProvider
             .latestTestosteroneLevel(preferences.units.testosterone);
-
+        final tEntries = BloodTestsChartPage(hormone: Hormone.testosterone)
+            .getListOfEntries(bloodTestProvider, preferences);
+        final eEntries = BloodTestsChartPage(hormone: Hormone.estradiol)
+            .getListOfEntries(bloodTestProvider, preferences);
         return MainPageWrapper(
           isLoading:
               medicationIntakeProvider.isLoading || bloodTestProvider.isLoading,
@@ -160,6 +166,8 @@ class LevelsPage extends StatelessWidget {
                           label: t.estradiol,
                           value: estradiolLevel.value.toString(),
                           unit: estradiolLevel.unit.localizedName,
+                          hormone: Hormone.estradiol,
+                          entry: eEntries,
                         ),
                       if (testosteroneLevel != null)
                         _levelTile(
@@ -167,6 +175,8 @@ class LevelsPage extends StatelessWidget {
                           label: t.testosterone,
                           value: testosteroneLevel.value.toString(),
                           unit: testosteroneLevel.unit.localizedName,
+                          hormone: Hormone.testosterone,
+                          entry: tEntries,
                         ),
                     ],
                   ),
