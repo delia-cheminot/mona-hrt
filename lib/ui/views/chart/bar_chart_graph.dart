@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:mona/data/model/units.dart';
 
 class BarChartGraph extends StatelessWidget {
   final List<FlSpot> spots;
