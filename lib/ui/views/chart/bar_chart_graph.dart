@@ -55,7 +55,9 @@ class BarChartGraph extends StatelessWidget {
                   height: height,
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        left: _chartInset, right: _chartInset),
+                        left: _chartInset,
+                        right: _chartInset,
+                        top: _chartInset),
                     child: BarChart(
                       curve: Curves.easeOutQuad,
                       BarChartData(
