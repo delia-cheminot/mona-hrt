@@ -13,7 +13,6 @@ class BarChartGraph extends StatelessWidget {
   static const double _groupsSpace = 12;
   static const double _bottomReservedSize = 52;
   static const double _leftReservedSize = 40;
-  static const double _leftAxisWidth = 48;
   static const double _chartInset = 20;
 
   @override
@@ -31,84 +30,28 @@ class BarChartGraph extends StatelessWidget {
       MediaQuery.of(context).size.width,
       contentWidth + _chartInset * 2,
     );
-
-    final yInterval = maxY <= 0 ? 1.0 : maxY / 4;
-
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final height =
-            constraints.maxHeight.isFinite ? constraints.maxHeight : 200.0;
-
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(
-              width: _leftAxisWidth,
-              height: height,
-              child: _buildLeftAxisLabels(context, maxY, yInterval),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: SizedBox(
-                  width: chartWidth,
-                  height: height,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: _chartInset,
-                        right: _chartInset,
-                        top: _chartInset),
-                    child: BarChart(
-                      curve: Curves.easeOutQuad,
-                      BarChartData(
-                        maxY: maxY * 1.3,
-                        alignment: BarChartAlignment.start,
-                        groupsSpace: _groupsSpace,
-                        barGroups: _buildBarGroups(spots, theme),
-                        gridData: const FlGridData(
-                          show: false,
-                        ),
-                        titlesData: _titlesData(context, labels),
-                        borderData: FlBorderData(show: false),
-                      ),
-                    ),
-                  ),
-                ),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: SizedBox(
+        width: chartWidth,
+        child: Padding(
+          padding: const EdgeInsets.only(
+              left: _chartInset, right: _chartInset, top: _chartInset),
+          child: BarChart(
+            curve: Curves.easeOutQuad,
+            BarChartData(
+              maxY: maxY * 1.3,
+              alignment: BarChartAlignment.start,
+              groupsSpace: _groupsSpace,
+              barGroups: _buildBarGroups(spots, theme),
+              gridData: const FlGridData(
+                show: false,
               ),
+              titlesData: _titlesData(context, labels),
+              borderData: FlBorderData(show: false),
             ),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget _buildLeftAxisLabels(
-    BuildContext context,
-    double maxY,
-    double yInterval,
-  ) {
-    final textTheme = Theme.of(context).textTheme;
-    final labels = <double>[
-      maxY * 1.2,
-      yInterval * 3,
-      yInterval * 2,
-      yInterval,
-      0,
-    ];
-
-    return Padding(
-      padding: const EdgeInsets.only(right: 6),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: labels
-            .map(
-              (value) => Text(
-                value.toStringAsFixed(0),
-                style: textTheme.labelSmall,
-              ),
-            )
-            .toList(),
+          ),
+        ),
       ),
     );
   }
