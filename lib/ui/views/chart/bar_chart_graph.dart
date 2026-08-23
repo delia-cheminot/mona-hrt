@@ -43,6 +43,7 @@ class BarChartGraph extends StatelessWidget {
               maxY: maxY * 1.3,
               alignment: BarChartAlignment.start,
               groupsSpace: _groupsSpace,
+              barTouchData: _touchData(theme),
               barGroups: _buildBarGroups(spots, theme),
               gridData: const FlGridData(
                 show: false,
@@ -87,6 +88,23 @@ class BarChartGraph extends StatelessWidget {
         end: Alignment.topCenter,
       );
 
+  BarTouchData _touchData(ThemeData theme) => BarTouchData(
+        enabled: true,
+        touchTooltipData: BarTouchTooltipData(
+          getTooltipColor: (group) => theme.colorScheme.tertiaryContainer,
+          getTooltipItem: (
+            group,
+            groupIndex,
+            rod,
+            rodIndex,
+          ) {
+            return BarTooltipItem(
+              'Value: ${rod.toY}',
+              TextStyle(color: theme.colorScheme.onTertiaryContainer),
+            );
+          },
+        ),
+      );
   FlTitlesData _titlesData(
     BuildContext context,
     List<String> labels,
