@@ -39,6 +39,20 @@ void main() {
       expect(converted, Decimal.parse('8.66'));
     });
 
+    test('testosterone converts from nmol/L to ng/mL', () {
+      final value = UnitValue(8.toDecimal(), TestosteroneUnit.nmol_L);
+      final converted = value.inUnit(TestosteroneUnit.ng_mL);
+
+      expect(converted, Decimal.parse('2.3072'));
+    });
+
+    test('testosterone converts from ng/dL to ng/mL', () {
+      final value = UnitValue(8.toDecimal(), TestosteroneUnit.ng_dL);
+      final converted = value.inUnit(TestosteroneUnit.ng_mL);
+
+      expect(converted, Decimal.parse('0.08'));
+    });
+
     test('testosterone converts from nmol/L to ng/dL', () {
       final value = UnitValue(8.toDecimal(), TestosteroneUnit.nmol_L);
       final converted = value.inUnit(TestosteroneUnit.ng_dL);

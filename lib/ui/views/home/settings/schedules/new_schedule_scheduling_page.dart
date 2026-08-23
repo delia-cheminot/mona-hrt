@@ -9,17 +9,15 @@ import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/i18n/translations.g.dart';
-import 'package:mona/ui/widgets/forms/form_date_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/ui/widgets/scheduling_type_picker.dart';
 import 'package:mona/ui/widgets/time_list_card.dart';
 import 'package:mona/ui/widgets/weekday_picker.dart';
 import 'package:mona/util/regex_patterns.dart';
 import 'package:mona/util/string_parsing.dart';
 import 'package:provider/provider.dart';
-
-enum _ScheduleType { daily, intervalDays, weekly, monthly }
 
 class NewScheduleSchedulingPage extends StatefulWidget {
   final String name;
@@ -27,6 +25,7 @@ class NewScheduleSchedulingPage extends StatefulWidget {
   final Molecule molecule;
   final AdministrationRoute administrationRoute;
   final Ester? ester;
+  final Date startDate;
 
   const NewScheduleSchedulingPage({
     super.key,
@@ -34,6 +33,7 @@ class NewScheduleSchedulingPage extends StatefulWidget {
     required this.dose,
     required this.molecule,
     required this.administrationRoute,
+    required this.startDate,
     this.ester,
   });
 
@@ -43,21 +43,18 @@ class NewScheduleSchedulingPage extends StatefulWidget {
 }
 
 class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
-  _ScheduleType _type = _ScheduleType.daily;
+  SchedulingType _type = SchedulingType.daily;
 
   late TextEditingController _intervalDaysController;
   final List<TimeOfDay> _intakeOrNotificationTimes = [];
   bool _dailyNotify = true;
   bool _anchorToLastIntake = false;
   final List<int> _weeklyDays = [];
-  late Date _startDate;
   late TextEditingController _monthlyDayController;
   late TextEditingController _monthlyIntervalController;
 
   String? get _intervalDaysError =>
       IntervalDaysSchedule.validateIntervalDays(_intervalDaysController.text);
-  String? get _startDateError =>
-      MedicationSchedule.validateStartDate(_startDate);
   String? get _dailyIntakeTimesError =>
       DailySchedule.validateIntakeTimes(_intakeOrNotificationTimes);
   String? get _weeklyDaysError =>
@@ -68,13 +65,13 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       MonthlySchedule.validateIntervalMonths(_monthlyIntervalController.text);
 
   bool get _isFormValid {
-    if (_startDateError != null) return false;
     return switch (_type) {
-      _ScheduleType.intervalDays => _intervalDaysError == null,
-      _ScheduleType.daily => _dailyIntakeTimesError == null,
-      _ScheduleType.weekly => _weeklyDaysError == null,
-      _ScheduleType.monthly =>
+      SchedulingType.intervalDays => _intervalDaysError == null,
+      SchedulingType.daily => _dailyIntakeTimesError == null,
+      SchedulingType.weekly => _weeklyDaysError == null,
+      SchedulingType.monthly =>
         _monthlyDayError == null && _monthlyIntervalError == null,
+      SchedulingType.asNeeded => true,
     };
   }
 
@@ -133,7 +130,7 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
     if (!_isFormValid) return;
 
     final SchedulingStrategy scheduling = switch (_type) {
-      _ScheduleType.intervalDays => _anchorToLastIntake
+      SchedulingType.intervalDays => _anchorToLastIntake
           ? DynamicIntervalSchedule(
               intervalDays: _intervalDaysController.text.toInt,
               notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
@@ -142,26 +139,27 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
               intervalDays: _intervalDaysController.text.toInt,
               notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
             ),
-      _ScheduleType.daily => DailySchedule(
+      SchedulingType.daily => DailySchedule(
           intakeTimes: List.unmodifiable(_intakeOrNotificationTimes),
           notify: _dailyNotify,
         ),
-      _ScheduleType.weekly => WeeklySchedule(
+      SchedulingType.weekly => WeeklySchedule(
           daysOfWeek: List.unmodifiable(_weeklyDays),
           notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
         ),
-      _ScheduleType.monthly => MonthlySchedule(
+      SchedulingType.monthly => MonthlySchedule(
           dayOfMonth: _monthlyDayController.text.toInt,
           intervalMonths: _monthlyIntervalController.text.toInt,
           notificationTimes: List.unmodifiable(_intakeOrNotificationTimes),
         ),
+      SchedulingType.asNeeded => AsNeededSchedule(),
     };
 
     final schedule = MedicationSchedule(
       name: widget.name,
       dose: widget.dose,
       scheduling: scheduling,
-      startDate: _startDate,
+      startDate: widget.startDate,
       molecule: widget.molecule,
       administrationRoute: widget.administrationRoute,
       ester: widget.ester,
@@ -179,7 +177,6 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   void initState() {
     super.initState();
     _intervalDaysController = TextEditingController();
-    _startDate = Date.today();
     _monthlyDayController = TextEditingController();
     _monthlyIntervalController = TextEditingController(text: '1');
   }
@@ -202,57 +199,19 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
       saveChanges: _save,
       closeAll: _closeAll,
       fields: <Widget>[
-        _typeToggle(),
+        SchedulingTypePicker(
+          value: _type,
+          onChanged: (type) => setState(() => _type = type),
+        ),
         FormSpacer(),
         ...switch (_type) {
-          _ScheduleType.intervalDays => _intervalDaysSpecifics(),
-          _ScheduleType.daily => _dailySpecifics(),
-          _ScheduleType.weekly => _weeklySpecifics(),
-          _ScheduleType.monthly => _monthlySpecifics(),
+          SchedulingType.intervalDays => _intervalDaysSpecifics(),
+          SchedulingType.daily => _dailySpecifics(),
+          SchedulingType.weekly => _weeklySpecifics(),
+          SchedulingType.monthly => _monthlySpecifics(),
+          SchedulingType.asNeeded => [],
         },
-        FormSpacer(),
-        FormDateField(
-          date: _startDate,
-          label: t.startDate,
-          errorText: _startDateError,
-          onChanged: (date) => setState(() {
-            _startDate = date;
-          }),
-        ),
       ],
-    );
-  }
-
-  Widget _typeToggle() {
-    return Center(
-      child: M3EToggleButtonGroup(
-        type: M3EButtonGroupType.connected,
-        size: M3EButtonSize.sm,
-        haptic: M3EHapticFeedback.light,
-        selectedIndex: _type.index,
-        onSelectedIndexChanged: (index) {
-          if (index == null) return;
-          setState(() {
-            _type = _ScheduleType.values[index];
-          });
-        },
-        actions: [
-          M3EToggleButtonGroupAction(label: Text(t.scheduleFrequencyDaily)),
-          M3EToggleButtonGroupAction(
-            label: Text(
-              t.scheduleFrequencyInterval,
-              key: const ValueKey('scheduleTypeInterval'),
-            ),
-          ),
-          M3EToggleButtonGroupAction(label: Text(t.scheduleFrequencyWeekly)),
-          M3EToggleButtonGroupAction(
-            label: Text(
-              t.scheduleFrequencyMonthly,
-              key: const ValueKey('scheduleTypeMonthly'),
-            ),
-          ),
-        ],
-      ),
     );
   }
 

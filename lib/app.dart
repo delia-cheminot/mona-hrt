@@ -5,7 +5,6 @@ import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/controllers/notification_scheduler.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
-import 'package:mona/distribution.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/locale_provider.dart';
 import 'package:mona/i18n/tok_localizations.dart';
@@ -13,6 +12,8 @@ import 'package:mona/services/home_widget_service.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/theme/app_theme_controller.dart';
+import 'package:mona/ui/constants/dimensions.dart';
+import 'package:mona/ui/widgets/liquid_glass_bottom_clamp.dart';
 import 'package:provider/provider.dart';
 import 'ui/views/main_page.dart';
 
@@ -50,6 +51,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
             _medicationIntakeProvider, _medicationScheduleProvider),
         _preferencesService,
       );
+
       _medicationScheduleProvider.addListener(_regenerateNotifications);
       _medicationIntakeProvider.addListener(_regenerateNotifications);
       _preferencesService.addListener(_regenerateNotifications);
@@ -100,6 +102,8 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       _checkTimezoneChange();
+    } else if (state == AppLifecycleState.paused) {
+      _regenerateHomeWidget();
     }
   }
 
@@ -126,28 +130,13 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
           theme: themes.theme,
           darkTheme: themes.darkTheme,
           themeMode: ThemeMode.system,
-          builder: (context, child) =>
-              _BottomInsetClamp(child: child ?? const SizedBox.shrink()),
+          builder: (context, child) => LiquidGlassBottomClamp(
+            bottom: borderPadding,
+            child: child ?? const SizedBox.shrink(),
+          ),
           home: const MainPage(),
         );
       },
-    );
-  }
-}
-
-class _BottomInsetClamp extends StatelessWidget {
-  final Widget child;
-
-  const _BottomInsetClamp({required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    if (!isIosLiquidGlass) return child;
-
-    return MediaQuery.removePadding(
-      context: context,
-      removeBottom: true,
-      child: child,
     );
   }
 }

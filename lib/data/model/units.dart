@@ -49,6 +49,8 @@ enum TestosteroneUnit implements Unit<TestosteroneUnit> {
   // ignore: constant_identifier_names
   ng_dL("ng/dL"),
   // ignore: constant_identifier_names
+  ng_mL("ng/mL"),
+  // ignore: constant_identifier_names
   nmol_L("nmol/L");
 
   @override
@@ -64,16 +66,18 @@ enum TestosteroneUnit implements Unit<TestosteroneUnit> {
     }
   }
 
-  static Decimal _factor = Decimal.parse('28.84');
+  static final Map<TestosteroneUnit, Decimal> _toNgDL = {
+    TestosteroneUnit.ng_dL: Decimal.one,
+    TestosteroneUnit.ng_mL: Decimal.fromInt(100),
+    TestosteroneUnit.nmol_L: Decimal.parse("28.84"),
+  };
 
   @override
   Decimal convert(Decimal value, TestosteroneUnit into) {
-    if (into == this) return value;
-    return switch (into) {
-      TestosteroneUnit.ng_dL => value * _factor,
-      TestosteroneUnit.nmol_L =>
-        (value / _factor).toDecimal(scaleOnInfinitePrecision: 2)
-    };
+    if (this == into) return value;
+    final valueInNgDL = value * _toNgDL[this]!;
+    return (valueInNgDL / _toNgDL[into]!)
+        .toDecimal(scaleOnInfinitePrecision: 2);
   }
 
   @override
@@ -86,6 +90,9 @@ enum Units {
   // ignore: constant_identifier_names
   pg_mL_ng_dL(
       estradiol: EstradiolUnit.pg_mL, testosterone: TestosteroneUnit.ng_dL),
+  // ignore: constant_identifier_names
+  pg_mL_ng_mL(
+      estradiol: EstradiolUnit.pg_mL, testosterone: TestosteroneUnit.ng_mL),
   // ignore: constant_identifier_names
   pmol_L_nmol_L(
       estradiol: EstradiolUnit.pmol_L, testosterone: TestosteroneUnit.nmol_L);

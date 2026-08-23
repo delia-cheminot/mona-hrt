@@ -19,6 +19,8 @@ extension TestosteroneUnitL10n on TestosteroneUnit {
         return t.unitNgPerDl;
       case TestosteroneUnit.nmol_L:
         return t.unitNmolPerL;
+      case TestosteroneUnit.ng_mL:
+        return t.unitNgPerMl;
     }
   }
 }

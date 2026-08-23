@@ -311,4 +311,59 @@ void main() {
       });
     });
   });
+
+  group('intakeSlots - AsNeededSchedule', () {
+    test('status is asNeeded', () {
+      // Arrange
+      withSchedules([aMedicationSchedule(scheduling: anAsNeededStrategy())]);
+
+      // Act
+      final slot = slotsBuilder.intakeSlots().single;
+
+      // Assert
+      expect(slot.status, ScheduleStatus.asNeeded);
+    });
+
+    test('not started yet -> status upcoming', () {
+      // Arrange
+      final start = Date.today().add(const Duration(days: 5));
+      withSchedules([
+        aMedicationSchedule(scheduling: anAsNeededStrategy(), startDate: start)
+      ]);
+
+      // Act
+      final slot = slotsBuilder.intakeSlots().single;
+
+      // Assert
+      expect(slot.status, ScheduleStatus.upcoming);
+    });
+
+    test('startDate in the past -> date is today', () {
+      // Arrange
+      final start = Date.today().subtract(const Duration(days: 10));
+      withSchedules([
+        aMedicationSchedule(scheduling: anAsNeededStrategy(), startDate: start)
+      ]);
+
+      // Act
+      final slot = slotsBuilder.intakeSlots().single;
+
+      // Assert
+      expect(slot.date, Date.today());
+    });
+
+    test('startDate in the future -> date is the startDate', () {
+      // Arrange
+      final start = Date.today().add(const Duration(days: 5));
+      withSchedules([
+        aMedicationSchedule(scheduling: anAsNeededStrategy(), startDate: start)
+      ]);
+
+      // Act
+      final slot = slotsBuilder.intakeSlots().single;
+
+      // Assert
+      expect(slot.date, start);
+    });
+  });
 }

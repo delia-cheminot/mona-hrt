@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:m3e_core/m3e_core.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
+import 'package:mona/i18n/helpers/medication_schedule_l10n.dart';
 import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
+import 'package:mona/ui/views/home/settings/schedules/edit_schedule/edit_schedule_scheduling_page.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
 import 'package:mona/ui/widgets/dropdowns/administration_route_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/molecule_dropdown.dart';
+import 'package:mona/ui/widgets/forms/form_date_field.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
@@ -35,6 +40,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
   late Molecule _molecule;
   late AdministrationRoute _administrationRoute;
   late Ester? _ester;
+  late Date _startDate;
   late PreferencesService _preferencesService;
   late MedicationScheduleProvider _medicationScheduleProvider;
 
@@ -45,6 +51,8 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
   String? get _moleculeError => MedicationSchedule.validateMolecule(_molecule);
   String? get _administrationRouteError =>
       MedicationSchedule.validateAdministrationRoute(_administrationRoute);
+  String? get _startDateError =>
+      MedicationSchedule.validateStartDate(_startDate);
   String? get _esterError {
     final validator =
         MedicationSchedule.esterValidator(_molecule, _administrationRoute);
@@ -56,7 +64,8 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
       _doseError == null &&
       _moleculeError == null &&
       _administrationRouteError == null &&
-      _esterError == null;
+      _esterError == null &&
+      _startDateError == null;
 
   bool get _useEsterField =>
       _molecule == KnownMolecules.estradiol &&
@@ -100,12 +109,16 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
     if (!_isFormValid) return;
     if (!mounted) return;
 
-    final updatedSchedule = widget.schedule.copyWith(
+    final originalSchedule =
+        _medicationScheduleProvider.getScheduleById(widget.schedule.id) ??
+            widget.schedule;
+    final updatedSchedule = originalSchedule.copyWith(
       name: _nameController.text,
       dose: _doseController.text.toDecimal,
       molecule: _molecule,
       administrationRoute: _administrationRoute,
       ester: _useEsterField ? _ester : null,
+      startDate: _startDate,
     );
     _medicationScheduleProvider.updateSchedule(updatedSchedule);
 
@@ -137,6 +150,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
     _molecule = widget.schedule.molecule;
     _administrationRoute = widget.schedule.administrationRoute;
     _ester = widget.schedule.ester;
+    _startDate = widget.schedule.startDate;
   }
 
   @override
@@ -148,6 +162,11 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
 
   @override
   Widget build(BuildContext context) {
+    final currentSchedule = context
+            .watch<MedicationScheduleProvider>()
+            .getScheduleById(widget.schedule.id) ??
+        widget.schedule;
+
     return ModelForm(
       title: t.editSchedule,
       submitButtonLabel: t.save,
@@ -185,7 +204,6 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
             onChanged: _onEsterChanged,
             label: t.ester,
           ),
-        FormSpacer(),
         FormTextField(
           controller: _doseController,
           label: t.amount,
@@ -194,6 +212,34 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
           suffixText: _molecule.localizedUnit,
           errorText: _doseError,
           regexFormatter: RegexPatterns.floatNumber,
+        ),
+        FormSpacer(),
+        FormDateField(
+          date: _startDate,
+          label: t.startDate,
+          errorText: _startDateError,
+          onChanged: (date) => setState(() => _startDate = date),
+        ),
+        FormSpacer(),
+        M3ECardColumn(
+          padding: EdgeInsets.zero,
+          margin: EdgeInsets.symmetric(vertical: 8),
+          children: [
+            ListTile(
+              key: const ValueKey('editScheduleSchedulingTile'),
+              title: Text(t.scheduling),
+              subtitle: Text(currentSchedule.localizedFrequency),
+              leading: Icon(Icons.event_repeat),
+              trailing: Icon(Icons.chevron_right),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute<void>(
+                  builder: (context) => EditScheduleSchedulingPage(
+                    schedule: currentSchedule,
+                  ),
+                ));
+              },
+            ),
+          ],
         ),
       ],
     );

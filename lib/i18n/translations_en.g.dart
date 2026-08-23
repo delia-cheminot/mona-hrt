@@ -84,6 +84,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Upcoming'
   String get upcoming => 'Upcoming';
 
+  /// en: 'As needed'
+  String get asNeeded => 'As needed';
+
   /// en: 'Taken'
   String get taken => 'Taken';
 
@@ -99,17 +102,36 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Never taken yet'
   String get neverTakenYet => 'Never taken yet';
 
-  /// en: 'Every day'
-  String get scheduleFrequencyDaily => 'Every day';
+  /// en: 'Daily'
+  String get scheduleFrequencyDaily => 'Daily';
+
+  /// en: 'Every day, at specific times'
+  String get scheduleFrequencyDailyDescription =>
+      'Every day, at specific times';
 
   /// en: 'Interval'
   String get scheduleFrequencyInterval => 'Interval';
 
+  /// en: 'Every few days'
+  String get scheduleFrequencyIntervalDescription => 'Every few days';
+
   /// en: 'Weekly'
   String get scheduleFrequencyWeekly => 'Weekly';
 
+  /// en: 'Certain days of the week'
+  String get scheduleFrequencyWeeklyDescription => 'Certain days of the week';
+
   /// en: 'Monthly'
   String get scheduleFrequencyMonthly => 'Monthly';
+
+  /// en: 'The same day every month'
+  String get scheduleFrequencyMonthlyDescription => 'The same day every month';
+
+  /// en: 'As needed'
+  String get scheduleFrequencyAsNeeded => 'As needed';
+
+  /// en: 'No fixed schedule'
+  String get scheduleFrequencyAsNeededDescription => 'No fixed schedule';
 
   /// en: 'A new update is available!'
   String get newUpdateAvailable => 'A new update is available!';
@@ -728,6 +750,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'nmol/L'
   String get unitNmolPerL => 'nmol/L';
 
+  /// en: 'ng/mL'
+  String get unitNgPerMl => 'ng/mL';
+
   /// en: 'Left'
   String get injectionSideLeft => 'Left';
 
@@ -1010,15 +1035,22 @@ extension on Translations {
       'allDone' => 'All done!',
       'noIntakesDue' => 'No intakes due today',
       'upcoming' => 'Upcoming',
+      'asNeeded' => 'As needed',
       'taken' => 'Taken',
       'yesterday' => 'yesterday',
       'tomorrow' => 'tomorrow',
       'lastTaken' => 'Last taken',
       'neverTakenYet' => 'Never taken yet',
-      'scheduleFrequencyDaily' => 'Every day',
+      'scheduleFrequencyDaily' => 'Daily',
+      'scheduleFrequencyDailyDescription' => 'Every day, at specific times',
       'scheduleFrequencyInterval' => 'Interval',
+      'scheduleFrequencyIntervalDescription' => 'Every few days',
       'scheduleFrequencyWeekly' => 'Weekly',
+      'scheduleFrequencyWeeklyDescription' => 'Certain days of the week',
       'scheduleFrequencyMonthly' => 'Monthly',
+      'scheduleFrequencyMonthlyDescription' => 'The same day every month',
+      'scheduleFrequencyAsNeeded' => 'As needed',
+      'scheduleFrequencyAsNeededDescription' => 'No fixed schedule',
       'newUpdateAvailable' => 'A new update is available!',
       'goToSettings' => 'Go to Settings',
       'settingsTitle' => 'Settings',
@@ -1242,6 +1274,7 @@ extension on Translations {
       'unitPmolPerL' => 'pmol/L',
       'unitNgPerDl' => 'ng/dL',
       'unitNmolPerL' => 'nmol/L',
+      'unitNgPerMl' => 'ng/mL',
       'injectionSideLeft' => 'Left',
       'injectionSideRight' => 'Right',
       'placementLeft' => 'Left side',
