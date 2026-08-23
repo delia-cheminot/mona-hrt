@@ -26,34 +26,50 @@ class BarChartGraph extends StatelessWidget {
     final contentWidth = spots.isEmpty
         ? 0.0
         : spots.length * _barWidth + (spots.length - 1) * _groupsSpace;
-    final chartWidth = math.max(
-      MediaQuery.of(context).size.width,
-      contentWidth + _chartInset * 2,
-    );
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: SizedBox(
-        width: chartWidth,
-        child: Padding(
-          padding: const EdgeInsets.only(
-              left: _chartInset, right: _chartInset, top: _chartInset),
-          child: BarChart(
-            curve: Curves.easeOutQuad,
-            BarChartData(
-              maxY: maxY * 1.3,
-              alignment: BarChartAlignment.start,
-              groupsSpace: _groupsSpace,
-              barTouchData: _touchData(theme),
-              barGroups: _buildBarGroups(spots, theme),
-              gridData: const FlGridData(
-                show: false,
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final availableWidth = constraints.maxWidth;
+        final neededWidth = contentWidth + _chartInset * 2;
+        final shouldScroll = neededWidth > availableWidth;
+        final chartWidth = shouldScroll ? neededWidth : availableWidth;
+
+        final chart = SizedBox(
+          width: chartWidth,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: _chartInset,
+              right: _chartInset,
+              top: _chartInset,
+            ),
+            child: BarChart(
+              curve: Curves.easeOutQuad,
+              BarChartData(
+                maxY: maxY * 1.3,
+                alignment: BarChartAlignment.start,
+                groupsSpace: _groupsSpace,
+                barTouchData: _touchData(theme),
+                barGroups: _buildBarGroups(spots, theme),
+                gridData: const FlGridData(
+                  show: false,
+                ),
+                titlesData: _titlesData(context, labels),
+                borderData: FlBorderData(show: false),
               ),
-              titlesData: _titlesData(context, labels),
-              borderData: FlBorderData(show: false),
             ),
           ),
-        ),
-      ),
+        );
+
+        if (!shouldScroll) {
+          return chart;
+        }
+
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          reverse: true,
+          child: chart,
+        );
+      },
     );
   }
 
