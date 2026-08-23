@@ -46,6 +46,7 @@ class BloodTestsChartPage extends StatelessWidget {
                     child: BarChartGraph(
                       spots: _entriesSpots(entries),
                       labels: _entriesLabels(context, entries),
+                      unit: entries.first.unit,
                     ),
                   ),
                 ),

@@ -2,12 +2,15 @@ import 'dart:math' as math;
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:mona/data/model/units.dart';
 
 class BarChartGraph extends StatelessWidget {
   final List<FlSpot> spots;
   final List<String> labels;
+  final String unit;
 
-  BarChartGraph({required this.spots, required this.labels});
+  BarChartGraph(
+      {required this.spots, required this.labels, required this.unit});
 
   static const double _barWidth = 18;
   static const double _groupsSpace = 12;
@@ -115,7 +118,7 @@ class BarChartGraph extends StatelessWidget {
             rodIndex,
           ) {
             return BarTooltipItem(
-              'Value: ${rod.toY}',
+              '${rod.toY} ${unit}',
               TextStyle(color: theme.colorScheme.onTertiaryContainer),
             );
           },
