@@ -43,7 +43,10 @@ class BloodTestsChartPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: SizedBox(
                     height: 200,
-                    child: BarChartGraph(spots: _entriesSpots(entries)),
+                    child: BarChartGraph(
+                      spots: _entriesSpots(entries),
+                      labels: _entriesLabels(context, entries),
+                    ),
                   ),
                 ),
                 M3ECardList(
@@ -117,6 +120,15 @@ class BloodTestsChartPage extends StatelessWidget {
         .map((i) => FlSpot(
             i.localDate.differenceInDays(entries.last.localDate).toDouble(),
             i.value.toDouble()))
+        .toList();
+  }
+
+  List<String> _entriesLabels(BuildContext context, List<_LevelEntry> entries) {
+    return entries
+        .map(
+          (entry) => entry.localDate
+              .format(DateFormat('MM/yy', context.intlLanguageTag)),
+        )
         .toList();
   }
 }
