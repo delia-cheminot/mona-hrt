@@ -1,6 +1,8 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:mona/data/model/graph_calculator.dart';
 import 'package:mona/data/model/hormone.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
@@ -9,6 +11,7 @@ import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/chart/baby_graph.dart';
+import 'package:mona/ui/views/chart/baby_main_graph.dart';
 import 'package:mona/ui/views/chart/blood_tests_chart_page.dart';
 import 'package:mona/ui/views/chart/chart_page.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
@@ -19,6 +22,15 @@ class LevelsPage extends StatelessWidget {
 
   Widget _graphTile(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    MedicationIntakeProvider intakeProvider =
+        context.watch<MedicationIntakeProvider>();
+    final preferencesProvider = context.watch<PreferencesService>();
+    final unit = preferencesProvider.units.estradiol;
+    final DateTime tMin = intakeProvider.getGraphLocalStart()!;
+    final intakes = intakeProvider.getIntakesForGraph(tMin);
+    final List<FlSpot> spots =
+        GraphCalculator().generateLevelsSpots(intakes, unit);
+    final List<FlSpot> lastWeekSpots = GraphCalculator().lastWeekSpots(spots);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -39,10 +51,7 @@ class LevelsPage extends StatelessWidget {
         const SizedBox(height: 16),
         Container(
           height: 200,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: colorScheme.outlineVariant),
-          ),
+          child: BabyMainChartGraph(spots: lastWeekSpots),
         ),
       ],
     );
