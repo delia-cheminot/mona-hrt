@@ -140,4 +140,12 @@ class GraphCalculator {
         .map((bloodTest) => FlSpot(bloodTest.offset, bloodTest.level))
         .toList();
   }
+
+  List<FlSpot> lastWeekSpots(List<FlSpot> spots) {
+    if (spots.isEmpty) return <FlSpot>[];
+
+    final lastWeekSpots = spots.where((spot) => spot.x >= -7).toList();
+    lastWeekSpots.sort((a, b) => a.x.compareTo(b.x));
+    return lastWeekSpots;
+  }
 }
