@@ -31,12 +31,21 @@
         "https://i.imgur.com/vuSqW2l.png",
         "https://i.imgur.com/5cjzlB0.png"
       ],
-      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.18.0/mona-1.18.0.ipa",
-      "size": 12237415,
-      "version": "1.18.0",
-      "versionDate": "2026-08-17T18:23:39Z",
-      "versionDescription": "New:\r\n\r\n- Display your time on HRT as an Android widget!\r\n- Clarifies the concentration setting for non-injection routes\r\n- New language: Swedish",
+      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.19.0/mona-1.19.0.ipa",
+      "size": 12257211,
+      "version": "1.19.0",
+      "versionDate": "2026-08-23T15:20:37Z",
+      "versionDescription": "New:\r\n\r\n- You can now use \"as needed\" when setting up a schedule\r\n- Adds pg/mL & ng/mL to the units\r\n- Minor UI tweaks",
       "versions": [
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.19.0/mona-1.19.0.ipa",
+          "size": 12257211,
+          "version": "1.19.0",
+          "buildVersion": "22",
+          "date": "2026-08-23T15:20:37Z",
+          "localizedDescription": "New:\r\n\r\n- You can now use \"as needed\" when setting up a schedule\r\n- Adds pg/mL & ng/mL to the units\r\n- Minor UI tweaks",
+          "minOSVersion": "13.0"
+        },
         {
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.18.0/mona-1.18.0.ipa",
           "size": 12237415,
