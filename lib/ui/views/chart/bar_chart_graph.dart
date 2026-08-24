@@ -110,6 +110,7 @@ class BarChartGraph extends StatelessWidget {
         enabled: true,
         touchTooltipData: BarTouchTooltipData(
           getTooltipColor: (group) => theme.colorScheme.tertiaryContainer,
+          tooltipBorderRadius: BorderRadius.circular(8),
           getTooltipItem: (
             group,
             groupIndex,
@@ -117,7 +118,7 @@ class BarChartGraph extends StatelessWidget {
             rodIndex,
           ) {
             return BarTooltipItem(
-              '${rod.toY} $unit',
+              '${rod.toY}\n$unit',
               TextStyle(color: theme.colorScheme.onTertiaryContainer),
             );
           },
