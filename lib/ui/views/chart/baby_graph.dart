@@ -40,6 +40,7 @@ class BabyBarChartGraph extends StatelessWidget {
     List<FlSpot> entries,
     ThemeData theme,
   ) {
+    final lastIndex = entries.length - 1;
     return entries
         .asMap()
         .entries
@@ -50,7 +51,10 @@ class BabyBarChartGraph extends StatelessWidget {
               BarChartRodData(
                 toY: entry.value.y,
                 width: _barWidth,
-                gradient: _barsGradient(theme),
+                color: entry.key == lastIndex
+                    ? theme.colorScheme.tertiary
+                    // light gray
+                    : theme.colorScheme.secondaryFixed,
               ),
             ],
           ),
@@ -58,14 +62,6 @@ class BabyBarChartGraph extends StatelessWidget {
         .toList();
   }
 
-  LinearGradient _barsGradient(ThemeData theme) => LinearGradient(
-        colors: [
-          theme.colorScheme.primary,
-          theme.colorScheme.secondary,
-        ],
-        begin: Alignment.bottomCenter,
-        end: Alignment.topCenter,
-      );
   FlTitlesData _titlesData() => FlTitlesData(
         show: true,
         bottomTitles:
