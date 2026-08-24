@@ -33,6 +33,8 @@ class LevelsPage extends StatelessWidget {
     final double tNow = timeDifferenceInDays(clock.now(), baseline);
     final List<FlSpot> lastWeekSpots = GraphCalculator()
         .generateLevelsSpots(intakes, unit, tMin: tNow - 14, tMax: tNow + 4);
+    final double nowLevel =
+        GraphCalculator().totalConcentrationAtTime(tNow, intakes, unit);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -54,8 +56,31 @@ class LevelsPage extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text.rich(
+            textAlign: TextAlign.right,
+            TextSpan(
+              text: nowLevel.toStringAsFixed(0),
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall
+                  ?.copyWith(color: colorScheme.tertiary),
+              children: [
+                TextSpan(
+                  text: ' ${unit.localizedName}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: colorScheme.tertiary),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
         SizedBox(
-          height: 200,
+          height: 180,
           child: BabyMainChartGraph(spots: lastWeekSpots, nowX: tNow),
         ),
       ],
