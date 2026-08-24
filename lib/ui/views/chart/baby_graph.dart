@@ -20,8 +20,8 @@ class BabyBarChartGraph extends StatelessWidget {
         curve: Curves.easeOutQuad,
         BarChartData(
           maxY: spots.map((e) => e.y).reduce((a, b) => a > b ? a : b),
-          alignment: BarChartAlignment.start,
-          groupsSpace: 12,
+          alignment: BarChartAlignment.spaceEvenly,
+          groupsSpace: 10,
           barTouchData: BarTouchData(enabled: false),
           barGroups: _buildBarGroups(spots, theme),
           gridData: const FlGridData(
