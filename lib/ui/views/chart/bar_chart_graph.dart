@@ -15,7 +15,7 @@ class BarChartGraph extends StatelessWidget {
   static const double _groupsSpace = 12;
   static const double _bottomReservedSize = 52;
   static const double _leftReservedSize = 40;
-  static const double _chartInset = 20;
+  static const double _chartInset = 40;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class BarChartGraph extends StatelessWidget {
             child: BarChart(
               curve: Curves.easeOutQuad,
               BarChartData(
-                maxY: maxY * 1.3,
+                maxY: maxY,
                 alignment: BarChartAlignment.start,
                 groupsSpace: _groupsSpace,
                 barTouchData: _touchData(theme),
@@ -111,6 +111,7 @@ class BarChartGraph extends StatelessWidget {
         touchTooltipData: BarTouchTooltipData(
           getTooltipColor: (group) => theme.colorScheme.tertiaryContainer,
           tooltipBorderRadius: BorderRadius.circular(8),
+          fitInsideVertically: true,
           getTooltipItem: (
             group,
             groupIndex,
