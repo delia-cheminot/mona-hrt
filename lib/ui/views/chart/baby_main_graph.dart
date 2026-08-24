@@ -11,30 +11,26 @@ class BabyMainChartGraph extends StatelessWidget {
     if (spots.isEmpty) {
       return const SizedBox.shrink();
     }
-    return SizedBox(
-      height: 200,
-      width: 96,
-      child: LineChart(
-        LineChartData(
-          minY: 0,
-          gridData: const FlGridData(show: false),
-          borderData: FlBorderData(show: false),
-          titlesData: _titlesData(),
-          lineTouchData: LineTouchData(enabled: false),
-          lineBarsData: [
-            LineChartBarData(
-              spots: spots,
-              isCurved: true,
-              color: theme.colorScheme.primary,
-              barWidth: 2,
-              dotData: const FlDotData(show: false),
-              belowBarData: BarAreaData(
-                show: true,
-                color: theme.colorScheme.primary.withValues(alpha: 0.24),
-              ),
+    return LineChart(
+      LineChartData(
+        minY: 0,
+        gridData: const FlGridData(show: false),
+        borderData: FlBorderData(show: false),
+        titlesData: _titlesData(),
+        lineTouchData: LineTouchData(enabled: false),
+        lineBarsData: [
+          LineChartBarData(
+            spots: spots,
+            isCurved: true,
+            color: theme.colorScheme.primary,
+            barWidth: 2,
+            dotData: const FlDotData(show: false),
+            belowBarData: BarAreaData(
+              show: true,
+              color: theme.colorScheme.primary.withValues(alpha: 0.24),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
