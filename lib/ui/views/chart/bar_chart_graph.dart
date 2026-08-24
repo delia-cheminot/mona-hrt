@@ -93,24 +93,13 @@ class BarChartGraph extends StatelessWidget {
                 width: _barWidth,
                 color: entry.key == highlightedIndex
                     ? theme.colorScheme.tertiary
-                    : null,
-                gradient:
-                    entry.key == highlightedIndex ? null : _barsGradient(theme),
+                    : theme.colorScheme.primary,
               ),
             ],
           ),
         )
         .toList();
   }
-
-  LinearGradient _barsGradient(ThemeData theme) => LinearGradient(
-        colors: [
-          theme.colorScheme.primary,
-          theme.colorScheme.secondary,
-        ],
-        begin: Alignment.bottomCenter,
-        end: Alignment.topCenter,
-      );
 
   BarTouchData _touchData(ThemeData theme) => BarTouchData(
         enabled: true,
