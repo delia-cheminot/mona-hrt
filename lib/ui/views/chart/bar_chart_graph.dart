@@ -14,7 +14,6 @@ class BarChartGraph extends StatelessWidget {
   static const double _barWidth = 18;
   static const double _groupsSpace = 12;
   static const double _bottomReservedSize = 52;
-  static const double _leftReservedSize = 40;
   static const double _chartInset = 40;
 
   @override
@@ -158,18 +157,9 @@ class BarChartGraph extends StatelessWidget {
           },
         ),
       ),
-      leftTitles: AxisTitles(
-        sideTitles: SideTitles(
-          showTitles: false,
-          reservedSize: _leftReservedSize,
-        ),
-      ),
-      topTitles: const AxisTitles(
-        sideTitles: SideTitles(showTitles: false),
-      ),
-      rightTitles: const AxisTitles(
-        sideTitles: SideTitles(showTitles: false),
-      ),
+      leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
     );
   }
 }
