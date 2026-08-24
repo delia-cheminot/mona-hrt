@@ -33,6 +33,7 @@ class BloodTestsChartPage extends StatelessWidget {
       body: Consumer2<BloodTestProvider, PreferencesService>(
         builder: (context, bloodTestProvider, preferences, child) {
           final entries = getListOfEntries(bloodTestProvider, preferences);
+          final chronologicalEntries = entries.reversed.toList();
 
           return SingleChildScrollView(
             padding: pagePadding,
@@ -44,8 +45,8 @@ class BloodTestsChartPage extends StatelessWidget {
                   child: SizedBox(
                     height: 300,
                     child: BarChartGraph(
-                      spots: _entriesSpots(entries),
-                      labels: _entriesLabels(context, entries),
+                      spots: _entriesSpots(chronologicalEntries),
+                      labels: _entriesLabels(context, chronologicalEntries),
                       unit: entries.first.unit,
                     ),
                   ),
@@ -119,7 +120,7 @@ class BloodTestsChartPage extends StatelessWidget {
   List<FlSpot> _entriesSpots(List<LevelEntry> entries) {
     return entries
         .map((i) => FlSpot(
-            i.localDate.differenceInDays(entries.last.localDate).toDouble(),
+            i.localDate.differenceInDays(entries.first.localDate).toDouble(),
             i.value.toDouble()))
         .toList();
   }
@@ -134,11 +135,12 @@ class BloodTestsChartPage extends StatelessWidget {
   }
 
   List<FlSpot> lastFiveEntriesSpots(List<LevelEntry> entries) {
-    final lastFiveEntries = entries.take(5).toList();
+    // entries are newest-first, so take the five newest then flip to oldest-first.
+    final lastFiveEntries = entries.take(5).toList().reversed.toList();
     return lastFiveEntries
         .map((i) => FlSpot(
             i.localDate
-                .differenceInDays(lastFiveEntries.last.localDate)
+                .differenceInDays(lastFiveEntries.first.localDate)
                 .toDouble(),
             i.value.toDouble()))
         .toList();
