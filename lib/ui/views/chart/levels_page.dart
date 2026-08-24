@@ -32,28 +32,31 @@ class LevelsPage extends StatelessWidget {
     final intakes = intakeProvider.getIntakesForGraph(baseline);
     final double tNow = timeDifferenceInDays(clock.now(), baseline);
     final List<FlSpot> lastWeekSpots = GraphCalculator()
-        .generateLevelsSpots(intakes, unit, tMin: tNow - 7, tMax: tNow + 3);
+        .generateLevelsSpots(intakes, unit, tMin: tNow - 14, tMax: tNow + 4);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Row(
-          children: [
-            Icon(Symbols.trending_up_rounded, color: colorScheme.onSurface),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                t.estradiolLevelsTitle,
-                style: Theme.of(context).textTheme.titleMedium,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              Icon(Symbols.trending_up_rounded, color: colorScheme.onSurface),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  t.estradiolLevelsTitle,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
               ),
-            ),
-            Icon(Symbols.chevron_right_rounded, color: colorScheme.onSurface),
-          ],
+              Icon(Symbols.chevron_right_rounded, color: colorScheme.onSurface),
+            ],
+          ),
         ),
         const SizedBox(height: 16),
         SizedBox(
           height: 200,
-          child: BabyMainChartGraph(spots: lastWeekSpots),
+          child: BabyMainChartGraph(spots: lastWeekSpots, nowX: tNow),
         ),
       ],
     );
@@ -143,7 +146,7 @@ class LevelsPage extends StatelessWidget {
               children: [
                 if (medicationIntakeProvider.plottableIntakes.isNotEmpty)
                   M3ECardColumn(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.only(top: 16),
                     margin: const EdgeInsets.symmetric(vertical: 8),
                     color: colorScheme.surface,
                     onTap: (_) => Navigator.of(context).push(
