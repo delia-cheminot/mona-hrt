@@ -27,7 +27,7 @@ class BabyBarChartGraph extends StatelessWidget {
           gridData: const FlGridData(
             show: false,
           ),
-          titlesData: _titlesData(),
+          titlesData: FlTitlesData(show: false),
           borderData: FlBorderData(show: false),
         ),
       ),
@@ -58,6 +58,4 @@ class BabyBarChartGraph extends StatelessWidget {
         )
         .toList();
   }
-
-  FlTitlesData _titlesData() => FlTitlesData(show: false);
 }
