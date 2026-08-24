@@ -42,7 +42,7 @@ class BloodTestsChartPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: SizedBox(
-                    height: 300,
+                    height: 250,
                     child: BarChartGraph(
                       spots: _entriesSpots(chronologicalEntries),
                       labels: _entriesLabels(context, chronologicalEntries),
