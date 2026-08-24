@@ -16,55 +16,13 @@ import 'package:provider/provider.dart';
 
 typedef LevelEntry = ({Date localDate, Decimal value, String unit});
 
-class BloodTestsChartPage extends StatelessWidget {
+class BloodTestsChartPage extends StatefulWidget {
   const BloodTestsChartPage({super.key, required this.hormone});
 
   final Hormone hormone;
 
-  String get _title => switch (hormone) {
-        Hormone.estradiol => t.estradiol,
-        Hormone.testosterone => t.testosterone,
-      };
-
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(_title)),
-      body: Consumer2<BloodTestProvider, PreferencesService>(
-        builder: (context, bloodTestProvider, preferences, child) {
-          final entries = getListOfEntries(bloodTestProvider, preferences);
-          final chronologicalEntries = entries.reversed.toList();
-
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: SizedBox(
-                    height: 250,
-                    child: BarChartGraph(
-                      spots: _entriesSpots(chronologicalEntries),
-                      labels: _entriesLabels(context, chronologicalEntries),
-                      unit: entries.first.unit,
-                    ),
-                  ),
-                ),
-                M3ECardList(
-                  margin:
-                      pagePadding.add(const EdgeInsets.symmetric(vertical: 8)),
-                  padding: const EdgeInsets.all(16),
-                  itemCount: entries.length,
-                  itemBuilder: (context, index) =>
-                      _testTile(context, entries[index]),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
+  State<BloodTestsChartPage> createState() => _BloodTestsChartPageState();
 
   List<LevelEntry> getListOfEntries(
     BloodTestProvider provider,
@@ -90,6 +48,81 @@ class BloodTestsChartPage extends StatelessWidget {
                 ))
             .toList();
     }
+  }
+
+  List<FlSpot> lastFiveEntriesSpots(List<LevelEntry> entries) {
+    // entries are newest-first, so take the five newest then flip to oldest-first.
+    final lastFiveEntries = entries.take(5).toList().reversed.toList();
+    return lastFiveEntries
+        .map((i) => FlSpot(
+            i.localDate
+                .differenceInDays(lastFiveEntries.first.localDate)
+                .toDouble(),
+            i.value.toDouble()))
+        .toList();
+  }
+}
+
+class _BloodTestsChartPageState extends State<BloodTestsChartPage> {
+  int? _highlightedBarIndex;
+
+  Hormone get hormone => widget.hormone;
+
+  String get _title => switch (hormone) {
+        Hormone.estradiol => t.estradiol,
+        Hormone.testosterone => t.testosterone,
+      };
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(_title)),
+      body: Consumer2<BloodTestProvider, PreferencesService>(
+        builder: (context, bloodTestProvider, preferences, child) {
+          final entries =
+              widget.getListOfEntries(bloodTestProvider, preferences);
+          final chronologicalEntries = entries.reversed.toList();
+
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: SizedBox(
+                    height: 250,
+                    child: BarChartGraph(
+                      spots: _entriesSpots(chronologicalEntries),
+                      labels: _entriesLabels(context, chronologicalEntries),
+                      unit: entries.first.unit,
+                      highlightedIndex: _highlightedBarIndex,
+                    ),
+                  ),
+                ),
+                M3ECardList(
+                  margin: pagePadding.add(EdgeInsets.only(
+                      top: 8,
+                      bottom: MediaQuery.viewPaddingOf(context).bottom)),
+                  padding: EdgeInsets.zero,
+                  itemCount: entries.length,
+                  itemBuilder: (context, index) => InkWell(
+                    onTapDown: (_) => setState(() =>
+                        _highlightedBarIndex = entries.length - 1 - index),
+                    onTapUp: (_) => setState(() => _highlightedBarIndex = null),
+                    onTapCancel: () =>
+                        setState(() => _highlightedBarIndex = null),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: _testTile(context, entries[index]),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 
   Widget _testTile(BuildContext context, LevelEntry entry) {
@@ -131,18 +164,6 @@ class BloodTestsChartPage extends StatelessWidget {
           (entry) => entry.localDate
               .format(DateFormat('MM/yy', context.intlLanguageTag)),
         )
-        .toList();
-  }
-
-  List<FlSpot> lastFiveEntriesSpots(List<LevelEntry> entries) {
-    // entries are newest-first, so take the five newest then flip to oldest-first.
-    final lastFiveEntries = entries.take(5).toList().reversed.toList();
-    return lastFiveEntries
-        .map((i) => FlSpot(
-            i.localDate
-                .differenceInDays(lastFiveEntries.first.localDate)
-                .toDouble(),
-            i.value.toDouble()))
         .toList();
   }
 }

@@ -7,9 +7,13 @@ class BarChartGraph extends StatelessWidget {
   final List<FlSpot> spots;
   final List<String> labels;
   final String unit;
+  final int? highlightedIndex;
 
   BarChartGraph(
-      {required this.spots, required this.labels, required this.unit});
+      {required this.spots,
+      required this.labels,
+      required this.unit,
+      this.highlightedIndex});
 
   static const double _barWidth = 18;
   static const double _groupsSpace = 12;
@@ -87,7 +91,11 @@ class BarChartGraph extends StatelessWidget {
               BarChartRodData(
                 toY: entry.value.y,
                 width: _barWidth,
-                gradient: _barsGradient(theme),
+                color: entry.key == highlightedIndex
+                    ? theme.colorScheme.tertiary
+                    : null,
+                gradient:
+                    entry.key == highlightedIndex ? null : _barsGradient(theme),
               ),
             ],
           ),
