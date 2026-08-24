@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
@@ -15,6 +16,7 @@ import 'package:mona/ui/views/chart/baby_main_graph.dart';
 import 'package:mona/ui/views/chart/blood_tests_chart_page.dart';
 import 'package:mona/ui/views/chart/chart_page.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
+import 'package:mona/util/time_difference.dart';
 import 'package:provider/provider.dart';
 
 class LevelsPage extends StatelessWidget {
@@ -26,11 +28,11 @@ class LevelsPage extends StatelessWidget {
         context.watch<MedicationIntakeProvider>();
     final preferencesProvider = context.watch<PreferencesService>();
     final unit = preferencesProvider.units.estradiol;
-    final DateTime tMin = intakeProvider.getGraphLocalStart()!;
-    final intakes = intakeProvider.getIntakesForGraph(tMin);
-    final List<FlSpot> spots =
-        GraphCalculator().generateLevelsSpots(intakes, unit);
-    final List<FlSpot> lastWeekSpots = GraphCalculator().lastWeekSpots(spots);
+    final DateTime baseline = intakeProvider.getGraphLocalStart()!;
+    final intakes = intakeProvider.getIntakesForGraph(baseline);
+    final double tNow = timeDifferenceInDays(clock.now(), baseline);
+    final List<FlSpot> lastWeekSpots = GraphCalculator()
+        .generateLevelsSpots(intakes, unit, tMin: tNow - 7, tMax: tNow + 3);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
