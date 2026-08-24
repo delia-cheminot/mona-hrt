@@ -1,12 +1,14 @@
 import 'package:clock/clock.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/graph_calculator.dart';
 import 'package:mona/data/model/hormone.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
+import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/helpers/units_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
@@ -107,7 +109,10 @@ class LevelsPage extends StatelessWidget {
             Expanded(
               child: Text(label, style: theme.textTheme.titleMedium),
             ),
-            Text('14 Aug', style: theme.textTheme.bodyMedium),
+            Text(
+                entry.first.localDate
+                    .format(DateFormat.MMMd(context.intlLanguageTag)),
+                style: theme.textTheme.bodyMedium),
             const SizedBox(width: 8),
             Icon(Symbols.chevron_right_rounded, color: colorScheme.onSurface),
           ],
