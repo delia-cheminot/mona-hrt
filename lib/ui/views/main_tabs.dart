@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/views/chart/blood_test_page.dart';
-import 'chart/levels_page.dart';
+import 'package:mona/ui/views/chart/chart_page.dart';
 import 'home/home_page.dart';
 import 'home/settings/settings_page.dart';
 import 'intakes/choose_schedule_page.dart';
@@ -50,12 +50,12 @@ List<MainTabConfig> getMainTabs(BuildContext context) {
     ),
     MainTabConfig(
       title: t.nav_levels,
-      page: const LevelsPage(),
+      page: ChartPage(),
       icon: Symbols.labs_rounded,
       backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       buildActions: (context) => [
         IconButton(
-          icon: const Icon(Symbols.bloodtype_rounded),
+          icon: const Icon(Symbols.lab_profile_rounded),
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => BloodTestPage()),
