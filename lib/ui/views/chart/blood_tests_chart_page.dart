@@ -36,7 +36,6 @@ class BloodTestsChartPage extends StatelessWidget {
           final chronologicalEntries = entries.reversed.toList();
 
           return SingleChildScrollView(
-            padding: pagePadding,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -52,8 +51,9 @@ class BloodTestsChartPage extends StatelessWidget {
                   ),
                 ),
                 M3ECardList(
+                  margin:
+                      pagePadding.add(const EdgeInsets.symmetric(vertical: 8)),
                   padding: const EdgeInsets.all(16),
-                  margin: const EdgeInsets.symmetric(vertical: 8),
                   itemCount: entries.length,
                   itemBuilder: (context, index) =>
                       _testTile(context, entries[index]),
