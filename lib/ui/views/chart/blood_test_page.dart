@@ -25,20 +25,26 @@ class BloodTestPage extends StatelessWidget {
       body: Consumer<BloodTestProvider>(
           builder: (context, bloodTestProvider, child) {
         return MainPageWrapper(
-            isLoading: bloodTestProvider.isLoading,
-            isEmpty: bloodtests.isEmpty,
-            emptyMessage: t.empty_blood_tests,
-            child: M3ECardList(
-              key: const ValueKey('bloodTestsList'),
-              margin: pagePadding
-                  .add(const EdgeInsets.symmetric(vertical: borderPadding)),
-              padding: EdgeInsets.zero,
-              itemCount: bloodtests.length,
-              itemBuilder: (context, index) {
-                return _buildBloodTestTile(
-                    context, bloodtests[index], bloodTestProvider);
-              },
-            ));
+          isLoading: bloodTestProvider.isLoading,
+          isEmpty: bloodtests.isEmpty,
+          emptyMessage: t.empty_blood_tests,
+          child: M3ECardList.builder(
+            key: const ValueKey('bloodTestsList'),
+            listPadding: EdgeInsets.only(
+              left: borderPadding,
+              right: borderPadding,
+              top: borderPadding,
+              // fab height + 2 * fab margin == 88
+              bottom: 88 + MediaQuery.viewPaddingOf(context).bottom,
+            ),
+            padding: EdgeInsets.zero,
+            itemCount: bloodtests.length,
+            itemBuilder: (context, index) {
+              return _buildBloodTestTile(
+                  context, bloodtests[index], bloodTestProvider);
+            },
+          ),
+        );
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
