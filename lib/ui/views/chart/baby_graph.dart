@@ -54,8 +54,7 @@ class BabyBarChartGraph extends StatelessWidget {
                 width: _barWidth,
                 color: entry.key == lastIndex
                     ? theme.colorScheme.tertiary
-                    // light gray
-                    : theme.colorScheme.secondaryFixed,
+                    : theme.colorScheme.secondaryContainer,
               ),
             ],
           ),
