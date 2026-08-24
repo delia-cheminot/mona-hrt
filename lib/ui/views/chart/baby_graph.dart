@@ -25,6 +25,7 @@ class BabyBarChartGraph extends StatelessWidget {
           maxY: maxY * 1.1,
           alignment: BarChartAlignment.start,
           groupsSpace: _groupsSpace,
+          barTouchData: BarTouchData(enabled: false),
           barGroups: _buildBarGroups(spots, theme),
           gridData: const FlGridData(
             show: false,
