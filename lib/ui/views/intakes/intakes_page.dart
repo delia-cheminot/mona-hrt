@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:m3e_core/m3e_core.dart';
-import 'package:material_symbols_icons/material_symbols_icons.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
@@ -78,7 +78,7 @@ class IntakesPage extends StatelessWidget {
       leading: Icon(
         intake.administrationRoute.icon,
       ),
-      trailing: intake.notes != null ? Icon(Symbols.notes) : null,
+      trailing: intake.notes != null ? Icon(Symbols.notes_rounded) : null,
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute<void>(

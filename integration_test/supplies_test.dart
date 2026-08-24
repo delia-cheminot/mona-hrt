@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -109,7 +110,7 @@ Future<void> _createMedicationItem(
   PatrolIntegrationTester $, {
   required String name,
 }) async {
-  await $(Icons.add).tap(); // FAB: "Add an item" -> NewItemPage
+  await $(Symbols.add_rounded).tap(); // FAB: "Add an item" -> NewItemPage
   await $(_newItemName).enterText(name);
   await $(_newItemNext).tap(); // -> NewMedicationItemSpecificsPage
 
@@ -129,7 +130,7 @@ Future<void> _createGenericItem(
   PatrolIntegrationTester $, {
   required String name,
 }) async {
-  await $(Icons.add).tap(); // FAB: "Add an item" -> NewItemPage
+  await $(Symbols.add_rounded).tap(); // FAB: "Add an item" -> NewItemPage
   await $(_newItemName).enterText(name);
   await $(_newItemTypeGeneric).tap(); // switch from medication to consumable
   await $(_newItemNext).tap(); // -> NewGenericItemSpecificsPage

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/widgets/forms/dismiss_keyboard_single_child_scroll_view.dart';
@@ -46,7 +47,7 @@ class ModelForm extends StatelessWidget {
           actions: [
             if (closeAll != null)
               IconButton(
-                icon: const Icon(Icons.close),
+                icon: const Icon(Symbols.close_rounded),
                 onPressed: closeAll,
               ),
           ],
@@ -62,7 +63,11 @@ class ModelForm extends StatelessWidget {
                   Center(
                     child: CircleAvatar(
                       radius: 64,
-                      child: Icon(avatar, size: 64),
+                      child: Icon(
+                        avatar,
+                        size: 64,
+                        weight: 300,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 32),
@@ -88,7 +93,7 @@ class ModelForm extends StatelessWidget {
                     child: M3EButton.icon(
                       key: deleteButtonKey,
                       onPressed: onDelete,
-                      icon: const Icon(Icons.delete),
+                      icon: const Icon(Symbols.delete_rounded),
                       label: Text(t.delete),
                       style: M3EButtonStyle.outlined,
                       size: M3EButtonSize.md,
@@ -107,7 +112,7 @@ class ModelForm extends StatelessWidget {
                       ? M3EButton.icon(
                           key: submitButtonKey,
                           onPressed: isFormValid ? saveChanges : null,
-                          icon: Icon(submitButtonIcon ?? Icons.save),
+                          icon: Icon(submitButtonIcon ?? Symbols.save_rounded),
                           label: Text(submitButtonLabel),
                           style: M3EButtonStyle.filled,
                           size: M3EButtonSize.md,

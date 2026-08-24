@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/material_symbols_icons.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/distribution.dart';
 import 'package:mona/i18n/helpers/units_l10n.dart';
@@ -195,7 +195,7 @@ class _SettingsPageState extends State<SettingsPage>
                 ? t.noSchedules
                 : t.schedulesCreated(
                     count: medicationScheduleProvider.schedules.length)),
-            trailing: Icon(Icons.chevron_right),
+            trailing: Icon(Symbols.chevron_right_rounded),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute<void>(
                 builder: (context) => SchedulesPage(),
@@ -210,10 +210,10 @@ class _SettingsPageState extends State<SettingsPage>
           ),
           if (_notificationsEnabled && !_permissionGranted)
             ListTile(
-              leading: const Icon(Icons.info_outline),
+              leading: const Icon(Symbols.info_rounded),
               title: Text(t.notificationsDisabledTitle),
               subtitle: Text(t.clickToOpenSettings),
-              trailing: const Icon(Icons.chevron_right),
+              trailing: const Icon(Symbols.chevron_right_rounded),
               onTap: () async {
                 await openAppSettings();
               },
@@ -222,10 +222,10 @@ class _SettingsPageState extends State<SettingsPage>
               _permissionGranted &&
               !_exactAlarmsGranted)
             ListTile(
-              leading: const Icon(Icons.info_outline),
+              leading: const Icon(Symbols.info_rounded),
               title: Text(t.exactRemindersDisabled),
               subtitle: Text(t.remindersDelayed),
-              trailing: const Icon(Icons.chevron_right),
+              trailing: const Icon(Symbols.chevron_right_rounded),
               onTap: () async {
                 await openAppSettings();
               },
@@ -243,7 +243,7 @@ class _SettingsPageState extends State<SettingsPage>
             key: const ValueKey('settingsInjectionSitesTile'),
             title: Text(t.injectionSites),
             subtitle: Text(t.injectionSitesDescription),
-            trailing: Icon(Icons.chevron_right),
+            trailing: Icon(Symbols.chevron_right_rounded),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute<void>(
                   builder: (context) => const InjectionSitesPage()));
@@ -252,7 +252,7 @@ class _SettingsPageState extends State<SettingsPage>
           ListTile(
             title: Text(t.units),
             subtitle: Text(preferencesService.units.localizedName),
-            trailing: Icon(Icons.chevron_right),
+            trailing: Icon(Symbols.chevron_right_rounded),
             onTap: () {
               Navigator.of(context).push(
                   MaterialPageRoute<void>(builder: (context) => UnitsPage()));
@@ -266,7 +266,7 @@ class _SettingsPageState extends State<SettingsPage>
                 time: preferencesService.logicalDayStart.format(context),
               ),
             ),
-            trailing: const Icon(Icons.access_time_rounded),
+            trailing: const Icon(Symbols.access_time_rounded),
             onTap: () async {
               final picked = await showTimePicker(
                 context: context,
@@ -297,7 +297,7 @@ class _SettingsPageState extends State<SettingsPage>
                           preferencesService.savedLanguageTag!) ??
                       preferencesService.savedLanguageTag!),
             ),
-            trailing: Icon(Icons.chevron_right),
+            trailing: Icon(Symbols.chevron_right_rounded),
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute<void>(builder: (context) => LanguagePage()),
@@ -307,7 +307,7 @@ class _SettingsPageState extends State<SettingsPage>
           ListTile(
             title: Text(t.theme),
             subtitle: Text(t.themeCustomizeColors),
-            trailing: const Icon(Icons.chevron_right),
+            trailing: const Icon(Symbols.chevron_right_rounded),
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute<void>(
@@ -340,7 +340,7 @@ class _SettingsPageState extends State<SettingsPage>
             ListTile(
               title: Text(t.checkForUpdates),
               subtitle: Text(t.checkForUpdatesDescription),
-              trailing: const Icon(Symbols.update),
+              trailing: const Icon(Symbols.update_rounded),
               onTap: () => UpdateService().checkForUpdates(context),
             ),
           ],
@@ -358,13 +358,13 @@ class _SettingsPageState extends State<SettingsPage>
           ListTile(
             title: Text(t.exportDataTitle),
             subtitle: Text(t.exportDataSubtitle),
-            trailing: const Icon(Symbols.upload),
+            trailing: const Icon(Symbols.upload_rounded),
             onTap: _exportData,
           ),
           ListTile(
             title: Text(t.importDataTitle),
             subtitle: Text(t.importDataSubtitle),
-            trailing: const Icon(Symbols.download),
+            trailing: const Icon(Symbols.download_rounded),
             onTap: _importData,
           ),
           const SizedBox(height: 32),
