@@ -73,7 +73,8 @@ class HrtGlanceWidget : GlanceAppWidget() {
         val text = if (hasData) {
             durationText(context, firstDate!!, localeTag)
         } else {
-            context.getString(R.string.hrt_home_widget_placeholder)
+            localizedContext(context, localeTag)
+                .getString(R.string.hrt_home_widget_placeholder)
         }
         val widthDp = LocalSize.current.width.value
         val subtitle = if (hasData && intakeCount != null && titleFitsOneLine(context, text, widthDp)) {
