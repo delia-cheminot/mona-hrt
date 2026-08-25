@@ -137,3 +137,78 @@ jobs:
         with:
           name: android-debug-apk
           path: build/app/outputs/flutter-apk/app-standalone-debug.apk
+
+  diff_breakdown:
+    name: Diff breakdown
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Compute line-change breakdown
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+
+          declare -A ADD DEL FILES
+          for cat in generated i18n test code; do
+            ADD[$cat]=0; DEL[$cat]=0; FILES[$cat]=0
+          done
+
+          # Collapse rename display forms
+          normalize_path() {
+            printf '%s' "$1" | sed -E 's/\{[^{}]* => ([^{}]*)\}/\1/g; s/^.* => //'
+          }
+
+          while IFS=$'\t' read -r added deleted path; do
+            [ -z "${path:-}" ] && continue
+            path="$(normalize_path "$path")"
+            # Binary files report "-"
+            [[ "$added" =~ ^[0-9]+$ ]] || added=0
+            [[ "$deleted" =~ ^[0-9]+$ ]] || deleted=0
+
+            if [ "$(git check-attr linguist-generated -- "$path" | sed 's/.*: //')" = "set" ]; then
+              cat=generated
+            elif [[ "$path" == *.i18next.json ]]; then
+              cat=i18n
+            elif [[ "$path" == test/* || "$path" == integration_test/* ]]; then
+              cat=test
+            else
+              cat=code
+            fi
+
+            ADD[$cat]=$(( ADD[$cat] + added ))
+            DEL[$cat]=$(( DEL[$cat] + deleted ))
+            FILES[$cat]=$(( FILES[$cat] + 1 ))
+          done < <(git diff --numstat "$BASE_SHA...$HEAD_SHA")
+
+          total_files=0; total_add=0; total_del=0
+          row() {
+            local label="$1" key="$2"
+            local a="${ADD[$key]}" d="${DEL[$key]}" f="${FILES[$key]}"
+            local net=$(( a - d )) sign=""
+            [ "$net" -ge 0 ] && sign="+"
+            printf '| %s | %d | %d | %d | %s%d |\n' "$label" "$f" "$a" "$d" "$sign" "$net"
+            total_files=$(( total_files + f ))
+            total_add=$(( total_add + a ))
+            total_del=$(( total_del + d ))
+          }
+
+          {
+            echo "## Line-change breakdown"
+            echo
+            echo "| Category | Files | Added | Deleted | Net |"
+            echo "|----------|------:|------:|--------:|----:|"
+            row "Generated" generated
+            row "i18n" i18n
+            row "Test" test
+            row "Code" code
+            net_total=$(( total_add - total_del )) sign=""
+            [ "$net_total" -ge 0 ] && sign="+"
+            printf '| **Total** | %d | %d | %d | %s%d |\n' "$total_files" "$total_add" "$total_del" "$sign" "$net_total"
+          } | tee -a "$GITHUB_STEP_SUMMARY"
