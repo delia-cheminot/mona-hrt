@@ -18,7 +18,7 @@ class BloodTestPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloodTestProvider = context.watch<BloodTestProvider>();
 
-    List<BloodTest> bloodtests = bloodTestProvider.bloodtestsSortedDesc;
+    List<BloodTest> bloodtests = bloodTestProvider.bloodTestsSortedDesc;
 
     return Scaffold(
       appBar: AppBar(title: Text(t.bloodTestsTitle)),

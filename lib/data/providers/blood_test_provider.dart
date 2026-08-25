@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/model/graph_calculator.dart';
@@ -8,7 +9,7 @@ import 'package:mona/services/repository.dart';
 import 'package:mona/util/time_difference.dart';
 
 class BloodTestProvider extends ChangeNotifier {
-  List<BloodTest> _bloodtestsSortedDesc = [];
+  List<BloodTest> _bloodTestsSortedDesc = [];
   bool _isLoading = true;
 
   final Repository<BloodTest> repository;
@@ -19,24 +20,28 @@ class BloodTestProvider extends ChangeNotifier {
   }
 
   bool get isLoading => _isLoading;
-  List<BloodTest> get bloodtestsSortedDesc => _bloodtestsSortedDesc;
+  List<BloodTest> get bloodTestsSortedDesc => _bloodTestsSortedDesc;
 
   List<BloodTest> get estradiolTestsSortedDesc =>
-      _bloodtestsSortedDesc.where((t) => t.estradiolLevels != null).toList();
+      _bloodTestsSortedDesc.where((t) => t.estradiolLevels != null).toList();
 
   List<BloodTest> get testosteroneTestsSortedDesc =>
-      _bloodtestsSortedDesc.where((t) => t.testosteroneLevels != null).toList();
+      _bloodTestsSortedDesc.where((t) => t.testosteroneLevels != null).toList();
 
   UnitValue<EstradiolUnit>? latestEstradiolLevel(EstradiolUnit unit) {
-    final stored = estradiolTestsSortedDesc.firstOrNull?.estradiolLevels;
-    if (stored == null) return null;
-    return UnitValue(stored.inUnit(unit), unit);
+    final latest = _bloodTestsSortedDesc
+        .firstWhereOrNull((t) => t.estradiolLevels != null)
+        ?.estradiolLevels;
+    if (latest == null) return null;
+    return UnitValue(latest.inUnit(unit), unit);
   }
 
   UnitValue<TestosteroneUnit>? latestTestosteroneLevel(TestosteroneUnit unit) {
-    final stored = testosteroneTestsSortedDesc.firstOrNull?.testosteroneLevels;
-    if (stored == null) return null;
-    return UnitValue(stored.inUnit(unit), unit);
+    final latest = _bloodTestsSortedDesc
+        .firstWhereOrNull((t) => t.testosteroneLevels != null)
+        ?.testosteroneLevels;
+    if (latest == null) return null;
+    return UnitValue(latest.inUnit(unit), unit);
   }
 
   List<LevelEntry> levelEntries(Hormone hormone, Units units) {
@@ -82,9 +87,9 @@ class BloodTestProvider extends ChangeNotifier {
 
   List<GraphBloodTest> getBloodTestsForGraph(
       DateTime tMin, EstradiolUnit unit) {
-    if (bloodtestsSortedDesc.isEmpty) return [];
+    if (bloodTestsSortedDesc.isEmpty) return [];
 
-    return bloodtestsSortedDesc
+    return bloodTestsSortedDesc
         .where((bloodtest) => bloodtest.estradiolLevels != null)
         .where((bloodtest) => !bloodtest.dateTime.isBefore(tMin))
         .map((bloodtest) => GraphBloodTest(
@@ -101,13 +106,13 @@ class BloodTestProvider extends ChangeNotifier {
   );
 
   Future<void> _fetchBloodTests() async {
-    _bloodtestsSortedDesc = (await repository.getAll())
+    _bloodTestsSortedDesc = (await repository.getAll())
       ..sort((a, b) => b.dateTime.compareTo(a.dateTime));
     notifyListeners();
   }
 
   Future<void> _init() async {
-    _bloodtestsSortedDesc = (await repository.getAll())
+    _bloodTestsSortedDesc = (await repository.getAll())
       ..sort((a, b) => b.dateTime.compareTo(a.dateTime));
     _isLoading = false;
     notifyListeners();
