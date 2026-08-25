@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -70,7 +71,7 @@ class FormDateTimeField extends StatelessWidget {
   Future<void> _selectDate(BuildContext context) async {
     DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDatetime ?? DateTime.now(),
+      initialDate: selectedDatetime ?? clock.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );

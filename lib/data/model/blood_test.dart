@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/util/string_parsing.dart';
@@ -18,7 +19,7 @@ class BloodTest {
     required this.timeZone,
     this.estradiolLevels,
     this.testosteroneLevels,
-  }) : id = id ?? DateTime.now().millisecondsSinceEpoch {
+  }) : id = id ?? clock.now().millisecondsSinceEpoch {
     if (!dateTime.isUtc) {
       throw ArgumentError('dateTime must be UTC');
     }

@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:decimal/decimal.dart';
 import 'package:mona/data/model/administration_route.dart';
@@ -43,7 +44,7 @@ class MedicationSupplyItem extends SupplyItem
     required this.administrationRoute,
     this.ester,
   })  : usedDose = usedDose ?? Decimal.zero,
-        id = id ?? DateTime.now().millisecondsSinceEpoch;
+        id = id ?? clock.now().millisecondsSinceEpoch;
 
   bool get isUsed => usedDose > Decimal.zero;
   Decimal get remainingDose => totalDose - usedDose;
