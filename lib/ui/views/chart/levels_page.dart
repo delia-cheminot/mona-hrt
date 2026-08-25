@@ -158,16 +158,32 @@ class LevelsPage extends StatelessWidget {
             bloodTestProvider.latestEstradiolLevel(preferences.units.estradiol);
         final testosteroneLevel = bloodTestProvider
             .latestTestosteroneLevel(preferences.units.testosterone);
-        final tEntries = bloodTestProvider.levelEntries(
-            Hormone.testosterone, preferences.units);
-        final eEntries = bloodTestProvider.levelEntries(
-            Hormone.estradiol, preferences.units);
+        final levelRows = [
+          if (estradiolLevel != null)
+            (
+              hormone: Hormone.estradiol,
+              label: t.estradiol,
+              value: estradiolLevel.value.toString(),
+              unit: estradiolLevel.unit.localizedName,
+              entries: bloodTestProvider.levelEntries(
+                  Hormone.estradiol, preferences.units),
+            ),
+          if (testosteroneLevel != null)
+            (
+              hormone: Hormone.testosterone,
+              label: t.testosterone,
+              value: testosteroneLevel.value.toString(),
+              unit: testosteroneLevel.unit.localizedName,
+              entries: bloodTestProvider.levelEntries(
+                  Hormone.testosterone, preferences.units),
+            ),
+        ];
+
         return MainPageWrapper(
           isLoading:
               medicationIntakeProvider.isLoading || bloodTestProvider.isLoading,
           isEmpty: medicationIntakeProvider.plottableIntakes.isEmpty &&
-              estradiolLevel == null &&
-              testosteroneLevel == null,
+              levelRows.isEmpty,
           emptyMessage: t.empty_levels,
           child: SingleChildScrollView(
             padding: pagePadding,
@@ -187,7 +203,7 @@ class LevelsPage extends StatelessWidget {
                       _graphTile(context),
                     ],
                   ),
-                if (estradiolLevel != null || testosteroneLevel != null)
+                if (levelRows.isNotEmpty)
                   M3ECardColumn(
                     padding: const EdgeInsets.all(16),
                     margin: const EdgeInsets.symmetric(vertical: 8),
@@ -195,29 +211,18 @@ class LevelsPage extends StatelessWidget {
                     onTap: (index) => Navigator.of(context).push(
                       MaterialPageRoute<void>(
                         builder: (context) => BloodTestsChartPage(
-                          hormone: [
-                            if (estradiolLevel != null) Hormone.estradiol,
-                            if (testosteroneLevel != null) Hormone.testosterone,
-                          ][index],
+                          hormone: levelRows[index].hormone,
                         ),
                       ),
                     ),
                     children: [
-                      if (estradiolLevel != null)
+                      for (final row in levelRows)
                         _levelTile(
                           context,
-                          label: t.estradiol,
-                          value: estradiolLevel.value.toString(),
-                          unit: estradiolLevel.unit.localizedName,
-                          entries: eEntries,
-                        ),
-                      if (testosteroneLevel != null)
-                        _levelTile(
-                          context,
-                          label: t.testosterone,
-                          value: testosteroneLevel.value.toString(),
-                          unit: testosteroneLevel.unit.localizedName,
-                          entries: tEntries,
+                          label: row.label,
+                          value: row.value,
+                          unit: row.unit,
+                          entries: row.entries,
                         ),
                     ],
                   ),
