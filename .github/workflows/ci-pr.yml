@@ -141,6 +141,9 @@ jobs:
   diff_breakdown:
     name: Diff breakdown
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
 
     steps:
       - name: Checkout repository
@@ -211,4 +214,10 @@ jobs:
             net_total=$(( total_add - total_del )) sign=""
             [ "$net_total" -ge 0 ] && sign="+"
             printf '| **Total** | %d | %d | %d | %s%d |\n' "$total_files" "$total_add" "$total_del" "$sign" "$net_total"
-          } | tee -a "$GITHUB_STEP_SUMMARY"
+          } | tee diff-breakdown.md
+
+      - name: Post breakdown as a sticky PR comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: diff-breakdown
+          path: diff-breakdown.md
