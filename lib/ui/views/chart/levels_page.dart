@@ -1,5 +1,4 @@
 import 'package:clock/clock.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:m3e_core/m3e_core.dart';
@@ -25,127 +24,6 @@ import 'package:provider/provider.dart';
 
 class LevelsPage extends StatelessWidget {
   const LevelsPage({super.key});
-
-  Widget _graphTile(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    MedicationIntakeProvider intakeProvider =
-        context.watch<MedicationIntakeProvider>();
-    final preferencesProvider = context.watch<PreferencesService>();
-    final unit = preferencesProvider.units.estradiol;
-    final DateTime baseline = intakeProvider.getGraphLocalStart()!;
-    final intakes = intakeProvider.getIntakesForGraph(baseline);
-    final double tNow = timeDifferenceInDays(clock.now(), baseline);
-    final List<FlSpot> lastWeekSpots = GraphCalculator()
-        .generateLevelsSpots(intakes, unit, tMin: tNow - 14, tMax: tNow + 4);
-    final double nowLevel =
-        GraphCalculator().totalConcentrationAtTime(tNow, intakes, unit);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            children: [
-              Icon(Symbols.trending_up_rounded, color: colorScheme.onSurface),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  t.estradiolLevelsTitle,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-              ),
-              Icon(Symbols.chevron_right_rounded, color: colorScheme.onSurface),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text.rich(
-            textAlign: TextAlign.right,
-            TextSpan(
-              text: nowLevel.toStringAsFixed(0),
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall
-                  ?.copyWith(color: colorScheme.tertiary),
-              children: [
-                TextSpan(
-                  text: ' ${unit.localizedName}',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(color: colorScheme.tertiary),
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 8),
-        SizedBox(
-          height: 180,
-          child: BabyMainChartGraph(
-              spots: lastWeekSpots, nowX: tNow, nowY: nowLevel),
-        ),
-      ],
-    );
-  }
-
-  Widget _levelTile(
-    BuildContext context, {
-    required String label,
-    required String value,
-    required String unit,
-    required List<LevelEntry> entries,
-  }) {
-    final theme = Theme.of(context);
-    final colorScheme = Theme.of(context).colorScheme;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Row(
-          children: [
-            Icon(Symbols.water_drop_rounded, color: colorScheme.onSurface),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(label, style: theme.textTheme.titleMedium),
-            ),
-            Text(
-                entries.first.localDate
-                    .format(DateFormat.MMMd(context.intlLanguageTag)),
-                style: theme.textTheme.bodyMedium),
-            const SizedBox(width: 8),
-            Icon(Symbols.chevron_right_rounded, color: colorScheme.onSurface),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text.rich(
-              TextSpan(
-                text: value,
-                style: theme.textTheme.headlineSmall,
-                children: [
-                  TextSpan(
-                    text: ' $unit',
-                    style: theme.textTheme.bodyMedium,
-                  ),
-                ],
-              ),
-            ),
-            const Spacer(),
-            SizedBox(
-              width: 96,
-              height: 48,
-              child: BabyBarChartGraph(spots: entries.lastFiveSpots()),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -200,8 +78,8 @@ class LevelsPage extends StatelessWidget {
                         builder: (context) => ChartPage(),
                       ),
                     ),
-                    children: [
-                      _graphTile(context),
+                    children: const [
+                      _GraphTile(),
                     ],
                   ),
                 if (levelRows.isNotEmpty)
@@ -218,8 +96,7 @@ class LevelsPage extends StatelessWidget {
                     ),
                     children: [
                       for (final row in levelRows)
-                        _levelTile(
-                          context,
+                        _LevelTile(
                           label: row.label,
                           value: row.value,
                           unit: row.unit,
@@ -232,6 +109,136 @@ class LevelsPage extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _GraphTile extends StatelessWidget {
+  const _GraphTile();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final intakeProvider = context.watch<MedicationIntakeProvider>();
+    final unit = context.watch<PreferencesService>().units.estradiol;
+    final baseline = intakeProvider.getGraphLocalStart()!;
+    final intakes = intakeProvider.getIntakesForGraph(baseline);
+    final tNow = timeDifferenceInDays(clock.now(), baseline);
+    final lastWeekSpots = GraphCalculator()
+        .generateLevelsSpots(intakes, unit, tMin: tNow - 14, tMax: tNow + 4);
+    final nowLevel =
+        GraphCalculator().totalConcentrationAtTime(tNow, intakes, unit);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              Icon(Symbols.trending_up_rounded, color: colorScheme.onSurface),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  t.estradiolLevelsTitle,
+                  style: theme.textTheme.titleMedium,
+                ),
+              ),
+              Icon(Symbols.chevron_right_rounded, color: colorScheme.onSurface),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text.rich(
+            textAlign: TextAlign.right,
+            TextSpan(
+              text: nowLevel.toStringAsFixed(0),
+              style: theme.textTheme.headlineSmall
+                  ?.copyWith(color: colorScheme.tertiary),
+              children: [
+                TextSpan(
+                  text: ' ${unit.localizedName}',
+                  style: theme.textTheme.bodyMedium
+                      ?.copyWith(color: colorScheme.tertiary),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 180,
+          child: BabyMainChartGraph(
+              spots: lastWeekSpots, nowX: tNow, nowY: nowLevel),
+        ),
+      ],
+    );
+  }
+}
+
+class _LevelTile extends StatelessWidget {
+  _LevelTile({
+    required this.label,
+    required this.value,
+    required this.unit,
+    required this.entries,
+  }) : assert(entries.isNotEmpty, 'entries must not be empty');
+
+  final String label;
+  final String value;
+  final String unit;
+  final List<LevelEntry> entries;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          children: [
+            Icon(Symbols.water_drop_rounded, color: colorScheme.onSurface),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(label, style: theme.textTheme.titleMedium),
+            ),
+            Text(
+                entries.first.localDate
+                    .format(DateFormat.MMMd(context.intlLanguageTag)),
+                style: theme.textTheme.bodyMedium),
+            const SizedBox(width: 8),
+            Icon(Symbols.chevron_right_rounded, color: colorScheme.onSurface),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text.rich(
+              TextSpan(
+                text: value,
+                style: theme.textTheme.headlineSmall,
+                children: [
+                  TextSpan(
+                    text: ' $unit',
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                ],
+              ),
+            ),
+            const Spacer(),
+            SizedBox(
+              width: 96,
+              height: 48,
+              child: BabyBarChartGraph(spots: entries.lastFiveSpots()),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

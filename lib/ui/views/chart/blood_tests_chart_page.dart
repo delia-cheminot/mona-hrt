@@ -41,6 +41,11 @@ class _BloodTestsChartPageState extends State<BloodTestsChartPage> {
           final entries =
               bloodTestProvider.levelEntries(hormone, preferences.units);
           final chronologicalEntries = entries.reversed.toList();
+          final unitLabel = switch (hormone) {
+            Hormone.estradiol => preferences.units.estradiol.localizedName,
+            Hormone.testosterone =>
+              preferences.units.testosterone.localizedName,
+          };
 
           return SingleChildScrollView(
             child: Column(
@@ -53,7 +58,7 @@ class _BloodTestsChartPageState extends State<BloodTestsChartPage> {
                     child: BarChartGraph(
                       spots: chronologicalEntries.toSpots(),
                       labels: _entriesLabels(context, chronologicalEntries),
-                      unit: entries.first.value.unit.localizedName,
+                      unit: unitLabel,
                       highlightedIndex: _highlightedBarIndex,
                     ),
                   ),
