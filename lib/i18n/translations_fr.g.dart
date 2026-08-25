@@ -446,7 +446,7 @@ class TranslationsFr extends Translations
   @override
   String get ester => 'Ester';
   @override
-  String get estradiol => 'Œstradiol';
+  String get estradiol => 'Estradiol';
   @override
   String get progesterone => 'Progestérone';
   @override
@@ -490,18 +490,18 @@ class TranslationsFr extends Translations
   @override
   String get cypionateSuspension => 'Suspension de cypionate';
   @override
-  String get medicationEstradiolEnanthate => 'Énanthate d\'œstradiol';
+  String get medicationEstradiolEnanthate => 'Énanthate d\'estradiol';
   @override
-  String get medicationEstradiolValerate => 'Valérate d\'œstradiol';
+  String get medicationEstradiolValerate => 'Valérate d\'estradiol';
   @override
-  String get medicationEstradiolCypionate => 'Cypionate d\'œstradiol';
+  String get medicationEstradiolCypionate => 'Cypionate d\'estradiol';
   @override
-  String get medicationEstradiolUndecylate => 'Undécylate d\'œstradiol';
+  String get medicationEstradiolUndecylate => 'Undécylate d\'estradiol';
   @override
-  String get medicationEstradiolBenzoate => 'Benzoate d\'œstradiol';
+  String get medicationEstradiolBenzoate => 'Benzoate d\'estradiol';
   @override
   String get medicationEstradiolCypionateSuspension =>
-      'Suspension de cypionate d\'œstradiol';
+      'Suspension de cypionate d\'estradiol';
   @override
   String get medicationTestosteroneEnanthate => 'Énanthate de testostérone';
   @override
@@ -1005,7 +1005,7 @@ extension on TranslationsFr {
       'name' => 'Nom',
       'molecule' => 'Molécule',
       'ester' => 'Ester',
-      'estradiol' => 'Œstradiol',
+      'estradiol' => 'Estradiol',
       'progesterone' => 'Progestérone',
       'testosterone' => 'Testostérone',
       'nandrolone' => 'Nandrolone',
@@ -1027,13 +1027,13 @@ extension on TranslationsFr {
       'undecylate' => 'Undécylate',
       'benzoate' => 'Benzoate',
       'cypionateSuspension' => 'Suspension de cypionate',
-      'medicationEstradiolEnanthate' => 'Énanthate d\'œstradiol',
-      'medicationEstradiolValerate' => 'Valérate d\'œstradiol',
-      'medicationEstradiolCypionate' => 'Cypionate d\'œstradiol',
-      'medicationEstradiolUndecylate' => 'Undécylate d\'œstradiol',
-      'medicationEstradiolBenzoate' => 'Benzoate d\'œstradiol',
+      'medicationEstradiolEnanthate' => 'Énanthate d\'estradiol',
+      'medicationEstradiolValerate' => 'Valérate d\'estradiol',
+      'medicationEstradiolCypionate' => 'Cypionate d\'estradiol',
+      'medicationEstradiolUndecylate' => 'Undécylate d\'estradiol',
+      'medicationEstradiolBenzoate' => 'Benzoate d\'estradiol',
       'medicationEstradiolCypionateSuspension' =>
-        'Suspension de cypionate d\'œstradiol',
+        'Suspension de cypionate d\'estradiol',
       'medicationTestosteroneEnanthate' => 'Énanthate de testostérone',
       'medicationTestosteroneValerate' => 'Valérate de testostérone',
       'medicationTestosteroneCypionate' => 'Cypionate de testostérone',
