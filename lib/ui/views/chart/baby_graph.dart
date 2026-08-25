@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:mona/ui/views/chart/bar_groups.dart';
 
 class BabyBarChartGraph extends StatelessWidget {
   final List<FlSpot> spots;
@@ -23,7 +24,13 @@ class BabyBarChartGraph extends StatelessWidget {
           alignment: BarChartAlignment.spaceEvenly,
           groupsSpace: 10,
           barTouchData: BarTouchData(enabled: false),
-          barGroups: _buildBarGroups(spots, theme),
+          barGroups: buildBarGroups(
+            spots,
+            barWidth: 10,
+            highlightedIndex: spots.length - 1,
+            barColor: theme.colorScheme.secondaryContainer,
+            highlightColor: theme.colorScheme.tertiary,
+          ),
           gridData: const FlGridData(
             show: false,
           ),
@@ -32,30 +39,5 @@ class BabyBarChartGraph extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  List<BarChartGroupData> _buildBarGroups(
-    List<FlSpot> entries,
-    ThemeData theme,
-  ) {
-    final lastIndex = entries.length - 1;
-    return entries
-        .asMap()
-        .entries
-        .map(
-          (entry) => BarChartGroupData(
-            x: entry.key,
-            barRods: [
-              BarChartRodData(
-                toY: entry.value.y,
-                width: 10,
-                color: entry.key == lastIndex
-                    ? theme.colorScheme.tertiary
-                    : theme.colorScheme.secondaryContainer,
-              ),
-            ],
-          ),
-        )
-        .toList();
   }
 }

@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:mona/ui/views/chart/bar_groups.dart';
 
 class BarChartGraph extends StatelessWidget {
   final List<FlSpot> spots;
@@ -53,7 +54,13 @@ class BarChartGraph extends StatelessWidget {
                 alignment: BarChartAlignment.start,
                 groupsSpace: _groupsSpace,
                 barTouchData: _touchData(theme),
-                barGroups: _buildBarGroups(spots, theme),
+                barGroups: buildBarGroups(
+                  spots,
+                  barWidth: _barWidth,
+                  highlightedIndex: highlightedIndex,
+                  barColor: theme.colorScheme.primary,
+                  highlightColor: theme.colorScheme.tertiary,
+                ),
                 gridData: const FlGridData(
                   show: false,
                 ),
@@ -75,30 +82,6 @@ class BarChartGraph extends StatelessWidget {
         );
       },
     );
-  }
-
-  List<BarChartGroupData> _buildBarGroups(
-    List<FlSpot> entries,
-    ThemeData theme,
-  ) {
-    return entries
-        .asMap()
-        .entries
-        .map(
-          (entry) => BarChartGroupData(
-            x: entry.key,
-            barRods: [
-              BarChartRodData(
-                toY: entry.value.y,
-                width: _barWidth,
-                color: entry.key == highlightedIndex
-                    ? theme.colorScheme.tertiary
-                    : theme.colorScheme.primary,
-              ),
-            ],
-          ),
-        )
-        .toList();
   }
 
   BarTouchData _touchData(ThemeData theme) => BarTouchData(

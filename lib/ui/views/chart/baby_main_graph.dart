@@ -5,8 +5,9 @@ class BabyMainChartGraph extends StatelessWidget {
   final List<FlSpot> spots;
 
   final double? nowX;
+  final double? nowY;
 
-  BabyMainChartGraph({required this.spots, this.nowX});
+  BabyMainChartGraph({required this.spots, this.nowX, this.nowY});
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -56,7 +57,7 @@ class BabyMainChartGraph extends StatelessWidget {
 
   LineChartBarData _nowDotBar(ThemeData theme) {
     return LineChartBarData(
-      spots: [FlSpot(nowX!, _yAt(nowX!) ?? 0)],
+      spots: [FlSpot(nowX!, nowY ?? 0)],
       barWidth: 0,
       dotData: FlDotData(
         show: true,
@@ -66,18 +67,6 @@ class BabyMainChartGraph extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  double? _yAt(double x) {
-    for (var i = 0; i < spots.length - 1; i++) {
-      final a = spots[i];
-      final b = spots[i + 1];
-      if (x >= a.x && x <= b.x) {
-        if (b.x == a.x) return a.y;
-        return a.y + (b.y - a.y) * (x - a.x) / (b.x - a.x);
-      }
-    }
-    return null;
   }
 
   FlTitlesData _titlesData() => FlTitlesData(

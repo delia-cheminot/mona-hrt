@@ -85,7 +85,8 @@ class LevelsPage extends StatelessWidget {
         const SizedBox(height: 8),
         SizedBox(
           height: 180,
-          child: BabyMainChartGraph(spots: lastWeekSpots, nowX: tNow),
+          child: BabyMainChartGraph(
+              spots: lastWeekSpots, nowX: tNow, nowY: nowLevel),
         ),
       ],
     );
