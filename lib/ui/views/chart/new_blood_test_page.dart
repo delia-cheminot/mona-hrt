@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -80,7 +81,7 @@ class _NewBloodTestPageState extends State<NewBloodTestPage> {
     super.initState();
     _estradiolLevelsController = TextEditingController();
     _testosteroneLevelsController = TextEditingController();
-    _testDateTime = DateTime.now();
+    _testDateTime = clock.now();
     _preferencesService = Provider.of(context, listen: false);
   }
 

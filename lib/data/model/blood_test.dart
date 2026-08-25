@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/mapping_hooks.dart';
@@ -26,7 +27,7 @@ class BloodTest with BloodTestMappable {
     required this.timeZone,
     this.estradiolLevels,
     this.testosteroneLevels,
-  }) : id = id ?? DateTime.now().millisecondsSinceEpoch {
+  }) : id = id ?? clock.now().millisecondsSinceEpoch {
     if (!dateTime.isUtc) {
       throw ArgumentError('dateTime must be UTC');
     }

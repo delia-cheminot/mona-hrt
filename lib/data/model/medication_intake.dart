@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +59,7 @@ class MedicationIntake with MedicationIntakeMappable {
     this.genericSupplyItemIds = const [],
     this.notes,
     this.placements = const [],
-  }) : id = id ?? DateTime.now().millisecondsSinceEpoch {
+  }) : id = id ?? clock.now().millisecondsSinceEpoch {
     if (takenDateTime != null && !takenDateTime!.isUtc) {
       throw ArgumentError('takenDateTime must be UTC');
     }
