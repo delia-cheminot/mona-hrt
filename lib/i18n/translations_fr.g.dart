@@ -129,7 +129,7 @@ class TranslationsFr extends Translations
   @override
   String get language => 'Langue';
   @override
-  String get languageFollowDevice => 'Suivre la langue de l’appareil';
+  String get languageFollowDevice => 'Suivre la langue de l\'appareil';
   @override
   String get selectLanguage => 'Sélectionner la langue';
   @override
@@ -351,14 +351,14 @@ class TranslationsFr extends Translations
   String get milliliters => 'mL';
   @override
   String get empty_levels =>
-      'Ajoutez une prise de sang ou enregistrez une injection d’estradiol pour commencer';
+      'Ajoutez une prise de sang ou enregistrez une injection d\'estradiol pour commencer';
   @override
   String get bloodTestsTitle => 'Prises de sang';
   @override
   String get estradiolLevelsTitle => 'Taux d\'estradiol';
   @override
   String get empty_blood_tests =>
-      'Les prises de sang enregistrées s’afficheront ici. Commencez avec le bouton Ajouter !';
+      'Les prises de sang enregistrées s\'afficheront ici. Commencez avec le bouton Ajouter !';
   @override
   String get addBloodTest => 'Ajouter une analyse de sang';
   @override
@@ -830,7 +830,7 @@ extension on TranslationsFr {
       'schedules' => 'Plannings',
       'noSchedules' => 'Aucun planning',
       'language' => 'Langue',
-      'languageFollowDevice' => 'Suivre la langue de l’appareil',
+      'languageFollowDevice' => 'Suivre la langue de l\'appareil',
       'selectLanguage' => 'Sélectionner la langue',
       'enableNotifications' => 'Activer les notifications',
       'enableNotificationsDescription' => 'Envoyer des rappels',
@@ -955,11 +955,11 @@ extension on TranslationsFr {
       'microliters' => 'μL',
       'milliliters' => 'mL',
       'empty_levels' =>
-        'Ajoutez une prise de sang ou enregistrez une injection d’estradiol pour commencer',
+        'Ajoutez une prise de sang ou enregistrez une injection d\'estradiol pour commencer',
       'bloodTestsTitle' => 'Prises de sang',
       'estradiolLevelsTitle' => 'Taux d\'estradiol',
       'empty_blood_tests' =>
-        'Les prises de sang enregistrées s’afficheront ici. Commencez avec le bouton Ajouter !',
+        'Les prises de sang enregistrées s\'afficheront ici. Commencez avec le bouton Ajouter !',
       'addBloodTest' => 'Ajouter une analyse de sang',
       'editBloodTest' => 'Modifier la prise de sang',
       'newBloodTest' => 'Nouvelle prise de sang',
