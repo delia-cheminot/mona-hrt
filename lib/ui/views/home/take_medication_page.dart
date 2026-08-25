@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -155,7 +156,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
   @override
   void initState() {
     super.initState();
-    _takenDate = DateTime.now();
+    _takenDate = clock.now();
     _takenDose = widget.schedule.dose;
     _wastedAmount = Decimal.zero;
     _takenDoseController =

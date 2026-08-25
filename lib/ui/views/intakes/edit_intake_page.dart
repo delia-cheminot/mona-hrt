@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
@@ -175,7 +176,7 @@ class _EditIntakePageState extends State<EditIntakePage> {
   @override
   void initState() {
     super.initState();
-    _takenDate = widget.intake.takenDateTime?.toLocal() ?? DateTime.now();
+    _takenDate = widget.intake.takenDateTime?.toLocal() ?? clock.now();
     _takenDose = widget.intake.takenDose;
     _wastedAmount = widget.intake.wastedAmount ?? Decimal.zero;
     _deadSpace = widget.intake.deadSpace ?? Decimal.zero;

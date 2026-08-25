@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -27,7 +28,7 @@ class IntakeTile extends StatelessWidget {
     final theme = Theme.of(context);
     final medicationIntakeProvider = context.watch<MedicationIntakeProvider>();
     final supplyItemProvider = context.watch<SupplyItemProvider>();
-    final now = DateTime.now();
+    final now = clock.now();
 
     final viewModel = IntakeTileViewModel(
       schedule: schedule,

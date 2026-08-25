@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:clock/clock.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:mona/services/db/app_database.dart';
 import 'package:mona/services/db/historical_schemas.dart';
@@ -32,7 +33,7 @@ class BackupService {
       'metadata': {
         'app_version': packageInfo.version,
         'database_version': await db.getVersion(),
-        'export_date': DateTime.now().toIso8601String(),
+        'export_date': clock.now().toIso8601String(),
       },
       'data': data,
     };
@@ -144,7 +145,7 @@ class BackupService {
 
   String _timestampedFileName() {
     final ts =
-        DateTime.now().toIso8601String().split('.').first.replaceAll(':', '-');
+        clock.now().toIso8601String().split('.').first.replaceAll(':', '-');
     return 'mona_backup_$ts.json';
   }
 

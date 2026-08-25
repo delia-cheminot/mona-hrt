@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/util/validators.dart';
@@ -27,7 +28,7 @@ class GenericSupply extends SupplyItem with GenericSupplyMappable {
     required this.name,
     required this.amount,
     required this.genericSupplyType,
-  }) : id = id ?? DateTime.now().millisecondsSinceEpoch;
+  }) : id = id ?? clock.now().millisecondsSinceEpoch;
 
   // coverage:ignore-start
   static String? validateAmount(String? value) => requiredPositiveInt(value);

@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:dynamic_system_colors/dynamic_system_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -37,7 +38,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _lastTimeZone = DateTime.now().timeZoneOffset.toString();
+    _lastTimeZone = clock.now().timeZoneOffset.toString();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await NotificationService().initialize();
@@ -91,7 +92,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   }
 
   void _checkTimezoneChange() {
-    final currentTimezone = DateTime.now().timeZoneOffset.toString();
+    final currentTimezone = clock.now().timeZoneOffset.toString();
     if (_lastTimeZone != currentTimezone) {
       _lastTimeZone = currentTimezone;
       _regenerateNotifications();

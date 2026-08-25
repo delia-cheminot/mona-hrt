@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:decimal/decimal.dart';
 import 'package:mona/data/model/administration_route.dart';
@@ -40,7 +41,7 @@ class MedicationSchedule with MedicationScheduleMappable {
     required this.molecule,
     required this.administrationRoute,
     this.ester,
-  })  : id = id ?? DateTime.now().millisecondsSinceEpoch,
+  })  : id = id ?? clock.now().millisecondsSinceEpoch,
         startDate = startDate ?? Date.today();
 
   static String? Function(Ester?) esterValidator(
