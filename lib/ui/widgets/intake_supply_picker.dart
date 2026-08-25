@@ -74,6 +74,8 @@ class IntakeSupplyPicker extends StatelessWidget {
                 leading: CircleAvatar(
                   backgroundColor:
                       Theme.of(sheetContext).colorScheme.secondaryContainer,
+                  foregroundColor:
+                      Theme.of(sheetContext).colorScheme.onSecondaryContainer,
                   child: Icon(item.genericSupplyType.icon),
                 ),
                 title: Text(item.name),
@@ -85,9 +87,9 @@ class IntakeSupplyPicker extends StatelessWidget {
               ),
             ListTile(
               leading: CircleAvatar(
-                foregroundColor:
-                    Theme.of(sheetContext).colorScheme.tertiaryContainer,
                 backgroundColor:
+                    Theme.of(sheetContext).colorScheme.tertiaryContainer,
+                foregroundColor:
                     Theme.of(sheetContext).colorScheme.onTertiaryContainer,
                 child: Icon(Symbols.add_rounded),
               ),
