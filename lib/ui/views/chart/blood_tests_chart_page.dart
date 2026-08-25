@@ -1,10 +1,8 @@
-import 'package:decimal/decimal.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:m3e_core/m3e_core.dart';
-import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/hormone.dart';
+import 'package:mona/data/model/level_entry.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/helpers/units_l10n.dart';
@@ -12,9 +10,8 @@ import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/chart/bar_chart_graph.dart';
+import 'package:mona/ui/views/chart/level_entry_spots.dart';
 import 'package:provider/provider.dart';
-
-typedef LevelEntry = ({Date localDate, Decimal value, String unit});
 
 class BloodTestsChartPage extends StatefulWidget {
   const BloodTestsChartPage({super.key, required this.hormone});
@@ -23,44 +20,6 @@ class BloodTestsChartPage extends StatefulWidget {
 
   @override
   State<BloodTestsChartPage> createState() => _BloodTestsChartPageState();
-
-  List<LevelEntry> getListOfEntries(
-    BloodTestProvider provider,
-    PreferencesService preferences,
-  ) {
-    switch (hormone) {
-      case Hormone.estradiol:
-        final unit = preferences.units.estradiol;
-        return provider.estradiolTestsSortedDesc
-            .map((test) => (
-                  localDate: test.localDate,
-                  value: test.estradiolLevels!.inUnit(unit),
-                  unit: unit.localizedName,
-                ))
-            .toList();
-      case Hormone.testosterone:
-        final unit = preferences.units.testosterone;
-        return provider.testosteroneTestsSortedDesc
-            .map((test) => (
-                  localDate: test.localDate,
-                  value: test.testosteroneLevels!.inUnit(unit),
-                  unit: unit.localizedName,
-                ))
-            .toList();
-    }
-  }
-
-  List<FlSpot> lastFiveEntriesSpots(List<LevelEntry> entries) {
-    // entries are newest-first, so take the five newest then flip to oldest-first.
-    final lastFiveEntries = entries.take(5).toList().reversed.toList();
-    return lastFiveEntries
-        .map((i) => FlSpot(
-            i.localDate
-                .differenceInDays(lastFiveEntries.first.localDate)
-                .toDouble(),
-            i.value.toDouble()))
-        .toList();
-  }
 }
 
 class _BloodTestsChartPageState extends State<BloodTestsChartPage> {
@@ -80,7 +39,7 @@ class _BloodTestsChartPageState extends State<BloodTestsChartPage> {
       body: Consumer2<BloodTestProvider, PreferencesService>(
         builder: (context, bloodTestProvider, preferences, child) {
           final entries =
-              widget.getListOfEntries(bloodTestProvider, preferences);
+              bloodTestProvider.levelEntries(hormone, preferences.units);
           final chronologicalEntries = entries.reversed.toList();
 
           return SingleChildScrollView(
@@ -92,9 +51,9 @@ class _BloodTestsChartPageState extends State<BloodTestsChartPage> {
                   child: SizedBox(
                     height: 250,
                     child: BarChartGraph(
-                      spots: _entriesSpots(chronologicalEntries),
+                      spots: chronologicalEntries.toSpots(),
                       labels: _entriesLabels(context, chronologicalEntries),
-                      unit: entries.first.unit,
+                      unit: entries.first.value.unit.localizedName,
                       highlightedIndex: _highlightedBarIndex,
                     ),
                   ),
@@ -136,11 +95,11 @@ class _BloodTestsChartPageState extends State<BloodTestsChartPage> {
         ),
         Text.rich(
           TextSpan(
-            text: entry.value.toString(),
+            text: entry.value.value.toString(),
             style: theme.textTheme.titleMedium,
             children: [
               TextSpan(
-                text: ' ${entry.unit}',
+                text: ' ${entry.value.unit.localizedName}',
                 style: theme.textTheme.bodyMedium,
               ),
             ],
@@ -148,14 +107,6 @@ class _BloodTestsChartPageState extends State<BloodTestsChartPage> {
         ),
       ],
     );
-  }
-
-  List<FlSpot> _entriesSpots(List<LevelEntry> entries) {
-    return entries
-        .map((i) => FlSpot(
-            i.localDate.differenceInDays(entries.first.localDate).toDouble(),
-            i.value.toDouble()))
-        .toList();
   }
 
   List<String> _entriesLabels(BuildContext context, List<LevelEntry> entries) {

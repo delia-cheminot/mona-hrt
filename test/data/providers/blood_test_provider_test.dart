@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/blood_test.dart';
+import 'package:mona/data/model/hormone.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -415,6 +416,85 @@ void main() {
           result,
           UnitValue(Decimal.parse('8.66'), TestosteroneUnit.nmol_L),
         );
+      });
+    });
+
+    group('levelEntries', () {
+      test('estradiol excludes tests without estradiol levels', () async {
+        // Arrange
+        provider = BloodTestProvider(repository: repo);
+        await provider.add(aBloodTest(
+            dateTime: DateTime.utc(2025, 5, 4),
+            estradiolLevel: Decimal.parse('100.0')));
+        await provider.add(aBloodTest(
+            dateTime: DateTime.utc(2025, 5, 5),
+            testosteroneLevel: Decimal.parse('1.0')));
+
+        // Act
+        final result =
+            provider.levelEntries(Hormone.estradiol, Units.pg_mL_ng_dL);
+
+        // Assert
+        expect(result.map((e) => e.value.value), [Decimal.parse('100.0')]);
+      });
+
+      test('estradiol converts each level to the preferred unit', () async {
+        // Arrange
+        provider = BloodTestProvider(repository: repo);
+        await provider.add(aBloodTest(
+            dateTime: DateTime.utc(2025, 5, 4),
+            estradiolLevel: Decimal.parse('100.0')));
+
+        // Act
+        final result =
+            provider.levelEntries(Hormone.estradiol, Units.pmol_L_nmol_L);
+
+        // Assert
+        expect(result.single.value,
+            UnitValue(Decimal.parse('367.1'), EstradiolUnit.pmol_L));
+      });
+
+      test('testosterone excludes tests without testosterone levels', () async {
+        // Arrange
+        provider = BloodTestProvider(repository: repo);
+        await provider.add(aBloodTest(
+            dateTime: DateTime.utc(2025, 5, 4),
+            testosteroneLevel: Decimal.parse('1.0')));
+        await provider.add(aBloodTest(
+            dateTime: DateTime.utc(2025, 5, 5),
+            estradiolLevel: Decimal.parse('100.0')));
+
+        // Act
+        final result =
+            provider.levelEntries(Hormone.testosterone, Units.pg_mL_ng_dL);
+
+        // Assert
+        expect(result.map((e) => e.value.value), [Decimal.parse('1.0')]);
+      });
+
+      test('preserves the newest-first order of the tests', () async {
+        // Arrange
+        provider = BloodTestProvider(repository: repo);
+        await provider.add(aBloodTest(
+            dateTime: DateTime.utc(2025, 5, 4),
+            estradiolLevel: Decimal.parse('100.0')));
+        await provider.add(aBloodTest(
+            dateTime: DateTime.utc(2025, 6, 7),
+            estradiolLevel: Decimal.parse('200.0')));
+        await provider.add(aBloodTest(
+            dateTime: DateTime.utc(2025, 3, 2),
+            estradiolLevel: Decimal.parse('150.0')));
+
+        // Act
+        final result =
+            provider.levelEntries(Hormone.estradiol, Units.pg_mL_ng_dL);
+
+        // Assert
+        expect(result.map((e) => e.value.value), [
+          Decimal.parse('200.0'),
+          Decimal.parse('100.0'),
+          Decimal.parse('150.0'),
+        ]);
       });
     });
   });

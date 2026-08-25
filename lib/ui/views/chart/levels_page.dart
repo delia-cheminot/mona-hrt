@@ -6,6 +6,7 @@ import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/graph_calculator.dart';
 import 'package:mona/data/model/hormone.dart';
+import 'package:mona/data/model/level_entry.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
@@ -17,6 +18,7 @@ import 'package:mona/ui/views/chart/baby_graph.dart';
 import 'package:mona/ui/views/chart/baby_main_graph.dart';
 import 'package:mona/ui/views/chart/blood_tests_chart_page.dart';
 import 'package:mona/ui/views/chart/chart_page.dart';
+import 'package:mona/ui/views/chart/level_entry_spots.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
 import 'package:mona/util/time_difference.dart';
 import 'package:provider/provider.dart';
@@ -94,8 +96,7 @@ class LevelsPage extends StatelessWidget {
     required String label,
     required String value,
     required String unit,
-    required List<LevelEntry> entry,
-    required Hormone hormone,
+    required List<LevelEntry> entries,
   }) {
     final theme = Theme.of(context);
     final colorScheme = Theme.of(context).colorScheme;
@@ -110,7 +111,7 @@ class LevelsPage extends StatelessWidget {
               child: Text(label, style: theme.textTheme.titleMedium),
             ),
             Text(
-                entry.first.localDate
+                entries.first.localDate
                     .format(DateFormat.MMMd(context.intlLanguageTag)),
                 style: theme.textTheme.bodyMedium),
             const SizedBox(width: 8),
@@ -137,9 +138,7 @@ class LevelsPage extends StatelessWidget {
             SizedBox(
               width: 96,
               height: 48,
-              child: BabyBarChartGraph(
-                  spots: BloodTestsChartPage(hormone: hormone)
-                      .lastFiveEntriesSpots(entry)),
+              child: BabyBarChartGraph(spots: entries.lastFiveSpots()),
             ),
           ],
         ),
@@ -159,10 +158,10 @@ class LevelsPage extends StatelessWidget {
             bloodTestProvider.latestEstradiolLevel(preferences.units.estradiol);
         final testosteroneLevel = bloodTestProvider
             .latestTestosteroneLevel(preferences.units.testosterone);
-        final tEntries = BloodTestsChartPage(hormone: Hormone.testosterone)
-            .getListOfEntries(bloodTestProvider, preferences);
-        final eEntries = BloodTestsChartPage(hormone: Hormone.estradiol)
-            .getListOfEntries(bloodTestProvider, preferences);
+        final tEntries = bloodTestProvider.levelEntries(
+            Hormone.testosterone, preferences.units);
+        final eEntries = bloodTestProvider.levelEntries(
+            Hormone.estradiol, preferences.units);
         return MainPageWrapper(
           isLoading:
               medicationIntakeProvider.isLoading || bloodTestProvider.isLoading,
@@ -210,8 +209,7 @@ class LevelsPage extends StatelessWidget {
                           label: t.estradiol,
                           value: estradiolLevel.value.toString(),
                           unit: estradiolLevel.unit.localizedName,
-                          hormone: Hormone.estradiol,
-                          entry: eEntries,
+                          entries: eEntries,
                         ),
                       if (testosteroneLevel != null)
                         _levelTile(
@@ -219,8 +217,7 @@ class LevelsPage extends StatelessWidget {
                           label: t.testosterone,
                           value: testosteroneLevel.value.toString(),
                           unit: testosteroneLevel.unit.localizedName,
-                          hormone: Hormone.testosterone,
-                          entry: tEntries,
+                          entries: tEntries,
                         ),
                     ],
                   ),

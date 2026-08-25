@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/model/graph_calculator.dart';
+import 'package:mona/data/model/hormone.dart';
+import 'package:mona/data/model/level_entry.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/services/repository.dart';
 import 'package:mona/util/time_difference.dart';
@@ -35,6 +37,27 @@ class BloodTestProvider extends ChangeNotifier {
     final stored = testosteroneTestsSortedDesc.firstOrNull?.testosteroneLevels;
     if (stored == null) return null;
     return UnitValue(stored.inUnit(unit), unit);
+  }
+
+  List<LevelEntry> levelEntries(Hormone hormone, Units units) {
+    switch (hormone) {
+      case Hormone.estradiol:
+        final unit = units.estradiol;
+        return estradiolTestsSortedDesc
+            .map((test) => (
+                  localDate: test.localDate,
+                  value: UnitValue(test.estradiolLevels!.inUnit(unit), unit),
+                ))
+            .toList();
+      case Hormone.testosterone:
+        final unit = units.testosterone;
+        return testosteroneTestsSortedDesc
+            .map((test) => (
+                  localDate: test.localDate,
+                  value: UnitValue(test.testosteroneLevels!.inUnit(unit), unit),
+                ))
+            .toList();
+    }
   }
 
   Future<void> deleteBloodTestFromId(int id) async {
