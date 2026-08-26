@@ -65,7 +65,7 @@ class BloodTestPage extends StatelessWidget {
         .format(bloodtest.localDateTime);
     return ListTile(
       title: Text(dateText),
-      leading: Icon(Symbols.lab_panel_rounded),
+      trailing: Icon(Symbols.chevron_right_rounded),
       subtitle: Text(
         [
           if (bloodtest.estradiolLevels case final e?)
