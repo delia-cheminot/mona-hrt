@@ -345,9 +345,6 @@ class TranslationsSq extends Translations
   @override
   String get milliliters => 'mL';
   @override
-  String get empty_levels =>
-      'Injeksionet e estradiolit do të shfaqen në këtë skedë';
-  @override
   String get bloodTestsTitle => 'Analiza gjaku';
   @override
   String get empty_blood_tests =>
@@ -921,7 +918,6 @@ extension on TranslationsSq {
       'notes' => 'Shënime',
       'microliters' => 'μL',
       'milliliters' => 'mL',
-      'empty_levels' => 'Injeksionet e estradiolit do të shfaqen në këtë skedë',
       'bloodTestsTitle' => 'Analiza gjaku',
       'empty_blood_tests' =>
         'Analizat e kryera të gjakut do të shfaqen këtu. Fillo duke përdorur butonin Shto!',
