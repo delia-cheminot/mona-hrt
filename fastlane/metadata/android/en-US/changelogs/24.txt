@@ -1,0 +1,11 @@
+New:
+
+- Preview your levels in the new levels tab
+- You can now see your blood test levels as charts
+- New language: Albanian
+
+Fix:
+
+- Used consistent icons
+- Corrected colors used in the item picker
+- Added all supported languages to the widget
