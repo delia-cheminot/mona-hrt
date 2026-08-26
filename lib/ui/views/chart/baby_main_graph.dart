@@ -35,7 +35,7 @@ class BabyMainChartGraph extends StatelessWidget {
             dotData: const FlDotData(show: false),
             belowBarData: BarAreaData(
               show: true,
-              color: theme.colorScheme.surfaceContainerHighest,
+              color: theme.colorScheme.primaryContainer.withValues(alpha: 0.4),
             ),
           ),
           if (nowX != null) _nowDotBar(theme),
