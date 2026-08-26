@@ -274,8 +274,6 @@ class TranslationsUk extends Translations
   @override
   String get milliliters => 'mL';
   @override
-  String get empty_levels => 'Ін\'єкції відображатимуться тут';
-  @override
   String get bloodTestsTitle => 'Аналізи крові';
   @override
   String get empty_blood_tests =>
@@ -906,7 +904,6 @@ extension on TranslationsUk {
       'notes' => 'Примітки',
       'microliters' => 'μL',
       'milliliters' => 'mL',
-      'empty_levels' => 'Ін\'єкції відображатимуться тут',
       'bloodTestsTitle' => 'Аналізи крові',
       'empty_blood_tests' =>
         'Висновки з аналізів крові з\'являтимуться тут. Натисніть Додати!',

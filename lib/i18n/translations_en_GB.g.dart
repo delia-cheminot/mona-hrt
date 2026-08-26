@@ -340,9 +340,12 @@ class TranslationsEnGb extends Translations
   @override
   String get milliliters => 'mL';
   @override
-  String get empty_levels => 'Oestradiol injections will display in this tab';
+  String get empty_levels =>
+      'Add a blood test or log an estradiol injection to get started';
   @override
   String get bloodTestsTitle => 'Blood Tests';
+  @override
+  String get estradiolLevelsTitle => 'Estradiol levels';
   @override
   String get empty_blood_tests =>
       'Taken blood tests will appear here. Start by using the Add button!';
@@ -907,8 +910,10 @@ extension on TranslationsEnGb {
       'notes' => 'Notes',
       'microliters' => 'μL',
       'milliliters' => 'mL',
-      'empty_levels' => 'Oestradiol injections will display in this tab',
+      'empty_levels' =>
+        'Add a blood test or log an estradiol injection to get started',
       'bloodTestsTitle' => 'Blood Tests',
+      'estradiolLevelsTitle' => 'Estradiol levels',
       'empty_blood_tests' =>
         'Taken blood tests will appear here. Start by using the Add button!',
       'addBloodTest' => 'Add a blood test',

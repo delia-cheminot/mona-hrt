@@ -369,8 +369,6 @@ class TranslationsSv extends Translations
   @override
   String get milliliters => 'mL';
   @override
-  String get empty_levels => 'Östradiolinjektioner visas i denna flik';
-  @override
   String get bloodTestsTitle => 'Blodprover';
   @override
   String get empty_blood_tests =>
@@ -911,7 +909,6 @@ extension on TranslationsSv {
       'notes' => 'Anteckningar',
       'microliters' => 'μL',
       'milliliters' => 'mL',
-      'empty_levels' => 'Östradiolinjektioner visas i denna flik',
       'bloodTestsTitle' => 'Blodprover',
       'empty_blood_tests' =>
         'Tagna blodprover visas här. Börja genom att använda Lägg till-knappen!',

@@ -276,8 +276,6 @@ class TranslationsSk extends Translations
   @override
   String get milliliters => 'mL';
   @override
-  String get empty_levels => 'Estradiolové injekcie sa zobrazia na tejto karte';
-  @override
   String get bloodTestsTitle => 'Krvné testy';
   @override
   String get empty_blood_tests =>
@@ -885,7 +883,6 @@ extension on TranslationsSk {
       'notes' => 'Poznámky',
       'microliters' => 'μL',
       'milliliters' => 'mL',
-      'empty_levels' => 'Estradiolové injekcie sa zobrazia na tejto karte',
       'bloodTestsTitle' => 'Krvné testy',
       'empty_blood_tests' =>
         'Krvné testy sa zobrazia tu. Začni tlačidlom Pridať!',

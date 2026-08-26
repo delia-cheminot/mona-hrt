@@ -1,4 +1,8 @@
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:decimal/decimal.dart';
+import 'package:mona/data/model/custom_mappers.dart';
+
+part 'units.mapper.dart';
 
 abstract interface class Unit<T> implements Enum {
   final String name;
@@ -8,9 +12,12 @@ abstract interface class Unit<T> implements Enum {
   Decimal convert(Decimal value, T into);
 }
 
+@MappableEnum()
 enum EstradiolUnit implements Unit<EstradiolUnit> {
+  @MappableValue("pg/mL")
   // ignore: constant_identifier_names
   pg_mL("pg/mL"),
+  @MappableValue("pmol/L")
   // ignore: constant_identifier_names
   pmol_L("pmol/L");
 
@@ -35,21 +42,17 @@ enum EstradiolUnit implements Unit<EstradiolUnit> {
   String toString() {
     return name;
   }
-
-  factory EstradiolUnit.parse(String value) {
-    try {
-      return EstradiolUnit.values.firstWhere((unit) => unit.name == value);
-    } on StateError {
-      throw ArgumentError("failed to parse $value");
-    }
-  }
 }
 
+@MappableEnum()
 enum TestosteroneUnit implements Unit<TestosteroneUnit> {
+  @MappableValue("ng/dL")
   // ignore: constant_identifier_names
   ng_dL("ng/dL"),
+  @MappableValue("ng/mL")
   // ignore: constant_identifier_names
   ng_mL("ng/mL"),
+  @MappableValue("nmol/L")
   // ignore: constant_identifier_names
   nmol_L("nmol/L");
 
@@ -57,14 +60,6 @@ enum TestosteroneUnit implements Unit<TestosteroneUnit> {
   final String name;
 
   const TestosteroneUnit(this.name);
-
-  factory TestosteroneUnit.parse(String value) {
-    try {
-      return TestosteroneUnit.values.firstWhere((unit) => unit.name == value);
-    } on StateError {
-      throw ArgumentError("failed to parse $value");
-    }
-  }
 
   static final Map<TestosteroneUnit, Decimal> _toNgDL = {
     TestosteroneUnit.ng_dL: Decimal.one,
@@ -112,7 +107,8 @@ enum Units {
   }
 }
 
-class UnitValue<U extends Unit> {
+@MappableClass(includeCustomMappers: [DecimalStringMapper()])
+class UnitValue<U extends Unit> with UnitValueMappable<U> {
   final Decimal value;
   final U unit;
 

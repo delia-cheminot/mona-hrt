@@ -60,7 +60,7 @@ class TranslationsFr extends Translations
   @override
   String get nav_intakes => 'Prises';
   @override
-  String get nav_levels => 'Niveaux';
+  String get nav_levels => 'Taux';
   @override
   String get nav_supplies => 'Pharmacie';
   @override
@@ -129,7 +129,7 @@ class TranslationsFr extends Translations
   @override
   String get language => 'Langue';
   @override
-  String get languageFollowDevice => 'Suivre la langue de l’appareil';
+  String get languageFollowDevice => 'Suivre la langue de l\'appareil';
   @override
   String get selectLanguage => 'Sélectionner la langue';
   @override
@@ -351,12 +351,14 @@ class TranslationsFr extends Translations
   String get milliliters => 'mL';
   @override
   String get empty_levels =>
-      'Les injections d’estradiol s’afficheront dans cet onglet';
+      'Ajoutez une prise de sang ou enregistrez une injection d\'estradiol pour commencer';
   @override
   String get bloodTestsTitle => 'Prises de sang';
   @override
+  String get estradiolLevelsTitle => 'Taux d\'estradiol';
+  @override
   String get empty_blood_tests =>
-      'Les prises de sang enregistrées s’afficheront ici. Commencez avec le bouton Ajouter !';
+      'Les prises de sang enregistrées s\'afficheront ici. Commencez avec le bouton Ajouter !';
   @override
   String get addBloodTest => 'Ajouter une analyse de sang';
   @override
@@ -444,7 +446,7 @@ class TranslationsFr extends Translations
   @override
   String get ester => 'Ester';
   @override
-  String get estradiol => 'Œstradiol';
+  String get estradiol => 'Estradiol';
   @override
   String get progesterone => 'Progestérone';
   @override
@@ -488,18 +490,18 @@ class TranslationsFr extends Translations
   @override
   String get cypionateSuspension => 'Suspension de cypionate';
   @override
-  String get medicationEstradiolEnanthate => 'Énanthate d\'œstradiol';
+  String get medicationEstradiolEnanthate => 'Énanthate d\'estradiol';
   @override
-  String get medicationEstradiolValerate => 'Valérate d\'œstradiol';
+  String get medicationEstradiolValerate => 'Valérate d\'estradiol';
   @override
-  String get medicationEstradiolCypionate => 'Cypionate d\'œstradiol';
+  String get medicationEstradiolCypionate => 'Cypionate d\'estradiol';
   @override
-  String get medicationEstradiolUndecylate => 'Undécylate d\'œstradiol';
+  String get medicationEstradiolUndecylate => 'Undécylate d\'estradiol';
   @override
-  String get medicationEstradiolBenzoate => 'Benzoate d\'œstradiol';
+  String get medicationEstradiolBenzoate => 'Benzoate d\'estradiol';
   @override
   String get medicationEstradiolCypionateSuspension =>
-      'Suspension de cypionate d\'œstradiol';
+      'Suspension de cypionate d\'estradiol';
   @override
   String get medicationTestosteroneEnanthate => 'Énanthate de testostérone';
   @override
@@ -794,7 +796,7 @@ extension on TranslationsFr {
       'appTitle' => 'Mona',
       'nav_home' => 'Mona',
       'nav_intakes' => 'Prises',
-      'nav_levels' => 'Niveaux',
+      'nav_levels' => 'Taux',
       'nav_supplies' => 'Pharmacie',
       'takeAnIntake' => 'Prendre une prise',
       'addAnItem' => 'Ajouter un élément',
@@ -828,7 +830,7 @@ extension on TranslationsFr {
       'schedules' => 'Plannings',
       'noSchedules' => 'Aucun planning',
       'language' => 'Langue',
-      'languageFollowDevice' => 'Suivre la langue de l’appareil',
+      'languageFollowDevice' => 'Suivre la langue de l\'appareil',
       'selectLanguage' => 'Sélectionner la langue',
       'enableNotifications' => 'Activer les notifications',
       'enableNotificationsDescription' => 'Envoyer des rappels',
@@ -953,10 +955,11 @@ extension on TranslationsFr {
       'microliters' => 'μL',
       'milliliters' => 'mL',
       'empty_levels' =>
-        'Les injections d’estradiol s’afficheront dans cet onglet',
+        'Ajoutez une prise de sang ou enregistrez une injection d\'estradiol pour commencer',
       'bloodTestsTitle' => 'Prises de sang',
+      'estradiolLevelsTitle' => 'Taux d\'estradiol',
       'empty_blood_tests' =>
-        'Les prises de sang enregistrées s’afficheront ici. Commencez avec le bouton Ajouter !',
+        'Les prises de sang enregistrées s\'afficheront ici. Commencez avec le bouton Ajouter !',
       'addBloodTest' => 'Ajouter une analyse de sang',
       'editBloodTest' => 'Modifier la prise de sang',
       'newBloodTest' => 'Nouvelle prise de sang',
@@ -1002,7 +1005,7 @@ extension on TranslationsFr {
       'name' => 'Nom',
       'molecule' => 'Molécule',
       'ester' => 'Ester',
-      'estradiol' => 'Œstradiol',
+      'estradiol' => 'Estradiol',
       'progesterone' => 'Progestérone',
       'testosterone' => 'Testostérone',
       'nandrolone' => 'Nandrolone',
@@ -1024,13 +1027,13 @@ extension on TranslationsFr {
       'undecylate' => 'Undécylate',
       'benzoate' => 'Benzoate',
       'cypionateSuspension' => 'Suspension de cypionate',
-      'medicationEstradiolEnanthate' => 'Énanthate d\'œstradiol',
-      'medicationEstradiolValerate' => 'Valérate d\'œstradiol',
-      'medicationEstradiolCypionate' => 'Cypionate d\'œstradiol',
-      'medicationEstradiolUndecylate' => 'Undécylate d\'œstradiol',
-      'medicationEstradiolBenzoate' => 'Benzoate d\'œstradiol',
+      'medicationEstradiolEnanthate' => 'Énanthate d\'estradiol',
+      'medicationEstradiolValerate' => 'Valérate d\'estradiol',
+      'medicationEstradiolCypionate' => 'Cypionate d\'estradiol',
+      'medicationEstradiolUndecylate' => 'Undécylate d\'estradiol',
+      'medicationEstradiolBenzoate' => 'Benzoate d\'estradiol',
       'medicationEstradiolCypionateSuspension' =>
-        'Suspension de cypionate d\'œstradiol',
+        'Suspension de cypionate d\'estradiol',
       'medicationTestosteroneEnanthate' => 'Énanthate de testostérone',
       'medicationTestosteroneValerate' => 'Valérate de testostérone',
       'medicationTestosteroneCypionate' => 'Cypionate de testostérone',
