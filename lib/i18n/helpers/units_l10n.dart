@@ -29,3 +29,12 @@ extension UnitsL10n on Units {
   String get localizedName =>
       '${estradiol.localizedName} & ${testosterone.localizedName}';
 }
+
+extension UnitL10n on Unit {
+  String get localizedName {
+    final unit = this;
+    if (unit is EstradiolUnit) return unit.localizedName;
+    if (unit is TestosteroneUnit) return unit.localizedName;
+    return name;
+  }
+}

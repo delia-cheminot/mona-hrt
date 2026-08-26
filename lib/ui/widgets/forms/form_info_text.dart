@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 class FormInfoText extends StatelessWidget {
   final String infoText;
@@ -15,7 +16,7 @@ class FormInfoText extends StatelessWidget {
           children: [
             WidgetSpan(
               child: Icon(
-                Icons.info_outline,
+                Symbols.info_rounded,
                 size: 16,
                 color: color,
               ),

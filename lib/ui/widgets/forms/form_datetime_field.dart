@@ -1,5 +1,7 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 
@@ -38,8 +40,8 @@ class FormDateTimeField extends StatelessWidget {
                 labelText: label,
                 errorText: errorText,
                 suffixIcon: errorText != null
-                    ? Icon(Icons.error)
-                    : Icon(Icons.calendar_today),
+                    ? Icon(Symbols.error_rounded)
+                    : Icon(Symbols.calendar_today_rounded),
               ),
               readOnly: true,
               onTap: () => _selectDate(context),
@@ -54,8 +56,8 @@ class FormDateTimeField extends StatelessWidget {
                 border: OutlineInputBorder(),
                 errorText: errorText,
                 suffixIcon: errorText != null
-                    ? Icon(Icons.error)
-                    : Icon(Icons.access_time),
+                    ? Icon(Symbols.error_rounded)
+                    : Icon(Symbols.access_time_rounded),
               ),
               readOnly: true,
               onTap: () => _selectTime(context),
@@ -69,7 +71,7 @@ class FormDateTimeField extends StatelessWidget {
   Future<void> _selectDate(BuildContext context) async {
     DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDatetime ?? DateTime.now(),
+      initialDate: selectedDatetime ?? clock.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );

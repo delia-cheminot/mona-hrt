@@ -1,8 +1,9 @@
 // main_tabs.dart
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:mona/i18n/translations.g.dart';
-import 'package:mona/ui/views/chart/blood_test_page.dart';
-import 'chart/chart_page.dart';
+import 'package:mona/ui/views/levels/blood_tests_page/blood_test_page.dart';
+import 'package:mona/ui/views/levels/levels_page/levels_page.dart';
 import 'home/home_page.dart';
 import 'home/settings/settings_page.dart';
 import 'intakes/choose_schedule_page.dart';
@@ -16,12 +17,11 @@ List<MainTabConfig> getMainTabs(BuildContext context) {
     MainTabConfig(
       title: t.nav_home,
       page: const HomePage(),
-      icon: Icons.home_outlined,
-      selectedIcon: Icons.home,
+      icon: Symbols.home_rounded,
       backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       buildActions: (context) => [
         IconButton(
-          icon: const Icon(Icons.settings),
+          icon: const Icon(Symbols.settings_rounded),
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => SettingsPage()),
@@ -33,8 +33,7 @@ List<MainTabConfig> getMainTabs(BuildContext context) {
     MainTabConfig(
       title: t.nav_intakes,
       page: IntakesPage(),
-      icon: Icons.event_outlined,
-      selectedIcon: Icons.event_rounded,
+      icon: Symbols.event_rounded,
       navKey: const ValueKey('navTabIntakes'),
       backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       buildFab: (context) => FloatingActionButton(
@@ -46,17 +45,17 @@ List<MainTabConfig> getMainTabs(BuildContext context) {
             ),
           );
         },
-        child: const Icon(Icons.add),
+        child: const Icon(Symbols.add_rounded),
       ),
     ),
     MainTabConfig(
       title: t.nav_levels,
-      page: ChartPage(),
-      icon: Icons.trending_up_outlined,
-      selectedIcon: Icons.trending_up_rounded,
+      page: const LevelsPage(),
+      icon: Symbols.labs_rounded,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       buildActions: (context) => [
         IconButton(
-          icon: const Icon(Icons.bloodtype_outlined),
+          icon: const Icon(Symbols.lab_profile_rounded),
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => BloodTestPage()),
@@ -68,8 +67,7 @@ List<MainTabConfig> getMainTabs(BuildContext context) {
     MainTabConfig(
       title: t.nav_supplies,
       page: const PharmacyPage(),
-      icon: Icons.medication_outlined,
-      selectedIcon: Icons.medication,
+      icon: Symbols.medication_rounded,
       navKey: const ValueKey('navTabSupplies'),
       buildFab: (context) => FloatingActionButton(
         tooltip: t.addAnItem,
@@ -81,7 +79,7 @@ List<MainTabConfig> getMainTabs(BuildContext context) {
             ),
           );
         },
-        child: const Icon(Icons.add),
+        child: const Icon(Symbols.add_rounded),
       ),
     ),
   ];

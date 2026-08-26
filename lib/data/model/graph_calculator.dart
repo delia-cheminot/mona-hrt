@@ -117,11 +117,10 @@ class GraphCalculator {
 
   List<FlSpot> generateLevelsSpots(
       List<GraphIntake> intakes, EstradiolUnit unit,
-      {double tMin = 0, int numPoints = 1000}) {
+      {double tMin = 0, double? tMax, int numPoints = 1000}) {
     if (intakes.isEmpty) return <FlSpot>[];
 
-    final double tMax =
-        intakes.map((i) => i.time).reduce(math.max) + tMaxOffset;
+    tMax ??= intakes.map((i) => i.time).reduce(math.max) + tMaxOffset;
     final List<math.Point> points = [];
 
     for (int i = 0; i <= numPoints; i++) {
@@ -133,10 +132,13 @@ class GraphCalculator {
     return points.map((p) => FlSpot(p.x.toDouble(), p.y.toDouble())).toList();
   }
 
-  List<FlSpot> generateBloodSpots(List<GraphBloodTest> bloodTests) {
+  List<FlSpot> generateBloodSpots(List<GraphBloodTest> bloodTests,
+      {double tMin = double.negativeInfinity, double tMax = double.infinity}) {
     if (bloodTests.isEmpty) return <FlSpot>[];
 
     return bloodTests
+        .where(
+            (bloodTest) => bloodTest.offset >= tMin && bloodTest.offset <= tMax)
         .map((bloodTest) => FlSpot(bloodTest.offset, bloodTest.level))
         .toList();
   }

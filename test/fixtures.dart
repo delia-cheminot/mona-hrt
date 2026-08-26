@@ -167,6 +167,7 @@ BloodTest aBloodTest({
   int? id,
   required DateTime dateTime,
   Decimal? estradiolLevel,
+  Decimal? testosteroneLevel,
 }) =>
     BloodTest(
       id: id ?? _generateId(),
@@ -174,6 +175,9 @@ BloodTest aBloodTest({
       timeZone: 'Etc/UTC',
       estradiolLevels: estradiolLevel != null
           ? UnitValue(estradiolLevel, EstradiolUnit.pg_mL)
+          : null,
+      testosteroneLevels: testosteroneLevel != null
+          ? UnitValue(testosteroneLevel, TestosteroneUnit.ng_dL)
           : null,
     );
 

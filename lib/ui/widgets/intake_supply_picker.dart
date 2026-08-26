@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
 import 'package:mona/data/model/supply_item.dart';
@@ -73,6 +74,8 @@ class IntakeSupplyPicker extends StatelessWidget {
                 leading: CircleAvatar(
                   backgroundColor:
                       Theme.of(sheetContext).colorScheme.secondaryContainer,
+                  foregroundColor:
+                      Theme.of(sheetContext).colorScheme.onSecondaryContainer,
                   child: Icon(item.genericSupplyType.icon),
                 ),
                 title: Text(item.name),
@@ -84,11 +87,11 @@ class IntakeSupplyPicker extends StatelessWidget {
               ),
             ListTile(
               leading: CircleAvatar(
-                foregroundColor:
-                    Theme.of(sheetContext).colorScheme.tertiaryContainer,
                 backgroundColor:
+                    Theme.of(sheetContext).colorScheme.tertiaryContainer,
+                foregroundColor:
                     Theme.of(sheetContext).colorScheme.onTertiaryContainer,
-                child: Icon(Icons.add),
+                child: Icon(Symbols.add_rounded),
               ),
               title: Text(t.addAnItem),
               onTap: () async {
@@ -122,7 +125,7 @@ class IntakeSupplyPicker extends StatelessWidget {
           title: Text(item.name),
           subtitle: Text(item.localizedConcentrationAndRemaining),
           trailing: IconButton(
-            icon: const Icon(Icons.close),
+            icon: const Icon(Symbols.close_rounded),
             onPressed: onRemoveMedication,
           ),
         ),
@@ -136,12 +139,12 @@ class IntakeSupplyPicker extends StatelessWidget {
           title: Text(generic.name),
           subtitle: Text(generic.localizedSummary),
           trailing: IconButton(
-            icon: const Icon(Icons.close),
+            icon: const Icon(Symbols.close_rounded),
             onPressed: () => onRemoveGenericAt(index),
           ),
         ),
       ListTile(
-        leading: const Icon(Icons.add),
+        leading: const Icon(Symbols.add_rounded),
         title: Text(t.chooseItem),
         onTap: () => _openAddSheet(context),
       ),

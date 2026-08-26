@@ -282,9 +282,6 @@ class TranslationsDe extends Translations
   @override
   String get milliliters => 'mL';
   @override
-  String get empty_levels =>
-      'Estradiol-Injektionen werden in diesem Tab angezeigt';
-  @override
   String get bloodTestsTitle => 'Bluttests';
   @override
   String get empty_blood_tests =>
@@ -874,7 +871,6 @@ extension on TranslationsDe {
       'notes' => 'Notizen',
       'microliters' => 'μL',
       'milliliters' => 'mL',
-      'empty_levels' => 'Estradiol-Injektionen werden in diesem Tab angezeigt',
       'bloodTestsTitle' => 'Bluttests',
       'empty_blood_tests' =>
         'Erfasste Bluttests werden hier angezeigt. Starte mit der Schaltfläche „Hinzufügen“!',

@@ -1,0 +1,1 @@
+enum Hormone { estradiol, testosterone }

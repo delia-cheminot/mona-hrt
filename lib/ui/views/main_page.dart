@@ -94,7 +94,9 @@ class _MainPageState extends State<MainPage> {
                 color: Theme.of(context).colorScheme.surfaceContainer,
                 child: Padding(
                   padding: EdgeInsets.only(
-                    bottom: isIosLiquidGlass ? 8 : 0,
+                    bottom: isIosLiquidGlass ? 16 : 0,
+                    right: isIosLiquidGlass ? 8 : 0,
+                    left: isIosLiquidGlass ? 8 : 0,
                   ),
                   child: NavigationBar(
                     selectedIndex: _selectedIndex,
@@ -105,7 +107,7 @@ class _MainPageState extends State<MainPage> {
                           key: tab.navKey,
                           label: tab.title,
                           icon: Icon(tab.icon),
-                          selectedIcon: Icon(tab.selectedIcon),
+                          selectedIcon: Icon(tab.icon, fill: 1),
                         ),
                     ],
                   ),

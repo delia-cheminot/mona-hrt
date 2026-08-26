@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -27,7 +28,7 @@ class IntakeTile extends StatelessWidget {
     final theme = Theme.of(context);
     final medicationIntakeProvider = context.watch<MedicationIntakeProvider>();
     final supplyItemProvider = context.watch<SupplyItemProvider>();
-    final now = DateTime.now();
+    final now = clock.now();
 
     final viewModel = IntakeTileViewModel(
       schedule: schedule,
@@ -81,7 +82,7 @@ class IntakeTile extends StatelessWidget {
                 children: [
                   WidgetSpan(
                     child: Icon(
-                      Icons.error_outline,
+                      Symbols.error_outline_rounded,
                       size: 16,
                     ),
                   ),
@@ -195,7 +196,7 @@ class IntakeTileViewModel {
       return CircleAvatar(
         backgroundColor: theme.colorScheme.tertiaryContainer,
         child: Icon(
-          Symbols.check,
+          Symbols.check_rounded,
           color: theme.colorScheme.onTertiaryContainer,
         ),
       );
@@ -228,7 +229,7 @@ class IntakeTileViewModel {
             status == ScheduleStatus.todayOverdue ||
             status == ScheduleStatus.todayEarly
         ? schedule.administrationRoute.icon
-        : Symbols.schedule;
+        : Symbols.schedule_rounded;
 
     final backgroundColor =
         _isDailySlot && slotTime!.isAfter(TimeOfDay.fromDateTime(now))

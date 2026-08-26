@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/molecule.dart';
@@ -52,7 +53,8 @@ void main() {
     await $.launchApp();
     await $.openIntakes();
 
-    await $(Icons.add).tap(); // FAB: "Take an intake" -> ChooseSchedulePage
+    await $(Symbols.add_rounded)
+        .tap(); // FAB: "Take an intake" -> ChooseSchedulePage
     await $(_addSchedulesFirst).waitUntilVisible();
     expect($(_addSchedulesFirst), findsOneWidget);
   });
@@ -93,7 +95,7 @@ void main() {
     const site = 'my custom site';
 
     await $.launchApp();
-    await $(Icons.settings).tap();
+    await $(Symbols.settings_rounded).tap();
     await $(_settingsInjectionSitesTile).scrollTo().tap();
     await $(_addInjectionSiteTile).tap();
     await $(_customSiteField).enterText(site);
@@ -107,7 +109,7 @@ void main() {
     await _seedInjectionSchedule($, name: 'Testosterone');
     await $.openIntakes();
 
-    await $(Icons.add).tap(); // fab
+    await $(Symbols.add_rounded).tap(); // fab
     await $('Testosterone').tap(); // pick the schedule
     await $(site).waitUntilVisible();
     await $(FilterChip).containing(site).tap(); // pick the site
@@ -144,10 +146,10 @@ Future<void> _seedSchedule(
   PatrolIntegrationTester $, {
   required String name,
 }) async {
-  await $(Icons.settings).tap(); // Home -> Settings
+  await $(Symbols.settings_rounded).tap(); // Home -> Settings
   await $(_schedulesTile).scrollTo().tap(); // -> Schedules
 
-  await $(Icons.add).tap(); // FAB: "Add a schedule"
+  await $(Symbols.add_rounded).tap(); // FAB: "Add a schedule"
   await $(TextField).containing(_nameLabel).enterText(name);
   await $(DropdownButtonFormField<Molecule>).tap();
   await $(_moleculeEstradiol).tap();
@@ -176,10 +178,10 @@ Future<void> _seedInjectionSchedule(
   PatrolIntegrationTester $, {
   required String name,
 }) async {
-  await $(Icons.settings).tap(); // Home -> Settings
+  await $(Symbols.settings_rounded).tap(); // Home -> Settings
   await $(_schedulesTile).scrollTo().tap(); // -> Schedules
 
-  await $(Icons.add).tap(); // FAB: "Add a schedule"
+  await $(Symbols.add_rounded).tap(); // FAB: "Add a schedule"
   await $(TextField).containing(_nameLabel).enterText(name);
   await $(DropdownButtonFormField<Molecule>).tap();
   await $(_moleculeEstradiol).tap();
@@ -209,7 +211,8 @@ Future<void> _recordIntake(
   PatrolIntegrationTester $, {
   required String scheduleName,
 }) async {
-  await $(Icons.add).tap(); // FAB: "Take an intake" -> ChooseSchedulePage
+  await $(Symbols.add_rounded)
+      .tap(); // FAB: "Take an intake" -> ChooseSchedulePage
   await $(scheduleName).tap(); // pick the schedule (data, not localized)
   await $(_takeIntakeSubmit).tap(); // submit, pops back to the intakes list
 }

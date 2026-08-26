@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/blood_test.dart';
 import 'package:mona/data/model/units.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
@@ -45,7 +46,7 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
 
   Future<void> _confirmDelete() async {
     final confirmed = await Dialogs.confirmDeleteDialog(
-        context: context, title: "Delete this blood test?");
+        context: context, title: t.deleteBloodTest);
 
     if (confirmed == true && mounted) {
       _bloodTestProvider.deleteBloodTest(widget.bloodtest);
@@ -109,6 +110,7 @@ class _EditBloodTestPageState extends State<EditBloodTestPage> {
     final defaultUnits = _preferencesService.units;
     return ModelForm(
       title: t.editBloodTest,
+      avatar: Symbols.lab_panel_rounded,
       submitButtonLabel: t.save,
       isFormValid: _isFormValid,
       saveChanges: _saveBloodTest,

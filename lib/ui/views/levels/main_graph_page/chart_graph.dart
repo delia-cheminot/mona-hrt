@@ -30,7 +30,10 @@ class _ChartConstants {
 
 class MainGraph extends StatelessWidget {
   final double window;
-  MainGraph({required this.window});
+  final DateTime? startDate;
+  final DateTime? endDate;
+
+  MainGraph({required this.window, this.startDate, this.endDate});
 
   @override
   Widget build(BuildContext context) {
@@ -44,22 +47,34 @@ class MainGraph extends StatelessWidget {
       return SizedBox.shrink();
     }
 
-    final DateTime tMin = medicationIntakeProvider.getGraphLocalStart()!;
-    final double tNow = timeDifferenceInDays(clock.now(), tMin);
-    final double graphSpan = medicationIntakeProvider.getGraphSpan(tMin)!;
+    final DateTime baseline = medicationIntakeProvider.getGraphLocalStart()!;
+    final double tNow = timeDifferenceInDays(clock.now(), baseline);
+    final double graphSpan = medicationIntakeProvider.getGraphSpan(baseline)!;
+    final double tMin =
+        startDate != null ? timeDifferenceInDays(startDate!, baseline) : 0;
+    final double tMax = endDate != null
+        ? timeDifferenceInDays(endDate!, baseline)
+        : graphSpan + GraphCalculator.tMaxOffset;
 
     List<GraphIntake> intakes =
-        medicationIntakeProvider.getIntakesForGraph(tMin);
+        medicationIntakeProvider.getIntakesForGraph(baseline);
     List<GraphBloodTest> bloodTests =
-        bloodTestProvider.getBloodTestsForGraph(tMin, unit);
+        bloodTestProvider.getBloodTestsForGraph(baseline, unit);
 
-    final List<FlSpot> spots =
-        GraphCalculator().generateLevelsSpots(intakes, unit);
-    final List<FlSpot> bloodSpots =
-        GraphCalculator().generateBloodSpots(bloodTests);
+    final List<FlSpot> spots = GraphCalculator().generateLevelsSpots(
+      intakes,
+      unit,
+      tMin: tMin,
+      tMax: tMax,
+    );
+    final List<FlSpot> bloodSpots = GraphCalculator().generateBloodSpots(
+      bloodTests,
+      tMin: tMin,
+      tMax: tMax,
+    );
     FlSpot? todaySpot;
 
-    if (tNow <= graphSpan + GraphCalculator.tMaxOffset) {
+    if (tNow >= tMin && tNow <= tMax) {
       final todayConcentration =
           GraphCalculator().totalConcentrationAtTime(tNow, intakes, unit);
       todaySpot = FlSpot(tNow, todayConcentration);
@@ -69,45 +84,47 @@ class MainGraph extends StatelessWidget {
         [...spots, ...bloodSpots].map((s) => s.y).fold(0.0, math.max);
     final double maxYWithPadding = maxY * _ChartConstants.maxYPadding;
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width *
-            (1 + _ChartConstants.windowWidthFactor * window),
-        child: Row(
-          children: [
-            Padding(
-              padding:
-                  const EdgeInsets.only(right: _ChartConstants.axesPadding),
-              child: RotatedBox(
-                quarterTurns: -1,
-                child: Text('${t.concentration} (${unit.localizedName})',
-                    style: const TextStyle(
-                        fontSize: _ChartConstants.titleFontSize)),
-              ),
-            ),
-            Expanded(
-              child: LineChart(
-                LineChartData(
-                  minX: 0,
-                  maxX: (graphSpan + GraphCalculator.tMaxOffset),
-                  minY: 0,
-                  maxY: maxYWithPadding,
-                  gridData: FlGridData(show: true),
-                  titlesData: _buildTitlesData(context, tMin),
-                  borderData: FlBorderData(show: true),
-                  lineBarsData: [
-                    _buildLineBarData(spots, theme),
-                    _buildBloodTestData(bloodSpots, theme),
-                  ],
-                  lineTouchData:
-                      _buildLineTouchData(context, theme, tMin, unit),
-                  extraLinesData:
-                      _buildTodayVerticalLine(theme, todaySpot, tNow, unit),
+    return SafeArea(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width *
+              (1 + _ChartConstants.windowWidthFactor * window),
+          child: Row(
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.only(right: _ChartConstants.axesPadding),
+                child: RotatedBox(
+                  quarterTurns: -1,
+                  child: Text('${t.concentration} (${unit.localizedName})',
+                      style: const TextStyle(
+                          fontSize: _ChartConstants.titleFontSize)),
                 ),
               ),
-            ),
-          ],
+              Expanded(
+                child: LineChart(
+                  LineChartData(
+                    minX: tMin,
+                    maxX: tMax,
+                    minY: 0,
+                    maxY: maxYWithPadding,
+                    gridData: FlGridData(show: true),
+                    titlesData: _buildTitlesData(context, baseline),
+                    borderData: FlBorderData(show: true),
+                    lineBarsData: [
+                      _buildLineBarData(spots, theme),
+                      _buildBloodTestData(bloodSpots, theme),
+                    ],
+                    lineTouchData:
+                        _buildLineTouchData(context, theme, baseline, unit),
+                    extraLinesData:
+                        _buildTodayVerticalLine(theme, todaySpot, tNow, unit),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

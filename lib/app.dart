@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:dynamic_system_colors/dynamic_system_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -32,12 +33,13 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   late LocaleProvider _localeProvider;
   late NotificationScheduler _notificationScheduler;
   final HomeWidgetService _homeWidgetService = HomeWidgetService();
+  bool _initialized = false;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _lastTimeZone = DateTime.now().timeZoneOffset.toString();
+    _lastTimeZone = clock.now().timeZoneOffset.toString();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await NotificationService().initialize();
@@ -51,6 +53,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
             _medicationIntakeProvider, _medicationScheduleProvider),
         _preferencesService,
       );
+      _initialized = true;
 
       _medicationScheduleProvider.addListener(_regenerateNotifications);
       _medicationIntakeProvider.addListener(_regenerateNotifications);
@@ -66,23 +69,25 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _medicationScheduleProvider.removeListener(_regenerateNotifications);
-    _medicationIntakeProvider.removeListener(_regenerateNotifications);
-    _preferencesService.removeListener(_regenerateNotifications);
-    _medicationIntakeProvider.removeListener(_regenerateHomeWidget);
-    _localeProvider.removeListener(_regenerateHomeWidget);
+    if (_initialized) {
+      _medicationScheduleProvider.removeListener(_regenerateNotifications);
+      _medicationIntakeProvider.removeListener(_regenerateNotifications);
+      _preferencesService.removeListener(_regenerateNotifications);
+      _medicationIntakeProvider.removeListener(_regenerateHomeWidget);
+      _localeProvider.removeListener(_regenerateHomeWidget);
+    }
     super.dispose();
   }
 
   void _regenerateNotifications() {
-    if (!mounted) return;
+    if (!_initialized || !mounted) return;
 
     final locale = context.read<LocaleProvider>().locale;
     _notificationScheduler.regenerateAll(locale.intlLanguageTag);
   }
 
   void _regenerateHomeWidget() {
-    if (!mounted) return;
+    if (!_initialized || !mounted) return;
 
     _homeWidgetService.sync(
       _medicationIntakeProvider,
@@ -91,7 +96,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   }
 
   void _checkTimezoneChange() {
-    final currentTimezone = DateTime.now().timeZoneOffset.toString();
+    final currentTimezone = clock.now().timeZoneOffset.toString();
     if (_lastTimeZone != currentTimezone) {
       _lastTimeZone = currentTimezone;
       _regenerateNotifications();

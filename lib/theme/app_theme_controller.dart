@@ -31,10 +31,12 @@ class AppThemeProvider extends ChangeNotifier {
         theme: ThemeData(
           useMaterial3: _useMaterial3,
           colorScheme: schemes.light,
+          iconTheme: const IconThemeData(weight: 600),
         ),
         darkTheme: ThemeData(
           useMaterial3: _useMaterial3,
           colorScheme: schemes.dark,
+          iconTheme: const IconThemeData(weight: 600),
         ),
       );
     }
@@ -43,10 +45,12 @@ class AppThemeProvider extends ChangeNotifier {
       theme: ThemeData(
         useMaterial3: _useMaterial3,
         colorScheme: systemLight ?? _fallbackScheme(Brightness.light),
+        iconTheme: const IconThemeData(weight: 600),
       ),
       darkTheme: ThemeData(
         useMaterial3: _useMaterial3,
         colorScheme: systemDark ?? _fallbackScheme(Brightness.dark),
+        iconTheme: const IconThemeData(weight: 600),
       ),
     );
   }

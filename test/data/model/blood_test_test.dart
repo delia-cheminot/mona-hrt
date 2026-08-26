@@ -17,7 +17,7 @@ void main() {
 
       // Act
       final map = bloodtest.toMap();
-      final fromMap = BloodTest.fromMap(map);
+      final fromMap = BloodTestMapper.fromMap(Map<String, dynamic>.from(map));
 
       // Assert
       expect(

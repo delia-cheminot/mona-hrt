@@ -298,8 +298,6 @@ class TranslationsNl extends Translations
   @override
   String get milliliters => 'mL';
   @override
-  String get empty_levels => 'Estradiol injecties komen hier te staan';
-  @override
   String get bloodTestsTitle => 'Bloedwaardentesten';
   @override
   String get empty_blood_tests =>
@@ -878,7 +876,6 @@ extension on TranslationsNl {
       'notes' => 'Notities',
       'microliters' => 'μL',
       'milliliters' => 'mL',
-      'empty_levels' => 'Estradiol injecties komen hier te staan',
       'bloodTestsTitle' => 'Bloedwaardentesten',
       'empty_blood_tests' =>
         'Genomen bloedwaardentesten zullen hier komen te staan. Begin door op de Toevoegen knop te drukken!',

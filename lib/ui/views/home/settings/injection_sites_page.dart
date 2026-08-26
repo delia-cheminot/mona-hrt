@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/placement.dart';
 import 'package:mona/i18n/helpers/placement_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
@@ -69,13 +70,13 @@ class InjectionSitesPage extends StatelessWidget {
                         EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                     trailing: IconButton(
                       key: ValueKey('deleteSite_$i'),
-                      icon: const Icon(Icons.delete_outline),
+                      icon: const Icon(Symbols.delete_outline_rounded),
                       onPressed: () => _removeSiteAt(preferencesService, i),
                     ),
                   ),
                 ListTile(
                   key: const ValueKey('addInjectionSiteTile'),
-                  leading: const Icon(Icons.add),
+                  leading: const Icon(Symbols.add_rounded),
                   title: Text(t.addInjectionSite),
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -159,7 +160,7 @@ class _AddSiteDialogState extends State<_AddSiteDialog> {
                 labelText: t.customSiteLabel,
                 suffixIcon: IconButton(
                   key: const ValueKey('confirmAddSite'),
-                  icon: const Icon(Icons.add),
+                  icon: const Icon(Symbols.add_rounded),
                   onPressed: () => Navigator.of(context).pop(_buildPlacement()),
                 ),
               ),

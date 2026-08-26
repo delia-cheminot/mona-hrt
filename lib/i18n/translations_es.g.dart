@@ -277,9 +277,6 @@ class TranslationsEs extends Translations
   @override
   String get milliliters => 'mL';
   @override
-  String get empty_levels =>
-      'Las inyecciones de estradiol se mostrarán en esta pestaña';
-  @override
   String get bloodTestsTitle => 'Análisis de sangre';
   @override
   String get empty_blood_tests =>
@@ -889,8 +886,6 @@ extension on TranslationsEs {
       'notes' => 'Notas',
       'microliters' => 'μL',
       'milliliters' => 'mL',
-      'empty_levels' =>
-        'Las inyecciones de estradiol se mostrarán en esta pestaña',
       'bloodTestsTitle' => 'Análisis de sangre',
       'empty_blood_tests' =>
         'Los análisis de sangre registrados aparecerán aquí. ¡Empieza con el botón Añadir!',

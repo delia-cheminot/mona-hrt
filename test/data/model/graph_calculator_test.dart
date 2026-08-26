@@ -118,6 +118,38 @@ void main() {
       // Assert
       expect(spots.last.x, closeTo(3.5 + GraphCalculator.tMaxOffset, 1e-9));
     });
+
+    test('samples up to an explicit tMax when provided', () {
+      // Act
+      final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit,
+          tMax: 10.0, numPoints: 10);
+
+      // Assert
+      expect(spots.last.x, closeTo(10.0, 1e-9));
+    });
+
+    test('starts sampling at tMin when provided', () {
+      // Act
+      final spots = calculator.generateLevelsSpots([intakeAt(0.0)], unit,
+          tMin: 5.0, tMax: 10.0, numPoints: 10);
+
+      // Assert
+      expect(spots.first.x, closeTo(5.0, 1e-9));
+    });
+
+    test('a window after the injection still reflects the earlier intake', () {
+      // Arrange
+      const intakes = [
+        GraphIntake(dose: 5.0, ester: Ester.valerate, time: 0.0)
+      ];
+
+      // Act
+      final spots = calculator.generateLevelsSpots(intakes, unit,
+          tMin: 5.0, tMax: 10.0, numPoints: 10);
+
+      // Assert
+      expect(spots.every((s) => s.y > 0.0), isTrue);
+    });
   });
 
   group('generateBloodSpots', () {
@@ -140,6 +172,35 @@ void main() {
           isA<FlSpot>()
               .having((s) => s.x, 'x', 1.5)
               .having((s) => s.y, 'y', 120.0));
+    });
+
+    test('keeps only blood tests within the tMin/tMax range', () {
+      // Arrange
+      const tests = [
+        GraphBloodTest(offset: 1.0, level: 100.0),
+        GraphBloodTest(offset: 5.0, level: 200.0),
+        GraphBloodTest(offset: 9.0, level: 300.0),
+      ];
+
+      // Act
+      final spots = calculator.generateBloodSpots(tests, tMin: 2.0, tMax: 8.0);
+
+      // Assert
+      expect(spots.single.x, 5.0);
+    });
+
+    test('includes blood tests exactly on the range bounds', () {
+      // Arrange
+      const tests = [
+        GraphBloodTest(offset: 2.0, level: 100.0),
+        GraphBloodTest(offset: 8.0, level: 300.0),
+      ];
+
+      // Act
+      final spots = calculator.generateBloodSpots(tests, tMin: 2.0, tMax: 8.0);
+
+      // Assert
+      expect(spots.length, 2);
     });
   });
 }

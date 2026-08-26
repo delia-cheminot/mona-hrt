@@ -470,11 +470,15 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'mL'
   String get milliliters => 'mL';
 
-  /// en: 'Estradiol injections will display in this tab'
-  String get empty_levels => 'Estradiol injections will display in this tab';
+  /// en: 'Add a blood test or log an estradiol injection to get started'
+  String get empty_levels =>
+      'Add a blood test or log an estradiol injection to get started';
 
   /// en: 'Blood Tests'
   String get bloodTestsTitle => 'Blood Tests';
+
+  /// en: 'Estradiol levels'
+  String get estradiolLevelsTitle => 'Estradiol levels';
 
   /// en: 'Taken blood tests will appear here. Start by using the Add button!'
   String get empty_blood_tests =>
@@ -1177,8 +1181,10 @@ extension on Translations {
       'notes' => 'Notes',
       'microliters' => 'μL',
       'milliliters' => 'mL',
-      'empty_levels' => 'Estradiol injections will display in this tab',
+      'empty_levels' =>
+        'Add a blood test or log an estradiol injection to get started',
       'bloodTestsTitle' => 'Blood Tests',
+      'estradiolLevelsTitle' => 'Estradiol levels',
       'empty_blood_tests' =>
         'Taken blood tests will appear here. Start by using the Add button!',
       'addBloodTest' => 'Add a blood test',

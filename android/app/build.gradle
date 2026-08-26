@@ -126,6 +126,13 @@ android {
             resValue 'string', 'app_name', '"Mona"'
         }
     }
+
+    bundle {
+        language {
+            // avoids stripping locales the device is not set to
+            enableSplit = false
+        }
+    }
 }
 
 flutter {

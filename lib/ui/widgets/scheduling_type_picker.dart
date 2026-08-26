@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/i18n/helpers/scheduling_type_l10n.dart';
 
@@ -33,7 +34,8 @@ class SchedulingTypePicker extends StatelessWidget {
                 key: _optionKey(type),
                 title: Text(type.localizedName),
                 subtitle: Text(type.localizedDescription),
-                trailing: type == value ? const Icon(Icons.check) : null,
+                trailing:
+                    type == value ? const Icon(Symbols.check_rounded) : null,
                 onTap: () => Navigator.of(sheetContext).pop(type),
               ),
           ],
@@ -55,7 +57,7 @@ class SchedulingTypePicker extends StatelessWidget {
           key: const ValueKey('schedulingTypePicker'),
           title: Text(value.localizedName),
           subtitle: Text(value.localizedDescription),
-          trailing: const Icon(Icons.edit),
+          trailing: const Icon(Symbols.edit_rounded),
           onTap: () => _openTypeSheet(context),
         ),
       ],

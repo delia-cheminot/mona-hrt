@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hrt_widget_title">Koha në HRT</string>
+    <string name="hrt_widget_description">Shfaq prej sa kohësh je në HRT dhe marrjet e tua gjithsej</string>
+    <string name="hrt_home_widget_placeholder">Hap Mona-n për të regjistruar marrjen tënde të parë</string>
+    <string name="hrt_widget_preview_sample">Në HRT prej 8 muajsh</string>
+    <string name="hrt_widget_preview_intake_sample">16 marrje të regjistruara</string>
+</resources>

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/ester.dart';
@@ -229,8 +230,8 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
               key: const ValueKey('editScheduleSchedulingTile'),
               title: Text(t.scheduling),
               subtitle: Text(currentSchedule.localizedFrequency),
-              leading: Icon(Icons.event_repeat),
-              trailing: Icon(Icons.chevron_right),
+              leading: Icon(Symbols.event_repeat_rounded),
+              trailing: Icon(Symbols.chevron_right_rounded),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute<void>(
                   builder: (context) => EditScheduleSchedulingPage(
