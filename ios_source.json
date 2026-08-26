@@ -31,12 +31,21 @@
         "https://i.imgur.com/vuSqW2l.png",
         "https://i.imgur.com/5cjzlB0.png"
       ],
-      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.19.0/mona-1.19.0.ipa",
-      "size": 12257211,
-      "version": "1.19.0",
-      "versionDate": "2026-08-23T15:20:37Z",
-      "versionDescription": "New:\r\n\r\n- You can now use \"as needed\" when setting up a schedule\r\n- Adds pg/mL & ng/mL to the units\r\n- Minor UI tweaks",
+      "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.20.0/mona-1.20.0.ipa",
+      "size": 12343046,
+      "version": "1.20.0",
+      "versionDate": "2026-08-26T22:06:30Z",
+      "versionDescription": "New:\r\n\r\n- Preview your levels in the new levels tab\r\n- You can now see your blood test levels as charts\r\n- New language: Albanian\r\n\r\nFix:\r\n\r\n- Used consistent icons\r\n- Corrected colors used in the item picker\r\n- Added all supported languages to the widget",
       "versions": [
+        {
+          "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.20.0/mona-1.20.0.ipa",
+          "size": 12343046,
+          "version": "1.20.0",
+          "buildVersion": "24",
+          "date": "2026-08-26T22:06:30Z",
+          "localizedDescription": "New:\r\n\r\n- Preview your levels in the new levels tab\r\n- You can now see your blood test levels as charts\r\n- New language: Albanian\r\n\r\nFix:\r\n\r\n- Used consistent icons\r\n- Corrected colors used in the item picker\r\n- Added all supported languages to the widget",
+          "minOSVersion": "13.0"
+        },
         {
           "downloadURL": "https://github.com/mona-hrt/mona/releases/download/v1.19.0/mona-1.19.0.ipa",
           "size": 12257211,
