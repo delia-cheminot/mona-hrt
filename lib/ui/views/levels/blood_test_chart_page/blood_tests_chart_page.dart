@@ -9,8 +9,8 @@ import 'package:mona/i18n/helpers/units_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/constants/dimensions.dart';
-import 'package:mona/ui/views/chart/bar_chart_graph.dart';
-import 'package:mona/ui/views/chart/level_entry_spots.dart';
+import 'package:mona/ui/views/levels/blood_test_chart_page/bar_chart_graph.dart';
+import 'package:mona/ui/views/levels/level_entry_spots.dart';
 import 'package:provider/provider.dart';
 
 class BloodTestsChartPage extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:mona/ui/views/chart/bar_groups.dart';
+import 'package:mona/ui/views/levels/bar_groups.dart';
 
 class BabyBarChartGraph extends StatelessWidget {
   final List<FlSpot> spots;

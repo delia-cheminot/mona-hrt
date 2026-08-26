@@ -8,8 +8,8 @@ import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/helpers/units_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/constants/dimensions.dart';
-import 'package:mona/ui/views/chart/edit_blood_test_page.dart';
-import 'package:mona/ui/views/chart/new_blood_test_page.dart';
+import 'package:mona/ui/views/levels/blood_tests_page/edit_blood_test_page.dart';
+import 'package:mona/ui/views/levels/blood_tests_page/new_blood_test_page.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
 import 'package:provider/provider.dart';
 

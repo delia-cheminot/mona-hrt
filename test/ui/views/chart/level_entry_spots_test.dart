@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/level_entry.dart';
 import 'package:mona/data/model/units.dart';
-import 'package:mona/ui/views/chart/level_entry_spots.dart';
+import 'package:mona/ui/views/levels/level_entry_spots.dart';
 
 LevelEntry _entry(int day, String value) => (
       localDate: Date(year: 2025, month: 1, day: day),
