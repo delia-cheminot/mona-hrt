@@ -4,30 +4,25 @@
         <item quantity="one">На ЗГТ вже %d день</item>
         <item quantity="few">На ЗГТ вже %d дні</item>
         <item quantity="many">На ЗГТ вже %d днів</item>
-        <item quantity="other">На ЗГТ вже %d днів</item>
     </plurals>
     <plurals name="on_hrt_for_weeks">
         <item quantity="one">На ЗГТ вже %d тиждень</item>
         <item quantity="few">На ЗГТ вже %d тижні</item>
         <item quantity="many">На ЗГТ вже %d тижнів</item>
-        <item quantity="other">На ЗГТ вже %d тижнів</item>
     </plurals>
     <plurals name="on_hrt_for_months">
         <item quantity="one">На ЗГТ вже %d місяць</item>
         <item quantity="few">На ЗГТ вже %d місяці</item>
         <item quantity="many">На ЗГТ вже %d місяців</item>
-        <item quantity="other">На ЗГТ вже %d місяців</item>
     </plurals>
     <plurals name="on_hrt_for_years">
         <item quantity="one">На ЗГТ вже %d рік</item>
         <item quantity="few">На ЗГТ вже %d роки</item>
         <item quantity="many">На ЗГТ вже %d років</item>
-        <item quantity="other">На ЗГТ вже %d років</item>
     </plurals>
     <plurals name="intakes_logged_count">
         <item quantity="one">Записано %d прийом</item>
         <item quantity="few">Записано %d прийоми</item>
         <item quantity="many">Записано %d прийомів</item>
-        <item quantity="other">Записано %d прийомів</item>
     </plurals>
 </resources>

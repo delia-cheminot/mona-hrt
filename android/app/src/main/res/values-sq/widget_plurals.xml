@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="on_hrt_for_days">
+        <item quantity="one">Në HRT prej 1 dite</item>
+        <item quantity="other">Në HRT prej %d ditësh</item>
+    </plurals>
+    <plurals name="on_hrt_for_weeks">
+        <item quantity="one">Në HRT prej 1 jave</item>
+        <item quantity="other">Në HRT prej %d javësh</item>
+    </plurals>
+    <plurals name="on_hrt_for_months">
+        <item quantity="one">Në HRT prej 1 muaji</item>
+        <item quantity="other">Në HRT prej %d muajsh</item>
+    </plurals>
+    <plurals name="on_hrt_for_years">
+        <item quantity="one">Në HRT prej 1 viti</item>
+        <item quantity="other">Në HRT prej %d vitesh</item>
+    </plurals>
+    <plurals name="intakes_logged_count">
+        <item quantity="one">1 marrje e regjistruar</item>
+        <item quantity="other">%d marrje të regjistruara</item>
+    </plurals>
+</resources>
