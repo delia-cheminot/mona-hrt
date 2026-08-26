@@ -18,7 +18,7 @@ class BarChartGraph extends StatelessWidget {
 
   static const double _barWidth = 18;
   static const double _groupsSpace = 12;
-  static const double _bottomReservedSize = 52;
+  static const double _bottomReservedSize = 40;
   static const double _chartInset = 40;
 
   @override
