@@ -84,45 +84,47 @@ class MainGraph extends StatelessWidget {
         [...spots, ...bloodSpots].map((s) => s.y).fold(0.0, math.max);
     final double maxYWithPadding = maxY * _ChartConstants.maxYPadding;
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width *
-            (1 + _ChartConstants.windowWidthFactor * window),
-        child: Row(
-          children: [
-            Padding(
-              padding:
-                  const EdgeInsets.only(right: _ChartConstants.axesPadding),
-              child: RotatedBox(
-                quarterTurns: -1,
-                child: Text('${t.concentration} (${unit.localizedName})',
-                    style: const TextStyle(
-                        fontSize: _ChartConstants.titleFontSize)),
-              ),
-            ),
-            Expanded(
-              child: LineChart(
-                LineChartData(
-                  minX: tMin,
-                  maxX: tMax,
-                  minY: 0,
-                  maxY: maxYWithPadding,
-                  gridData: FlGridData(show: true),
-                  titlesData: _buildTitlesData(context, baseline),
-                  borderData: FlBorderData(show: true),
-                  lineBarsData: [
-                    _buildLineBarData(spots, theme),
-                    _buildBloodTestData(bloodSpots, theme),
-                  ],
-                  lineTouchData:
-                      _buildLineTouchData(context, theme, baseline, unit),
-                  extraLinesData:
-                      _buildTodayVerticalLine(theme, todaySpot, tNow, unit),
+    return SafeArea(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width *
+              (1 + _ChartConstants.windowWidthFactor * window),
+          child: Row(
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.only(right: _ChartConstants.axesPadding),
+                child: RotatedBox(
+                  quarterTurns: -1,
+                  child: Text('${t.concentration} (${unit.localizedName})',
+                      style: const TextStyle(
+                          fontSize: _ChartConstants.titleFontSize)),
                 ),
               ),
-            ),
-          ],
+              Expanded(
+                child: LineChart(
+                  LineChartData(
+                    minX: tMin,
+                    maxX: tMax,
+                    minY: 0,
+                    maxY: maxYWithPadding,
+                    gridData: FlGridData(show: true),
+                    titlesData: _buildTitlesData(context, baseline),
+                    borderData: FlBorderData(show: true),
+                    lineBarsData: [
+                      _buildLineBarData(spots, theme),
+                      _buildBloodTestData(bloodSpots, theme),
+                    ],
+                    lineTouchData:
+                        _buildLineTouchData(context, theme, baseline, unit),
+                    extraLinesData:
+                        _buildTodayVerticalLine(theme, todaySpot, tNow, unit),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
