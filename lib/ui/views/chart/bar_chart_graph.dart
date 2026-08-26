@@ -58,8 +58,10 @@ class BarChartGraph extends StatelessWidget {
                   spots,
                   barWidth: _barWidth,
                   highlightedIndex: highlightedIndex,
-                  barColor: theme.colorScheme.primary,
-                  highlightColor: theme.colorScheme.tertiary,
+                  barColor: highlightedIndex != null
+                      ? theme.colorScheme.surfaceContainerHighest
+                      : theme.colorScheme.primary,
+                  highlightColor: theme.colorScheme.primary,
                 ),
                 gridData: const FlGridData(
                   show: false,

@@ -11,12 +11,16 @@ class BabyMainChartGraph extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     if (spots.isEmpty) {
       return const SizedBox.shrink();
     }
+
+    final minY = spots.map((e) => e.y).reduce((a, b) => a < b ? a : b);
+
     return LineChart(
       LineChartData(
-        minY: 0,
+        minY: minY * 0.75,
         gridData: const FlGridData(show: false),
         borderData: FlBorderData(show: false),
         titlesData: _titlesData(),
@@ -31,7 +35,7 @@ class BabyMainChartGraph extends StatelessWidget {
             dotData: const FlDotData(show: false),
             belowBarData: BarAreaData(
               show: true,
-              color: theme.colorScheme.primary.withValues(alpha: 0.24),
+              color: theme.colorScheme.surfaceContainerHighest,
             ),
           ),
           if (nowX != null) _nowDotBar(theme),

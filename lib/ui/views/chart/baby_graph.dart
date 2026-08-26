@@ -25,8 +25,8 @@ class BabyBarChartGraph extends StatelessWidget {
           spots,
           barWidth: 10,
           highlightedIndex: spots.length - 1,
-          barColor: theme.colorScheme.secondaryContainer,
-          highlightColor: theme.colorScheme.tertiary,
+          barColor: theme.colorScheme.primaryContainer,
+          highlightColor: theme.colorScheme.primary,
         ),
         gridData: const FlGridData(
           show: false,

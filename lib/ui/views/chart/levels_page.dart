@@ -126,7 +126,7 @@ class _GraphTile extends StatelessWidget {
     final intakes = intakeProvider.getIntakesForGraph(baseline);
     final tNow = timeDifferenceInDays(clock.now(), baseline);
     final lastWeekSpots = GraphCalculator()
-        .generateLevelsSpots(intakes, unit, tMin: tNow - 14, tMax: tNow + 4);
+        .generateLevelsSpots(intakes, unit, tMin: tNow - 9, tMax: tNow + 5);
     final nowLevel =
         GraphCalculator().totalConcentrationAtTime(tNow, intakes, unit);
 
@@ -151,7 +151,7 @@ class _GraphTile extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.only(right: 70),
           child: Text.rich(
             textAlign: TextAlign.right,
             TextSpan(
@@ -170,7 +170,7 @@ class _GraphTile extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         SizedBox(
-          height: 180,
+          height: 160,
           child: BabyMainChartGraph(
               spots: lastWeekSpots, nowX: tNow, nowY: nowLevel),
         ),
