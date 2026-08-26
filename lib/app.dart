@@ -33,6 +33,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   late LocaleProvider _localeProvider;
   late NotificationScheduler _notificationScheduler;
   final HomeWidgetService _homeWidgetService = HomeWidgetService();
+  bool _initialized = false;
 
   @override
   void initState() {
@@ -52,6 +53,7 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
             _medicationIntakeProvider, _medicationScheduleProvider),
         _preferencesService,
       );
+      _initialized = true;
 
       _medicationScheduleProvider.addListener(_regenerateNotifications);
       _medicationIntakeProvider.addListener(_regenerateNotifications);
@@ -67,23 +69,25 @@ class _MonaAppState extends State<MonaApp> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _medicationScheduleProvider.removeListener(_regenerateNotifications);
-    _medicationIntakeProvider.removeListener(_regenerateNotifications);
-    _preferencesService.removeListener(_regenerateNotifications);
-    _medicationIntakeProvider.removeListener(_regenerateHomeWidget);
-    _localeProvider.removeListener(_regenerateHomeWidget);
+    if (_initialized) {
+      _medicationScheduleProvider.removeListener(_regenerateNotifications);
+      _medicationIntakeProvider.removeListener(_regenerateNotifications);
+      _preferencesService.removeListener(_regenerateNotifications);
+      _medicationIntakeProvider.removeListener(_regenerateHomeWidget);
+      _localeProvider.removeListener(_regenerateHomeWidget);
+    }
     super.dispose();
   }
 
   void _regenerateNotifications() {
-    if (!mounted) return;
+    if (!_initialized || !mounted) return;
 
     final locale = context.read<LocaleProvider>().locale;
     _notificationScheduler.regenerateAll(locale.intlLanguageTag);
   }
 
   void _regenerateHomeWidget() {
-    if (!mounted) return;
+    if (!_initialized || !mounted) return;
 
     _homeWidgetService.sync(
       _medicationIntakeProvider,
