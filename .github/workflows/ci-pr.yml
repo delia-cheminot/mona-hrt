@@ -179,6 +179,8 @@ jobs:
               cat=generated
             elif [[ "$path" == *.i18next.json ]]; then
               cat=i18n
+            elif [[ "$path" == fastlane/metadata/*.txt ]]; then
+              cat=i18n
             elif [[ "$path" == test/* || "$path" == integration_test/* ]]; then
               cat=test
             else

@@ -1,0 +1,2 @@
+# iOS App Store (deliver) configuration.
+metadata_path("./fastlane/metadata/ios")
