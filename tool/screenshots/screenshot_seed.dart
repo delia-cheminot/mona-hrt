@@ -83,27 +83,16 @@ Future<void> _insertSchedules(Database db) async {
 
   final upcoming = MedicationSchedule(
     id: 103,
-    name: 'Estradiol valerate',
-    dose: _d('4'),
-    molecule: KnownMolecules.estradiol,
+    name: 'Decapeptyl',
+    dose: _d('11.25'),
+    molecule: KnownMolecules.decapeptyl,
     administrationRoute: AdministrationRoute.injection,
-    ester: Ester.valerate,
+    ester: Ester.enanthate,
     startDate: today.add(const Duration(days: 3)),
     scheduling: const IntervalDaysSchedule(intervalDays: 7),
   );
 
-  final overdue = MedicationSchedule(
-    id: 104,
-    name: 'Estradiol enanthate',
-    dose: _d('4'),
-    molecule: KnownMolecules.estradiol,
-    administrationRoute: AdministrationRoute.injection,
-    ester: Ester.enanthate,
-    startDate: today.subtract(const Duration(days: 10)),
-    scheduling: const IntervalDaysSchedule(intervalDays: 7),
-  );
-
-  for (final schedule in [daily, optional, upcoming, overdue]) {
+  for (final schedule in [daily, optional, upcoming]) {
     await _insert(db, 'medication_schedules', schedule.toMap());
   }
 }
@@ -162,13 +151,12 @@ Future<void> _insertIntakes(Database db) async {
 }
 
 Future<void> _insertBloodTests(Database db) async {
-  // Rising estradiol, falling testosterone over the past ~2 months.
   final rows = [
-    (id: 301, days: 7, e: '180', t: '20'),
-    (id: 302, days: 21, e: '150', t: '40'),
+    (id: 301, days: 7, e: '150', t: '40'),
+    (id: 302, days: 21, e: '180', t: '20'),
     (id: 303, days: 35, e: '120', t: '90'),
-    (id: 304, days: 49, e: '90', t: '150'),
-    (id: 305, days: 63, e: '60', t: '260'),
+    (id: 304, days: 49, e: '60', t: '150'),
+    (id: 305, days: 63, e: '90', t: '260'),
   ];
 
   for (final row in rows) {
