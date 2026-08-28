@@ -154,7 +154,7 @@ class _GraphTile extends StatelessWidget {
         if (showPreview) ...[
           const SizedBox(height: 16),
           Padding(
-            padding: const EdgeInsets.only(right: 70),
+            padding: const EdgeInsets.only(right: 78),
             child: Text.rich(
               textAlign: TextAlign.right,
               TextSpan(
