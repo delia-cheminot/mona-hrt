@@ -293,5 +293,7 @@
   "mustBePositiveNumber": "Duhet të jetë numër pozitiv",
   "mustBeBetween1And28": "Duhet të jetë midis 1 dhe 28",
   "invalidTotalAmount": "Sasi totale e pavlefshme",
-  "cannotExceedTotalCapacity": "Nuk mund të tejkalojë kapacitetin total"
+  "cannotExceedTotalCapacity": "Nuk mund të tejkalojë kapacitetin total",
+  "empty_levels": "Shto një analizë gjaku ose regjistro një injeksion estradioli për të fillua",
+  "estradiolLevelsTitle": "Nivelet e estradiolit"
 }
