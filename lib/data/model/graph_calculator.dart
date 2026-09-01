@@ -111,7 +111,7 @@ class GraphCalculator {
         .map((intake) => _singleIntakeConcentration(t, intake))
         .fold(0.0, (sum, val) => sum + val);
     return EstradiolUnit.pg_mL
-        .convert(Decimal.parse(concentration.toStringAsFixed(2)), unit)
+        .convert(Decimal.parse(concentration.toString()), unit)
         .toDouble();
   }
 

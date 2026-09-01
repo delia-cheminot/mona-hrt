@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/level_entry.dart';
@@ -79,6 +80,34 @@ void main() {
       // Assert
       expect(spots.map((s) => (s.x, s.y)),
           [(0.0, 10.0), (1.0, 20.0), (2.0, 30.0)]);
+    });
+  });
+
+  group('peakY', () {
+    test('is zero for no spots', () {
+      // Arrange
+      final spots = <FlSpot>[];
+
+      // Act
+      final peak = spots.peakY;
+
+      // Assert
+      expect(peak, 0);
+    });
+
+    test('returns the largest y value', () {
+      // Arrange
+      final spots = [
+        const FlSpot(0, 4),
+        const FlSpot(1, 9),
+        const FlSpot(2, 2)
+      ];
+
+      // Act
+      final peak = spots.peakY;
+
+      // Assert
+      expect(peak, 9);
     });
   });
 }
