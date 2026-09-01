@@ -45,7 +45,7 @@ extension MedicationSupplyItemL10n on MedicationSupplyItem {
     final amountRemainingFormatted =
         amountRemaining % Decimal.one == Decimal.zero
             ? amountRemaining.toDouble().toInt()
-            : amountRemaining.toDouble();
+            : amountRemaining.round(scale: 1).toDouble();
     final routeUnitRemaining =
         administrationRoute.localizedUnit(amountRemaining.toDouble());
     return t.remaining(
