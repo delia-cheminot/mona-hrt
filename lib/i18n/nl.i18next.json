@@ -17,7 +17,7 @@
   "inDaysCount_one": "over {{count}} dag",
   "inDaysCount_other": "over {{count}} dagen",
   "tomorrow": "morgen",
-  "scheduleFrequencyDaily": "Elke dag",
+  "scheduleFrequencyDaily": "Dagelijks",
   "scheduleFrequencyEveryNDays_one": "Elke dag",
   "scheduleFrequencyEveryNDays_other": "Elke {{count}} dagen",
   "scheduleFrequencyWeekly": "Wekelijks",
@@ -285,5 +285,15 @@
   "medicationTestosteroneUndecylate": "Testosteronundecylaat",
   "medicationTestosteroneBenzoate": "Testosteronbenzoaat",
   "medicationTestosteroneCypionateSuspension": "Testosteroncypionaat-suspensie",
-  "customSiteLabel": "Aangepaste pleknaam"
+  "customSiteLabel": "Aangepaste pleknaam",
+  "asNeeded": "Wanneer nodig",
+  "scheduleFrequencyIntervalDescription": "Om de paar dagen",
+  "scheduleFrequencyWeeklyDescription": "Bepaalde dagen van de week",
+  "scheduleFrequencyMonthlyDescription": "Elke maand dezelfde dag",
+  "scheduleFrequencyAsNeeded": "Wanneer nodig",
+  "scheduleFrequencyAsNeededDescription": "Geen vast schema",
+  "empty_levels": "Voeg een bloedtest toe of log een estradiol injectie om te beginnen",
+  "estradiolLevelsTitle": "Oestradiolspiegel",
+  "unitNgPerMl": "ng/mL",
+  "scheduleFrequencyDailyDescription": "Elke dag, op specifieke tijden"
 }
