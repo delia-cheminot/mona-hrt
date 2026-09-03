@@ -2,8 +2,9 @@
 # Generates in-app store screenshots for each mapped language.
 #
 # Usage:
-#   scripts/screenshots.sh [--platform android|ios|all] [--locale <appTag>]
+#   scripts/screenshots.sh [--platform android|ios|all] [--locale <appTag>] [--frames-only]
 #
+#   --frames-only to skip captures
 # Env overrides:
 #   SCREENSHOT_ANDROID_DEVICE  adb device id (default: first attached device)
 #   SCREENSHOT_IOS_DEVICE      simulator name (default: "iPhone 16 Pro Max")
@@ -12,11 +13,13 @@ set -euo pipefail
 
 PLATFORM="all"
 ONLY_LOCALE=""
+FRAMES_ONLY=0
 
 while [ $# -gt 0 ]; do
   case "$1" in
-    --platform) PLATFORM="$2"; shift 2 ;;
-    --locale)   ONLY_LOCALE="$2"; shift 2 ;;
+    --platform)     PLATFORM="$2"; shift 2 ;;
+    --locale)       ONLY_LOCALE="$2"; shift 2 ;;
+    --frames-only)  FRAMES_ONLY=1; shift ;;
     *) echo "Unknown argument: $1" >&2; exit 2 ;;
   esac
 done
@@ -60,25 +63,50 @@ drive_one() {
   local out="build/screenshots/$platform/$app_tag"
   rm -rf "$out"; mkdir -p "$out"
   echo "==> $platform / $app_tag"
-  SCREENSHOT_OUT="$out" fvm flutter drive \
+
+  local ios_udid=""
+  if [ "$platform" = "ios" ]; then
+    ios_udid="$device"
+  fi
+
+  SCREENSHOT_OUT="$out" SCREENSHOT_IOS_UDID="$ios_udid" fvm flutter drive \
     --driver="$DRIVER" \
     --target="$TARGET" \
     -d "$device" \
     --dart-define=SCREENSHOT_LOCALE="$app_tag" \
     "$@"
+
+  if [ "$platform" = "ios" ]; then
+    xcrun simctl status_bar "$device" clear || true
+  fi
+}
+
+frame_one() {
+  local platform="$1" app_tag="$2" out_dir="$3"
+  local in_dir="build/screenshots/$platform/$app_tag"
+  [ -d "$in_dir" ] || { echo "No raw screenshots in $in_dir" >&2; return 1; }
+  local captions="fastlane/screenshot_captions/$app_tag.json"
+  rm -rf "$out_dir"; mkdir -p "$out_dir"
+  fvm flutter test tool/screenshots/frame_screenshots.dart \
+    --dart-define=FRAME_INPUT_DIR="$in_dir" \
+    --dart-define=FRAME_OUTPUT_DIR="$out_dir" \
+    --dart-define=FRAME_CAPTIONS="$captions"
+  echo "-- framed $platform / $app_tag -> $out_dir"
 }
 
 run_platform() {
   local platform="$1"
-  local device
+  local device=""
   local flavor_args=()
-  if [ "$platform" = "android" ]; then
-    device="$(resolve_android_device)"
-    flavor_args=(--flavor store)
-  else
-    device="$(resolve_ios_udid)"
-    # iOS: default scheme until a `store` scheme exists in Xcode.
-    flavor_args=()
+  if [ "$FRAMES_ONLY" != "1" ]; then
+    if [ "$platform" = "android" ]; then
+      device="$(resolve_android_device)"
+      flavor_args=(--flavor store)
+    else
+      device="$(resolve_ios_udid)"
+      # iOS: default scheme until a `store` scheme exists in Xcode.
+      flavor_args=()
+    fi
   fi
 
   for app_tag in ${APP_TAGS[@]+"${APP_TAGS[@]}"}; do
@@ -96,17 +124,17 @@ run_platform() {
       continue
     fi
 
-    drive_one "$platform" "$app_tag" "$device" ${flavor_args[@]+"${flavor_args[@]}"}
-
     local dest
     if [ "$platform" = "android" ]; then
       dest="fastlane/metadata/android/$store_tag/images/phoneScreenshots"
     else
       dest="fastlane/screenshots/$store_tag"
     fi
-    rm -rf "$dest"; mkdir -p "$dest"
-    cp build/screenshots/"$platform"/"$app_tag"/*.png "$dest"/
-    echo "-- copied $platform / $app_tag -> $dest"
+
+    if [ "$FRAMES_ONLY" != "1" ]; then
+      drive_one "$platform" "$app_tag" "$device" ${flavor_args[@]+"${flavor_args[@]}"}
+    fi
+    frame_one "$platform" "$app_tag" "$dest"
   done
 }
 
