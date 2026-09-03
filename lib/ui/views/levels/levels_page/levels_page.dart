@@ -20,6 +20,7 @@ import 'package:mona/ui/views/levels/levels_page/baby_bar_chart_graph.dart';
 import 'package:mona/ui/views/levels/levels_page/baby_main_chart_graph.dart';
 import 'package:mona/ui/views/levels/main_graph_page/chart_page.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
+import 'package:mona/ui/widgets/minute_ticker.dart';
 import 'package:mona/util/time_difference.dart';
 import 'package:provider/provider.dart';
 
@@ -115,9 +116,14 @@ class LevelsPage extends StatelessWidget {
   }
 }
 
-class _GraphTile extends StatelessWidget {
+class _GraphTile extends StatefulWidget {
   const _GraphTile();
 
+  @override
+  State<_GraphTile> createState() => _GraphTileState();
+}
+
+class _GraphTileState extends State<_GraphTile> with MinuteTicker {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

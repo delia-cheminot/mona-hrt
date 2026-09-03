@@ -4,6 +4,7 @@ import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/views/levels/main_graph_page/chart_graph.dart';
 import 'package:mona/ui/views/levels/main_graph_page/chart_slider.dart';
 import 'package:mona/ui/widgets/main_page_wrapper.dart';
+import 'package:mona/ui/widgets/minute_ticker.dart';
 import 'package:provider/provider.dart';
 
 class ChartPage extends StatefulWidget {
@@ -11,7 +12,7 @@ class ChartPage extends StatefulWidget {
   State<ChartPage> createState() => _ChartPageState();
 }
 
-class _ChartPageState extends State<ChartPage> {
+class _ChartPageState extends State<ChartPage> with MinuteTicker {
   double sliderValue = 0;
 
   @override
