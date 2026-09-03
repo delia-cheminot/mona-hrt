@@ -7,6 +7,7 @@ import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/intake_slot.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
+import 'package:mona/data/providers/today_provider.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/constants/dimensions.dart';
@@ -20,6 +21,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<TodayProvider>(); // needed for the titles and intake cards
     final scheduleProvider = context.watch<MedicationScheduleProvider>();
     final intakeProvider = context.watch<MedicationIntakeProvider>();
 
