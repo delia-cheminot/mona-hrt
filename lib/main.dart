@@ -17,6 +17,7 @@ import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
+import 'package:mona/data/providers/today_provider.dart';
 import 'package:mona/i18n/locale_provider.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/theme/app_theme_controller.dart';
@@ -52,6 +53,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => MedicationIntakeProvider()),
         ChangeNotifierProvider(create: (_) => MedicationScheduleProvider()),
         ChangeNotifierProvider(create: (_) => BloodTestProvider()),
+        ChangeNotifierProvider(create: (_) => TodayProvider(), lazy: false),
         ChangeNotifierProvider.value(value: preferencesService),
         ChangeNotifierProvider(
             create: (_) => AppThemeProvider(preferencesService)),

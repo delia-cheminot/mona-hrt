@@ -4,6 +4,7 @@ import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
+import 'package:mona/data/providers/today_provider.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/helpers/medication_intake_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
@@ -18,6 +19,7 @@ import 'package:provider/provider.dart';
 class IntakesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    context.watch<TodayProvider>(); // needed for the hrt counter widget
     final preferencesService = context.watch<PreferencesService>();
 
     return Consumer<MedicationIntakeProvider>(
