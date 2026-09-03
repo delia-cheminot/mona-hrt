@@ -8,7 +8,6 @@ import 'package:mona/data/model/hormone.dart';
 import 'package:mona/data/model/level_entry.dart';
 import 'package:mona/data/providers/blood_test_provider.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
-import 'package:mona/data/providers/today_provider.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
 import 'package:mona/i18n/helpers/units_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
@@ -29,7 +28,6 @@ class LevelsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<TodayProvider>(); // needed for the graph tile
     final colorScheme = Theme.of(context).colorScheme;
 
     return Consumer3<MedicationIntakeProvider, BloodTestProvider,
