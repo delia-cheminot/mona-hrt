@@ -285,5 +285,14 @@
   "injectionSitesDescription": "Verwalte die Stellen, zwischen denen du wechselst",
   "placementSuggestionPerScheduleTitle": "Pro Zeitplan vorschlagen",
   "placementSuggestionPerScheduleDescription": "Nächste Stelle nur anhand der Historie dieses Zeitplans vorschlagen.",
-  "mustBeBetween1And28": "Muss zwischen 1 und 28 liegen"
+  "mustBeBetween1And28": "Muss zwischen 1 und 28 liegen",
+  "asNeeded": "Nach Bedarf",
+  "scheduleFrequencyDailyDescription": "Täglich, zu bestimmten Zeiten",
+  "scheduleFrequencyIntervalDescription": "Alle paar Tage",
+  "scheduleFrequencyWeeklyDescription": "Bestimmte Tage der Woche",
+  "scheduleFrequencyMonthlyDescription": "Jeden Monat am selben Tag",
+  "scheduleFrequencyAsNeeded": "Nach Bedarf",
+  "empty_levels": "Trage eine Blutuntersuchung oder Estradiol-Injektion ein, um loszulegen",
+  "estradiolLevelsTitle": "Estradiol-Werte",
+  "unitNgPerMl": "ng/mL"
 }
